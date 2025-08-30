@@ -65,7 +65,12 @@
       ".next/**",
       "node_modules/**",
       "dist/**",
-      "build/**"
+      "build/**",
+      "coverage/**",
+      ".vercel/**",
+      "*.log",
+      "*.lock",
+      "drizzle/**"
     ]
   },
   "overrides": [

@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
-import { db } from "../db";
-import type { Category } from "../db/schema";
-import { categories } from "../db/schema";
-import { categoriesCache } from "./cache";
+import { db } from "@/app/db";
+import type { Category } from "@/app/db/schema";
+import { categories } from "@/app/db/schema";
+import { categoriesCache } from "@/app/lib/cache";
 
 export async function getAllCategories(): Promise<Category[]> {
   try {

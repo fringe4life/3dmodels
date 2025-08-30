@@ -1,7 +1,7 @@
-import { categoriesData } from "../data/categories";
-import { modelsData } from "../data/models";
-import { db } from "./index";
-import { categories, models } from "./schema";
+import { categoriesData } from "@/app/data/categories";
+import { modelsData } from "@/app/data/models";
+import { db } from "@/app/db";
+import { categories, models } from "@/app/db/schema";
 
 async function seed() {
   try {

@@ -1,8 +1,11 @@
 import { eq } from "drizzle-orm";
-import { db } from "../db";
-import type { Model } from "../db/schema";
-import { models } from "../db/schema";
-import type { GetModelsParams } from "../types";
+import { db } from "@/app/db";
+import type { Model } from "@/app/db/schema";
+import { models } from "@/app/db/schema";
+
+type GetModelsParams = {
+  category?: string;
+};
 
 export async function getModels({
   category,

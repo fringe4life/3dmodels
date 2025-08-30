@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { FaRegHeart } from "react-icons/fa6";
 import type { Model } from "@/app/db/schema";
+import { FaRegHeart } from "react-icons/fa6";
 import placeholderImg from "@/public/placeholder.png";
-import Pill from "./Pill";
+import Link from "next/link";
+import Pill from "@/app/components/Pill";
 
 type ModelCardProps = {
   model: Model;
@@ -12,11 +12,13 @@ export default function ModelCard({ model }: ModelCardProps) {
   return (
     <Link
       href={`/3d-models/${model.id}`}
-      className="group hover:-translate-y-[3px] block transition-all hover:shadow-[0_5px_12px_rgba(0,0,0,0.1)]"
+      className="group hover:-translate-y-[3px] relative block transition-transform duration-300 ease-out"
       aria-labelledby={`model-${model.id}-title`}
     >
-      <article className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg">
-        <div className="relative aspect-square">
+      <article className="relative overflow-hidden rounded-lg bg-white shadow-md">
+        {/* Pseudo-element for hover shadow */}
+        <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 shadow-[0_5px_12px_rgba(0,0,0,0.1)] transition-opacity duration-300 ease-out group-hover:opacity-100" />
+        <div className="relative aspect-square contain-strict">
           <img
             src={placeholderImg.src}
             alt={model.name}
