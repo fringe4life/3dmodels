@@ -15,10 +15,7 @@ export default function ModelCard({ model }: ModelCardProps) {
       className="group hover:-translate-y-[3px] block transition-all hover:shadow-[0_5px_12px_rgba(0,0,0,0.1)]"
       aria-labelledby={`model-${model.id}-title`}
     >
-      <article
-        className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg"
-       
-      >
+      <article className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg">
         <div className="relative aspect-square">
           <img
             src={placeholderImg.src}
@@ -41,16 +38,13 @@ export default function ModelCard({ model }: ModelCardProps) {
           <div className="mt-2">
             <Pill>{model.categorySlug}</Pill>
           </div>
-          <div
-            className="mt-2 flex items-center text-gray-600"
-            
-          >
+          <div className="mt-2 flex items-center text-gray-600">
             <FaRegHeart
               className="mr-1 h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
             <span>{model.likes}</span>
-            <span className='sr-only'>This model has {model.likes} likes</span>
+            <span className="sr-only">This model has {model.likes} likes</span>
           </div>
         </div>
       </article>
