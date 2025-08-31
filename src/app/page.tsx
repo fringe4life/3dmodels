@@ -1,5 +1,5 @@
 import Link from "next/link";
-import HeroImage from "../../public/hero-image.png";
+import HeroImage from "@/assets/images/hero-image.png";
 
 export default function Home() {
   return (
@@ -29,7 +29,7 @@ export default function Home() {
         <img
           src={HeroImage.src}
           className="h-auto w-[350px] rounded-lg"
-          alt="Hero Image"
+          alt="a 3d printed model of the US Capital Building"
         />
       </section>
     </main>

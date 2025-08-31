@@ -1,4 +1,4 @@
-import type { Category } from "../db/schema";
+import type { Category } from "@/db/schema";
 
 class CategoriesCache {
   private cache: Category[] | null = null;

@@ -3,8 +3,7 @@
 import Link from "next/link";
 import NavLink from "@/app/_navigation/NavLink";
 import { useAuth } from "@/hooks/useAuth";
-import PFLogo from "../../../public/printforge-logo.svg";
-import PFLogoIcon from "../../../public/printforge-logo-icon.svg";
+
 
 export default function Navbar() {
   const { isAuthenticated, signIn, signOut, session } = useAuth();
@@ -16,15 +15,15 @@ export default function Navbar() {
           <div className="relative cursor-pointer">
             {/* Desktop Logo */}
             <img
-              src={PFLogo.src}
+              src="/printforge-logo.svg"
               alt="PrintForge Logo"
-              className="hidden h-auto w-[200px] md:block"
+              className="hidden h-auto w-50 md:block"
             />
             {/* Mobile Logo */}
             <img
-              src={PFLogoIcon.src}
+              src="/printforge-logo-icon.svg"
               alt="PrintForge Logo"
-              className="block h-auto w-[40px] md:hidden"
+              className="block h-auto w-10 md:hidden"
             />
           </div>
         </Link>

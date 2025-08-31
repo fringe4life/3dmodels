@@ -1,4 +1,4 @@
-import type { Model } from "../schema";
+import type { Model } from "@/db/schema";
 
 // Category mapping function is no longer needed since we use slugs directly
 
