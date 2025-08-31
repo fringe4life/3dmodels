@@ -1,5 +1,5 @@
 {
-  "name": "s0d4dohkcv",
+  "name": "3d-models",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,10 +17,14 @@
     "db:seed": "bun run app/db/seed.ts"
   },
   "dependencies": {
+    "@auth/core": "^0.40.0",
+    "@auth/drizzle-adapter": "^1.10.0",
     "@neondatabase/serverless": "^1.0.1",
+    "auth": "^1.2.3",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.5",
     "next": "^15.5.2",
+    "next-auth": "^5.0.0-beta.29",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0"
@@ -31,7 +35,7 @@
     "@types/node": "^20.19.11",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
-    "@typescript/native-preview": "^7.0.0-dev.20250829.3",
+    "@typescript/native-preview": "^7.0.0-dev.20250831.1",
     "drizzle-kit": "^0.31.4",
     "tailwindcss": "^4.1.12",
     "tsx": "^4.20.5",

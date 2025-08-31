@@ -10,6 +10,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
 - **Modern Stack**: Built with Next.js 15, TypeScript, and Tailwind CSS
+- **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 ## 🛠️ Tech Stack
 
@@ -24,26 +25,72 @@ A modern web application for browsing and discovering 3D models, built with Next
 ## 📁 Project Structure
 
 ```
-├── app/
-│   ├── 3d-models/
-│   │   ├── [id]/           # Individual model page
-│   │   ├── categories/     # Category-specific pages
-│   │   └── page.tsx        # Models listing page
-│   ├── components/         # Reusable UI components
-│   ├── data/              # Static data files
-│   ├── db/                # Database configuration
-│   │   ├── schema.ts      # Drizzle schema definitions
-│   │   ├── seed.ts        # Database seeding script
-│   │   └── index.ts       # Database connection
-│   ├── lib/               # Utility functions
-│   │   ├── models.ts      # Model data fetching
-│   │   ├── categories.ts  # Category data fetching
-│   │   └── cache.ts       # Caching implementation
-│   └── types/             # TypeScript type definitions
-├── public/                # Static assets
-├── drizzle/               # Database migrations
-└── package.json
+src/
+├── app/                          # Next.js App Router
+│   ├── _navigation/              # Private navigation components
+│   │   ├── Navbar.tsx
+│   │   └── NavLink.tsx
+│   ├── _providers/               # Private provider components
+│   │   └── SessionProvider.tsx
+│   ├── 3d-models/                # 3D models routes
+│   │   ├── [id]/                 # Individual model page
+│   │   ├── categories/           # Category-specific pages
+│   │   ├── layout.tsx            # Models layout
+│   │   └── page.tsx              # Models listing page
+│   ├── about/                    # About page
+│   ├── auth/                     # Authentication routes
+│   ├── api/                      # API routes
+│   ├── globals.css               # Global styles
+│   ├── layout.tsx                # Root layout
+│   └── page.tsx                  # Home page
+├── features/                     # Feature-based modules
+│   ├── models/                   # Models feature
+│   │   ├── components/           # Model-specific components
+│   │   │   ├── ModelCard.tsx
+│   │   │   └── ModelsGrid.tsx
+│   │   └── queries/              # Model data queries
+│   │       └── models.ts
+│   └── categories/               # Categories feature
+│       ├── components/           # Category-specific components
+│       │   └── CategoriesNav.tsx
+│       └── queries/              # Category data queries
+│           └── categories.ts
+├── components/                   # Shared/generic components
+│   └── Pill.tsx                  # Reusable pill component
+├── db/                          # Database configuration
+│   ├── seed-data/               # Database seed data
+│   │   ├── categories.ts
+│   │   └── models.ts
+│   ├── schema/                  # Database schema definitions
+│   ├── schema.ts                # Schema exports
+│   ├── seed.ts                  # Database seeding script
+│   └── index.ts                 # Database connection
+├── lib/                         # Utility functions
+│   ├── auth.ts                  # Authentication utilities
+│   └── cache.ts                 # Caching implementation
+├── actions/                     # Server actions
+│   └── likes.ts                 # Like/unlike functionality
+├── hooks/                       # Custom React hooks
+│   └── useAuth.ts               # Authentication hook
+├── types/                       # TypeScript type definitions
+└── middleware.ts                # Next.js middleware
 ```
+
+## 🏗️ Architecture Overview
+
+### Feature-Based Organization
+The project follows a feature-based architecture where related functionality is co-located:
+
+- **`features/models/`**: All model-related components and data queries
+- **`features/categories/`**: All category-related components and data queries
+- **`app/_navigation/`**: Private navigation components (not part of routing)
+- **`app/_providers/`**: Private provider components (not part of routing)
+
+### Directory Conventions
+- **`_` prefix**: Private folders that are not part of Next.js routing
+- **`features/`**: Feature-based modules with their own components and queries
+- **`components/`**: Shared/generic components used across features
+- **`db/seed-data/`**: Explicitly named seed data files
 
 ## 🚀 Getting Started
 
@@ -127,12 +174,19 @@ The application implements a simple in-memory cache for categories with a 1-hour
 - **Responsive**: Mobile-first responsive design
 
 ### Key Components
-- `Navbar` - Main navigation
-- `CategoriesNav` - Category filtering sidebar
-- `ModelsGrid` - Grid layout for model cards
-- `ModelCard` - Individual model display
-- `NavLink` - Navigation link with active state
-- `Pill` - Small label component
+
+#### Feature Components
+- `features/models/components/ModelCard` - Individual model display
+- `features/models/components/ModelsGrid` - Grid layout for model cards
+- `features/categories/components/CategoriesNav` - Category filtering sidebar
+
+#### Navigation Components
+- `app/_navigation/Navbar` - Main navigation
+- `app/_navigation/NavLink` - Navigation link with active state
+
+#### Shared Components
+- `components/Pill` - Small label component
+- `app/_providers/SessionProvider` - Authentication provider
 
 ## 🔧 Development
 
@@ -158,6 +212,7 @@ The project follows a consistent coding style with:
 - ES modules (import/export syntax)
 - TypeScript for type safety
 - Tailwind CSS for styling
+- Feature-based organization
 - Component-specific type definitions
 - Proper error handling and logging
 
@@ -178,12 +233,12 @@ Ensure these are set in your deployment environment:
 
 ### Adding New Models
 
-1. Update `app/data/models.ts` with new model data
+1. Update `src/db/seed-data/models.ts` with new model data
 2. Run `bun run db:seed` to update the database
 
 ### Adding New Categories
 
-1. Update `app/data/categories.ts` with new category data
+1. Update `src/db/seed-data/categories.ts` with new category data
 2. Run `bun run db:seed` to update the database
 
 ### Cache Management
@@ -196,7 +251,7 @@ Ensure these are set in your deployment environment:
 
 1. Fork the repository
 2. Create a feature branch
-3. Make your changes
+3. Make your changes following the feature-based architecture
 4. Run tests and linting
 5. Submit a pull request
 
