@@ -1,7 +1,38 @@
+import type { Metadata } from "next";
 import { FaRegHeart } from "react-icons/fa6";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/Pill";
 import { getModelById } from "@/features/models/queries/models";
+
+
+export async function generateMetadata({ params }: PageProps<"/3d-models/[id]">): Promise<Metadata> {
+  const { id } = await params;
+  const model = await getModelById(id);
+
+  return {
+    title: model.name,
+    description: model.description,
+    openGraph: {
+      title: model.name,
+      description: model.description,
+      type: "article",
+      images: [
+        {
+          url: "/placeholder.png",
+          width: 1200,
+          height: 630,
+          alt: `3D model of ${model.name}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: model.name,
+      description: model.description,
+      images: ["/placeholder.png"],
+    },
+  };
+}
 
 export default async function ModelDetailPage({
   params,

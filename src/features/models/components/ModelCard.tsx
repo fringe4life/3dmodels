@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
-import { type ModelWithLike, toggleLike } from "@/actions/likes";
+import { type ModelWithLike, toggleLike } from "@/features/models/actions/likes";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/Pill";
 import { useAuth } from "@/hooks/useAuth";

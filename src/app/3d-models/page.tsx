@@ -1,9 +1,30 @@
+import type { Metadata } from "next";
 import Form from "next/form";
-
 import ModelsGrid from "@/features/models/components/ModelsGrid";
 import { getModels } from "@/features/models/queries/models";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ searchParams }: PageProps<"/3d-models">): Promise<Metadata> {
+  const queryParam = (await searchParams)?.query;
+  const query = Array.isArray(queryParam)
+    ? queryParam[0]?.toLowerCase() || ""
+    : queryParam?.toLowerCase() || "";
+
+  const title = query ? `Search: ${query} | 3D Models` : "3D Models";
+  const description = query 
+    ? `Search results for "${query}" in our 3D printing model collection.`
+    : "Browse our collection of 3D printing models. Find STL files for your next project.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+  };
+}
 
 export default async function Page({ searchParams }: PageProps<"/3d-models">) {
   const models = await getModels();

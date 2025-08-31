@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import SignInButton from "./SignInButton";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to your PrintForge account to access the 3D printing community.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function SignInPage() {
   const session = await auth();

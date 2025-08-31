@@ -1,4 +1,4 @@
-import type { ModelWithLike } from "@/actions/likes";
+import type { ModelWithLike } from "@/features/models/actions/likes";
 import ModelCard from "@/features/models/components/ModelCard";
 
 type ModelsGridProps = {

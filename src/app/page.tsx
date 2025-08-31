@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import HeroImage from "@/assets/images/hero-image.png";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Welcome to PrintForge - your go-to platform for discovering and sharing 3D printing models. Join our community of makers and explore thousands of STL files.",
+  openGraph: {
+    title: "PrintForge - Discover 3D Printing Models",
+    description: "Join our community of creators and explore a vast library of user-submitted 3D printing models.",
+  },
+};
 
 export default function Home() {
   return (

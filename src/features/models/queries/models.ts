@@ -1,5 +1,6 @@
 import { and, eq, sql } from "drizzle-orm";
-import type { ModelWithLike } from "@/actions/likes";
+import { cache } from "react";
+import type { ModelWithLike } from "@/features/models/actions/likes";
 import { db } from "@/db";
 import type { Model } from "@/db/schema";
 import { likes, models } from "@/db/schema";
@@ -9,9 +10,9 @@ type GetModelsParams = {
   category?: string;
 };
 
-export async function getModels({
+export const getModels = cache(async ({
   category,
-}: GetModelsParams = {}): Promise<ModelWithLike[]> {
+}: GetModelsParams = {}): Promise<ModelWithLike[]> => {
   try {
     const session = await auth();
     const userId = session?.user?.id;
@@ -51,9 +52,9 @@ export async function getModels({
     console.error("Error fetching models:", error);
     throw new Error("Failed to fetch models from database");
   }
-}
+});
 
-export async function getModelById(id: string | number): Promise<Model> {
+export const getModelById = cache(async (id: string | number): Promise<Model> => {
   try {
     const modelId = typeof id === "string" ? parseInt(id, 10) : id;
 
@@ -76,4 +77,4 @@ export async function getModelById(id: string | number): Promise<Model> {
     console.error("Error fetching model by id:", error);
     throw error;
   }
-}
+});

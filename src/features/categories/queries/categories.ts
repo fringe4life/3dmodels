@@ -1,10 +1,11 @@
 import { eq } from "drizzle-orm";
+import { cache } from "react";
 import { db } from "@/db";
 import type { Category } from "@/db/schema";
 import { categories } from "@/db/schema";
 import { categoriesCache } from "@/lib/cache";
 
-export async function getAllCategories(): Promise<Category[]> {
+export const getAllCategories = cache(async (): Promise<Category[]> => {
   try {
     // Check cache first
     const cachedCategories = categoriesCache.get();
@@ -23,9 +24,9 @@ export async function getAllCategories(): Promise<Category[]> {
     console.error("Error fetching categories:", error);
     throw new Error("Failed to fetch categories from database");
   }
-}
+});
 
-export async function getCategoryBySlug(slug: string): Promise<Category> {
+export const getCategoryBySlug = cache(async (slug: string): Promise<Category> => {
   try {
     // Check cache first
     const cachedCategories = categoriesCache.get();
@@ -53,12 +54,12 @@ export async function getCategoryBySlug(slug: string): Promise<Category> {
     console.error("Error fetching category by slug:", error);
     throw error;
   }
-}
+});
 
-export async function getDisplayNameFromSlug(slug: string): Promise<string> {
+export const getDisplayNameFromSlug = cache(async (slug: string): Promise<string> => {
   const category = await getCategoryBySlug(slug);
   return category?.displayName || "";
-}
+});
 
 export function clearCategoriesCache(): void {
   categoriesCache.clear();

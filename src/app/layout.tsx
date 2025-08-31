@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import "./globals.css" with { type: "module" };
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
 import Navbar from "@/app/_navigation/Navbar";
@@ -14,6 +15,38 @@ const montserratAlternates = Montserrat_Alternates({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-montserrat-alternates",
 });
+
+export const metadata: Metadata = {
+  title: {
+    default: "PrintForge - 3D Printing Community",
+    template: "%s | PrintForge"
+  },
+  description: "Discover and share 3D printing models with the PrintForge community. Browse thousands of user-submitted STL files for 3D printing.",
+  keywords: ["3D printing", "STL files", "3D models", "makers", "community", "printforge"],
+  authors: [{ name: "PrintForge Team" }],
+  creator: "PrintForge",
+  publisher: "PrintForge",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    title: "PrintForge - 3D Printing Community",
+    description: "Discover and share 3D printing models with the PrintForge community.",
+    siteName: "PrintForge",
+    images: [
+      {
+        url: "/hero-image.png",
+        width: 1200,
+        height: 630,
+        alt: "PrintForge - 3D Printing Community",
+      },
+    ],
+  },
+};
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
