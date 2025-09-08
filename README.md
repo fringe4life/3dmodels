@@ -14,13 +14,16 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15 with App Router
+- **Framework**: Next.js 15 with App Router and PPR (Partial Prerendering)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4
 - **Database**: Neon (PostgreSQL) with Drizzle ORM
+- **Authentication**: NextAuth.js v5 with Google OAuth
+- **Search Params**: nuqs for type-safe URL state management
 - **Linting & Formatting**: Biome
 - **Type Checking**: tsgo
 - **Package Manager**: Bun
+- **Build Tool**: Turbopack
 
 ## 📁 Project Structure
 
@@ -44,15 +47,27 @@ src/
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
 ├── features/                     # Feature-based modules
+│   ├── auth/                     # Authentication feature
+│   │   └── hooks/                # Auth-specific hooks
+│   │       └── useAuth.ts
 │   ├── models/                   # Models feature
+│   │   ├── actions/              # Server actions
+│   │   │   ├── likes.ts
+│   │   │   └── search-actions.ts
 │   │   ├── components/           # Model-specific components
+│   │   │   ├── AdvancedSearchForm.tsx
+│   │   │   ├── EnhancedSearchInput.tsx
+│   │   │   ├── HeartButton.tsx
 │   │   │   ├── ModelCard.tsx
-│   │   │   └── ModelsGrid.tsx
-│   │   └── queries/              # Model data queries
-│   │       └── models.ts
+│   │   │   ├── ModelsGrid.tsx
+│   │   │   └── SearchInput.tsx
+│   │   ├── queries/              # Model data queries
+│   │   │   └── models.ts
+│   │   └── search-params.ts      # Type-safe search params
 │   └── categories/               # Categories feature
 │       ├── components/           # Category-specific components
-│       │   └── CategoriesNav.tsx
+│       │   ├── CategoriesNav.tsx
+│       │   └── CategoriesNavClient.tsx
 │       └── queries/              # Category data queries
 │           └── categories.ts
 ├── components/                   # Shared/generic components
@@ -62,17 +77,17 @@ src/
 │   │   ├── categories.ts
 │   │   └── models.ts
 │   ├── schema/                  # Database schema definitions
+│   │   ├── auth.ts              # Authentication tables
+│   │   ├── likes.ts             # Likes table
+│   │   ├── models.ts            # Models and categories tables
+│   │   ├── relations.ts         # Table relations
+│   │   └── index.ts             # Schema exports
 │   ├── schema.ts                # Schema exports
 │   ├── seed.ts                  # Database seeding script
 │   └── index.ts                 # Database connection
 ├── lib/                         # Utility functions
-│   ├── auth.ts                  # Authentication utilities
+│   ├── auth.ts                  # NextAuth configuration
 │   └── cache.ts                 # Caching implementation
-├── actions/                     # Server actions
-│   └── likes.ts                 # Like/unlike functionality
-├── hooks/                       # Custom React hooks
-│   └── useAuth.ts               # Authentication hook
-├── types/                       # TypeScript type definitions
 └── middleware.ts                # Next.js middleware
 ```
 
@@ -81,8 +96,9 @@ src/
 ### Feature-Based Organization
 The project follows a feature-based architecture where related functionality is co-located:
 
-- **`features/models/`**: All model-related components and data queries
+- **`features/models/`**: All model-related components, actions, queries, and search params
 - **`features/categories/`**: All category-related components and data queries
+- **`features/auth/`**: Authentication hooks and utilities
 - **`app/_navigation/`**: Private navigation components (not part of routing)
 - **`app/_providers/`**: Private provider components (not part of routing)
 
@@ -116,6 +132,8 @@ The project follows a feature-based architecture where related functionality is 
    Create a `.env` file in the root directory:
    ```env
    DATABASE_URL="your-neon-database-connection-string"
+   AUTH_GOOGLE_ID="your-google-oauth-client-id"
+   AUTH_GOOGLE_SECRET="your-google-oauth-client-secret"
    ```
 
 4. **Database Setup**
@@ -178,6 +196,8 @@ The application implements a simple in-memory cache for categories with a 1-hour
 #### Feature Components
 - `features/models/components/ModelCard` - Individual model display
 - `features/models/components/ModelsGrid` - Grid layout for model cards
+- `features/models/components/HeartButton` - Like/unlike functionality
+- `features/models/components/SearchInput` - Model search functionality
 - `features/categories/components/CategoriesNav` - Category filtering sidebar
 
 #### Navigation Components
@@ -187,6 +207,10 @@ The application implements a simple in-memory cache for categories with a 1-hour
 #### Shared Components
 - `components/Pill` - Small label component
 - `app/_providers/SessionProvider` - Authentication provider
+
+#### Authentication
+- `features/auth/hooks/useAuth` - Authentication hook for client components
+- `lib/auth` - NextAuth configuration with Google OAuth
 
 ## 🔧 Development
 
@@ -228,6 +252,8 @@ The project follows a consistent coding style with:
 
 Ensure these are set in your deployment environment:
 - `DATABASE_URL`: Your Neon database connection string
+- `AUTH_GOOGLE_ID`: Your Google OAuth client ID
+- `AUTH_GOOGLE_SECRET`: Your Google OAuth client secret
 
 ## 📝 Data Management
 

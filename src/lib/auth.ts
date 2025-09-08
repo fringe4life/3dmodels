@@ -32,5 +32,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   // Trust localhost in development
-  trustHost: process.env.NODE_ENV === "development",
+  trustHost: true,
 });

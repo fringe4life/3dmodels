@@ -13,8 +13,17 @@ type GetModelsParams = {
 export const getModels = cache(
   async ({ category }: GetModelsParams = {}): Promise<ModelWithLike[]> => {
     try {
-      const session = await auth();
-      const userId = session?.user?.id;
+      let session = null;
+      let userId = null;
+      
+      try {
+        session = await auth();
+        userId = session?.user?.id;
+      } catch (error) {
+        // During static generation, auth() may not be available
+        // This is expected and we'll just proceed without user context
+        console.log("Auth not available during static generation, proceeding without user context");
+      }
 
       let allModels: Model[];
 
@@ -54,24 +63,6 @@ export const getModels = cache(
   },
 );
 
-// Static version of getModels for build-time generation (no auth/session)
-export const getModelsStatic = cache(
-  async ({ category }: GetModelsParams = {}): Promise<Model[]> => {
-    try {
-      if (category) {
-        return await db
-          .select()
-          .from(models)
-          .where(eq(models.categorySlug, category));
-      } else {
-        return await db.select().from(models);
-      }
-    } catch (error) {
-      console.error("Error fetching models (static):", error);
-      throw new Error("Failed to fetch models from database");
-    }
-  },
-);
 
 export const getModelById = cache(
   async (id: string | number): Promise<Model> => {
