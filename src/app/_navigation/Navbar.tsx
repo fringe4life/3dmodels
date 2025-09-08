@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import NavLink from "@/app/_navigation/NavLink";
-import { useAuth } from "@/hooks/useAuth";
-
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 export default function Navbar() {
   const { isAuthenticated, signIn, signOut, session } = useAuth();

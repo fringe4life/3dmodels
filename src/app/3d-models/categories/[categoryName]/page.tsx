@@ -1,11 +1,24 @@
 import type { Metadata } from "next";
-import { getCategoryBySlug } from "@/features/categories/queries/categories";
+import {
+  getAllCategories,
+  getCategoryBySlug,
+} from "@/features/categories/queries/categories";
 import ModelsGrid from "@/features/models/components/ModelsGrid";
-import { getModels } from "@/features/models/queries/models";
+import { getModelsStatic } from "@/features/models/queries/models";
 
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
 
-export async function generateMetadata({ params }: PageProps<"/3d-models/categories/[categoryName]">): Promise<Metadata> {
+export async function generateStaticParams() {
+  const categories = await getAllCategories();
+
+  return categories.map((category) => ({
+    categoryName: category.slug,
+  }));
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/3d-models/categories/[categoryName]">): Promise<Metadata> {
   const { categoryName } = await params;
   const category = await getCategoryBySlug(categoryName);
 
@@ -24,7 +37,7 @@ export default async function CategoryPage({
 }: PageProps<"/3d-models/categories/[categoryName]">) {
   const { categoryName } = await params;
   const category = await getCategoryBySlug(categoryName);
-  const models = await getModels({ category: categoryName });
+  const models = await getModelsStatic({ category: categoryName });
 
   return <ModelsGrid title={category.displayName} models={models} />;
 }

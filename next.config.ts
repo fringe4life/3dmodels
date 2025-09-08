@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
     devtoolSegmentExplorer: true,
     browserDebugInfoInTerminal: true,
   },
-  distDir: ".next",
 };
 
 export default nextConfig;

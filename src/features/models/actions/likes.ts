@@ -9,7 +9,7 @@ import { auth } from "@/lib/auth";
 
 export type ModelWithLike = Model & { hasLiked: boolean };
 
-export async function toggleLike(prevState: any, formData: FormData) {
+export async function toggleLike(_prevState: unknown, formData: FormData) {
   const modelId = Number(formData.get("modelId"));
   const session = await auth();
 

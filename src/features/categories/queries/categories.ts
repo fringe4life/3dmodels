@@ -26,40 +26,44 @@ export const getAllCategories = cache(async (): Promise<Category[]> => {
   }
 });
 
-export const getCategoryBySlug = cache(async (slug: string): Promise<Category> => {
-  try {
-    // Check cache first
-    const cachedCategories = categoriesCache.get();
-    if (cachedCategories) {
-      const foundCategory = cachedCategories.find((cat) => cat.slug === slug);
-      if (foundCategory) {
-        return foundCategory;
+export const getCategoryBySlug = cache(
+  async (slug: string): Promise<Category> => {
+    try {
+      // Check cache first
+      const cachedCategories = categoriesCache.get();
+      if (cachedCategories) {
+        const foundCategory = cachedCategories.find((cat) => cat.slug === slug);
+        if (foundCategory) {
+          return foundCategory;
+        }
+        throw new Error(`Category with slug ${slug} not found`);
       }
-      throw new Error(`Category with slug ${slug} not found`);
+
+      // Fall back to database query if cache is stale or empty
+      const foundCategory = await db
+        .select()
+        .from(categories)
+        .where(eq(categories.slug, slug))
+        .limit(1);
+
+      if (foundCategory.length === 0) {
+        throw new Error(`Category with slug ${slug} not found`);
+      }
+
+      return foundCategory[0];
+    } catch (error) {
+      console.error("Error fetching category by slug:", error);
+      throw error;
     }
+  },
+);
 
-    // Fall back to database query if cache is stale or empty
-    const foundCategory = await db
-      .select()
-      .from(categories)
-      .where(eq(categories.slug, slug))
-      .limit(1);
-
-    if (foundCategory.length === 0) {
-      throw new Error(`Category with slug ${slug} not found`);
-    }
-
-    return foundCategory[0];
-  } catch (error) {
-    console.error("Error fetching category by slug:", error);
-    throw error;
-  }
-});
-
-export const getDisplayNameFromSlug = cache(async (slug: string): Promise<string> => {
-  const category = await getCategoryBySlug(slug);
-  return category?.displayName || "";
-});
+export const getDisplayNameFromSlug = cache(
+  async (slug: string): Promise<string> => {
+    const category = await getCategoryBySlug(slug);
+    return category?.displayName || "";
+  },
+);
 
 export function clearCategoriesCache(): void {
   categoriesCache.clear();

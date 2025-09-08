@@ -3,10 +3,12 @@ import HeroImageSquare from "@/assets/images/hero-image-square.png";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn about PrintForge - the go-to platform for 3D printing enthusiasts, makers, and professional designers. Discover our mission to empower makers worldwide.",
+  description:
+    "Learn about PrintForge - the go-to platform for 3D printing enthusiasts, makers, and professional designers. Discover our mission to empower makers worldwide.",
   openGraph: {
     title: "About PrintForge - Empowering Makers Worldwide",
-    description: "Founded in 2023, PrintForge has quickly become the go-to platform for 3D printing enthusiasts to share and discover amazing STL files.",
+    description:
+      "Founded in 2023, PrintForge has quickly become the go-to platform for 3D printing enthusiasts to share and discover amazing STL files.",
   },
 };
 

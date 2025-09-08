@@ -3,18 +3,25 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
-import { type ModelWithLike, toggleLike } from "@/features/models/actions/likes";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/Pill";
-import { useAuth } from "@/hooks/useAuth";
+import type { Model } from "@/db/schema";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import {
+  type ModelWithLike,
+  toggleLike,
+} from "@/features/models/actions/likes";
 
 type ModelCardProps = {
-  model: ModelWithLike;
+  model: Model | ModelWithLike;
 };
 
 export default function ModelCard({ model }: ModelCardProps) {
   const { isAuthenticated, signIn } = useAuth();
   const [, formAction, isPending] = useActionState(toggleLike, null);
+
+  // Default hasLiked to false for static generation
+  const hasLiked = "hasLiked" in model ? model.hasLiked : false;
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -73,7 +80,7 @@ export default function ModelCard({ model }: ModelCardProps) {
                   : "Sign in to like this model"
               }
             >
-              {model.hasLiked ? (
+              {hasLiked ? (
                 <FaHeart
                   className="mr-1 h-5 w-5 text-red-500"
                   aria-hidden="true"

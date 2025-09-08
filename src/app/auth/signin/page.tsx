@@ -5,7 +5,8 @@ import SignInButton from "./SignInButton";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to your PrintForge account to access the 3D printing community.",
+  description:
+    "Sign in to your PrintForge account to access the 3D printing community.",
   robots: {
     index: false,
     follow: false,

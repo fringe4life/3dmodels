@@ -8,9 +8,9 @@ export default function SignInButton() {
       <button
         type="button"
         onClick={() => signIn("google", { callbackUrl: "/" })}
-        className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-colors hover:bg-gray-50 focus:outline-offset-0"
+        className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-semibold text-gray-900 text-sm shadow-sm ring-1 ring-gray-300 ring-inset transition-colors hover:bg-gray-50 focus:outline-offset-0"
       >
-        <svg className="h-5 w-5" viewBox="0 0 24 24">
+        <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
             fill="#4285F4"
@@ -32,7 +32,7 @@ export default function SignInButton() {
       </button>
 
       <div className="text-center">
-        <p className="text-sm text-gray-500">
+        <p className="text-gray-500 text-sm">
           By signing in, you agree to our terms of service and privacy policy.
         </p>
       </div>
