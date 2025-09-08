@@ -1,10 +1,9 @@
-import type { Model } from "@/db/schema";
 import type { ModelWithLike } from "@/features/models/actions/likes";
 import ModelCard from "@/features/models/components/ModelCard";
 
 type ModelsGridProps = {
   title: string;
-  models: Model[] | ModelWithLike[];
+  models: ModelWithLike[];
 };
 
 export default function ModelsGrid({ title, models }: ModelsGridProps) {

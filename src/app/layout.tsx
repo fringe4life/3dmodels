@@ -5,6 +5,8 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Navbar from "@/app/_navigation/Navbar";
 import SessionProvider from "@/app/_providers/SessionProvider";
 
+export const experimental_ppr = true;
+
 const albertSans = Albert_Sans({
   subsets: ["latin"],
   display: "swap",

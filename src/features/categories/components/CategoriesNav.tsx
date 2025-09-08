@@ -2,6 +2,8 @@ import { getAllCategories } from "@/features/categories/queries/categories";
 import CategoriesNavClient from "./CategoriesNavClient";
 
 export default async function CategoriesNav() {
+  'use cache'
+  
   // Fetch categories data at build time (static generation)
   const categories = await getAllCategories();
 

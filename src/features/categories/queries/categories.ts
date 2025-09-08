@@ -4,8 +4,17 @@ import { db } from "@/db";
 import type { Category } from "@/db/schema";
 import { categories } from "@/db/schema";
 import { categoriesCache } from "@/lib/cache";
+import { unstable_cacheTag as cacheTag } from 'next/cache';
+import { unstable_cacheLife as cacheLife } from 'next/cache';
 
 export const getAllCategories = cache(async (): Promise<Category[]> => {
+  'use cache'
+  
+  // Set cache tags for revalidation control
+  cacheTag('categories');
+  // Set cache life to 1 hour
+  cacheLife('hours');
+  
   try {
     // Check cache first
     const cachedCategories = categoriesCache.get();
@@ -28,6 +37,8 @@ export const getAllCategories = cache(async (): Promise<Category[]> => {
 
 export const getCategoryBySlug = cache(
   async (slug: string): Promise<Category> => {
+    'use cache'
+    
     try {
       // Check cache first
       const cachedCategories = categoriesCache.get();
@@ -60,6 +71,8 @@ export const getCategoryBySlug = cache(
 
 export const getDisplayNameFromSlug = cache(
   async (slug: string): Promise<string> => {
+    'use cache'
+    
     const category = await getCategoryBySlug(slug);
     return category?.displayName || "";
   },

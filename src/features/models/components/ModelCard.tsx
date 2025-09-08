@@ -1,42 +1,14 @@
-"use client";
-
 import Link from "next/link";
-import { useActionState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/Pill";
-import type { Model } from "@/db/schema";
-import { useAuth } from "@/features/auth/hooks/useAuth";
-import {
-  type ModelWithLike,
-  toggleLike,
-} from "@/features/models/actions/likes";
+import type { ModelWithLike } from "@/features/models/actions/likes";
+import HeartButton from "./HeartButton";
 
 type ModelCardProps = {
-  model: Model | ModelWithLike;
+  model: ModelWithLike;
 };
 
 export default function ModelCard({ model }: ModelCardProps) {
-  const { isAuthenticated, signIn } = useAuth();
-  const [, formAction, isPending] = useActionState(toggleLike, null);
-
-  // Default hasLiked to false for static generation
-  const hasLiked = "hasLiked" in model ? model.hasLiked : false;
-
-  const handleLikeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!isAuthenticated) {
-      signIn();
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("modelId", model.id.toString());
-    formAction(formData);
-  };
-
   return (
     <Link
       href={`/3d-models/${model.id}`}
@@ -69,30 +41,11 @@ export default function ModelCard({ model }: ModelCardProps) {
             <Pill>{model.categorySlug}</Pill>
           </div>
           <div className="mt-2 flex items-center text-gray-600">
-            <button
-              type="button"
-              onClick={handleLikeClick}
-              disabled={isPending}
-              className="flex items-center transition-colors hover:text-red-500 disabled:opacity-50"
-              aria-label={
-                isAuthenticated
-                  ? "Like this model"
-                  : "Sign in to like this model"
-              }
-            >
-              {hasLiked ? (
-                <FaHeart
-                  className="mr-1 h-5 w-5 text-red-500"
-                  aria-hidden="true"
-                />
-              ) : (
-                <FaRegHeart
-                  className="mr-1 h-5 w-5 text-gray-400 hover:text-red-500"
-                  aria-hidden="true"
-                />
-              )}
-              <span>{model.likes}</span>
-            </button>
+            <HeartButton
+              modelId={model.id}
+              hasLiked={model.hasLiked}
+              likesCount={model.likes}
+            />
             <span className="sr-only">This model has {model.likes} likes</span>
           </div>
         </div>

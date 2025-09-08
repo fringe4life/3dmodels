@@ -2,6 +2,7 @@
   "name": "3d-models",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -15,16 +16,17 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "bun run app/db/seed.ts"
+    "db:seed": "app/db/seed.ts"
   },
   "dependencies": {
     "@auth/core": "^0.40.0",
     "@auth/drizzle-adapter": "^1.10.0",
     "@neondatabase/serverless": "^1.0.1",
     "auth": "^1.2.3",
+    "clsx": "^2.1.1",
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
-    "next": "^15.5.2",
+    "next": "canary",
     "next-auth": "^5.0.0-beta.29",
     "nuqs": "^2.6.0",
     "react": "^19.1.1",

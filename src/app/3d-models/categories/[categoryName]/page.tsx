@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import {
   getAllCategories,
   getCategoryBySlug,
 } from "@/features/categories/queries/categories";
 import ModelsGrid from "@/features/models/components/ModelsGrid";
-import { getModelsStatic } from "@/features/models/queries/models";
+import { getModels } from "@/features/models/queries/models";
 
 export const dynamicParams = false;
 
@@ -35,9 +36,10 @@ export async function generateMetadata({
 export default async function CategoryPage({
   params,
 }: PageProps<"/3d-models/categories/[categoryName]">) {
+  await connection(); // Wait for connection before any dynamic operations
   const { categoryName } = await params;
   const category = await getCategoryBySlug(categoryName);
-  const models = await getModelsStatic({ category: categoryName });
+  const models = await getModels({ category: categoryName });
 
   return <ModelsGrid title={category.displayName} models={models} />;
 }
