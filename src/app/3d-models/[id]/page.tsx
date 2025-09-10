@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { unstable_cacheLife as cacheLife } from "next/cache";
-import { Suspense } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/Pill";
 import LikeStatus from "@/features/models/components/LikeStatus";
@@ -45,16 +44,6 @@ export async function generateMetadata({
   };
 }
 
-// Fallback component for like status loading
-function LikeStatusSkeleton() {
-  return (
-    <div className="mb-2 flex items-center text-2xl text-gray-600">
-      <div className="mr-2 h-5 w-5 animate-pulse rounded bg-gray-300" />
-      <div className="h-6 w-12 animate-pulse rounded bg-gray-300" />
-    </div>
-  );
-}
-
 export default async function ModelDetailPage({
   params,
 }: PageProps<"/3d-models/[id]">) {
@@ -79,10 +68,8 @@ export default async function ModelDetailPage({
 
         {/* Content Section - Static with Dynamic Like Status */}
         <section className="flex h-full flex-col justify-center">
-          {/* Dynamic Like Status - Wrapped in Suspense for PPR */}
-          <Suspense fallback={<LikeStatusSkeleton />}>
-            <LikeStatus modelId={parseInt(id, 10)} likesCount={likes} />
-          </Suspense>
+          {/* Dynamic Like Status */}
+          <LikeStatus modelId={parseInt(id, 10)} likesCount={likes} />
 
           {/* Static Content */}
           <h1 className="mb-6 font-bold text-4xl">{name}</h1>

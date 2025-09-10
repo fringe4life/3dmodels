@@ -8,7 +8,7 @@ import { modelsSearchParamsCache } from "@/features/models/search-params";
 
 async function getModelsForQuery(query: string) {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("hours");
   const models = query
     ? await searchModels(query)
     : await getAllModelsForSearch();

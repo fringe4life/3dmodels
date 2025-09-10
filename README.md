@@ -47,10 +47,7 @@ src/
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
-├── features/                     # Feature-based modules
-│   ├── auth/                     # Authentication feature
-│   │   └── hooks/                # Auth-specific hooks
-│   │       └── useAuth.ts
+├── features/  
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
 │   │   │   ├── likes.ts
@@ -68,7 +65,6 @@ src/
 │   │   │   ├── get-model-by-id.ts
 │   │   │   ├── get-model-with-like-status.ts
 │   │   │   ├── get-models-by-category.ts
-│   │   │   ├── get-models.ts
 │   │   │   └── search-models.ts
 │   │   ├── schemas/              # Validation schemas
 │   │   │   └── search-schemas.ts
@@ -110,9 +106,7 @@ The project follows a feature-based architecture where related functionality is 
 
 - **`features/models/`**: All model-related components, actions, queries, and search params
 - **`features/categories/`**: All category-related components and data queries
-- **`features/auth/`**: Authentication hooks and utilities
 - **`app/_navigation/`**: Private navigation components (not part of routing)
-- **`app/_providers/`**: Private provider components (not part of routing)
 
 ### Directory Conventions
 - **`_` prefix**: Private folders that are not part of Next.js routing
@@ -222,10 +216,8 @@ The application uses Next.js cache with granular cache tags for efficient invali
 
 #### Shared Components
 - `components/Pill` - Small label component
-- `app/_providers/SessionProvider` - Authentication provider
 
 #### Authentication
-- `features/auth/hooks/useAuth` - Authentication hook for client components
 - `lib/auth` - NextAuth configuration with Google OAuth
 
 ## 🔧 Development
