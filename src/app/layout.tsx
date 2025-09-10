@@ -3,9 +3,7 @@ import "./globals.css" with { type: "module" };
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Navbar from "@/app/_navigation/Navbar";
-import SessionProvider from "@/app/_providers/SessionProvider";
-
-export const experimental_ppr = true;
+import { getCurrentYear } from "@/lib/date";
 
 const albertSans = Albert_Sans({
   subsets: ["latin"],
@@ -63,21 +61,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const currentYear = await getCurrentYear();
+
   return (
     <html lang="en">
       <body
         className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh grid-rows-[5.35rem_1fr_5.35rem] gap-10`}
       >
-        <SessionProvider>
-          <NuqsAdapter>
-            <Navbar />
-            <main>{children}</main>
-            <footer>
-              <p>&copy; {new Date().getFullYear()} PrintForge</p>
-            </footer>
-          </NuqsAdapter>
-        </SessionProvider>
+        <NuqsAdapter>
+          <Navbar />
+          <main>{children}</main>
+          <footer>
+            <p>&copy; {currentYear} PrintForge</p>
+          </footer>
+        </NuqsAdapter>
       </body>
     </html>
   );

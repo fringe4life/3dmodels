@@ -1,12 +1,28 @@
 import type { Metadata } from "next";
-import { FaRegHeart } from "react-icons/fa6";
+import { unstable_cacheLife as cacheLife } from "next/cache";
+import { Suspense } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/Pill";
-import { getModelById } from "@/features/models/queries/models";
+import LikeStatus from "@/features/models/components/LikeStatus";
+import { getAllModels } from "@/features/models/queries/get-all-models";
+import { getModelById } from "@/features/models/queries/get-model-by-id";
+
+// Note: dynamicParams is not compatible with experimental.cacheComponents
+// With cacheComponents enabled, only paths from generateStaticParams are allowed
+
+export async function generateStaticParams() {
+  // Generate static params for all existing models at build time
+  const models = await getAllModels();
+  return models.map((model) => ({
+    id: model.id.toString(),
+  }));
+}
 
 export async function generateMetadata({
   params,
 }: PageProps<"/3d-models/[id]">): Promise<Metadata> {
+  "use cache";
+
   const { id } = await params;
   const { name, description } = await getModelById(id);
 
@@ -29,17 +45,30 @@ export async function generateMetadata({
   };
 }
 
+// Fallback component for like status loading
+function LikeStatusSkeleton() {
+  return (
+    <div className="mb-2 flex items-center text-2xl text-gray-600">
+      <div className="mr-2 h-5 w-5 animate-pulse rounded bg-gray-300" />
+      <div className="h-6 w-12 animate-pulse rounded bg-gray-300" />
+    </div>
+  );
+}
+
 export default async function ModelDetailPage({
   params,
 }: PageProps<"/3d-models/[id]">) {
+  "use cache";
+  cacheLife("hours");
   const { id } = await params;
+
   const { name, categorySlug, description, dateAdded, likes } =
     await getModelById(id);
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
       <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* Image Section */}
+        {/* Image Section - Static */}
         <figure className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
           <img
             src={placeholderImg.src}
@@ -48,15 +77,14 @@ export default async function ModelDetailPage({
           />
         </figure>
 
-        {/* Content Section */}
+        {/* Content Section - Static with Dynamic Like Status */}
         <section className="flex h-full flex-col justify-center">
-          <output
-            className="mb-2 flex items-center text-2xl text-gray-600"
-            aria-label="Likes count"
-          >
-            <FaRegHeart className="mr-2 h-5 w-5" aria-hidden="true" />
-            <span className="font-light">{likes}</span>
-          </output>
+          {/* Dynamic Like Status - Wrapped in Suspense for PPR */}
+          <Suspense fallback={<LikeStatusSkeleton />}>
+            <LikeStatus modelId={parseInt(id, 10)} likesCount={likes} />
+          </Suspense>
+
+          {/* Static Content */}
           <h1 className="mb-6 font-bold text-4xl">{name}</h1>
 
           <Pill className="mb-6 w-fit">{categorySlug}</Pill>

@@ -1,23 +1,24 @@
 "use client";
 
 import { clsx } from "clsx";
+import { signIn } from "next-auth/react";
 import { type MouseEventHandler, useActionState, useTransition } from "react";
 import { FaHeart } from "react-icons/fa6";
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import { toggleLike } from "@/features/models/actions/likes";
 
 interface HeartButtonProps {
   modelId: number;
   hasLiked: boolean;
   likesCount: number;
+  isAuthenticated: boolean;
 }
 
 export default function HeartButton({
   modelId,
   hasLiked,
   likesCount,
+  isAuthenticated,
 }: HeartButtonProps) {
-  const { isAuthenticated, signIn } = useAuth();
   const [, formAction] = useActionState(toggleLike, null);
   const [isPending, startTransition] = useTransition();
 

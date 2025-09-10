@@ -1,7 +1,15 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { getModels } from "@/features/models/queries/models";
+import {
+  searchModels,
+  searchModelsAdvanced,
+} from "@/features/models/queries/search-models";
+import {
+  advancedSearchFormSchema,
+  parseFormData,
+  searchFormSchema,
+} from "@/features/models/schemas/search-schemas";
+import { invalidateAllModels } from "@/features/models/utils/cache-invalidation";
 
 // Type for search action state
 export type SearchActionState = {
@@ -17,25 +25,23 @@ export async function performSearch(
   formData: FormData,
 ): Promise<SearchActionState> {
   try {
-    const query = formData.get("query") as string;
+    // Validate form data with Zod
+    const validation = parseFormData(formData, searchFormSchema);
 
-    if (!query || query.trim().length === 0) {
+    if (!validation.success) {
       return {
-        message: "Please enter a search term",
-        query: "",
+        error: validation.error,
+        query: prevState.query || "",
       };
     }
 
-    // Get all models and filter them
-    const allModels = await getModels();
-    const filteredModels = allModels.filter(
-      (model) =>
-        model.name.toLowerCase().includes(query.toLowerCase()) ||
-        model.description.toLowerCase().includes(query.toLowerCase()),
-    );
+    const { query } = validation.data;
 
-    // Revalidate the page to show updated results
-    revalidatePath("/3d-models");
+    // Use optimized search function with database-level filtering
+    const filteredModels = await searchModels(query);
+
+    // Revalidate the models cache to show updated results
+    invalidateAllModels();
 
     return {
       message: `Found ${filteredModels.length} models for "${query}"`,
@@ -56,9 +62,17 @@ export async function performAdvancedSearch(
   formData: FormData,
 ): Promise<SearchActionState> {
   try {
-    const query = formData.get("query") as string;
-    const category = formData.get("category") as string;
-    const sortBy = formData.get("sortBy") as string;
+    // Validate form data with Zod
+    const validation = parseFormData(formData, advancedSearchFormSchema);
+
+    if (!validation.success) {
+      return {
+        error: validation.error,
+        query: prevState.query || "",
+      };
+    }
+
+    const { query, category, sortBy } = validation.data;
 
     if (!query && !category) {
       return {
@@ -67,27 +81,10 @@ export async function performAdvancedSearch(
       };
     }
 
-    // Get models with optional category filter
-    const models = await getModels(category ? { category } : undefined);
+    // Use optimized advanced search function with database-level filtering and sorting
+    const sortedModels = await searchModelsAdvanced(query, category, sortBy);
 
-    // Filter by query if provided
-    const filteredModels = query
-      ? models.filter(
-          (model) =>
-            model.name.toLowerCase().includes(query.toLowerCase()) ||
-            model.description.toLowerCase().includes(query.toLowerCase()),
-        )
-      : models;
-
-    // Sort results if specified
-    const sortedModels =
-      sortBy === "likes"
-        ? filteredModels.sort((a, b) => b.likes - a.likes)
-        : sortBy === "name"
-          ? filteredModels.sort((a, b) => a.name.localeCompare(b.name))
-          : filteredModels;
-
-    revalidatePath("/3d-models");
+    invalidateAllModels();
 
     return {
       message: `Found ${sortedModels.length} models${category ? ` in ${category}` : ""}${query ? ` for "${query}"` : ""}`,
@@ -113,7 +110,7 @@ export async function saveSearchPreferences(
     // const defaultCategory = formData.get('defaultCategory') as string
     // const autoSearch = formData.get('autoSearch') === 'true'
 
-    revalidatePath("/3d-models");
+    invalidateAllModels();
 
     return {
       message: "Search preferences saved successfully!",

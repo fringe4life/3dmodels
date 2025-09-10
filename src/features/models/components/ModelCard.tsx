@@ -1,11 +1,11 @@
 import Link from "next/link";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/Pill";
-import type { ModelWithLike } from "@/features/models/actions/likes";
-import HeartButton from "./HeartButton";
+import type { Model } from "@/db/schema";
+import LikeStatus from "./LikeStatus";
 
 type ModelCardProps = {
-  model: ModelWithLike;
+  model: Model;
 };
 
 export default function ModelCard({ model }: ModelCardProps) {
@@ -41,11 +41,7 @@ export default function ModelCard({ model }: ModelCardProps) {
             <Pill>{model.categorySlug}</Pill>
           </div>
           <div className="mt-2 flex items-center text-gray-600">
-            <HeartButton
-              modelId={model.id}
-              hasLiked={model.hasLiked}
-              likesCount={model.likes}
-            />
+            <LikeStatus modelId={model.id} likesCount={model.likes} />
             <span className="sr-only">This model has {model.likes} likes</span>
           </div>
         </div>

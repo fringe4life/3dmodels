@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   experimental: {
     // devtoolSegmentExplorer: true,
     browserDebugInfoInTerminal: true,
-    ppr: 'incremental',
     useCache: true,
+    cacheComponents: true,
   },
 };
 

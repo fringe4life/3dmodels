@@ -1,9 +1,23 @@
-import { getAllCategories } from "@/features/categories/queries/categories";
+import { unstable_cacheLife as cacheLife } from "next/cache";
+import { Suspense } from "react";
+import { getAllCategories } from "@/features/categories/queries/get-all-categories";
 import CategoriesNavClient from "./CategoriesNavClient";
 
+// Fallback UI shown while `CategoriesNavClient` loads
+function CategoriesNavFallback() {
+  return (
+    <div className="animate-pulse">
+      <div className="mb-2 h-6 w-12 rounded bg-gray-200"></div>
+      <div className="mb-2 h-6 w-16 rounded bg-gray-200"></div>
+      <div className="mb-2 h-6 w-20 rounded bg-gray-200"></div>
+    </div>
+  );
+}
+
 export default async function CategoriesNav() {
-  'use cache'
-  
+  "use cache";
+  cacheLife("weeks");
+
   // Fetch categories data at build time (static generation)
   const categories = await getAllCategories();
 
@@ -12,7 +26,9 @@ export default async function CategoriesNav() {
       <div className="relative">
         <nav className="scrollbar-hide w-full overflow-x-auto md:overflow-visible">
           <ul className="flex whitespace-nowrap px-4 py-3 md:flex-col md:space-x-0 md:space-y-3 md:p-0">
-            <CategoriesNavClient categories={categories} />
+            <Suspense fallback={<CategoriesNavFallback />}>
+              <CategoriesNavClient categories={categories} />
+            </Suspense>
           </ul>
         </nav>
         {/* Fading edge/gradient for horizontal scroll hint on mobile */}

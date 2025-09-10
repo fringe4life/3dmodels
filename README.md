@@ -31,11 +31,12 @@ A modern web application for browsing and discovering 3D models, built with Next
 src/
 ├── app/                          # Next.js App Router
 │   ├── _navigation/              # Private navigation components
+│   │   ├── AuthButtons.tsx
 │   │   ├── Navbar.tsx
 │   │   └── NavLink.tsx
-│   ├── _providers/               # Private provider components
-│   │   └── SessionProvider.tsx
 │   ├── 3d-models/                # 3D models routes
+│   │   ├── @categories/          # Parallel route for categories nav
+│   │   ├── @results/             # Parallel route for search results
 │   │   ├── [id]/                 # Individual model page
 │   │   ├── categories/           # Category-specific pages
 │   │   ├── layout.tsx            # Models layout
@@ -58,24 +59,33 @@ src/
 │   │   │   ├── AdvancedSearchForm.tsx
 │   │   │   ├── EnhancedSearchInput.tsx
 │   │   │   ├── HeartButton.tsx
+│   │   │   ├── LikeStatus.tsx
 │   │   │   ├── ModelCard.tsx
 │   │   │   ├── ModelsGrid.tsx
 │   │   │   └── SearchInput.tsx
-│   │   ├── queries/              # Model data queries
-│   │   │   └── models.ts
+│   │   ├── queries/              # Model data queries (split files)
+│   │   │   ├── get-all-models.ts
+│   │   │   ├── get-model-by-id.ts
+│   │   │   ├── get-model-with-like-status.ts
+│   │   │   ├── get-models-by-category.ts
+│   │   │   ├── get-models.ts
+│   │   │   └── search-models.ts
+│   │   ├── schemas/              # Validation schemas
+│   │   │   └── search-schemas.ts
+│   │   ├── utils/                # Model utilities
+│   │   │   └── cache-invalidation.ts
 │   │   └── search-params.ts      # Type-safe search params
 │   └── categories/               # Categories feature
 │       ├── components/           # Category-specific components
 │       │   ├── CategoriesNav.tsx
 │       │   └── CategoriesNavClient.tsx
-│       └── queries/              # Category data queries
-│           └── categories.ts
+│       └── queries/              # Category data queries (split files)
+│           ├── get-all-categories.ts
+│           ├── get-category-by-slug.ts
+│           └── get-display-name-from-slug.ts
 ├── components/                   # Shared/generic components
 │   └── Pill.tsx                  # Reusable pill component
 ├── db/                          # Database configuration
-│   ├── seed-data/               # Database seed data
-│   │   ├── categories.ts
-│   │   └── models.ts
 │   ├── schema/                  # Database schema definitions
 │   │   ├── auth.ts              # Authentication tables
 │   │   ├── likes.ts             # Likes table
@@ -87,7 +97,9 @@ src/
 │   └── index.ts                 # Database connection
 ├── lib/                         # Utility functions
 │   ├── auth.ts                  # NextAuth configuration
-│   └── cache.ts                 # Caching implementation
+│   └── date.ts                  # Date utilities
+├── types/                       # Type definitions
+│   └── index.ts                 # Shared types
 └── middleware.ts                # Next.js middleware
 ```
 
@@ -181,7 +193,11 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Caching Strategy
 
-The application implements a simple in-memory cache for categories with a 1-hour TTL to reduce database queries for frequently accessed data that rarely changes.
+The application uses Next.js cache with granular cache tags for efficient invalidation:
+- **Models**: Cached with `models`, `model-{id}`, and `models-category-{slug}` tags
+- **Categories**: Cached with `categories` tag
+- **Cache Life**: 1 hour for most queries, weeks for static categories
+- **Invalidation**: Centralized utilities in `features/models/utils/cache-invalidation.ts`
 
 ## 🎨 Styling & Components
 
@@ -269,9 +285,10 @@ Ensure these are set in your deployment environment:
 
 ### Cache Management
 
-- Categories are cached for 1 hour by default
-- Use `clearCategoriesCache()` function to manually clear cache
-- Cache is automatically invalidated when data is stale
+- Use centralized cache invalidation utilities in `features/models/utils/cache-invalidation.ts`
+- Functions: `invalidateAllModels()`, `invalidateModel(id)`, `invalidateCategory(slug)`
+- Cache tags provide granular control over what gets invalidated
+- Automatic cache invalidation on data mutations
 
 ## 🤝 Contributing
 

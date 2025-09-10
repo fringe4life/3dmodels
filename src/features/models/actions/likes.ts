@@ -1,13 +1,10 @@
 "use server";
 
 import { and, eq, sql } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { db } from "@/db";
-import type { Model } from "@/db/schema";
 import { likes, models } from "@/db/schema";
+import { invalidateModel } from "@/features/models/utils/cache-invalidation";
 import { auth } from "@/lib/auth";
-
-export type ModelWithLike = Model & { hasLiked: boolean };
 
 export async function toggleLike(_prevState: unknown, formData: FormData) {
   const modelId = Number(formData.get("modelId"));
@@ -52,8 +49,8 @@ export async function toggleLike(_prevState: unknown, formData: FormData) {
         .where(eq(models.id, modelId));
     }
 
-    revalidatePath("/3d-models");
-    revalidatePath(`/3d-models/${modelId}`);
+    // Invalidate the specific model's cache since likes count changed
+    invalidateModel(modelId);
 
     return { success: true };
   } catch (error) {

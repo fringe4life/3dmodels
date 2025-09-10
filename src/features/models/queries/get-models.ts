@@ -1,10 +1,14 @@
 import { and, eq } from "drizzle-orm";
+import {
+  unstable_cacheLife as cacheLife,
+  unstable_cacheTag as cacheTag,
+} from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
 import type { Model } from "@/db/schema";
 import { likes, models } from "@/db/schema";
-import type { ModelWithLike } from "@/features/models/actions/likes";
 import { auth } from "@/lib/auth";
+import type { ModelWithLike } from "@/types";
 
 type GetModelsParams = {
   category?: string;
@@ -12,17 +16,20 @@ type GetModelsParams = {
 
 export const getModels = cache(
   async ({ category }: GetModelsParams = {}): Promise<ModelWithLike[]> => {
+    "use cache";
+
+    cacheTag("models");
+    cacheLife("hours");
+
     try {
       let session = null;
-      let userId = null;
-      
+      let userId = null as string | null;
+
       try {
         session = await auth();
-        userId = session?.user?.id;
-      } catch (error) {
-        // During static generation, auth() may not be available
-        // This is expected and we'll just proceed without user context
-        console.log("Auth not available during static generation, proceeding without user context");
+        userId = session?.user?.id ?? null;
+      } catch {
+        // Auth not available during static generation, proceed without user context
       }
 
       let allModels: Model[];
@@ -36,7 +43,6 @@ export const getModels = cache(
         allModels = await db.select().from(models);
       }
 
-      // Add hasLiked property for each model
       const modelsWithLikes = await Promise.all(
         allModels.map(async (model) => {
           let hasLiked = false;
@@ -51,7 +57,7 @@ export const getModels = cache(
             hasLiked = existingLike.length > 0;
           }
 
-          return { ...model, hasLiked };
+          return { ...model, hasLiked } as ModelWithLike;
         }),
       );
 
@@ -59,34 +65,6 @@ export const getModels = cache(
     } catch (error) {
       console.error("Error fetching models:", error);
       throw new Error("Failed to fetch models from database");
-    }
-  },
-);
-
-
-export const getModelById = cache(
-  async (id: string | number): Promise<Model> => {
-    try {
-      const modelId = typeof id === "string" ? parseInt(id, 10) : id;
-
-      if (Number.isNaN(modelId)) {
-        throw new Error(`Invalid model id: ${id}`);
-      }
-
-      const foundModel = await db
-        .select()
-        .from(models)
-        .where(eq(models.id, modelId))
-        .limit(1);
-
-      if (foundModel.length === 0) {
-        throw new Error(`Model with id ${id} not found`);
-      }
-
-      return foundModel[0];
-    } catch (error) {
-      console.error("Error fetching model by id:", error);
-      throw error;
     }
   },
 );

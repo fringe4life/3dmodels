@@ -102,7 +102,7 @@ export async function performSearch(
 // src/app/3d-models/page.tsx
 import type { Metadata } from "next";
 import ModelsGrid from "@/features/models/components/ModelsGrid";
-import { getModels } from "@/features/models/queries/models";
+import { getModels } from "@/features/models/queries/get-models";
 import { modelsSearchParamsCache } from "@/features/models/search-params";
 
 export const dynamic = "force-dynamic";
