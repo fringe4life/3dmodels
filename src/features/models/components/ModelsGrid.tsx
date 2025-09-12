@@ -28,7 +28,7 @@ export function ModelsGridSkeleton() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 8 }).map((_, index) => (
             <div
-            // biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton items don't change order
+              // biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton items don't change order
               key={`grid-skeleton-${index}`}
               className="h-64 rounded-lg bg-gray-200"
             />
