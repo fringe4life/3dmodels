@@ -74,25 +74,15 @@
   },
   "overrides": [
     {
-      "includes": [
-        "**/*.tsx",
-        "**/*.jsx"
-      ],
+      "includes": ["**/*.tsx", "**/*.jsx"],
       "linter": {
         "rules": {
           "nursery": {
             "useSortedClasses": {
               "level": "error",
               "options": {
-                "attributes": [
-                  "classList"
-                ],
-                "functions": [
-                  "clsx",
-                  "cva",
-                  "tw",
-                  "tw.*"
-                ]
+                "attributes": ["classList"],
+                "functions": ["clsx", "cva", "tw", "tw.*"]
               }
             }
           }
@@ -100,9 +90,7 @@
       }
     },
     {
-      "includes": [
-        "**/*.css"
-      ],
+      "includes": ["**/*.css"],
       "linter": {
         "enabled": false
       },
@@ -111,7 +99,5 @@
       }
     }
   ],
-  "extends": [
-    "ultracite"
-  ]
+  "extends": ["ultracite"]
 }
