@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { SearchInput } from "@/features/models/components/SearchInput";
+import Stream from "@/components/streamable";
+import { SearchInput } from "@/features/models/components/search-input";
 
 export const metadata: Metadata = {
   title: "3d-Models",
@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="py-4">Loading search…</div>}>
-      <SearchInput />
-    </Suspense>
+    <Stream fallback={<div className="py-4">Loading search…</div>} value={null}>
+      {() => <SearchInput />}
+    </Stream>
   );
 }

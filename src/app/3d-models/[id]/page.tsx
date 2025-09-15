@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { unstable_cacheLife as cacheLife } from "next/cache";
 import placeholderImg from "@/assets/images/placeholder.png";
-import Pill from "@/components/Pill";
-import LikeStatus from "@/features/models/components/LikeStatus";
+import Pill from "@/components/pill";
+import LikeStatus from "@/features/models/components/like-status";
 import { getAllModels } from "@/features/models/queries/get-all-models";
 import { getModelById } from "@/features/models/queries/get-model-by-id";
 
@@ -27,10 +27,10 @@ export async function generateMetadata({
 
   return {
     title: name,
-    description: description,
+    description,
     openGraph: {
       title: name,
-      description: description,
+      description,
       type: "article",
       images: [
         {
@@ -60,16 +60,18 @@ export default async function ModelDetailPage({
         {/* Image Section - Static */}
         <figure className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
           <img
-            src={placeholderImg.src}
             alt={`3D model of ${name}`}
             className="absolute inset-0 h-full w-full object-cover"
+            height={300}
+            src={placeholderImg.src}
+            width={300}
           />
         </figure>
 
         {/* Content Section - Static with Dynamic Like Status */}
         <section className="flex h-full flex-col justify-center">
           {/* Dynamic Like Status */}
-          <LikeStatus modelId={parseInt(id, 10)} likesCount={likes} />
+          <LikeStatus likesCount={likes} modelId={Number.parseInt(id, 10)} />
 
           {/* Static Content */}
           <h1 className="mb-6 font-bold text-4xl">{name}</h1>

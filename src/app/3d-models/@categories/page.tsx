@@ -1,4 +1,4 @@
-import CategoriesNav from "@/features/categories/components/CategoriesNav";
+import CategoriesNav from "@/features/categories/components/categories-nav";
 
 // This parallel route will be statically generated once at build time
 // The CategoriesNav component will fetch categories data and render the list

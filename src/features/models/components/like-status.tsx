@@ -1,12 +1,12 @@
-import { Suspense } from "react";
+import Stream from "@/components/streamable";
 import { getModelWithLikeStatus } from "@/features/models/queries/get-model-with-like-status";
 import { auth } from "@/lib/auth";
-import HeartButton from "./HeartButton";
+import HeartButton from "./heart-button";
 
-interface LikeStatusProps {
+type LikeStatusProps = {
   modelId: number;
   likesCount: number; // Pass the like count from the parent component
-}
+};
 
 // Server component that fetches auth and like status
 async function LikeStatusContent({ modelId, likesCount }: LikeStatusProps) {
@@ -18,10 +18,10 @@ async function LikeStatusContent({ modelId, likesCount }: LikeStatusProps) {
 
     return (
       <HeartButton
-        modelId={modelWithLike.id}
         hasLiked={modelWithLike.hasLiked}
-        likesCount={modelWithLike.likes}
         isAuthenticated={!!session}
+        likesCount={modelWithLike.likes}
+        modelId={modelWithLike.id}
       />
     );
   } catch {
@@ -30,10 +30,10 @@ async function LikeStatusContent({ modelId, likesCount }: LikeStatusProps) {
 
     return (
       <HeartButton
-        modelId={modelId}
         hasLiked={false}
-        likesCount={likesCount}
         isAuthenticated={false}
+        likesCount={likesCount}
+        modelId={modelId}
       />
     );
   }
@@ -53,25 +53,41 @@ function LikeStatusSkeleton({ likesCount }: { likesCount: number }) {
 function StaticLikeStatus({ modelId, likesCount }: LikeStatusProps) {
   return (
     <HeartButton
-      modelId={modelId}
       hasLiked={false}
-      likesCount={likesCount}
       isAuthenticated={false}
+      likesCount={likesCount}
+      modelId={modelId}
     />
   );
 }
 
-// Main component with Suspense boundary
+// Main component with Stream boundary
 export default function LikeStatus({ modelId, likesCount }: LikeStatusProps) {
   // Check if we're in a static generation context
   // If so, render the static version directly
   if (typeof window === "undefined" && process.env.NODE_ENV === "production") {
     // During static generation, render the static version
-    return <StaticLikeStatus modelId={modelId} likesCount={likesCount} />;
+    return <StaticLikeStatus likesCount={likesCount} modelId={modelId} />;
   }
+
+  // Create a promise for the like status data
+  const likeStatusPromise = (async () => {
+    const session = await auth();
+    const userId = session?.user?.id;
+    return { modelId, likesCount, userId };
+  })();
+
   return (
-    <Suspense fallback={<LikeStatusSkeleton likesCount={likesCount} />}>
-      <LikeStatusContent modelId={modelId} likesCount={likesCount} />
-    </Suspense>
+    <Stream
+      fallback={<LikeStatusSkeleton likesCount={likesCount} />}
+      value={likeStatusPromise}
+    >
+      {(data) => (
+        <LikeStatusContent
+          likesCount={data.likesCount}
+          modelId={data.modelId}
+        />
+      )}
+    </Stream>
   );
 }

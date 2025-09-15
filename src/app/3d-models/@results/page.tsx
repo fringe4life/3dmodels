@@ -1,5 +1,5 @@
 import { unstable_cacheLife as cacheLife } from "next/cache";
-import ModelsGrid from "@/features/models/components/ModelsGrid";
+import ModelsGrid from "@/features/models/components/models-grid";
 import {
   getAllModelsForSearch,
   searchModels,
@@ -20,5 +20,5 @@ export default async function ResultsPage({
 }: PageProps<"/3d-models">) {
   const { query } = await modelsSearchParamsCache.parse(searchParams);
   const models = await getModelsForQuery(query);
-  return <ModelsGrid title="3D Models" models={models} />;
+  return <ModelsGrid models={models} title="3D Models" />;
 }

@@ -82,33 +82,33 @@ export function AdvancedSearchForm() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
               <label
-                htmlFor="query"
                 className="mb-1 block font-medium text-gray-700 text-sm"
+                htmlFor="query"
               >
                 Search Query
               </label>
               <input
-                type="text"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-0"
+                defaultValue={searchState.query}
                 id="query"
                 name="query"
                 placeholder="Enter search term..."
-                defaultValue={searchState.query}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-0"
+                type="text"
               />
             </div>
 
             <div>
               <label
-                htmlFor="category"
                 className="mb-1 block font-medium text-gray-700 text-sm"
+                htmlFor="category"
               >
                 Category
               </label>
               <select
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-0"
+                defaultValue={searchState.category}
                 id="category"
                 name="category"
-                defaultValue={searchState.category}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-0"
               >
                 <option value="">All Categories</option>
                 <option value="figures">Figures</option>
@@ -120,16 +120,16 @@ export function AdvancedSearchForm() {
 
             <div>
               <label
-                htmlFor="sortBy"
                 className="mb-1 block font-medium text-gray-700 text-sm"
+                htmlFor="sortBy"
               >
                 Sort By
               </label>
               <select
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-0"
+                defaultValue={searchState.sortBy}
                 id="sortBy"
                 name="sortBy"
-                defaultValue={searchState.sortBy}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-0"
               >
                 <option value="name">Name</option>
                 <option value="likes">Most Liked</option>
@@ -140,15 +140,15 @@ export function AdvancedSearchForm() {
 
           <div className="flex gap-3">
             <button
-              type="submit"
-              disabled={pending}
               className="rounded-md bg-black px-6 py-2 font-medium text-sm text-white hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={pending}
+              type="submit"
             >
               {pending ? "Searching..." : "Search"}
             </button>
 
             <button
-              type="button"
+              className="rounded-md border border-gray-300 px-6 py-2 font-medium text-gray-700 text-sm hover:bg-gray-50"
               onClick={() => {
                 setSearchState({
                   query: null,
@@ -156,7 +156,7 @@ export function AdvancedSearchForm() {
                   sortBy: null,
                 });
               }}
-              className="rounded-md border border-gray-300 px-6 py-2 font-medium text-gray-700 text-sm hover:bg-gray-50"
+              type="button"
             >
               Clear All
             </button>
@@ -191,30 +191,30 @@ export function AdvancedSearchForm() {
         </h4>
         <div className="flex flex-wrap gap-2">
           <button
-            type="button"
-            onClick={() => handleInputChange("category", "figures")}
             className="rounded-full bg-blue-100 px-3 py-1 text-blue-800 text-xs hover:bg-blue-200"
+            onClick={() => handleInputChange("category", "figures")}
+            type="button"
           >
             Figures
           </button>
           <button
-            type="button"
-            onClick={() => handleInputChange("category", "functional")}
             className="rounded-full bg-green-100 px-3 py-1 text-green-800 text-xs hover:bg-green-200"
+            onClick={() => handleInputChange("category", "functional")}
+            type="button"
           >
             Functional
           </button>
           <button
-            type="button"
-            onClick={() => handleInputChange("sortBy", "likes")}
             className="rounded-full bg-purple-100 px-3 py-1 text-purple-800 text-xs hover:bg-purple-200"
+            onClick={() => handleInputChange("sortBy", "likes")}
+            type="button"
           >
             Most Liked
           </button>
           <button
-            type="button"
-            onClick={() => handleInputChange("sortBy", "date")}
             className="rounded-full bg-orange-100 px-3 py-1 text-orange-800 text-xs hover:bg-orange-200"
+            onClick={() => handleInputChange("sortBy", "date")}
+            type="button"
           >
             Newest
           </button>

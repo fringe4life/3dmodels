@@ -74,7 +74,7 @@ export async function performAdvancedSearch(
 
     const { query, category, sortBy } = validation.data;
 
-    if (!query && !category) {
+    if (!(query || category)) {
       return {
         message: "Please enter a search term or select a category",
         query: "",
@@ -100,6 +100,7 @@ export async function performAdvancedSearch(
 }
 
 // Server action for saving search preferences
+// biome-ignore lint/suspicious/useAwait: server action
 export async function saveSearchPreferences(
   prevState: SearchActionState,
   _formData: FormData,

@@ -50,13 +50,13 @@ export function EnhancedSearchInput() {
       {/* Real-time search input with nuqs */}
       <div>
         <input
-          type="text"
-          placeholder="E.g. dragon"
           autoComplete="off"
-          value={query || ""}
-          onChange={(e) => handleSearch(e.target.value)}
           className="w-full rounded-full border border-[#606060] bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-[#606060] focus:outline-none focus:ring-0 md:text-base"
           disabled={isPending}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="E.g. dragon"
+          type="text"
+          value={query || ""}
         />
         {isPending && (
           <div className="mt-2 text-gray-500 text-sm">Updating search...</div>
@@ -66,16 +66,16 @@ export function EnhancedSearchInput() {
       {/* Form-based search with useActionState */}
       <form action={handleFormSubmit} className="flex gap-2">
         <input
-          type="text"
+          className="flex-1 rounded-full border border-[#606060] bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-[#606060] focus:outline-none focus:ring-0 md:text-base"
+          defaultValue={query || ""}
           name="query"
           placeholder="Search with server action..."
-          defaultValue={query || ""}
-          className="flex-1 rounded-full border border-[#606060] bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-[#606060] focus:outline-none focus:ring-0 md:text-base"
+          type="text"
         />
         <button
-          type="submit"
-          disabled={pending}
           className="rounded-full bg-black px-6 py-3 font-medium text-sm text-white hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+          disabled={pending}
+          type="submit"
         >
           {pending ? "Searching..." : "Search"}
         </button>

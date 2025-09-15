@@ -1,11 +1,14 @@
 import { z } from "zod";
 
+// Constants for validation limits
+const MAX_SEARCH_QUERY_LENGTH = 100;
+
 // Schema for basic search form data
 export const searchFormSchema = z.object({
   query: z
     .string()
     .min(1, "Search query is required")
-    .max(100, "Search query too long"),
+    .max(MAX_SEARCH_QUERY_LENGTH, "Search query too long"),
 });
 
 // Schema for advanced search form data
@@ -59,13 +62,12 @@ export function parseFormData<T>(
 
     if (result.success) {
       return { success: true, data: result.data };
-    } else {
-      return {
-        success: false,
-        error: "Validation failed",
-        issues: result.error.issues,
-      };
     }
+    return {
+      success: false,
+      error: "Validation failed",
+      issues: result.error.issues,
+    };
   } catch (error) {
     return {
       success: false,

@@ -34,15 +34,16 @@
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
     "server-only": "^0.0.1",
+    "uuid": "^13.0.0",
     "zod": "^4.1.8"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
     "@tailwindcss/postcss": "^4.1.13",
-    "@types/node": "^20.19.13",
+    "@types/node": "^20.19.14",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "@typescript/native-preview": "^7.0.0-dev.20250912.1",
+    "@typescript/native-preview": "^7.0.0-dev.20250915.1",
     "drizzle-kit": "^0.31.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.6",

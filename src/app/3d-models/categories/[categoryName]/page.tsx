@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { unstable_cacheLife as cacheLife } from "next/cache";
-import { Suspense } from "react";
+import Stream from "@/components/streamable";
 import { getAllCategories } from "@/features/categories/queries/get-all-categories";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import ModelsGrid, {
   ModelsGridSkeleton,
-} from "@/features/models/components/ModelsGrid";
+} from "@/features/models/components/models-grid";
 import { getModelsByCategory } from "@/features/models/queries/get-models-by-category";
 
 // Note: dynamicParams is not compatible with experimental.cacheComponents
@@ -47,7 +47,7 @@ async function CategoryContent({
       </div>
 
       {/* Models grid */}
-      <ModelsGrid title={category.displayName} models={models} />
+      <ModelsGrid models={models} title={category.displayName} />
     </div>
   );
 }
@@ -74,8 +74,8 @@ export default function CategoryPage(
   props: PageProps<"/3d-models/categories/[categoryName]">,
 ) {
   return (
-    <Suspense fallback={<ModelsGridSkeleton />}>
-      <CategoryContent {...props} />
-    </Suspense>
+    <Stream fallback={<ModelsGridSkeleton />} value={props}>
+      {(resolvedProps) => <CategoryContent {...resolvedProps} />}
+    </Stream>
   );
 }

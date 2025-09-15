@@ -30,17 +30,19 @@ export default function Home() {
 
         <div className="flex gap-4">
           <Link
-            href="/3d-models"
             className="border-2 border-black bg-white px-6 py-3 text-black transition duration-100 hover:bg-black hover:text-white"
+            href="/3d-models"
           >
             Browse Models
           </Link>
         </div>
       </div>
       <img
-        src={HeroImage.src}
-        className="mask-[url(/mask-1.svg)] mask-cover h-auto w-[350px] rounded-lg"
         alt="a 3d printed model of the US Capital Building"
+        className="mask-[url(/mask-1.svg)] mask-cover h-auto w-[350px] rounded-lg"
+        height={350}
+        src={HeroImage.src}
+        width={350}
       />
     </section>
   );

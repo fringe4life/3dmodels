@@ -6,12 +6,12 @@ import { type MouseEventHandler, useActionState, useTransition } from "react";
 import { FaHeart } from "react-icons/fa6";
 import { toggleLike } from "@/features/models/actions/likes";
 
-interface HeartButtonProps {
+type HeartButtonProps = {
   modelId: number;
   hasLiked: boolean;
   likesCount: number;
   isAuthenticated: boolean;
-}
+};
 
 export default function HeartButton({
   modelId,
@@ -40,24 +40,24 @@ export default function HeartButton({
 
   return (
     <button
-      type="button"
-      onClick={handleLikeClick}
-      disabled={isPending}
-      className="flex items-center transition-colors hover:text-red-500 disabled:opacity-50"
       aria-label={
         isAuthenticated ? "Like this model" : "Sign in to like this model"
       }
+      className="flex items-center transition-colors hover:text-red-500 disabled:opacity-50"
+      disabled={isPending}
+      onClick={handleLikeClick}
+      type="button"
     >
       <FaHeart
+        aria-hidden="true"
         className={clsx("mr-1 h-5 w-5 transition-colors", {
           // Liked state - full red
           "text-red-500": hasLiked && !isPending,
           // Pending state - semi-transparent red
           "text-red-500/50": isPending,
           // Not liked state - gray with hover effect
-          "text-gray-400 hover:text-red-500": !hasLiked && !isPending,
+          "text-gray-400 hover:text-red-500": !(hasLiked || isPending),
         })}
-        aria-hidden="true"
       />
       <span>{likesCount}</span>
     </button>

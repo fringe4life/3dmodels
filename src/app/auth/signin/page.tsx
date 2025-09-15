@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { auth } from "@/lib/auth";
-import SignInButton from "./SignInButton";
+import SignInButton from "./sign-in-button";
 
 export const metadata: Metadata = {
   title: "Sign In",

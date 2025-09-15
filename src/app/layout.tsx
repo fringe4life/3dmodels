@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css" with { type: "module" };
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import Navbar from "@/app/_navigation/Navbar";
+import Navbar from "@/app/_navigation/navbar";
 import { getCurrentYear } from "@/lib/date";
 
 const albertSans = Albert_Sans({
@@ -59,6 +59,12 @@ export const metadata: Metadata = {
       },
     ],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {

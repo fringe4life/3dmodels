@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Suspense } from "react";
-import NavLink from "@/app/_navigation/NavLink";
+import NavLink from "@/app/_navigation/nav-link";
+import Stream from "@/components/streamable";
 import { auth } from "@/lib/auth";
-import AuthButtons from "./AuthButtons";
+import AuthButtons from "./auth-buttons";
 
 // Server component that fetches auth state
 async function NavbarContent() {
@@ -16,15 +16,19 @@ async function NavbarContent() {
           <div className="relative cursor-pointer">
             {/* Desktop Logo */}
             <img
-              src="/printforge-logo.svg"
               alt="PrintForge Logo"
               className="hidden h-auto w-50 md:block"
+              height={42}
+              src="/printforge-logo.svg"
+              width={200}
             />
             {/* Mobile Logo */}
             <img
-              src="/printforge-logo-icon.svg"
               alt="PrintForge Logo"
               className="block h-auto w-10 md:hidden"
+              height={42}
+              src="/printforge-logo-icon.svg"
+              width={40}
             />
           </div>
         </Link>
@@ -52,15 +56,19 @@ function NavbarSkeleton() {
           <div className="relative cursor-pointer">
             {/* Desktop Logo */}
             <img
-              src="/printforge-logo.svg"
               alt="PrintForge Logo"
               className="hidden h-auto w-50 md:block"
+              height={42}
+              src="/printforge-logo.svg"
+              width={200}
             />
             {/* Mobile Logo */}
             <img
-              src="/printforge-logo-icon.svg"
               alt="PrintForge Logo"
               className="block h-auto w-10 md:hidden"
+              height={42}
+              src="/printforge-logo-icon.svg"
+              width={40}
             />
           </div>
         </Link>
@@ -76,11 +84,11 @@ function NavbarSkeleton() {
   );
 }
 
-// Main component with Suspense boundary
+// Main component with Stream boundary
 export default function Navbar() {
   return (
-    <Suspense fallback={<NavbarSkeleton />}>
-      <NavbarContent />
-    </Suspense>
+    <Stream fallback={<NavbarSkeleton />} value={NavbarContent()}>
+      {(content) => content}
+    </Stream>
   );
 }

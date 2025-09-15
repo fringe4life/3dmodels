@@ -16,3 +16,13 @@ h1, h2, h3, h4, h5, h6 {
 .nav-link.active {
   @apply text-blue-600 bg-blue-50 font-semibold;
 }
+
+@layer utilities {
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+}
