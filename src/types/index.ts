@@ -1,4 +1,4 @@
-import type { Model } from "@/db/schema";
+import type { Model } from "@/db/schema/models";
 
 /**
  * Generic type helper for adding like status to any model type

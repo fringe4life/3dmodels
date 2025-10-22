@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 // Constants for validation limits
 const MAX_SEARCH_QUERY_LENGTH = 100;

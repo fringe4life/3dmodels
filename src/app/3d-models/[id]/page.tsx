@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
-import { unstable_cacheLife as cacheLife } from "next/cache";
+import type { Metadata } from "next/types";
+import { Suspense } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
-import LikeStatus from "@/features/models/components/like-status";
+import HeartButton from "@/features/models/components/heart-button";
+import HeartButtonSkeleton from "@/features/models/components/heart-button-skeleton";
 import { getAllModels } from "@/features/models/queries/get-all-models";
 import { getModelById } from "@/features/models/queries/get-model-by-id";
-
-// Note: dynamicParams is not compatible with experimental.cacheComponents
-// With cacheComponents enabled, only paths from generateStaticParams are allowed
 
 export async function generateStaticParams() {
   // Generate static params for all existing models at build time
@@ -20,8 +18,6 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps<"/3d-models/[id]">): Promise<Metadata> {
-  "use cache";
-
   const { id } = await params;
   const { name, description } = await getModelById(id);
 
@@ -47,12 +43,9 @@ export async function generateMetadata({
 export default async function ModelDetailPage({
   params,
 }: PageProps<"/3d-models/[id]">) {
-  "use cache";
-  cacheLife("hours");
   const { id } = await params;
 
-  const { name, categorySlug, description, dateAdded, likes } =
-    await getModelById(id);
+  const { name, categorySlug, description, dateAdded } = await getModelById(id);
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
@@ -71,7 +64,9 @@ export default async function ModelDetailPage({
         {/* Content Section - Static with Dynamic Like Status */}
         <section className="flex h-full flex-col justify-center">
           {/* Dynamic Like Status */}
-          <LikeStatus likesCount={likes} modelId={Number.parseInt(id, 10)} />
+          <Suspense fallback={<HeartButtonSkeleton />}>
+            <HeartButton modelId={Number.parseInt(id, 10)} />
+          </Suspense>
 
           {/* Static Content */}
           <h1 className="mb-6 font-bold text-4xl">{name}</h1>

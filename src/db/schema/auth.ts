@@ -35,12 +35,8 @@ export const accounts = pgTable(
     id_token: text("id_token"),
     session_state: text("session_state"),
   },
-  (account) => [
-    {
-      compoundKey: primaryKey({
-        columns: [account.provider, account.providerAccountId],
-      }),
-    },
+  (table) => [
+    primaryKey({ columns: [table.provider, table.providerAccountId] }),
   ],
 );
 
@@ -59,13 +55,7 @@ export const verificationTokens = pgTable(
     token: text("token").notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
-  (verificationToken) => [
-    {
-      compositePk: primaryKey({
-        columns: [verificationToken.identifier, verificationToken.token],
-      }),
-    },
-  ],
+  (table) => [primaryKey({ columns: [table.identifier, table.token] })],
 );
 
 export const authenticators = pgTable(
@@ -82,11 +72,5 @@ export const authenticators = pgTable(
     credentialBackedUp: boolean("credentialBackedUp").notNull(),
     transports: text("transports"),
   },
-  (authenticator) => [
-    {
-      compositePK: primaryKey({
-        columns: [authenticator.userId, authenticator.credentialID],
-      }),
-    },
-  ],
+  (table) => [primaryKey({ columns: [table.userId, table.credentialID] })],
 );

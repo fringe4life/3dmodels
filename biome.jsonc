@@ -97,6 +97,14 @@
       "formatter": {
         "enabled": false
       }
+    },
+    {
+      "includes": ["src/db/schema/auth.ts"],
+      "linter": {
+        "rules": {
+          "nursery": "off"
+        }
+      }
     }
   ],
   "extends": ["ultracite"]

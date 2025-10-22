@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
+    "build:debug": "next build --debug-prerender",
     "start": "next start",
     "lint": "biome lint src",
     "lint:fix": "biome check --write src",
@@ -21,45 +22,47 @@
   },
   "dependencies": {
     "@auth/core": "^0.40.0",
-    "@auth/drizzle-adapter": "^1.10.0",
-    "@neondatabase/serverless": "^1.0.1",
+    "@auth/drizzle-adapter": "^1.11.0",
+    "@neondatabase/serverless": "^1.0.2",
     "auth": "^1.2.3",
+    "babel-plugin-react-compiler": "^1.0.0",
     "clsx": "^2.1.1",
-    "dotenv": "^17.2.2",
-    "drizzle-orm": "^0.44.5",
-    "next": "canary",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.6",
+    "next": "16.0.0",
     "next-auth": "^5.0.0-beta.29",
-    "nuqs": "^2.6.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "nuqs": "^2.7.2",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "react-icons": "^5.5.0",
     "server-only": "^0.0.1",
     "uuid": "^13.0.0",
-    "zod": "^4.1.8"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.4",
-    "@tailwindcss/postcss": "^4.1.13",
-    "@types/node": "^20.19.14",
-    "@types/react": "^19.1.13",
-    "@types/react-dom": "^19.1.9",
-    "@typescript/native-preview": "^7.0.0-dev.20250915.1",
-    "drizzle-kit": "^0.31.4",
+    "@biomejs/biome": "2.2.6",
+    "@tailwindcss/postcss": "^4.1.15",
+    "@types/node": "^20.19.23",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@typescript/native-preview": "^7.0.0-dev.20251022.1",
+    "drizzle-kit": "^0.31.5",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.6",
-    "tailwindcss": "^4.1.13",
-    "tsx": "^4.20.5",
-    "typescript": "^5.9.2"
+    "lint-staged": "^16.2.6",
+    "tailwindcss": "^4.1.15",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "ultracite": "5.6.4"
+  },
+  "overrides": {
+    "esbuild": "^0.25",
+    "tmp": "^0.2.4",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2"
   },
   "trustedDependencies": [
-    "@tailwindcss/oxide"
-  ],
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "biome check --write --unsafe"
-    ],
-    "*.{json,jsonc,md}": [
-      "biome format --write"
-    ]
-  }
+    "@tailwindcss/oxide",
+    "esbuild",
+    "sharp"
+  ]
 }

@@ -4,7 +4,7 @@ import {
   serial,
   text,
   timestamp,
-  uniqueIndex,
+  unique,
 } from "drizzle-orm/pg-core";
 import { users } from "./auth";
 import { models } from "./models";
@@ -23,10 +23,5 @@ export const likes = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (like) => ({
-    uniqueUserModel: uniqueIndex("unique_user_model").on(
-      like.userId,
-      like.modelId,
-    ),
-  }),
+  (table) => [unique("unique_user_model").on(table.userId, table.modelId)],
 );

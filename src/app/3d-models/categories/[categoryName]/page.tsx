@@ -1,35 +1,25 @@
 import type { Metadata } from "next";
-import { unstable_cacheLife as cacheLife } from "next/cache";
 import Stream from "@/components/streamable";
-import { getAllCategories } from "@/features/categories/queries/get-all-categories";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import ModelsGrid, {
   ModelsGridSkeleton,
 } from "@/features/models/components/models-grid";
 import { getModelsByCategory } from "@/features/models/queries/get-models-by-category";
 
-// Note: dynamicParams is not compatible with experimental.cacheComponents
-// With cacheComponents enabled, only paths from generateStaticParams are allowed
+// export async function generateStaticParams() {
+//   const categories = await getAllCategories();
 
-// Removed local skeleton; use ModelsGridSkeleton instead
+//   const params = categories.map((category) => ({
+//     categoryName: category.slug,
+//   }));
 
-export async function generateStaticParams() {
-  const categories = await getAllCategories();
-
-  const params = categories.map((category) => ({
-    categoryName: category.slug,
-  }));
-
-  return params;
-}
+//   return params;
+// }
 
 // Static component that handles database operations
 async function CategoryContent({
   params,
 }: PageProps<"/3d-models/categories/[categoryName]">) {
-  "use cache";
-  cacheLife("hours");
-
   const { categoryName } = await params;
 
   const category = await getCategoryBySlug(categoryName);

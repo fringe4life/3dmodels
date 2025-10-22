@@ -1,7 +1,12 @@
 "use client";
 
 import { debounce, defaultRateLimit, parseAsString, useQueryState } from "nuqs";
-import { type KeyboardEventHandler, useTransition } from "react";
+import {
+  Activity,
+  type ChangeEventHandler,
+  type KeyboardEventHandler,
+  useTransition,
+} from "react";
 
 // Constants for debounce timing
 const SEARCH_DEBOUNCE_DELAY = 250; // milliseconds
@@ -19,11 +24,12 @@ export function SearchInput() {
     }),
   );
 
-  const handleSearch = (value: string) => {
+  const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const search = e.currentTarget.value;
     // Send immediate update if clearing the input, otherwise debounce
-    setQuery(value || null, {
+    setQuery(search || null, {
       limitUrlUpdates:
-        value === "" ? defaultRateLimit : debounce(SEARCH_DEBOUNCE_DELAY),
+        search === "" ? defaultRateLimit : debounce(SEARCH_DEBOUNCE_DELAY),
     });
   };
 
@@ -40,15 +46,15 @@ export function SearchInput() {
         autoComplete="off"
         className="w-full rounded-full border border-[#606060] bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-[#606060] focus:outline-none focus:ring-0 md:text-base"
         disabled={isPending}
-        onChange={(e) => handleSearch(e.target.value)}
+        onChange={handleSearch}
         onKeyDown={handleKeyPress}
         placeholder="E.g. dragon"
         type="text"
         value={query || ""}
       />
-      {isPending && (
+      <Activity mode={isPending ? "visible" : "hidden"}>
         <div className="mt-2 text-gray-500 text-sm">Searching...</div>
-      )}
+      </Activity>
     </div>
   );
 }

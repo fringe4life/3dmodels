@@ -1,4 +1,4 @@
-import type { Category } from "@/db/schema";
+import type { Category } from "@/db/schema/models";
 
 export const categoriesData: Category[] = [
   {

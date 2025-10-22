@@ -1,5 +1,6 @@
+/** biome-ignore-all lint/suspicious/noConsole: seed file for dummy data */
 import { db } from "@/db";
-import { categories, models } from "@/db/schema";
+import { categories, models } from "@/db/schema/models";
 import { categoriesData } from "@/db/seed-data/categories";
 import { modelsData } from "@/db/seed-data/models";
 

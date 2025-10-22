@@ -31,9 +31,9 @@ A modern web application for browsing and discovering 3D models, built with Next
 src/
 ├── app/                          # Next.js App Router
 │   ├── _navigation/              # Private navigation components
-│   │   ├── AuthButtons.tsx
-│   │   ├── Navbar.tsx
-│   │   └── NavLink.tsx
+│   │   ├── auth-buttons.tsx
+│   │   ├── navbar.tsx
+│   │   └── nav-link.tsx
 │   ├── 3d-models/                # 3D models routes
 │   │   ├── @categories/          # Parallel route for categories nav
 │   │   ├── @results/             # Parallel route for search results
@@ -47,20 +47,23 @@ src/
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
+├── dal/                          # Data access layer
+│   └── auth-helpers.ts           # Authentication utilities
 ├── features/  
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
 │   │   │   ├── likes.ts
 │   │   │   └── search-actions.ts
 │   │   ├── components/           # Model-specific components
-│   │   │   ├── AdvancedSearchForm.tsx
-│   │   │   ├── EnhancedSearchInput.tsx
-│   │   │   ├── HeartButton.tsx
-│   │   │   ├── LikeStatus.tsx
-│   │   │   ├── ModelCard.tsx
-│   │   │   ├── ModelsGrid.tsx
-│   │   │   └── SearchInput.tsx
-│   │   ├── queries/              # Model data queries (split files)
+│   │   │   ├── advanced-search-form.tsx
+│   │   │   ├── enhanced-search-input.tsx
+│   │   │   ├── heart-button.tsx        # Server component
+│   │   │   ├── heart-button-client.tsx # Client component
+│   │   │   ├── heart-button-skeleton.tsx
+│   │   │   ├── model-card.tsx
+│   │   │   ├── models-grid.tsx
+│   │   │   └── search-input.tsx
+│   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-models.ts
 │   │   │   ├── get-model-by-id.ts
 │   │   │   ├── get-model-with-like-status.ts
@@ -73,30 +76,32 @@ src/
 │   │   └── search-params.ts      # Type-safe search params
 │   └── categories/               # Categories feature
 │       ├── components/           # Category-specific components
-│       │   ├── CategoriesNav.tsx
-│       │   └── CategoriesNavClient.tsx
-│       └── queries/              # Category data queries (split files)
+│       │   ├── categories-nav.tsx
+│       │   └── categories-nav-client.tsx
+│       └── queries/              # Category data queries
 │           ├── get-all-categories.ts
 │           ├── get-category-by-slug.ts
 │           └── get-display-name-from-slug.ts
 ├── components/                   # Shared/generic components
-│   └── Pill.tsx                  # Reusable pill component
+│   ├── pill.tsx                  # Reusable pill component
+│   ├── streamable.tsx            # Streaming utilities
+│   └── generic-component.tsx     # Generic wrapper component
 ├── db/                          # Database configuration
-│   ├── schema/                  # Database schema definitions
+│   ├── schema/                  # Database schema definitions (split files)
 │   │   ├── auth.ts              # Authentication tables
 │   │   ├── likes.ts             # Likes table
 │   │   ├── models.ts            # Models and categories tables
-│   │   ├── relations.ts         # Table relations
-│   │   └── index.ts             # Schema exports
-│   ├── schema.ts                # Schema exports
+│   │   └── relations.ts         # Table relations
+│   ├── seed-data/               # Seed data
+│   │   ├── categories.ts
+│   │   └── models.ts
 │   ├── seed.ts                  # Database seeding script
-│   └── index.ts                 # Database connection
+│   └── index.ts                 # Database connection (merges schemas)
 ├── lib/                         # Utility functions
 │   ├── auth.ts                  # NextAuth configuration
 │   └── date.ts                  # Date utilities
-├── types/                       # Type definitions
-│   └── index.ts                 # Shared types
-└── middleware.ts                # Next.js middleware
+└── types/                       # Type definitions
+    └── index.ts                 # Shared types
 ```
 
 ## 🏗️ Architecture Overview
@@ -144,11 +149,17 @@ The project follows a feature-based architecture where related functionality is 
 
 4. **Database Setup**
    ```bash
-   # Generate and run migrations
-   bun run db:generate
-   bun run db:push
+   # Push schema to Neon database
+   bunx drizzle-kit push
    
    # Seed the database with initial data
+   bun run db:seed
+   ```
+   
+   Alternatively, if you want to generate migrations:
+   ```bash
+   bunx drizzle-kit generate
+   bunx drizzle-kit migrate
    bun run db:seed
    ```
 
@@ -170,19 +181,33 @@ The project follows a feature-based architecture where related functionality is 
 - `id`: Primary key (auto-increment)
 - `name`: Model name
 - `description`: Model description
-- `likes`: Number of likes
+- `likes`: Number of likes (counter)
 - `image`: Image URL
 - `categorySlug`: Foreign key to categories.slug
 - `dateAdded`: Timestamp when model was added
+
+### Likes Table
+- `id`: Primary key (auto-increment)
+- `userId`: Foreign key to users.id (cascade delete)
+- `modelId`: Foreign key to models.id (cascade delete)
+- `createdAt`: Timestamp when like was created
+- Unique constraint on `(userId, modelId)` pair
+
+### Authentication Tables (NextAuth.js)
+- `users`: User accounts
+- `accounts`: OAuth provider accounts
+- `sessions`: User sessions
+- `verificationTokens`: Email verification tokens
+- `authenticators`: WebAuthn authenticators
 
 ## 🗄️ Database Operations
 
 ### Available Scripts
 
-- `bun run db:generate` - Generate new migration files
-- `bun run db:migrate` - Run pending migrations
-- `bun run db:push` - Push schema changes directly to database
-- `bun run db:studio` - Open Drizzle Studio for database management
+- `bunx drizzle-kit generate` (or `bun run db:generate`) - Generate new migration files
+- `bunx drizzle-kit migrate` (or `bun run db:migrate`) - Run pending migrations
+- `bunx drizzle-kit push` (or `bun run db:push`) - Push schema changes directly to database
+- `bunx drizzle-kit studio` (or `bun run db:studio`) - Open Drizzle Studio for database management
 - `bun run db:seed` - Seed database with initial data
 
 ### Caching Strategy
@@ -204,21 +229,26 @@ The application uses Next.js cache with granular cache tags for efficient invali
 ### Key Components
 
 #### Feature Components
-- `features/models/components/ModelCard` - Individual model display
-- `features/models/components/ModelsGrid` - Grid layout for model cards
-- `features/models/components/HeartButton` - Like/unlike functionality
-- `features/models/components/SearchInput` - Model search functionality
-- `features/categories/components/CategoriesNav` - Category filtering sidebar
+- `features/models/components/model-card` - Individual model display
+- `features/models/components/models-grid` - Grid layout for model cards
+- `features/models/components/heart-button` - Server component for like/unlike (fetches auth & like status)
+- `features/models/components/heart-button-client` - Client component for like interactions
+- `features/models/components/search-input` - Model search functionality
+- `features/categories/components/categories-nav` - Category filtering sidebar
 
 #### Navigation Components
-- `app/_navigation/Navbar` - Main navigation
-- `app/_navigation/NavLink` - Navigation link with active state
+- `app/_navigation/navbar` - Main navigation
+- `app/_navigation/nav-link` - Navigation link with active state
+- `app/_navigation/auth-buttons` - Authentication buttons
 
 #### Shared Components
-- `components/Pill` - Small label component
+- `components/pill` - Small label component
+- `components/streamable` - Streaming utilities for progressive rendering
+- `components/generic-component` - Generic wrapper for collections
 
-#### Authentication
-- `lib/auth` - NextAuth configuration with Google OAuth
+#### Authentication & Data Access
+- `lib/auth` - NextAuth v5 configuration with Google OAuth
+- `dal/auth-helpers` - Authentication utilities and helpers
 
 ## 🔧 Development
 
@@ -230,13 +260,14 @@ The application uses Next.js cache with granular cache tags for efficient invali
 
 ### Available Scripts
 
-- `bun run dev` - Start development server
+- `bun run dev` - Start development server with Turbopack
 - `bun run build` - Build for production
 - `bun run start` - Start production server
 - `bun run lint` - Run Biome linter
-- `bun run lint:fix` - Fix linting issues
+- `bun run lint:fix` - Fix linting issues automatically
+- `bun run lint:unsafe` - Fix linting issues including unsafe fixes
 - `bun run format` - Format code with Biome
-- `bun run type` - Run TypeScript type checking
+- `bun run type` - Run TypeScript type checking with tsgo
 
 ### Code Style
 

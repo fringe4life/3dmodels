@@ -1,9 +1,10 @@
 "use client";
 
-import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { Category } from "@/db/schema";
+import { useId } from "react";
+import GenericComponent from "@/components/generic-component";
+import type { Category } from "@/db/schema/models";
 
 type CategoriesNavClientProps = {
   categories: Category[];
@@ -13,24 +14,25 @@ export default function CategoriesNavClient({
   categories,
 }: CategoriesNavClientProps) {
   const pathname = usePathname();
+  const allId = useId();
+  const allCategories = [
+    { slug: "/3d-models", displayName: "All", id: allId },
+    ...categories,
+  ];
 
   return (
-    <>
-      <Link
-        className={`nav-link ${pathname === "/3d-models" ? "active" : ""}`}
-        href="/3d-models"
-      >
-        All
-      </Link>
-      {categories.map((item) => (
-        <Link
-          className={`nav-link ${pathname === `/3d-models/categories/${item.slug}` ? "active" : ""}`}
-          href={`/3d-models/categories/${item.slug}` as Route}
-          key={item.slug}
-        >
-          {item.displayName}
-        </Link>
-      ))}
-    </>
+    <GenericComponent
+      Component={Link}
+      items={allCategories}
+      renderKey={(item) => item.slug}
+      renderProps={(item) => ({
+        className: `nav-link ${pathname.endsWith(item.slug) ? "active" : ""}`,
+        href:
+          typeof item.id === "string"
+            ? item.slug
+            : `/3d-models/categories/${item.slug}`,
+        children: item.displayName,
+      })}
+    />
   );
 }

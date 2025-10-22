@@ -2,7 +2,8 @@
 
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { likes, models } from "@/db/schema";
+import { likes } from "@/db/schema/likes";
+import { models } from "@/db/schema/models";
 import { invalidateModel } from "@/features/models/utils/cache-invalidation";
 import { auth } from "@/lib/auth";
 
@@ -53,8 +54,7 @@ export async function toggleLike(_prevState: unknown, formData: FormData) {
     invalidateModel(modelId);
 
     return { success: true };
-  } catch (error) {
-    console.error("Error toggling like:", error);
+  } catch {
     throw new Error("Failed to toggle like");
   }
 }
@@ -68,8 +68,7 @@ export async function checkIfLiked(modelId: number, userId: string) {
       .limit(1);
 
     return existingLike.length > 0;
-  } catch (error) {
-    console.error("Error checking like status:", error);
-    return false;
+  } catch {
+    throw new Error("Failed to check if liked");
   }
 }

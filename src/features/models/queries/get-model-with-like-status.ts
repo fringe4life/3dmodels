@@ -1,21 +1,28 @@
 import { and, eq } from "drizzle-orm";
+import { cacheTag } from "next/cache";
 import { db } from "@/db";
-import type { Model } from "@/db/schema";
-import { likes, models } from "@/db/schema";
-import type { WithLike } from "@/types";
+import { likes } from "@/db/schema/likes";
+import { models } from "@/db/schema/models";
 
-export async function getModelWithLikeStatus(
+export type LikeStatusOfModel = Awaited<
+  ReturnType<typeof getLikeStatusOfModel>
+>;
+
+export async function getLikeStatusOfModel(
   id: string | number,
   userId?: string,
-): Promise<WithLike<Pick<Model, "id" | "name" | "likes">>> {
+) {
+  "use cache";
+  cacheTag(`model-${id}`, `user-${userId}`);
   const modelId = typeof id === "string" ? Number.parseInt(id, 10) : id;
 
   if (Number.isNaN(modelId)) {
     throw new Error(`Invalid model id: ${id}`);
   }
 
+  // Fetch likes count from the model
   const model = await db
-    .select({ id: models.id, name: models.name, likes: models.likes })
+    .select({ likes: models.likes })
     .from(models)
     .where(eq(models.id, modelId))
     .limit(1);
@@ -23,6 +30,8 @@ export async function getModelWithLikeStatus(
   if (model.length === 0) {
     throw new Error(`Model with id ${id} not found`);
   }
+
+  const likesCount = model[0].likes;
 
   let hasLiked = false;
 
@@ -36,5 +45,5 @@ export async function getModelWithLikeStatus(
     hasLiked = existingLike.length > 0;
   }
 
-  return { ...model[0], hasLiked };
+  return { modelId, hasLiked, likesCount };
 }

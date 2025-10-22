@@ -1,8 +1,14 @@
+/** biome-ignore-all lint/suspicious/useAwait: needs to be */
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { db } from "@/db";
-import { accounts, sessions, users, verificationTokens } from "@/db/schema";
+import {
+  accounts,
+  sessions,
+  users,
+  verificationTokens,
+} from "@/db/schema/auth";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db, {

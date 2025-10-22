@@ -1,12 +1,42 @@
 import Link from "next/link";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
-import type { Model } from "@/db/schema";
-import LikeStatus from "./like-status";
+import type { Model } from "@/db/schema/models";
+import HeartButton from "./heart-button";
 
 type ModelCardProps = {
   model: Model;
 };
+
+// Skeleton component for loading state
+// biome-ignore lint/suspicious/useAwait: needed for use cache
+export async function ModelCardSkeleton() {
+  "use cache";
+  return (
+    <div className="relative block">
+      <article className="relative overflow-hidden rounded-lg bg-white shadow-md">
+        <div className="relative aspect-square contain-strict">
+          <div className="absolute inset-0 h-full w-full animate-pulse bg-gray-200" />
+        </div>
+        <div className="p-4">
+          <div className="mb-2 flex min-h-14 justify-between">
+            <div className="h-6 w-3/4 animate-pulse rounded bg-gray-200" />
+          </div>
+          <div className="space-y-2">
+            <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
+            <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200" />
+          </div>
+          <div className="mt-2">
+            <div className="h-6 w-16 animate-pulse rounded bg-gray-200" />
+          </div>
+          <div className="mt-2 flex items-center">
+            <div className="h-6 w-16 animate-pulse rounded bg-gray-200" />
+          </div>
+        </div>
+      </article>
+    </div>
+  );
+}
 
 export default function ModelCard({ model }: ModelCardProps) {
   return (
@@ -43,8 +73,7 @@ export default function ModelCard({ model }: ModelCardProps) {
             <Pill>{model.categorySlug}</Pill>
           </div>
           <div className="mt-2 flex items-center text-gray-600">
-            <LikeStatus likesCount={model.likes} modelId={model.id} />
-            <span className="sr-only">This model has {model.likes} likes</span>
+            <HeartButton modelId={model.id} />
           </div>
         </div>
       </article>

@@ -3,14 +3,22 @@
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 
 type NavLinkProps = {
   href: Route;
   children: ReactNode;
 };
 
-export default function NavLink({ href, children }: NavLinkProps) {
+function NavLinkSkeleton() {
+  return (
+    <li className="text-sm uppercase">
+      <div className="h-[1lh] w-[20ch] animate-pulse rounded-md bg-gray-200" />
+    </li>
+  );
+}
+
+function NavLinkContent({ href, children }: NavLinkProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
 
@@ -23,5 +31,13 @@ export default function NavLink({ href, children }: NavLinkProps) {
         {children}
       </Link>
     </li>
+  );
+}
+
+export default function NavLink(props: NavLinkProps) {
+  return (
+    <Suspense fallback={<NavLinkSkeleton />}>
+      <NavLinkContent {...props} />
+    </Suspense>
   );
 }

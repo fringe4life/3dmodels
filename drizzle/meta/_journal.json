@@ -15,6 +15,13 @@
       "when": 1756526632429,
       "tag": "0001_watery_bloodscream",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760580625448,
+      "tag": "0002_cynical_scalphunter",
+      "breakpoints": true
     }
   ]
 }

@@ -1,12 +1,15 @@
 import { eq } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
-import type { Category } from "@/db/schema";
-import { categories } from "@/db/schema";
+import type { Category } from "@/db/schema/models";
+import { categories } from "@/db/schema/models";
 
 export const getCategoryBySlug = cache(
   async (slug: string): Promise<Category> => {
     "use cache";
+    cacheTag("categories");
+    cacheLife("max");
 
     try {
       const foundCategory = await db
@@ -20,9 +23,8 @@ export const getCategoryBySlug = cache(
       }
 
       return foundCategory[0];
-    } catch (error) {
-      console.error("Error fetching category by slug:", error);
-      throw error;
+    } catch {
+      throw new Error(`Category with slug ${slug} not found`);
     }
   },
 );

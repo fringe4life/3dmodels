@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+html {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
 @theme {
   --color-orange-accent: #F77D36;
 }

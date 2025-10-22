@@ -1,8 +1,9 @@
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 /**
  * Cache invalidation utilities for models
  *
+ * Uses updateTag for immediate cache expiration (read-your-own-writes)
  * This demonstrates how to use the granular cache tags we've set up:
  * - "models" - invalidates all model-related caches
  * - "model-{id}" - invalidates only a specific model's cache
@@ -13,7 +14,7 @@ import { revalidateTag } from "next/cache";
  * Use this when you want to refresh all model data across the app
  */
 export function invalidateAllModels() {
-  revalidateTag("models");
+  updateTag("models");
 }
 
 /**
@@ -21,7 +22,7 @@ export function invalidateAllModels() {
  * Use this when updating a single model to avoid unnecessary cache invalidation
  */
 export function invalidateModel(modelId: string | number) {
-  revalidateTag(`model-${modelId}`);
+  updateTag(`model-${modelId}`);
 }
 
 /**
@@ -29,9 +30,9 @@ export function invalidateModel(modelId: string | number) {
  * Use this when updating multiple models but not all
  */
 export function invalidateModels(modelIds: (string | number)[]) {
-  modelIds.forEach((id) => {
-    revalidateTag(`model-${id}`);
-  });
+  for (const id of modelIds) {
+    updateTag(`model-${id}`);
+  }
 }
 
 /**
@@ -39,7 +40,7 @@ export function invalidateModels(modelIds: (string | number)[]) {
  * Use this when you know only models in a specific category were affected
  */
 export function invalidateCategory(categorySlug: string) {
-  revalidateTag(`models-category-${categorySlug}`);
+  updateTag(`models-category-${categorySlug}`);
 }
 
 /**
@@ -47,9 +48,9 @@ export function invalidateCategory(categorySlug: string) {
  * Use this when updating models across multiple categories
  */
 export function invalidateCategories(categorySlugs: string[]) {
-  categorySlugs.forEach((slug) => {
-    revalidateTag(`models-category-${slug}`);
-  });
+  for (const slug of categorySlugs) {
+    updateTag(`models-category-${slug}`);
+  }
 }
 
 /**

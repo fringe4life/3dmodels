@@ -1,12 +1,9 @@
 import { and, eq, ilike, or, type SQL, sql } from "drizzle-orm";
-import {
-  unstable_cacheLife as cacheLife,
-  unstable_cacheTag as cacheTag,
-} from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
-import type { Model } from "@/db/schema";
-import { models } from "@/db/schema";
+import type { Model } from "@/db/schema/models";
+import { models } from "@/db/schema/models";
 
 // Optimized search function that doesn't fetch like status
 export const searchModels = cache(
@@ -45,8 +42,7 @@ export const searchModels = cache(
         .from(models)
         .where(whereCondition)
         .orderBy(models.name);
-    } catch (error) {
-      console.error("Error searching models:", error);
+    } catch {
       throw new Error("Failed to search models");
     }
   },
@@ -68,9 +64,8 @@ export const getModelsByCategoryForSearch = cache(
         .from(models)
         .where(eq(models.categorySlug, category))
         .orderBy(models.name);
-    } catch (error) {
-      console.error("Error fetching models by category for search:", error);
-      throw error;
+    } catch {
+      throw new Error("Failed to fetch models by category for search");
     }
   },
 );
@@ -86,9 +81,8 @@ export const getAllModelsForSearch = cache(async (): Promise<Model[]> => {
 
   try {
     return await db.select().from(models).orderBy(models.name);
-  } catch (error) {
-    console.error("Error fetching all models for search:", error);
-    throw error;
+  } catch {
+    throw new Error("Failed to fetch all models for search");
   }
 });
 
@@ -145,8 +139,7 @@ export const searchModelsAdvanced = cache(
         default:
           return await baseQuery.orderBy(models.name);
       }
-    } catch (error) {
-      console.error("Error in advanced search:", error);
+    } catch {
       throw new Error("Failed to perform advanced search");
     }
   },

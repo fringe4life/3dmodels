@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
+  reactCompiler: true,
+  cacheComponents: true,
   experimental: {
-    // devtoolSegmentExplorer: true,
+    turbopackFileSystemCacheForDev: true,
     browserDebugInfoInTerminal: true,
-    useCache: true,
-    cacheComponents: true,
   },
 };
 
