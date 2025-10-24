@@ -1,8 +1,7 @@
 import { connection } from "next/server";
-import { Suspense } from "react";
-import ModelsGrid, {
-  ModelsGridSkeleton,
-} from "@/features/models/components/models-grid";
+import Stream from "@/components/streamable";
+import ModelsGrid from "@/features/models/components/models-grid";
+import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import {
   getAllModelsForSearch,
   searchModels,
@@ -30,8 +29,8 @@ async function ResultsContent({ searchParams }: ResultsContentProps) {
 
 export default function ResultsPage({ searchParams }: PageProps<"/3d-models">) {
   return (
-    <Suspense fallback={<ModelsGridSkeleton />}>
-      <ResultsContent searchParams={searchParams} />
-    </Suspense>
+    <Stream fallback={<ModelsGridSkeleton />} value={null}>
+      {() => <ResultsContent searchParams={searchParams} />}
+    </Stream>
   );
 }

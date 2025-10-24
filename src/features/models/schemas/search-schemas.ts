@@ -27,7 +27,6 @@ export const searchPreferencesSchema = z.object({
 
 // Type exports
 export type SearchFormData = z.infer<typeof searchFormSchema>;
-export type AdvancedSearchFormData = z.infer<typeof advancedSearchFormSchema>;
 export type SearchPreferencesData = z.infer<typeof searchPreferencesSchema>;
 
 // Helper function to parse FormData with Zod

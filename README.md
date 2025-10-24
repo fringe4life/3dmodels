@@ -55,7 +55,6 @@ src/
 │   │   │   ├── likes.ts
 │   │   │   └── search-actions.ts
 │   │   ├── components/           # Model-specific components
-│   │   │   ├── advanced-search-form.tsx
 │   │   │   ├── enhanced-search-input.tsx
 │   │   │   ├── heart-button.tsx        # Server component
 │   │   │   ├── heart-button-client.tsx # Client component

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
+import Stream from "@/components/streamable";
 import { auth } from "@/lib/auth";
 import SignInButton from "./sign-in-button";
 
@@ -51,9 +51,9 @@ export default function SignInPage() {
             Sign in to your account
           </h2>
         </div>
-        <Suspense fallback={<SignInSkeleton />}>
-          <SignInContent />
-        </Suspense>
+        <Stream fallback={<SignInSkeleton />} value={null}>
+          {() => <SignInContent />}
+        </Stream>
       </div>
     </div>
   );

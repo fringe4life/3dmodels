@@ -1,8 +1,9 @@
 import { connection } from "next/server";
 import type { Metadata } from "next/types";
-import { Suspense } from "react";
+import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
+import Stream from "@/components/streamable";
 import { toggleLike } from "@/features/models/actions/likes";
 import HeartButtonClient from "@/features/models/components/heart-button-client";
 import HeartButtonSkeleton from "@/features/models/components/heart-button-skeleton";
@@ -72,26 +73,30 @@ export default async function ModelDetailPage({
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
       <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* Image Section - Static */}
-        <figure className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
-          <img
-            alt={`3D model of ${name}`}
-            className="absolute inset-0 h-full w-full object-cover"
-            height={300}
-            src={placeholderImg.src}
-            width={300}
-          />
-        </figure>
+        {/* Image Section - Static with shared element transition */}
+        <ViewTransition name={`model-image-${id}`}>
+          <figure className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
+            <img
+              alt={`3D model of ${name}`}
+              className="absolute inset-0 h-full w-full object-cover"
+              height={300}
+              src={placeholderImg.src}
+              width={300}
+            />
+          </figure>
+        </ViewTransition>
 
         {/* Content Section - Static with Dynamic Like Status */}
         <section className="flex h-full flex-col justify-center">
           {/* Dynamic Like Status */}
-          <Suspense fallback={<HeartButtonSkeleton />}>
-            <HeartButtonContent modelId={Number.parseInt(id, 10)} />
-          </Suspense>
+          <Stream fallback={<HeartButtonSkeleton />} value={null}>
+            {() => <HeartButtonContent modelId={Number.parseInt(id, 10)} />}
+          </Stream>
 
-          {/* Static Content */}
-          <h1 className="mb-6 font-bold text-4xl">{name}</h1>
+          {/* Static Content with shared element transition for title */}
+          <ViewTransition name={`model-title-${id}`}>
+            <h1 className="mb-6 font-bold text-4xl">{name}</h1>
+          </ViewTransition>
 
           <Pill className="mb-6 w-fit">{categorySlug}</Pill>
 

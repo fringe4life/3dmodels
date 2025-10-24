@@ -3,7 +3,8 @@
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type ReactNode, Suspense } from "react";
+import type { ReactNode } from "react";
+import Stream from "@/components/streamable";
 
 type NavLinkProps = {
   href: Route;
@@ -13,7 +14,7 @@ type NavLinkProps = {
 function NavLinkSkeleton() {
   return (
     <li className="text-sm uppercase">
-      <div className="h-[1lh] w-[20ch] animate-pulse rounded-md bg-gray-200" />
+      <div className="h-lh w-[20ch] animate-pulse rounded-md bg-gray-200" />
     </li>
   );
 }
@@ -36,8 +37,8 @@ function NavLinkContent({ href, children }: NavLinkProps) {
 
 export default function NavLink(props: NavLinkProps) {
   return (
-    <Suspense fallback={<NavLinkSkeleton />}>
-      <NavLinkContent {...props} />
-    </Suspense>
+    <Stream fallback={<NavLinkSkeleton />} value={null}>
+      {() => <NavLinkContent {...props} />}
+    </Stream>
   );
 }
