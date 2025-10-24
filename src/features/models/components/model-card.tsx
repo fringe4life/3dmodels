@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { HeartButtonContent } from "@/app/3d-models/[id]/page";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
 import type { Model } from "@/db/schema/models";
-import HeartButton from "./heart-button";
+import HeartButtonSkeleton from "./heart-button-skeleton";
 
 type ModelCardProps = {
   model: Model;
@@ -73,7 +75,9 @@ export default function ModelCard({ model }: ModelCardProps) {
             <Pill>{model.categorySlug}</Pill>
           </div>
           <div className="mt-2 flex items-center text-gray-600">
-            <HeartButton modelId={model.id} />
+            <Suspense fallback={<HeartButtonSkeleton />}>
+              <HeartButtonContent modelId={model.id} />
+            </Suspense>
           </div>
         </div>
       </article>

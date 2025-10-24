@@ -7,6 +7,10 @@
     "TalkToFigma": {
       "command": "bunx",
       "args": ["cursor-talk-to-figma-mcp@latest"]
+    },
+    "next-devtools": {
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"]
     }
   }
 }

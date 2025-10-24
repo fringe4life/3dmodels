@@ -58,18 +58,25 @@
       "jsxQuoteStyle": "double"
     }
   },
+
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "files": {
     "ignoreUnknown": true,
-    "experimentalScannerIgnores": [
-      ".next/**",
-      "node_modules/**",
-      "dist/**",
-      "build/**",
-      "coverage/**",
-      ".vercel/**",
-      "*.log",
-      "*.lock",
-      "drizzle/**"
+    "includes": [
+      "**",
+      "!**/.next",
+      "!!**/node_modules",
+      "!!**/dist",
+      "!!**/build",
+      "!!**/coverage",
+      "!!**/.vercel",
+      "!!**/*.log",
+      "!!**/*.lock",
+      "!**/drizzle"
     ]
   },
   "overrides": [
@@ -107,5 +114,5 @@
       }
     }
   ],
-  "extends": ["ultracite"]
+  "extends": ["ultracite/core", "ultracite/react", "ultracite/next"]
 }

@@ -8,7 +8,7 @@ import { categories } from "@/db/schema/models";
 export const getCategoryBySlug = cache(
   async (slug: string): Promise<Category> => {
     "use cache";
-    cacheTag("categories");
+    cacheTag("categories", `category-${slug}`);
     cacheLife("max");
 
     try {

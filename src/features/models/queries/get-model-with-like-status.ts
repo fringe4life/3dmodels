@@ -1,5 +1,5 @@
 import { and, eq } from "drizzle-orm";
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
@@ -14,6 +14,7 @@ export async function getLikeStatusOfModel(
 ) {
   "use cache";
   cacheTag(`model-${id}`, `user-${userId}`);
+  cacheLife("seconds");
   const modelId = typeof id === "string" ? Number.parseInt(id, 10) : id;
 
   if (Number.isNaN(modelId)) {

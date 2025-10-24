@@ -3,22 +3,26 @@
 import { clsx } from "clsx";
 import { type MouseEventHandler, useActionState, useTransition } from "react";
 import { FaHeart } from "react-icons/fa6";
-import type { HasAuth } from "@/dal/auth-helpers";
-import { toggleLike } from "@/features/models/actions/likes";
+import type { toggleLike } from "@/features/models/actions/likes";
 
 type HeartButtonClientProps = {
   modelId: number;
   likesCount: number;
   hasLiked: boolean;
-} & HasAuth;
+  isAuthenticated: boolean;
+  userId?: string | null;
+  toggleAction: typeof toggleLike;
+};
 
 export default function HeartButtonClient({
   modelId,
   likesCount,
-  isAuthenticated,
   hasLiked,
+  isAuthenticated,
+  userId,
+  toggleAction,
 }: HeartButtonClientProps) {
-  const [, formAction] = useActionState(toggleLike, null);
+  const [, formAction] = useActionState(toggleAction, null);
   const [isPending, startTransition] = useTransition();
 
   const handleLikeClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -31,6 +35,7 @@ export default function HeartButtonClient({
     startTransition(() => {
       const formData = new FormData();
       formData.append("modelId", modelId.toString());
+      formData.append("userId", userId ?? "");
       formAction(formData);
     });
   };

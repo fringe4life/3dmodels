@@ -9,21 +9,21 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 15, TypeScript, and Tailwind CSS
+- **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15 with App Router and PPR (Partial Prerendering)
-- **Language**: TypeScript
+- **Framework**: Next.js 16 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Language**: TypeScript with React 19
 - **Styling**: Tailwind CSS v4
 - **Database**: Neon (PostgreSQL) with Drizzle ORM
 - **Authentication**: NextAuth.js v5 with Google OAuth
 - **Search Params**: nuqs for type-safe URL state management
-- **Linting & Formatting**: Biome
+- **Linting & Formatting**: Biome with Ultracite rules
 - **Type Checking**: tsgo
 - **Package Manager**: Bun
-- **Build Tool**: Turbopack
+- **Build Tool**: Turbopack with view transitions
 
 ## 📁 Project Structure
 
@@ -262,12 +262,18 @@ The application uses Next.js cache with granular cache tags for efficient invali
 
 - `bun run dev` - Start development server with Turbopack
 - `bun run build` - Build for production
+- `bun run build:debug` - Build with debug prerender information
 - `bun run start` - Start production server
 - `bun run lint` - Run Biome linter
 - `bun run lint:fix` - Fix linting issues automatically
 - `bun run lint:unsafe` - Fix linting issues including unsafe fixes
 - `bun run format` - Format code with Biome
-- `bun run type` - Run TypeScript type checking with tsgo
+- `bun run typegen` - Generate types with Next.js and tsgo
+- `bun run db:generate` - Generate Drizzle migrations
+- `bun run db:migrate` - Run Drizzle migrations
+- `bun run db:push` - Push schema directly to database
+- `bun run db:studio` - Open Drizzle Studio
+- `bun run db:seed` - Seed database with initial data
 
 ### Code Style
 

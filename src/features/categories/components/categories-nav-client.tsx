@@ -22,7 +22,9 @@ export default function CategoriesNavClient({
 
   return (
     <GenericComponent
+      as="ul"
       Component={Link}
+      className="flex whitespace-nowrap px-4 py-3 md:flex-col md:space-x-0 md:space-y-3 md:p-0"
       items={allCategories}
       renderKey={(item) => item.slug}
       renderProps={(item) => ({

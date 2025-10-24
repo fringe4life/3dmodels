@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   experimental: {
     turbopackFileSystemCacheForDev: true,
     browserDebugInfoInTerminal: true,
+    viewTransition: true,
   },
 };
 

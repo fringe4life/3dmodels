@@ -22,7 +22,7 @@ export default function AboutPage() {
 
         <div className="mb-12 grid items-center gap-8 md:grid-cols-2">
           <div className="relative h-[300px] w-full">
-            {/** biome-ignore lint/nursery/useImageSize: unsure of size */}
+            {/** biome-ignore lint/correctness/useImageSize: unsure of size */}
             <img
               alt="PrintForge Community - A group of makers collaborating on 3D printing projects"
               className="absolute inset-0 h-full w-full rounded-lg object-cover"
