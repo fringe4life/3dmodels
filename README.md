@@ -55,8 +55,7 @@ src/
 │   │   │   ├── likes.ts
 │   │   │   └── search-actions.ts
 │   │   ├── components/           # Model-specific components
-│   │   │   ├── enhanced-search-input.tsx
-│   │   │   ├── heart-button.tsx        # Server component
+│   │   │   ├── heart-button-server.tsx # Server component
 │   │   │   ├── heart-button-client.tsx # Client component
 │   │   │   ├── heart-button-skeleton.tsx
 │   │   │   ├── model-card.tsx
@@ -80,7 +79,6 @@ src/
 │       └── queries/              # Category data queries
 │           ├── get-all-categories.ts
 │           ├── get-category-by-slug.ts
-│           └── get-display-name-from-slug.ts
 ├── components/                   # Shared/generic components
 │   ├── pill.tsx                  # Reusable pill component
 │   ├── streamable.tsx            # Streaming utilities

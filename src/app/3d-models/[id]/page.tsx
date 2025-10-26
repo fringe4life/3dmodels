@@ -1,16 +1,13 @@
-import { connection } from "next/server";
 import type { Metadata } from "next/types";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
 import Stream from "@/components/streamable";
 import { toggleLike } from "@/features/models/actions/likes";
-import HeartButtonClient from "@/features/models/components/heart-button-client";
+import { HeartButtonServer } from "@/features/models/components/heart-button-server";
 import HeartButtonSkeleton from "@/features/models/components/heart-button-skeleton";
 import { getAllModelIds } from "@/features/models/queries/get-all-model-ids";
 import { getModelById } from "@/features/models/queries/get-model-by-id";
-import { getLikeStatusOfModel } from "@/features/models/queries/get-model-with-like-status";
-import { auth } from "@/lib/auth";
 
 export async function generateStaticParams() {
   // Generate static params for all existing models at build time
@@ -42,27 +39,6 @@ export async function generateMetadata({
   };
 }
 
-export async function HeartButtonContent({ modelId }: { modelId: number }) {
-  // Use connection() to make this component dynamic at runtime
-  // This allows us to access authentication data
-  await connection();
-
-  const session = await auth();
-  const userId = session?.user?.id;
-  const isAuthenticated = !!session;
-  const { hasLiked, likesCount } = await getLikeStatusOfModel(modelId, userId);
-
-  return (
-    <HeartButtonClient
-      hasLiked={hasLiked}
-      isAuthenticated={isAuthenticated}
-      likesCount={likesCount}
-      modelId={modelId}
-      toggleAction={toggleLike}
-      userId={userId}
-    />
-  );
-}
 export default async function ModelDetailPage({
   params,
 }: PageProps<"/3d-models/[id]">) {
@@ -90,7 +66,12 @@ export default async function ModelDetailPage({
         <section className="flex h-full flex-col justify-center">
           {/* Dynamic Like Status */}
           <Stream fallback={<HeartButtonSkeleton />} value={null}>
-            {() => <HeartButtonContent modelId={Number.parseInt(id, 10)} />}
+            {() => (
+              <HeartButtonServer
+                modelId={Number.parseInt(id, 10)}
+                toggleAction={toggleLike}
+              />
+            )}
           </Stream>
 
           {/* Static Content with shared element transition for title */}

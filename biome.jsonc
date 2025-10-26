@@ -58,7 +58,6 @@
       "jsxQuoteStyle": "double"
     }
   },
-
   "css": {
     "parser": {
       "tailwindDirectives": true

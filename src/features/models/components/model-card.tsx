@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ViewTransition } from "react";
-import { HeartButtonContent } from "@/app/3d-models/[id]/page";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
 import Stream from "@/components/streamable";
 import type { Model } from "@/db/schema/models";
+import { toggleLike } from "../actions/likes";
+import { HeartButtonServer } from "./heart-button-server";
 import HeartButtonSkeleton from "./heart-button-skeleton";
 
 type ModelCardProps = {
@@ -55,7 +56,12 @@ export default function ModelCard({ model }: ModelCardProps) {
           </div>
           <div className="mt-2 flex items-center text-gray-600">
             <Stream fallback={<HeartButtonSkeleton />} value={null}>
-              {() => <HeartButtonContent modelId={model.id} />}
+              {() => (
+                <HeartButtonServer
+                  modelId={model.id}
+                  toggleAction={toggleLike}
+                />
+              )}
             </Stream>
           </div>
         </div>
