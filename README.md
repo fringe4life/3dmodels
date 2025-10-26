@@ -18,12 +18,12 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript with React 19
 - **Styling**: Tailwind CSS v4
 - **Database**: Neon (PostgreSQL) with Drizzle ORM
-- **Authentication**: NextAuth.js v5 with Google OAuth
+- **Authentication**: NextAuth.js v5 with Google OAuth and JWT sessions
 - **Search Params**: nuqs for type-safe URL state management
 - **Linting & Formatting**: Biome with Ultracite rules
 - **Type Checking**: tsgo
 - **Package Manager**: Bun
-- **Build Tool**: Turbopack with view transitions
+- **Build Tool**: Turbopack with view transitions and MCP server
 
 ## 📁 Project Structure
 
@@ -47,8 +47,6 @@ src/
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
-├── dal/                          # Data access layer
-│   └── auth-helpers.ts           # Authentication utilities
 ├── features/  
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
@@ -142,6 +140,7 @@ The project follows a feature-based architecture where related functionality is 
    DATABASE_URL="your-neon-database-connection-string"
    AUTH_GOOGLE_ID="your-google-oauth-client-id"
    AUTH_GOOGLE_SECRET="your-google-oauth-client-secret"
+   AUTH_SECRET="your-auth-secret-for-jwt-sessions"
    ```
 
 4. **Database Setup**
@@ -207,6 +206,13 @@ The project follows a feature-based architecture where related functionality is 
 - `bunx drizzle-kit studio` (or `bun run db:studio`) - Open Drizzle Studio for database management
 - `bun run db:seed` - Seed database with initial data
 
+### Cache Components
+The application uses Next.js Cache Components for optimal performance:
+- Static content is pre-rendered at build time
+- Dynamic content (like authentication state) is rendered at request time
+- Server components use `connection()` to opt into dynamic rendering when needed
+- Cache invalidation handled by `cacheTag` utilities
+
 ### Caching Strategy
 
 The application uses Next.js cache with granular cache tags for efficient invalidation:
@@ -244,8 +250,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `components/generic-component` - Generic wrapper for collections
 
 #### Authentication & Data Access
-- `lib/auth` - NextAuth v5 configuration with Google OAuth
-- `dal/auth-helpers` - Authentication utilities and helpers
+- `lib/auth` - NextAuth v5 configuration with Google OAuth and JWT sessions
 
 ## 🔧 Development
 
@@ -265,7 +270,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `bun run lint:fix` - Fix linting issues automatically
 - `bun run lint:unsafe` - Fix linting issues including unsafe fixes
 - `bun run format` - Format code with Biome
-- `bun run typegen` - Generate types with Next.js and tsgo
+- `bun run typegen` - Generate Next.js routes and run tsgo type checking
 - `bun run db:generate` - Generate Drizzle migrations
 - `bun run db:migrate` - Run Drizzle migrations
 - `bun run db:push` - Push schema directly to database
@@ -296,6 +301,7 @@ Ensure these are set in your deployment environment:
 - `DATABASE_URL`: Your Neon database connection string
 - `AUTH_GOOGLE_ID`: Your Google OAuth client ID
 - `AUTH_GOOGLE_SECRET`: Your Google OAuth client secret
+- `AUTH_SECRET`: Secret for JWT session encryption
 
 ## 📝 Data Management
 
