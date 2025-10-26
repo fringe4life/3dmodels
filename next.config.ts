@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForDev: true,
     browserDebugInfoInTerminal: true,
     viewTransition: true,
+    mcpServer: true,
   },
 };
 
