@@ -46,20 +46,14 @@
     "@types/node": "^24.9.1",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
-    "@typescript/native-preview": "^7.0.0-dev.20251025.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251026.1",
     "drizzle-kit": "^0.31.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "tailwindcss": "^4.1.16",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "ultracite": "6.0.1"
-  },
-  "overrides": {
-    "esbuild": "^0.25",
-    "tmp": "^0.2.4",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2"
+    "ultracite": "6.0.3"
   },
   "trustedDependencies": [
     "@tailwindcss/oxide",

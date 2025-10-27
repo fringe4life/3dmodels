@@ -4,9 +4,9 @@ export default function ModelsLayout({
   results,
 }: LayoutProps<"/3d-models">) {
   return (
-    <div className="relative flex min-h-screen flex-col md:flex-row">
+    <div className="relative grid min-h-screen md:grid-flow-col">
       {categories}
-      <main className="flex-1 p-4 md:ml-64">
+      <main className="p-4 md:ml-64">
         {children}
         {results}
       </main>

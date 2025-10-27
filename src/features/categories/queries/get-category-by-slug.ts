@@ -6,14 +6,14 @@ import type { Category } from "@/db/schema/models";
 import { categories } from "@/db/schema/models";
 
 export const getCategoryBySlug = cache(
-  async (slug: string): Promise<Category> => {
+  async (slug: string): Promise<Pick<Category, "displayName">> => {
     "use cache";
     cacheTag("categories", `category-${slug}`);
     cacheLife("max");
 
     try {
       const foundCategory = await db
-        .select()
+        .select({ displayName: categories.displayName })
         .from(categories)
         .where(eq(categories.slug, slug))
         .limit(1);

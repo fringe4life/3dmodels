@@ -14,39 +14,34 @@ type ModelCardProps = {
 
 export default function ModelCard({ model }: ModelCardProps) {
   return (
-    <Link
-      aria-labelledby={`model-${model.id}-title`}
-      className="group hover:-translate-y-[3px] relative block transition-transform duration-300 ease-out"
-      href={`/3d-models/${model.id}`}
-    >
-      <article className="relative overflow-hidden rounded-lg bg-white shadow-md">
+    <ViewTransition enter="enter" exit="exit" name={`model-${model.id}`}>
+      <article className="group hover:-translate-y-[3px] relative block overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-300 ease-out">
         {/* Pseudo-element for hover shadow */}
         <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 shadow-[0_5px_12px_rgba(0,0,0,0.1)] transition-opacity duration-300 ease-out group-hover:opacity-100" />
 
         {/* Shared element transition for the model image */}
-        <ViewTransition name={`model-image-${model.id}`}>
-          <div className="relative aspect-square contain-strict">
-            <img
-              alt={model.name}
-              className="absolute inset-0 h-full w-full object-cover"
-              height={300}
-              src={placeholderImg.src}
-              width={300}
-            />
-          </div>
-        </ViewTransition>
+        <div className="relative aspect-square contain-strict">
+          <img
+            alt={model.name}
+            className="absolute inset-0 h-full w-full object-cover"
+            height={300}
+            src={placeholderImg.src}
+            width={300}
+          />
+        </div>
 
         <div className="p-4">
           <div className="mb-2 flex min-h-14 justify-between">
             {/* Shared element transition for the model title */}
-            <ViewTransition name={`model-title-${model.id}`}>
-              <h2
-                className="line-clamp-2 font-semibold text-gray-800 text-xl"
-                id={`model-${model.id}-title`}
-              >
+            <h2
+              className="line-clamp-2 font-semibold text-gray-800 text-xl"
+              id={`model-${model.id}-title`}
+            >
+              <Link href={`/3d-models/${model.id}`}>
                 {model.name}
-              </h2>
-            </ViewTransition>
+                <span className="absolute inset-0 h-full w-full" />
+              </Link>
+            </h2>
           </div>
           <p className="line-clamp-2 min-h-10 text-gray-800 text-sm leading-5">
             {model.description}
@@ -66,6 +61,6 @@ export default function ModelCard({ model }: ModelCardProps) {
           </div>
         </div>
       </article>
-    </Link>
+    </ViewTransition>
   );
 }

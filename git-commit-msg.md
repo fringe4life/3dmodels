@@ -29,10 +29,13 @@ The AI should:
 - `fix: resolve type errors, update component props, improve error handling`
 
 ## Instructions for AI
-1. Run `git diff` to see unstaged changes
-2. Run `git diff --cached` to see staged changes
-3. Analyze the changes and categorize them
-4. Generate a concise, descriptive commit message
-5. Ensure the message is under 140 characters
-6. Use conventional commit format with appropriate type
-7. Focus on the most impactful changes
+1. Use GitKraken MCP `git_status` to check current state
+2. Use GitKraken MCP `git_log_or_diff` with action="diff" to see changes
+3. Use GitKraken MCP `git_add_or_commit` with action="add" to stage changes
+4. Analyze the changes and categorize them
+5. Generate a concise, descriptive commit message
+6. Ensure the message is under 140 characters
+7. Use conventional commit format with appropriate type
+8. Focus on the most impactful changes
+9. Use GitKraken MCP `git_add_or_commit` with action="commit" to commit with generated message
+10. Use GitKraken MCP `git_push` to push to remote
