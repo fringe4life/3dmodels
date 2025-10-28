@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main>
+    <>
       <section className="container mx-auto max-w-4xl px-4 py-8">
         <h1 className="mb-6 text-center font-bold text-4xl">
           About PrintForge
@@ -110,6 +110,6 @@ export default function AboutPage() {
           </p>
         </div>
       </section>
-    </main>
+    </>
   );
 }

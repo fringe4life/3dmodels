@@ -6,10 +6,10 @@ export default function ModelsLayout({
   return (
     <div className="relative grid min-h-screen md:grid-flow-col">
       {categories}
-      <main className="p-4 md:ml-64">
+      <section className="p-4 md:ml-64">
         {children}
         {results}
-      </main>
+      </section>
     </div>
   );
 }
