@@ -7,10 +7,7 @@ html {
 
 @theme {
   --color-orange-accent: #F77D36;
-
-
-  --animation-fade-out: --fade-out 0.3s ease-out forwards;
-  --animation-fade-in: --fade-in 0.3s ease-out forwards;
+  --color-search-input: #606060;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -36,18 +33,17 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-/* View Transition Animations */
-/* ::view-transition-group(*) {
+::view-transition-group(*) {
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-/*  */
+
 ::view-transition-old(.exit):only-child {
-  animation: --fade-out 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-name: --fade-out;
 }
 
 ::view-transition-new(.enter):only-child {
-  animation: --fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-name: --fade-in;
 } 
 
 @keyframes --fade-out {
@@ -71,4 +67,24 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 1;
     translate: 0 0;
   }
+}
+
+/* Animated loading dots */
+.loading-dots {
+  position: relative;
+}
+
+.loading-dots::before,
+.loading-dots::after {
+  content: '.';
+  position: absolute;
+  animation: --fade-in 0.6s ease-in-out infinite alternate;
+}
+
+.loading-dots::before {
+  animation-delay: 0.2s;
+}
+
+.loading-dots::after {
+  animation-delay: 0.4s;
 }

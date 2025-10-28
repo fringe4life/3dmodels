@@ -41,11 +41,10 @@ export function SearchInput() {
   };
 
   return (
-    <div className="w-full px-5 md:max-w-xl md:px-0">
+    <div className="relative h-10 w-full px-5 md:max-w-xl md:px-0">
       <input
         autoComplete="off"
-        className="w-full rounded-full border border-[#606060] bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-[#606060] focus:outline-none focus:ring-0 md:text-base"
-        disabled={isPending}
+        className="absolute inset-0 w-full rounded-full border border-search-input bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-search-input focus:outline-none focus:ring-0 md:text-base"
         onChange={handleSearch}
         onKeyDown={handleKeyPress}
         placeholder="E.g. dragon"
@@ -53,7 +52,9 @@ export function SearchInput() {
         value={query || ""}
       />
       <Activity mode={isPending ? "visible" : "hidden"}>
-        <div className="mt-2 text-gray-500 text-sm">Searching...</div>
+        <div className="-translate-y-1/2 loading-dots absolute top-1/2 left-95/100 text-gray-500 text-sm">
+          .
+        </div>
       </Activity>
     </div>
   );

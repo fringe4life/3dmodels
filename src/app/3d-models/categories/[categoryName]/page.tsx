@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CategoriesHeader from "@/features/categories/components/categories-header";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import ModelsGrid from "@/features/models/components/models-grid";
@@ -32,19 +33,11 @@ export default async function CategoryPage({
   const category = await getCategoryBySlug(categoryName);
   const models = await getModelsByCategory(categoryName);
   return (
-    <div>
+    <>
       {/* Static header content */}
-      <div className="mb-6">
-        <h1 className="font-bold text-2xl text-gray-900">
-          {category.displayName} Models
-        </h1>
-        <p className="mt-2 text-gray-600">
-          Browse our collection of {category.displayName} 3D printing models
-        </p>
-      </div>
-
+      <CategoriesHeader category={category} />
       {/* Models grid */}
       <ModelsGrid models={models} title={category.displayName} />
-    </div>
+    </>
   );
 }
