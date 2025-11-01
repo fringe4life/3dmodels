@@ -5,8 +5,8 @@ import { type MouseEventHandler, useActionState, useTransition } from "react";
 import { FaHeart } from "react-icons/fa6";
 import type { toggleLike } from "@/features/models/actions/likes";
 
-type HeartButtonClientProps = {
-  modelSlug: string;
+export type HeartButtonClientProps = {
+  slug: string;
   likesCount: number;
   hasLiked: boolean;
   isAuthenticated: boolean;
@@ -15,7 +15,7 @@ type HeartButtonClientProps = {
 };
 
 export default function HeartButtonClient({
-  modelSlug,
+  slug,
   likesCount,
   hasLiked,
   isAuthenticated,
@@ -34,7 +34,7 @@ export default function HeartButtonClient({
 
     startTransition(() => {
       const formData = new FormData();
-      formData.append("modelSlug", modelSlug);
+      formData.append("slug", slug);
       formData.append("userId", userId ?? "");
       formAction(formData);
     });
@@ -45,8 +45,8 @@ export default function HeartButtonClient({
       aria-label={
         isAuthenticated ? "Like this model" : "Sign in to like this model"
       }
-      className="flex items-center transition-colors hover:text-red-500 disabled:opacity-50"
-      disabled={isPending}
+      className="flex items-center transition-colors hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-50"
+      disabled={isPending || !isAuthenticated}
       onClick={handleLikeClick}
       type="button"
     >

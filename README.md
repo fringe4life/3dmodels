@@ -33,12 +33,13 @@ src/
 ├── app/                          # Next.js App Router
 │   ├── _navigation/              # Private navigation components
 │   │   ├── auth-buttons.tsx
-│   │   ├── navbar.tsx
 │   │   └── nav-link.tsx
+│   ├── @navbar/                  # Parallel route for navbar
+│   │   └── default.tsx
 │   ├── 3d-models/                # 3D models routes
 │   │   ├── @categories/          # Parallel route for categories nav
 │   │   ├── @results/             # Parallel route for search results
-│   │   ├── [slug]/               # Individual model page (slug-based routing)
+│   │   ├── [slug]/               # Individual model page
 │   │   ├── categories/           # Category-specific pages
 │   │   ├── layout.tsx            # Models layout
 │   │   └── page.tsx              # Models listing page
@@ -54,11 +55,12 @@ src/
 │   │   │   ├── likes.ts
 │   │   │   └── search-actions.ts
 │   │   ├── components/           # Model-specific components
-│   │   │   ├── heart-button-server.tsx # Server component
-│   │   │   ├── heart-button-client.tsx # Client component
+│   │   │   ├── heart-button-server.tsx
+│   │   │   ├── heart-button-client.tsx
 │   │   │   ├── heart-button-skeleton.tsx
 │   │   │   ├── model-card.tsx
 │   │   │   ├── models-grid.tsx
+│   │   │   ├── models-grid-skeleton.tsx
 │   │   │   └── search-input.tsx
 │   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-models.ts
@@ -74,17 +76,20 @@ src/
 │   │   └── search-params.ts      # Type-safe search params
 │   └── categories/               # Categories feature
 │       ├── components/           # Category-specific components
+│       │   ├── categories-header.tsx
 │       │   ├── categories-nav.tsx
 │       │   └── categories-nav-client.tsx
 │       └── queries/              # Category data queries
 │           ├── get-all-categories.ts
-│           ├── get-category-by-slug.ts
+│           ├── get-all-category-slugs.ts
+│           └── get-category-by-slug.ts
 ├── components/                   # Shared/generic components
+│   ├── generic-component.tsx     # Generic wrapper component
+│   ├── has-auth.tsx             # Generic auth component with Stream
 │   ├── pill.tsx                  # Reusable pill component
-│   ├── streamable.tsx            # Streaming utilities
-│   └── generic-component.tsx     # Generic wrapper component
+│   └── streamable.tsx            # Streaming utilities
 ├── db/                          # Database configuration
-│   ├── schema/                  # Database schema definitions (split files)
+│   ├── schema/                  # Database schema definitions
 │   │   ├── auth.ts              # Authentication tables
 │   │   ├── likes.ts             # Likes table
 │   │   ├── models.ts            # Models and categories tables
@@ -94,7 +99,7 @@ src/
 │   │   └── models.ts
 │   ├── seed.ts                  # Database seeding script
 │   ├── drop-tables.ts           # Drop all tables script
-│   └── index.ts                 # Database connection (merges schemas)
+│   └── index.ts                 # Database connection
 ├── lib/                         # Utility functions
 │   ├── auth.ts                  # NextAuth configuration
 │   └── date.ts                  # Date utilities
@@ -244,11 +249,12 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `features/categories/components/categories-nav` - Category filtering sidebar
 
 #### Navigation Components
-- `app/_navigation/navbar` - Main navigation
+- `app/@navbar/default` - Navbar parallel route with auth integration
 - `app/_navigation/nav-link` - Navigation link with active state
 - `app/_navigation/auth-buttons` - Authentication buttons
 
 #### Shared Components
+- `components/has-auth` - Generic auth component that handles authentication with Stream internally
 - `components/pill` - Small label component
 - `components/streamable` - Streaming utilities for progressive rendering
 - `components/generic-component` - Generic wrapper for collections

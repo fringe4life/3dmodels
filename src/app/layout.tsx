@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css" with { type: "module" };
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import Navbar from "@/app/_navigation/navbar";
 import { getCurrentYear } from "@/lib/date";
 
 const albertSans = Albert_Sans({
@@ -67,7 +66,10 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({
+  children,
+  navbar,
+}: LayoutProps<"/">) {
   const currentYear = await getCurrentYear();
 
   return (
@@ -76,9 +78,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh grid-rows-[5.35rem_1fr_5.35rem] gap-10`}
       >
         <NuqsAdapter>
-          <Navbar />
+          {navbar}
           <main>{children}</main>
-          <footer>
+          <footer className="grid place-content-center text-gray-500 text-sm">
             <p>&copy; {currentYear} PrintForge</p>
           </footer>
         </NuqsAdapter>

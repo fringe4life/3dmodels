@@ -1,16 +1,15 @@
 import Link from "next/link";
 import NavLink from "@/app/_navigation/nav-link";
-import Stream from "@/components/streamable";
-import { auth } from "@/lib/auth";
-import AuthButtons from "./auth-buttons";
+import HasAuth from "@/components/has-auth";
+import AuthButtons from "../_navigation/auth-buttons";
 
-// Server component that fetches auth state
-async function NavbarContent() {
-  const session = await auth();
-  const isAuthenticated = !!session;
-
-  return <AuthButtons isAuthenticated={isAuthenticated} user={session?.user} />;
-}
+type NavbarAuthProps = {
+  isAuthenticated: boolean;
+  user: {
+    name?: string | null;
+    email?: string | null;
+  } | null;
+};
 
 // Main component with Stream boundary
 export default function Navbar() {
@@ -41,14 +40,21 @@ export default function Navbar() {
           <NavLink href="/3d-models">3D Models</NavLink>
           <NavLink href="/about">About</NavLink>
           <li className="text-sm">
-            <Stream
+            <HasAuth<NavbarAuthProps, void>
+              Component={AuthButtons}
               fallback={
                 <div className="h-8 w-20 animate-pulse rounded bg-gray-200" />
               }
-              value={NavbarContent()}
-            >
-              {(content) => content}
-            </Stream>
+              processUser={(session, isAuthenticated) => {
+                const user = session
+                  ? {
+                      name: session.user?.name,
+                      email: session.user?.email,
+                    }
+                  : null;
+                return { isAuthenticated, user };
+              }}
+            />
           </li>
         </ul>
       </nav>

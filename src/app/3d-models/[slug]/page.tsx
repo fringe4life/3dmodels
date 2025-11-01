@@ -1,11 +1,10 @@
+import { notFound } from "next/navigation";
 import type { Metadata } from "next/types";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
-import Stream from "@/components/streamable";
 import { toggleLike } from "@/features/models/actions/likes";
 import { HeartButtonServer } from "@/features/models/components/heart-button-server";
-import HeartButtonSkeleton from "@/features/models/components/heart-button-skeleton";
 import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
 import { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
 
@@ -46,6 +45,10 @@ export default async function ModelDetailPage({
   const { name, categorySlug, description, dateAdded } =
     await getModelBySlug(slug);
 
+  if (!name) {
+    return notFound();
+  }
+
   return (
     <ViewTransition name={`model-${slug}`}>
       <div className="container mx-auto max-w-6xl px-4 py-8">
@@ -63,15 +66,7 @@ export default async function ModelDetailPage({
           {/* Content Section - Static with Dynamic Like Status */}
           <section className="grid content-center">
             {/* Dynamic Like Status */}
-            <Stream
-              fallback={<HeartButtonSkeleton />}
-              value={HeartButtonServer({
-                modelSlug: slug,
-                toggleAction: toggleLike,
-              })}
-            >
-              {(content) => content}
-            </Stream>
+            <HeartButtonServer slug={slug} toggleAction={toggleLike} />
             <h1 className="mb-6 font-bold text-4xl">{name}</h1>
 
             <Pill className="mb-6 w-fit">{categorySlug}</Pill>

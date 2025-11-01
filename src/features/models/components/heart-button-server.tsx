@@ -1,40 +1,42 @@
-"use server";
-
-import { connection } from "next/server";
-import { auth } from "@/lib/auth";
-import type { toggleLike } from "../actions/likes";
+import HasAuth from "@/components/has-auth";
 import { getLikeStatusOfModel } from "../queries/get-model-with-like-status";
-import HeartButtonClient from "./heart-button-client";
+import HeartButtonClient, {
+  type HeartButtonClientProps,
+} from "./heart-button-client";
+import HeartButtonSkeleton from "./heart-button-skeleton";
 
-type HeartButtonServerProps = {
-  modelSlug: string;
-  toggleAction: typeof toggleLike;
-};
+type HeartButtonAuthProps = Omit<
+  HeartButtonClientProps,
+  "slug" | "toggleAction"
+>;
 
-export async function HeartButtonServer({
-  modelSlug,
+type HeartButtonAdditionalProps = Pick<
+  HeartButtonClientProps,
+  "slug" | "toggleAction"
+>;
+
+export function HeartButtonServer({
+  slug,
   toggleAction,
-}: HeartButtonServerProps) {
-  // Use connection() to make this component dynamic at runtime
-  // This allows us to access authentication data
-  await connection();
-
-  const session = await auth();
-  const userId = session?.user?.id;
-  const isAuthenticated = !!session;
-  const { hasLiked, likesCount } = await getLikeStatusOfModel(
-    modelSlug,
-    userId,
-  );
-
+}: HeartButtonAdditionalProps) {
   return (
-    <HeartButtonClient
-      hasLiked={hasLiked}
-      isAuthenticated={isAuthenticated}
-      likesCount={likesCount}
-      modelSlug={modelSlug}
-      toggleAction={toggleAction}
-      userId={userId}
+    <HasAuth<HeartButtonAuthProps, HeartButtonAdditionalProps>
+      additionalProps={{ slug, toggleAction }}
+      Component={HeartButtonClient}
+      fallback={<HeartButtonSkeleton />}
+      processUser={async (session, isAuthenticated, { slug: modelSlug }) => {
+        const userId = session?.user?.id ?? null;
+        const { hasLiked, likesCount } = await getLikeStatusOfModel(
+          modelSlug,
+          userId ?? undefined,
+        );
+        return {
+          isAuthenticated,
+          userId,
+          hasLiked,
+          likesCount,
+        };
+      }}
     />
   );
 }

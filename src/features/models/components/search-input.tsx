@@ -27,16 +27,20 @@ export function SearchInput() {
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
     const search = e.currentTarget.value;
     // Send immediate update if clearing the input, otherwise debounce
-    setQuery(search || null, {
-      limitUrlUpdates:
-        search === "" ? defaultRateLimit : debounce(SEARCH_DEBOUNCE_DELAY),
+    startTransition(async () => {
+      await setQuery(search || null, {
+        limitUrlUpdates:
+          search === "" ? defaultRateLimit : debounce(SEARCH_DEBOUNCE_DELAY),
+      });
     });
   };
 
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
       // Send immediate update on Enter key press
-      setQuery(query || null, { limitUrlUpdates: defaultRateLimit });
+      startTransition(async () => {
+        await setQuery(query || null, { limitUrlUpdates: defaultRateLimit });
+      });
     }
   };
 
