@@ -36,6 +36,8 @@ src/
 │   │   └── nav-link.tsx
 │   ├── @navbar/                  # Parallel route for navbar
 │   │   └── default.tsx
+│   ├── @footer/                  # Parallel route for footer
+│   │   └── default.tsx
 │   ├── 3d-models/                # 3D models routes
 │   │   ├── @categories/          # Parallel route for categories nav
 │   │   ├── @results/             # Parallel route for search results
@@ -250,6 +252,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration
+- `app/@footer/default` - Footer parallel route with copyright
 - `app/_navigation/nav-link` - Navigation link with active state
 - `app/_navigation/auth-buttons` - Authentication buttons
 
