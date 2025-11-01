@@ -5,41 +5,13 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnusedVariables": "error",
-        "noUndeclaredVariables": "error",
         "noUndeclaredDependencies": "error"
-      },
-      "suspicious": {
-        "noExplicitAny": "warn",
-        "noDoubleEquals": "error",
-        "noDebugger": "error"
-      },
-      "style": {
-        "useImportType": "error",
-        "useConsistentArrayType": "error"
-      },
-      "nursery": {
-        "useSortedClasses": "error"
       },
       "complexity": {
         "noExcessiveCognitiveComplexity": "warn"
       },
       "performance": {
         "noImgElement": "off"
-      },
-      "a11y": {
-        "useKeyWithClickEvents": "error",
-        "useKeyWithMouseEvents": "error",
-        "useMediaCaption": "error",
-        "useValidAriaProps": "error",
-        "useValidAriaValues": "error",
-        "useValidAnchor": "error",
-        "useButtonType": "error",
-        "useHeadingContent": "error",
-        "useAltText": "error",
-        "useValidAriaRole": "error",
-        "useValidAutocomplete": "error",
-        "useValidLang": "error"
       }
     }
   },
@@ -78,32 +50,5 @@
       "!**/drizzle"
     ]
   },
-  "overrides": [
-    {
-      "includes": ["**/*.tsx", "**/*.jsx"],
-      "linter": {
-        "rules": {
-          "nursery": {
-            "useSortedClasses": {
-              "level": "error",
-              "options": {
-                "attributes": ["classList"],
-                "functions": ["clsx", "cva", "tw", "tw.*"]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "includes": ["**/*.css"],
-      "linter": {
-        "enabled": false
-      },
-      "formatter": {
-        "enabled": false
-      }
-    }
-  ],
   "extends": ["ultracite/core", "ultracite/react", "ultracite/next"]
 }

@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 html {
   scrollbar-gutter: stable;
@@ -6,11 +6,16 @@ html {
 }
 
 @theme {
-  --color-orange-accent: #F77D36;
+  --color-orange-accent: #f77d36;
   --color-search-input: #606060;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-montserrat-alternates);
 }
 
@@ -24,13 +29,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @layer utilities {
-	.no-scrollbar::-webkit-scrollbar {
-		display: none;
-	}
-	.no-scrollbar {
-		-ms-overflow-style: none; /* IE and Edge */
-		scrollbar-width: none; /* Firefox */
-	}
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 ::view-transition-group(*) {
@@ -44,7 +49,7 @@ h1, h2, h3, h4, h5, h6 {
 
 ::view-transition-new(.enter):only-child {
   animation-name: --fade-in;
-} 
+}
 
 @keyframes --fade-out {
   from {
@@ -76,7 +81,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .loading-dots::before,
 .loading-dots::after {
-  content: '.';
+  content: ".";
   position: absolute;
   animation: --fade-in 0.6s ease-in-out infinite alternate;
 }
