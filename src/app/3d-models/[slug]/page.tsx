@@ -6,18 +6,18 @@ import Stream from "@/components/streamable";
 import { toggleLike } from "@/features/models/actions/likes";
 import { HeartButtonServer } from "@/features/models/components/heart-button-server";
 import HeartButtonSkeleton from "@/features/models/components/heart-button-skeleton";
-import { getAllModelIds } from "@/features/models/queries/get-all-model-ids";
-import { getModelById } from "@/features/models/queries/get-model-by-id";
+import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
+import { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
 
 export async function generateStaticParams() {
-  return await getAllModelIds();
+  return await getAllModelSlugs();
 }
 
 export async function generateMetadata({
   params,
-}: PageProps<"/3d-models/[id]">): Promise<Metadata> {
-  const { id } = await params;
-  const { name, description } = await getModelById(id);
+}: PageProps<"/3d-models/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const { name, description } = await getModelBySlug(slug);
 
   return {
     title: name,
@@ -40,16 +40,17 @@ export async function generateMetadata({
 
 export default async function ModelDetailPage({
   params,
-}: PageProps<"/3d-models/[id]">) {
-  const { id } = await params;
+}: PageProps<"/3d-models/[slug]">) {
+  const { slug } = await params;
 
-  const { name, categorySlug, description, dateAdded } = await getModelById(id);
+  const { name, categorySlug, description, dateAdded } =
+    await getModelBySlug(slug);
 
   return (
-    <ViewTransition enter="enter" exit="exit" name={`model-${id}`}>
+    <ViewTransition name={`model-${slug}`}>
       <div className="container mx-auto max-w-6xl px-4 py-8">
         <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <figure className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
+          <figure className="relative aspect-square rounded-lg shadow-lg contain-content">
             <img
               alt={`3D model of ${name}`}
               className="absolute inset-0 h-full w-full object-cover"
@@ -60,14 +61,11 @@ export default async function ModelDetailPage({
           </figure>
 
           {/* Content Section - Static with Dynamic Like Status */}
-          <section className="flex h-full flex-col justify-center">
+          <section className="grid place-content-center">
             {/* Dynamic Like Status */}
             <Stream fallback={<HeartButtonSkeleton />} value={null}>
               {() => (
-                <HeartButtonServer
-                  modelId={Number.parseInt(id, 10)}
-                  toggleAction={toggleLike}
-                />
+                <HeartButtonServer modelSlug={slug} toggleAction={toggleLike} />
               )}
             </Stream>
             <h1 className="mb-6 font-bold text-4xl">{name}</h1>

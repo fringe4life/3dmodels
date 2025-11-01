@@ -4,20 +4,15 @@ import { cache } from "react";
 import { db } from "@/db";
 import { models } from "@/db/schema/models";
 
-export const getModelById = cache(async (id: string | number) => {
+export const getModelBySlug = cache(async (slug: string) => {
   "use cache";
 
-  const modelId = typeof id === "string" ? Number.parseInt(id, 10) : id;
-  cacheTag("models", `model-${modelId}`);
+  cacheTag("models", `model-${slug}`);
   cacheLife("hours");
-
-  if (Number.isNaN(modelId)) {
-    throw new Error(`Invalid model id: ${id}`);
-  }
 
   const foundModel = await db
     .select({
-      id: models.id,
+      slug: models.slug,
       name: models.name,
       description: models.description,
       image: models.image,
@@ -25,11 +20,11 @@ export const getModelById = cache(async (id: string | number) => {
       dateAdded: models.dateAdded,
     })
     .from(models)
-    .where(eq(models.id, modelId))
+    .where(eq(models.slug, slug))
     .limit(1);
 
   if (foundModel.length === 0) {
-    throw new Error(`Model with id ${id} not found`);
+    throw new Error(`Model with slug ${slug} not found`);
   }
 
   return foundModel[0];

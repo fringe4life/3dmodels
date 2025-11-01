@@ -7,8 +7,8 @@ export const categories = pgTable("categories", {
 });
 
 export const models = pgTable("models", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+  slug: text("slug").primaryKey(),
+  name: text("name").notNull().unique(),
   description: text("description").notNull(),
   likes: integer("likes").notNull().default(0),
   image: text("image").notNull(),

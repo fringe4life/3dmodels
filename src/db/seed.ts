@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/suspicious/noConsole: seed file for dummy data */
+import "dotenv/config";
 import { db } from "@/db";
 import { categories, models } from "@/db/schema/models";
 import { categoriesData } from "@/db/seed-data/categories";
@@ -31,16 +32,15 @@ async function seed() {
 }
 
 // Run the seed function if this file is executed directly
-if (require.main === module) {
-  seed()
-    .then(() => {
-      console.log("🎉 Seeding completed successfully");
-      process.exit(0);
-    })
-    .catch((error) => {
-      console.error("💥 Seeding failed:", error);
-      process.exit(1);
-    });
-}
+
+seed()
+  .then(() => {
+    console.log("🎉 Seeding completed successfully");
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error("💥 Seeding failed:", error);
+    process.exit(1);
+  });
 
 export { seed };

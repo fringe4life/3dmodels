@@ -1,10 +1,11 @@
+import slugify from "slugify";
 import type { Model } from "@/db/schema/models";
 
 // Category mapping function is no longer needed since we use slugs directly
 
 export const modelsData: Model[] = [
   {
-    id: 1,
+    slug: slugify("Articulated Dragon", { lower: true, strict: true }),
     name: "Articulated Dragon",
     description: "A detailed dragon model with movable joints and wings",
     likes: 1847,
@@ -13,7 +14,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-03-15T14:30:00Z"),
   },
   {
-    id: 2,
+    slug: slugify("Succulent Planter", { lower: true, strict: true }),
     name: "Succulent Planter",
     description: "Geometric planter perfect for small succulents",
     likes: 456,
@@ -22,7 +23,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-06-22T09:15:00Z"),
   },
   {
-    id: 3,
+    slug: slugify("Cosplay Helmet", { lower: true, strict: true }),
     name: "Cosplay Helmet",
     description: "Sci-fi inspired helmet for costume making",
     likes: 1253,
@@ -31,7 +32,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-09-05T16:45:00Z"),
   },
   {
-    id: 4,
+    slug: slugify("Educational Solar System", { lower: true, strict: true }),
     name: "Educational Solar System",
     description: "Scale model of the solar system for classroom use",
     likes: 892,
@@ -40,7 +41,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-11-30T11:20:00Z"),
   },
   {
-    id: 5,
+    slug: slugify("Abstract Sculpture", { lower: true, strict: true }),
     name: "Abstract Sculpture",
     description: "Modern art piece with flowing curves",
     likes: 345,
@@ -49,7 +50,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-01-18T13:40:00Z"),
   },
   {
-    id: 6,
+    slug: slugify("Tool Holder", { lower: true, strict: true }),
     name: "Tool Holder",
     description: "Customizable holder for workshop tools",
     likes: 567,
@@ -58,7 +59,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-03-07T10:25:00Z"),
   },
   {
-    id: 7,
+    slug: slugify("Fantasy Miniature", { lower: true, strict: true }),
     name: "Fantasy Miniature",
     description: "Detailed warrior miniature for tabletop gaming",
     likes: 1456,
@@ -67,7 +68,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-05-12T15:50:00Z"),
   },
   {
-    id: 8,
+    slug: slugify("Bracelet Maker", { lower: true, strict: true }),
     name: "Bracelet Maker",
     description: "Tool for creating custom jewelry",
     likes: 234,
@@ -76,7 +77,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-07-25T08:35:00Z"),
   },
   {
-    id: 9,
+    slug: slugify("Printer Upgrade Kit", { lower: true, strict: true }),
     name: "Printer Upgrade Kit",
     description: "Enhancement parts for 3D printer performance",
     likes: 1789,
@@ -85,7 +86,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-09-14T12:15:00Z"),
   },
   {
-    id: 10,
+    slug: slugify("Garden Tool Set", { lower: true, strict: true }),
     name: "Garden Tool Set",
     description: "Collection of tools for gardening enthusiasts",
     likes: 445,
@@ -94,7 +95,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-11-03T17:40:00Z"),
   },
   {
-    id: 11,
+    slug: slugify("Chess Set", { lower: true, strict: true }),
     name: "Chess Set",
     description: "Modern interpretation of classic chess pieces",
     likes: 1234,
@@ -103,7 +104,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-02-28T14:20:00Z"),
   },
   {
-    id: 12,
+    slug: slugify("Wall Organizer", { lower: true, strict: true }),
     name: "Wall Organizer",
     description: "Modular system for wall storage",
     likes: 678,
@@ -112,7 +113,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-05-17T11:30:00Z"),
   },
   {
-    id: 13,
+    slug: slugify("Prop Sword", { lower: true, strict: true }),
     name: "Prop Sword",
     description: "Fantasy sword for costume play",
     likes: 1567,
@@ -121,7 +122,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-08-09T16:05:00Z"),
   },
   {
-    id: 14,
+    slug: slugify("Molecular Model", { lower: true, strict: true }),
     name: "Molecular Model",
     description: "Educational model of molecular structures",
     likes: 789,
@@ -130,7 +131,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-10-22T09:45:00Z"),
   },
   {
-    id: 15,
+    slug: slugify("Geometric Wall Art", { lower: true, strict: true }),
     name: "Geometric Wall Art",
     description: "Decorative wall panels with geometric patterns",
     likes: 890,
@@ -139,7 +140,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-01-05T15:25:00Z"),
   },
   {
-    id: 16,
+    slug: slugify("Screwdriver Set", { lower: true, strict: true }),
     name: "Screwdriver Set",
     description: "Custom handles for precision screwdrivers",
     likes: 432,
@@ -148,7 +149,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-02-19T10:50:00Z"),
   },
   {
-    id: 17,
+    slug: slugify("Dragon Miniature", { lower: true, strict: true }),
     name: "Dragon Miniature",
     description: "Detailed dragon for tabletop gaming",
     likes: 1678,
@@ -157,7 +158,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-04-30T13:15:00Z"),
   },
   {
-    id: 18,
+    slug: slugify("Earring Collection", { lower: true, strict: true }),
     name: "Earring Collection",
     description: "Set of geometric earring designs",
     likes: 567,
@@ -166,7 +167,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-06-14T08:40:00Z"),
   },
   {
-    id: 19,
+    slug: slugify("Cooling System", { lower: true, strict: true }),
     name: "Cooling System",
     description: "Enhanced cooling solution for 3D printers",
     likes: 1234,
@@ -175,7 +176,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-08-27T12:55:00Z"),
   },
   {
-    id: 20,
+    slug: slugify("Birdhouse Kit", { lower: true, strict: true }),
     name: "Birdhouse Kit",
     description: "DIY birdhouse with modern design",
     likes: 789,
@@ -184,7 +185,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-10-11T17:20:00Z"),
   },
   {
-    id: 21,
+    slug: slugify("Robot Toy", { lower: true, strict: true }),
     name: "Robot Toy",
     description: "Articulated robot with moving parts",
     likes: 1567,
@@ -193,7 +194,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-01-25T14:10:00Z"),
   },
   {
-    id: 22,
+    slug: slugify("Kitchen Organizer", { lower: true, strict: true }),
     name: "Kitchen Organizer",
     description: "Customizable drawer organization system",
     likes: 890,
@@ -202,7 +203,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-04-08T11:35:00Z"),
   },
   {
-    id: 23,
+    slug: slugify("Mask Template", { lower: true, strict: true }),
     name: "Mask Template",
     description: "Base template for custom costume masks",
     likes: 1123,
@@ -211,7 +212,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-07-21T16:00:00Z"),
   },
   {
-    id: 24,
+    slug: slugify("DNA Model", { lower: true, strict: true }),
     name: "DNA Model",
     description: "Educational DNA double helix model",
     likes: 678,
@@ -220,7 +221,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-09-30T09:25:00Z"),
   },
   {
-    id: 25,
+    slug: slugify("Modern Vase", { lower: true, strict: true }),
     name: "Modern Vase",
     description: "Contemporary vase with unique patterns",
     likes: 445,
@@ -229,7 +230,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-12-13T15:50:00Z"),
   },
   {
-    id: 26,
+    slug: slugify("Wrench Set", { lower: true, strict: true }),
     name: "Wrench Set",
     description: "Custom sized wrench collection",
     likes: 987,
@@ -238,7 +239,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-02-26T10:15:00Z"),
   },
   {
-    id: 27,
+    slug: slugify("Castle Miniature", { lower: true, strict: true }),
     name: "Castle Miniature",
     description: "Detailed medieval castle for gaming",
     likes: 1789,
@@ -247,7 +248,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-04-09T13:40:00Z"),
   },
   {
-    id: 28,
+    slug: slugify("Pendant Design", { lower: true, strict: true }),
     name: "Pendant Design",
     description: "Customizable pendant template",
     likes: 234,
@@ -256,7 +257,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-06-22T08:05:00Z"),
   },
   {
-    id: 29,
+    slug: slugify("Extruder Upgrade", { lower: true, strict: true }),
     name: "Extruder Upgrade",
     description: "Enhanced extruder mechanism",
     likes: 1456,
@@ -265,7 +266,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-08-05T12:30:00Z"),
   },
   {
-    id: 30,
+    slug: slugify("Plant Stand", { lower: true, strict: true }),
     name: "Plant Stand",
     description: "Modern stand for indoor plants",
     likes: 567,
@@ -274,7 +275,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-10-18T17:55:00Z"),
   },
   {
-    id: 31,
+    slug: slugify("Puzzle Cube", { lower: true, strict: true }),
     name: "Puzzle Cube",
     description: "Complex mechanical puzzle toy",
     likes: 1234,
@@ -283,7 +284,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-01-12T14:00:00Z"),
   },
   {
-    id: 32,
+    slug: slugify("Bathroom Caddy", { lower: true, strict: true }),
     name: "Bathroom Caddy",
     description: "Shower organization solution",
     likes: 678,
@@ -292,7 +293,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-03-25T11:25:00Z"),
   },
   {
-    id: 33,
+    slug: slugify("Armor Piece", { lower: true, strict: true }),
     name: "Armor Piece",
     description: "Detailed costume armor segment",
     likes: 1567,
@@ -301,7 +302,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-06-08T16:50:00Z"),
   },
   {
-    id: 34,
+    slug: slugify("Atom Model", { lower: true, strict: true }),
     name: "Atom Model",
     description: "Interactive atomic structure model",
     likes: 789,
@@ -310,7 +311,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-08-21T09:15:00Z"),
   },
   {
-    id: 35,
+    slug: slugify("Wall Sculpture", { lower: true, strict: true }),
     name: "Wall Sculpture",
     description: "Abstract wall mounted artwork",
     likes: 890,
@@ -319,7 +320,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-11-04T15:40:00Z"),
   },
   {
-    id: 36,
+    slug: slugify("Measuring Tool", { lower: true, strict: true }),
     name: "Measuring Tool",
     description: "Precise measurement device",
     likes: 432,
@@ -328,7 +329,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-01-17T10:05:00Z"),
   },
   {
-    id: 37,
+    slug: slugify("Fantasy Tree", { lower: true, strict: true }),
     name: "Fantasy Tree",
     description: "Detailed tree for miniature landscapes",
     likes: 1678,
@@ -337,7 +338,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-03-30T13:30:00Z"),
   },
   {
-    id: 38,
+    slug: slugify("Ring Collection", { lower: true, strict: true }),
     name: "Ring Collection",
     description: "Customizable ring designs",
     likes: 567,
@@ -346,7 +347,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-06-12T08:55:00Z"),
   },
   {
-    id: 39,
+    slug: slugify("Print Fan", { lower: true, strict: true }),
     name: "Print Fan",
     description: "Optimized cooling fan design",
     likes: 1234,
@@ -355,7 +356,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-08-25T12:20:00Z"),
   },
   {
-    id: 40,
+    slug: slugify("Tool Rack", { lower: true, strict: true }),
     name: "Tool Rack",
     description: "Wall-mounted tool organization system",
     likes: 789,
@@ -364,7 +365,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-11-08T17:45:00Z"),
   },
   {
-    id: 41,
+    slug: slugify("Action Figure", { lower: true, strict: true }),
     name: "Action Figure",
     description: "Poseable character figure",
     likes: 1567,
@@ -373,7 +374,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-02-01T14:35:00Z"),
   },
   {
-    id: 42,
+    slug: slugify("Cable Manager", { lower: true, strict: true }),
     name: "Cable Manager",
     description: "Desk cable organization solution",
     likes: 890,
@@ -382,7 +383,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-04-14T11:00:00Z"),
   },
   {
-    id: 43,
+    slug: slugify("Prop Shield", { lower: true, strict: true }),
     name: "Prop Shield",
     description: "Fantasy shield for costumes",
     likes: 1123,
@@ -391,7 +392,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-07-27T16:25:00Z"),
   },
   {
-    id: 44,
+    slug: slugify("Cell Model", { lower: true, strict: true }),
     name: "Cell Model",
     description: "Detailed biological cell model",
     likes: 678,
@@ -400,7 +401,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-10-10T09:50:00Z"),
   },
   {
-    id: 45,
+    slug: slugify("Art Lamp", { lower: true, strict: true }),
     name: "Art Lamp",
     description: "Decorative lamp with unique design",
     likes: 445,
@@ -409,7 +410,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-12-23T15:15:00Z"),
   },
   {
-    id: 46,
+    slug: slugify("Precision Tool", { lower: true, strict: true }),
     name: "Precision Tool",
     description: "Fine detail work tool",
     likes: 987,
@@ -418,7 +419,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-03-07T10:40:00Z"),
   },
   {
-    id: 47,
+    slug: slugify("Terrain Piece", { lower: true, strict: true }),
     name: "Terrain Piece",
     description: "Detailed landscape for gaming",
     likes: 1789,
@@ -427,7 +428,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-05-20T14:05:00Z"),
   },
   {
-    id: 48,
+    slug: slugify("Fashion Accessory", { lower: true, strict: true }),
     name: "Fashion Accessory",
     description: "Modern accessory design",
     likes: 234,
@@ -436,7 +437,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-07-03T08:30:00Z"),
   },
   {
-    id: 49,
+    slug: slugify("Printer Stand", { lower: true, strict: true }),
     name: "Printer Stand",
     description: "Stabilizing platform for 3D printers",
     likes: 1456,
@@ -445,7 +446,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-09-16T12:55:00Z"),
   },
   {
-    id: 50,
+    slug: slugify("Planter Box", { lower: true, strict: true }),
     name: "Planter Box",
     description: "Modular garden planter system",
     likes: 567,
@@ -454,7 +455,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2024-11-29T17:20:00Z"),
   },
   {
-    id: 51,
+    slug: slugify("Building Blocks", { lower: true, strict: true }),
     name: "Building Blocks",
     description: "Compatible construction toy set",
     likes: 1234,
@@ -463,7 +464,7 @@ export const modelsData: Model[] = [
     dateAdded: new Date("2023-01-15T14:45:00Z"),
   },
   {
-    id: 52,
+    slug: slugify("Shelf System", { lower: true, strict: true }),
     name: "Shelf System",
     description: "Customizable shelving solution",
     likes: 678,

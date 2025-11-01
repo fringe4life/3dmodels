@@ -24,6 +24,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Type Checking**: tsgo
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
+- **Validation**: Valibot for schema validation (migrated from Zod)
 
 ## 📁 Project Structure
 
@@ -37,7 +38,7 @@ src/
 │   ├── 3d-models/                # 3D models routes
 │   │   ├── @categories/          # Parallel route for categories nav
 │   │   ├── @results/             # Parallel route for search results
-│   │   ├── [id]/                 # Individual model page
+│   │   ├── [slug]/               # Individual model page (slug-based routing)
 │   │   ├── categories/           # Category-specific pages
 │   │   ├── layout.tsx            # Models layout
 │   │   └── page.tsx              # Models listing page
@@ -61,11 +62,12 @@ src/
 │   │   │   └── search-input.tsx
 │   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-models.ts
-│   │   │   ├── get-model-by-id.ts
+│   │   │   ├── get-all-model-slugs.ts
+│   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts
 │   │   │   ├── get-models-by-category.ts
 │   │   │   └── search-models.ts
-│   │   ├── schemas/              # Validation schemas
+│   │   ├── schemas/              # Validation schemas (Valibot)
 │   │   │   └── search-schemas.ts
 │   │   ├── utils/                # Model utilities
 │   │   │   └── cache-invalidation.ts
@@ -91,6 +93,7 @@ src/
 │   │   ├── categories.ts
 │   │   └── models.ts
 │   ├── seed.ts                  # Database seeding script
+│   ├── drop-tables.ts           # Drop all tables script
 │   └── index.ts                 # Database connection (merges schemas)
 ├── lib/                         # Utility functions
 │   ├── auth.ts                  # NextAuth configuration
@@ -174,8 +177,8 @@ The project follows a feature-based architecture where related functionality is 
 - `slug`: URL-friendly identifier (unique)
 
 ### Models Table
-- `id`: Primary key (auto-increment)
-- `name`: Model name
+- `slug`: Primary key (text, auto-generated from name)
+- `name`: Model name (unique)
 - `description`: Model description
 - `likes`: Number of likes (counter)
 - `image`: Image URL
@@ -185,9 +188,9 @@ The project follows a feature-based architecture where related functionality is 
 ### Likes Table
 - `id`: Primary key (auto-increment)
 - `userId`: Foreign key to users.id (cascade delete)
-- `modelId`: Foreign key to models.id (cascade delete)
+- `modelSlug`: Foreign key to models.slug (cascade delete)
 - `createdAt`: Timestamp when like was created
-- Unique constraint on `(userId, modelId)` pair
+- Unique constraint on `(userId, modelSlug)` pair
 
 ### Authentication Tables (NextAuth.js)
 - `users`: User accounts
@@ -205,6 +208,7 @@ The project follows a feature-based architecture where related functionality is 
 - `bunx drizzle-kit push` (or `bun run db:push`) - Push schema changes directly to database
 - `bunx drizzle-kit studio` (or `bun run db:studio`) - Open Drizzle Studio for database management
 - `bun run db:seed` - Seed database with initial data
+- `bun run db:drop` - Drop all tables (useful for development reset)
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:
@@ -216,7 +220,7 @@ The application uses Next.js Cache Components for optimal performance:
 ### Caching Strategy
 
 The application uses Next.js cache with granular cache tags for efficient invalidation:
-- **Models**: Cached with `models`, `model-{id}`, and `models-category-{slug}` tags
+- **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
 - **Categories**: Cached with `categories` tag
 - **Cache Life**: 1 hour for most queries, weeks for static categories
 - **Invalidation**: Centralized utilities in `features/models/utils/cache-invalidation.ts`
@@ -276,6 +280,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `bun run db:push` - Push schema directly to database
 - `bun run db:studio` - Open Drizzle Studio
 - `bun run db:seed` - Seed database with initial data
+- `bun run db:drop` - Drop all tables (development reset)
 
 ### Code Style
 
@@ -318,7 +323,7 @@ Ensure these are set in your deployment environment:
 ### Cache Management
 
 - Use centralized cache invalidation utilities in `features/models/utils/cache-invalidation.ts`
-- Functions: `invalidateAllModels()`, `invalidateModel(id)`, `invalidateCategory(slug)`
+- Functions: `invalidateAllModels()`, `invalidateModel(slug)`, `invalidateCategory(slug)`
 - Cache tags provide granular control over what gets invalidated
 - Automatic cache invalidation on data mutations
 

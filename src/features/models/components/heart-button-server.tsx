@@ -7,12 +7,12 @@ import { getLikeStatusOfModel } from "../queries/get-model-with-like-status";
 import HeartButtonClient from "./heart-button-client";
 
 type HeartButtonServerProps = {
-  modelId: number;
+  modelSlug: string;
   toggleAction: typeof toggleLike;
 };
 
 export async function HeartButtonServer({
-  modelId,
+  modelSlug,
   toggleAction,
 }: HeartButtonServerProps) {
   // Use connection() to make this component dynamic at runtime
@@ -22,14 +22,17 @@ export async function HeartButtonServer({
   const session = await auth();
   const userId = session?.user?.id;
   const isAuthenticated = !!session;
-  const { hasLiked, likesCount } = await getLikeStatusOfModel(modelId, userId);
+  const { hasLiked, likesCount } = await getLikeStatusOfModel(
+    modelSlug,
+    userId,
+  );
 
   return (
     <HeartButtonClient
       hasLiked={hasLiked}
       isAuthenticated={isAuthenticated}
       likesCount={likesCount}
-      modelId={modelId}
+      modelSlug={modelSlug}
       toggleAction={toggleAction}
       userId={userId}
     />

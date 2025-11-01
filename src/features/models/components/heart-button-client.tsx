@@ -6,7 +6,7 @@ import { FaHeart } from "react-icons/fa6";
 import type { toggleLike } from "@/features/models/actions/likes";
 
 type HeartButtonClientProps = {
-  modelId: number;
+  modelSlug: string;
   likesCount: number;
   hasLiked: boolean;
   isAuthenticated: boolean;
@@ -15,7 +15,7 @@ type HeartButtonClientProps = {
 };
 
 export default function HeartButtonClient({
-  modelId,
+  modelSlug,
   likesCount,
   hasLiked,
   isAuthenticated,
@@ -34,7 +34,7 @@ export default function HeartButtonClient({
 
     startTransition(() => {
       const formData = new FormData();
-      formData.append("modelId", modelId.toString());
+      formData.append("modelSlug", modelSlug);
       formData.append("userId", userId ?? "");
       formAction(formData);
     });

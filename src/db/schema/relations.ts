@@ -22,7 +22,7 @@ export const likesRelations = relations(likes, ({ one }) => ({
     references: [users.id],
   }),
   model: one(models, {
-    fields: [likes.modelId],
-    references: [models.id],
+    fields: [likes.modelSlug],
+    references: [models.slug],
   }),
 }));

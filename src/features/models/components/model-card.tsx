@@ -14,7 +14,7 @@ type ModelCardProps = {
 
 export default function ModelCard({ model }: ModelCardProps) {
   return (
-    <ViewTransition enter="enter" exit="exit" name={`model-${model.id}`}>
+    <ViewTransition enter="enter" exit="exit" name={`model-${model.slug}`}>
       <article className="group hover:-translate-y-[3px] relative block overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-300 ease-out">
         {/* Pseudo-element for hover shadow */}
         <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 shadow-[0_5px_12px_rgba(0,0,0,0.1)] transition-opacity duration-300 ease-out group-hover:opacity-100" />
@@ -35,9 +35,9 @@ export default function ModelCard({ model }: ModelCardProps) {
             {/* Shared element transition for the model title */}
             <h2
               className="line-clamp-2 font-semibold text-gray-800 text-xl"
-              id={`model-${model.id}-title`}
+              id={`model-${model.slug}-title`}
             >
-              <Link href={`/3d-models/${model.id}`}>
+              <Link href={`/3d-models/${model.slug}`}>
                 {model.name}
                 <span className="absolute inset-0 h-full w-full" />
               </Link>
@@ -53,7 +53,7 @@ export default function ModelCard({ model }: ModelCardProps) {
             <Stream fallback={<HeartButtonSkeleton />} value={null}>
               {() => (
                 <HeartButtonServer
-                  modelId={model.id}
+                  modelSlug={model.slug}
                   toggleAction={toggleLike}
                 />
               )}

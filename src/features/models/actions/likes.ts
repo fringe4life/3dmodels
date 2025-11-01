@@ -8,7 +8,7 @@ import { invalidateModel } from "@/features/models/utils/cache-invalidation";
 import { auth } from "@/lib/auth";
 
 export async function toggleLike(_prevState: unknown, formData: FormData) {
-  const modelId = Number(formData.get("modelId"));
+  const modelSlug = String(formData.get("modelSlug"));
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -22,36 +22,36 @@ export async function toggleLike(_prevState: unknown, formData: FormData) {
     const existingLike = await db
       .select()
       .from(likes)
-      .where(and(eq(likes.userId, userId), eq(likes.modelId, modelId)))
+      .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
       .limit(1);
 
     if (existingLike.length > 0) {
       // Unlike: remove the like record
       await db
         .delete(likes)
-        .where(and(eq(likes.userId, userId), eq(likes.modelId, modelId)));
+        .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)));
 
       // Decrement likes count
       await db
         .update(models)
         .set({ likes: sql`likes - 1` })
-        .where(eq(models.id, modelId));
+        .where(eq(models.slug, modelSlug));
     } else {
       // Like: add the like record
       await db.insert(likes).values({
         userId,
-        modelId,
+        modelSlug,
       });
 
       // Increment likes count
       await db
         .update(models)
         .set({ likes: sql`likes + 1` })
-        .where(eq(models.id, modelId));
+        .where(eq(models.slug, modelSlug));
     }
 
     // Invalidate the specific model's cache since likes count changed
-    invalidateModel(modelId);
+    invalidateModel(modelSlug);
 
     return { success: true };
   } catch {
@@ -59,12 +59,12 @@ export async function toggleLike(_prevState: unknown, formData: FormData) {
   }
 }
 
-export async function checkIfLiked(modelId: number, userId: string) {
+export async function checkIfLiked(modelSlug: string, userId: string) {
   try {
     const existingLike = await db
       .select()
       .from(likes)
-      .where(and(eq(likes.userId, userId), eq(likes.modelId, modelId)))
+      .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
       .limit(1);
 
     return existingLike.length > 0;
