@@ -50,13 +50,14 @@ export default function ModelCard({ model }: ModelCardProps) {
             <Pill>{model.categorySlug}</Pill>
           </div>
           <div className="mt-2 flex items-center text-gray-600">
-            <Stream fallback={<HeartButtonSkeleton />} value={null}>
-              {() => (
-                <HeartButtonServer
-                  modelSlug={model.slug}
-                  toggleAction={toggleLike}
-                />
-              )}
+            <Stream
+              fallback={<HeartButtonSkeleton />}
+              value={HeartButtonServer({
+                modelSlug: model.slug,
+                toggleAction: toggleLike,
+              })}
+            >
+              {(content) => content}
             </Stream>
           </div>
         </div>

@@ -29,8 +29,11 @@ async function ResultsContent({ searchParams }: ResultsContentProps) {
 
 export default function ResultsPage({ searchParams }: PageProps<"/3d-models">) {
   return (
-    <Stream fallback={<ModelsGridSkeleton />} value={null}>
-      {() => <ResultsContent searchParams={searchParams} />}
+    <Stream
+      fallback={<ModelsGridSkeleton />}
+      value={ResultsContent({ searchParams })}
+    >
+      {(content) => content}
     </Stream>
   );
 }

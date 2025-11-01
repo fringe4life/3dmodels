@@ -34,7 +34,6 @@ function NavLinkContent({ href, children }: NavLinkProps) {
     </li>
   );
 }
-
 export default function NavLink(props: NavLinkProps) {
   return (
     <Stream fallback={<NavLinkSkeleton />} value={null}>

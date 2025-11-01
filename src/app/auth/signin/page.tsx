@@ -51,8 +51,8 @@ export default function SignInPage() {
             Sign in to your account
           </h2>
         </div>
-        <Stream fallback={<SignInSkeleton />} value={null}>
-          {() => <SignInContent />}
+        <Stream fallback={<SignInSkeleton />} value={SignInContent()}>
+          {(content) => content}
         </Stream>
       </div>
     </div>

@@ -61,12 +61,16 @@ export default async function ModelDetailPage({
           </figure>
 
           {/* Content Section - Static with Dynamic Like Status */}
-          <section className="grid place-content-center">
+          <section className="grid content-center">
             {/* Dynamic Like Status */}
-            <Stream fallback={<HeartButtonSkeleton />} value={null}>
-              {() => (
-                <HeartButtonServer modelSlug={slug} toggleAction={toggleLike} />
-              )}
+            <Stream
+              fallback={<HeartButtonSkeleton />}
+              value={HeartButtonServer({
+                modelSlug: slug,
+                toggleAction: toggleLike,
+              })}
+            >
+              {(content) => content}
             </Stream>
             <h1 className="mb-6 font-bold text-4xl">{name}</h1>
 
