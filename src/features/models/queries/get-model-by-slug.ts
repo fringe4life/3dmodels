@@ -3,29 +3,30 @@ import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
 import { models } from "@/db/schema/models";
-
+import { tryCatch } from "@/utils/try-catch";
 export const getModelBySlug = cache(async (slug: string) => {
   "use cache";
 
   cacheTag("models", `model-${slug}`);
   cacheLife("hours");
 
-  const foundModel = await db
-    .select({
-      slug: models.slug,
-      name: models.name,
-      description: models.description,
-      image: models.image,
-      categorySlug: models.categorySlug,
-      dateAdded: models.dateAdded,
-    })
-    .from(models)
-    .where(eq(models.slug, slug))
-    .limit(1);
-
-  if (foundModel.length === 0) {
+  const { data, error } = await tryCatch(
+    async () =>
+      await db
+        .select({
+          slug: models.slug,
+          name: models.name,
+          description: models.description,
+          image: models.image,
+          categorySlug: models.categorySlug,
+          dateAdded: models.dateAdded,
+        })
+        .from(models)
+        .where(eq(models.slug, slug))
+        .limit(1),
+  );
+  if (error || !data) {
     throw new Error(`Model with slug ${slug} not found`);
   }
-
-  return foundModel[0];
+  return data[0];
 });

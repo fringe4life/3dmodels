@@ -5,11 +5,6 @@ import HeartButtonClient, {
 } from "./heart-button-client";
 import HeartButtonSkeleton from "./heart-button-skeleton";
 
-type HeartButtonAuthProps = Omit<
-  HeartButtonClientProps,
-  "slug" | "toggleAction"
->;
-
 type HeartButtonAdditionalProps = Pick<
   HeartButtonClientProps,
   "slug" | "toggleAction"
@@ -20,15 +15,15 @@ export function HeartButtonServer({
   toggleAction,
 }: HeartButtonAdditionalProps) {
   return (
-    <HasAuth<HeartButtonAuthProps, HeartButtonAdditionalProps>
+    <HasAuth
       additionalProps={{ slug, toggleAction }}
       Component={HeartButtonClient}
       fallback={<HeartButtonSkeleton />}
-      processUser={async (session, isAuthenticated, { slug: modelSlug }) => {
-        const userId = session?.user?.id ?? null;
+      processUser={async (session, isAuthenticated) => {
+        const userId = session?.user?.id;
         const { hasLiked, likesCount } = await getLikeStatusOfModel(
-          modelSlug,
-          userId ?? undefined,
+          slug,
+          userId,
         );
         return {
           isAuthenticated,

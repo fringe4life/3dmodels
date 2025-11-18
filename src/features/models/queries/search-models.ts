@@ -4,7 +4,7 @@ import { cache } from "react";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
-
+import { tryCatch } from "@/utils/try-catch";
 // Optimized search function that doesn't fetch like status
 export const searchModels = cache(
   async (query: string, category?: string): Promise<Model[]> => {
@@ -15,36 +15,38 @@ export const searchModels = cache(
     // Set cache life to default (1 hour)
     cacheLife("default");
 
-    try {
-      const searchPattern = `%${query}%`;
+    const searchPattern = `%${query}%`;
 
-      let whereCondition: SQL | undefined;
+    let whereCondition: SQL | undefined;
 
-      if (category) {
-        // Search in both name and description, filtered by category
-        whereCondition = and(
-          eq(models.categorySlug, category),
-          or(
-            ilike(models.name, searchPattern),
-            ilike(models.description, searchPattern),
-          ),
-        );
-      } else {
-        // Search in both name and description across all categories
-        whereCondition = or(
+    if (category) {
+      // Search in both name and description, filtered by category
+      whereCondition = and(
+        eq(models.categorySlug, category),
+        or(
           ilike(models.name, searchPattern),
           ilike(models.description, searchPattern),
-        );
-      }
-
-      return await db
-        .select()
-        .from(models)
-        .where(whereCondition)
-        .orderBy(models.name);
-    } catch {
-      throw new Error("Failed to search models");
+        ),
+      );
+    } else {
+      // Search in both name and description across all categories
+      whereCondition = or(
+        ilike(models.name, searchPattern),
+        ilike(models.description, searchPattern),
+      );
     }
+    const { data, error } = await tryCatch(
+      async () =>
+        await db
+          .select()
+          .from(models)
+          .where(whereCondition)
+          .orderBy(models.name),
+    );
+    if (!data || error) {
+      return [];
+    }
+    return data;
   },
 );
 
@@ -58,15 +60,18 @@ export const getModelsByCategoryForSearch = cache(
     // Set cache life to default (1 hour)
     cacheLife("default");
 
-    try {
-      return await db
-        .select()
-        .from(models)
-        .where(eq(models.categorySlug, category))
-        .orderBy(models.name);
-    } catch {
-      throw new Error("Failed to fetch models by category for search");
+    const { data, error } = await tryCatch(
+      async () =>
+        await db
+          .select()
+          .from(models)
+          .where(eq(models.categorySlug, category))
+          .orderBy(models.name),
+    );
+    if (!data || error) {
+      return [];
     }
+    return data;
   },
 );
 
@@ -79,11 +84,13 @@ export const getAllModelsForSearch = cache(async (): Promise<Model[]> => {
   // Set cache life to default (1 hour)
   cacheLife("default");
 
-  try {
-    return await db.select().from(models).orderBy(models.name);
-  } catch {
-    throw new Error("Failed to fetch all models for search");
+  const { data, error } = await tryCatch(
+    async () => await db.select().from(models).orderBy(models.name),
+  );
+  if (!data || error) {
+    return [];
   }
+  return data;
 });
 
 // Advanced search with sorting
@@ -100,36 +107,36 @@ export const searchModelsAdvanced = cache(
     // Set cache life to default (1 hour)
     cacheLife("default");
 
-    try {
-      let whereCondition: SQL | undefined;
+    let whereCondition: SQL | undefined;
 
-      if (query && category) {
-        // Search with category filter
-        const searchPattern = `%${query}%`;
-        whereCondition = and(
-          eq(models.categorySlug, category),
-          or(
-            ilike(models.name, searchPattern),
-            ilike(models.description, searchPattern),
-          ),
-        );
-      } else if (query) {
-        // Search across all categories
-        const searchPattern = `%${query}%`;
-        whereCondition = or(
+    if (query && category) {
+      // Search with category filter
+      const searchPattern = `%${query}%`;
+      whereCondition = and(
+        eq(models.categorySlug, category),
+        or(
           ilike(models.name, searchPattern),
           ilike(models.description, searchPattern),
-        );
-      } else if (category) {
-        // Filter by category only
-        whereCondition = eq(models.categorySlug, category);
-      }
+        ),
+      );
+    } else if (query) {
+      // Search across all categories
+      const searchPattern = `%${query}%`;
+      whereCondition = or(
+        ilike(models.name, searchPattern),
+        ilike(models.description, searchPattern),
+      );
+    } else if (category) {
+      // Filter by category only
+      whereCondition = eq(models.categorySlug, category);
+    }
 
-      // Build base query
-      const baseQuery = whereCondition
-        ? db.select().from(models).where(whereCondition)
-        : db.select().from(models);
+    // Build base query
+    const baseQuery = whereCondition
+      ? db.select().from(models).where(whereCondition)
+      : db.select().from(models);
 
+    const { data, error } = await tryCatch(async () => {
       // Apply sorting
       switch (sortBy) {
         case "likes":
@@ -139,8 +146,10 @@ export const searchModelsAdvanced = cache(
         default:
           return await baseQuery.orderBy(models.name);
       }
-    } catch {
-      throw new Error("Failed to perform advanced search");
+    });
+    if (!data || error) {
+      return [];
     }
+    return data;
   },
 );

@@ -1,13 +1,11 @@
 "use client";
 
+import type { User } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 
 type AuthButtonsProps = {
   isAuthenticated: boolean;
-  user?: {
-    name?: string | null;
-    email?: string | null;
-  } | null;
+  user?: Pick<User, "name" | "email"> | null;
 };
 
 export default function AuthButtons({

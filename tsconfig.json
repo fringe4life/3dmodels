@@ -16,7 +16,8 @@
     "noImplicitAny": true,
     "plugins": [
       {
-        "name": "next"
+        "name": "next",
+        "directives": "typescript-plugin-directives"
       }
     ],
     "paths": {

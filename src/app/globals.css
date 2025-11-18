@@ -1,41 +1,39 @@
 @import "tailwindcss";
 
-html {
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-}
-
 @theme {
   --color-orange-accent: #f77d36;
   --color-search-input: #606060;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-montserrat-alternates);
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-montserrat-alternates);
+  }
 }
 
-/* Navigation link styles */
-.nav-link {
+@utility nav-link {
   @apply px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200;
+  &.active {
+    @apply text-blue-600 bg-blue-50 font-semibold;
+  }
 }
 
-.nav-link.active {
-  @apply text-blue-600 bg-blue-50 font-semibold;
-}
-
-@layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
+@utility no-scrollbar {
+  ::-webkit-scrollbar {
     display: none;
   }
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 ::view-transition-group(*) {
@@ -92,4 +90,19 @@ h6 {
 
 .loading-dots::after {
   animation-delay: 0.4s;
+}
+
+@utility scroll-spy {
+  container-type: scroll-state;
+
+  @container scroll-state (stuck: inline-start) {
+    ul {
+      @apply bg-red-400 text-3xl;
+    }
+  }
+  @container scroll-state (stuck: inline-end) {
+    ul {
+      @apply bg-green-500 text-xl;
+    }
+  }
 }

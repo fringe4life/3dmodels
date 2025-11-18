@@ -24,7 +24,7 @@ export default function CategoriesNavClient({
     <GenericComponent
       as="ul"
       Component={Link}
-      className="flex whitespace-nowrap px-4 py-3 md:flex-col md:space-x-0 md:space-y-3 md:p-0"
+      className="grid auto-cols-max grid-flow-col px-4 py-3 md:auto-cols-fr md:grid-flow-row md:p-0"
       items={allCategories}
       renderKey={(item) => item.slug}
       renderProps={(item) => ({

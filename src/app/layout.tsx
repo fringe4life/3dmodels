@@ -6,12 +6,13 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 const albertSans = Albert_Sans({
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 const montserratAlternates = Montserrat_Alternates({
   subsets: ["latin"],
   display: "swap",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700"],
   variable: "--font-montserrat-alternates",
 });
 
@@ -71,9 +72,9 @@ export default function RootLayout({
   footer,
 }: LayoutProps<"/">) {
   return (
-    <html lang="en">
+    <html data-scroll-behavior="smooth" lang="en">
       <body
-        className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh grid-rows-[5.35rem_1fr_5.35rem] gap-10`}
+        className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh max-w-svw grid-rows-[5.35rem_1fr_5.35rem] gap-y-10 overflow-x-clip`}
       >
         {navbar}
         <NuqsAdapter>

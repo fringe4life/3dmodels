@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "ultracite": {
+    "rules": [
+      {
+        "path": ".cursor/rules/ultracite.mdc",
+        "globs": "**/*.{ts,tsx,js,jsx,json,jsonc,html,vue,svelte,astro,css,yaml,yml,graphql,gql,md,mdx,grit}",
+        "alwaysApply": false
+      }
+    ],
+    "tasks": {
+      "check": "bun x ultracite check",
+      "fix": "bun x ultracite fix",
+      "doctor": "bun x ultracite doctor"
+    }
+  },
+  "hooks": {
+    "afterFileEdit": [
+      { "command": "bun run test:affected" },
+      { "command": "bun x ultracite fix" }
+    ]
+  }
+}

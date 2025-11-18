@@ -3,6 +3,7 @@ import { cache } from "react";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
+import { tryCatch } from "@/utils/try-catch";
 
 export const getAllModels = cache(async (): Promise<Model[]> => {
   "use cache";
@@ -10,9 +11,11 @@ export const getAllModels = cache(async (): Promise<Model[]> => {
   cacheTag("models");
   cacheLife("hours");
 
-  try {
-    return await db.select().from(models);
-  } catch {
-    throw new Error("Failed to fetch all models");
+  const { data, error } = await tryCatch(
+    async () => await db.select().from(models),
+  );
+  if (error || !data) {
+    return [];
   }
+  return data;
 });

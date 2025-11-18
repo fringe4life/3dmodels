@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     browserDebugInfoInTerminal: true,
     viewTransition: true,
     mcpServer: true,
-    clientSegmentCache: true,
+    typedEnv: true,
   },
 };
 

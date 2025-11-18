@@ -14,17 +14,25 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 16 with App Router, Cache Components, and PPR (Partial Prerendering)
-- **Language**: TypeScript with React 19
-- **Styling**: Tailwind CSS v4
-- **Database**: Neon (PostgreSQL) with Drizzle ORM
-- **Authentication**: NextAuth.js v5 with Google OAuth and JWT sessions
-- **Search Params**: nuqs for type-safe URL state management
-- **Linting & Formatting**: Biome with Ultracite rules
-- **Type Checking**: tsgo
+![Next.js](https://img.shields.io/badge/Next.js-16.0.3-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-0.44.7-FFE66D?logo=postgresql)
+![NextAuth](https://img.shields.io/badge/NextAuth-5.0.0--beta.30-000000?logo=next.js)
+![Biome](https://img.shields.io/badge/Biome-2.3.6-60A5FA?logo=biome)
+
+- **Framework**: Next.js 16.0.3 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Language**: TypeScript 5.9.3 with React 19.2.0
+- **Styling**: Tailwind CSS v4.1.17
+- **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7
+- **Authentication**: NextAuth.js v5.0.0-beta.30 with Google OAuth and JWT sessions
+- **Search Params**: nuqs 2.8.0 for type-safe URL state management
+- **Linting & Formatting**: Biome 2.3.6 with Ultracite 6.3.4 rules
+- **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
-- **Validation**: Valibot for schema validation (migrated from Zod)
+- **Validation**: Valibot 1.1.0 for schema validation
 
 ## 📁 Project Structure
 
@@ -40,17 +48,37 @@ src/
 │   │   └── default.tsx
 │   ├── 3d-models/                # 3D models routes
 │   │   ├── @categories/          # Parallel route for categories nav
+│   │   │   └── default.tsx
 │   │   ├── @results/             # Parallel route for search results
+│   │   │   ├── default.tsx
+│   │   │   └── page.tsx
 │   │   ├── [slug]/               # Individual model page
+│   │   │   ├── not-found.tsx
+│   │   │   └── page.tsx
 │   │   ├── categories/           # Category-specific pages
+│   │   │   └── [categoryName]/
+│   │   │       ├── not-found.tsx
+│   │   │       └── page.tsx
 │   │   ├── layout.tsx            # Models layout
 │   │   └── page.tsx              # Models listing page
 │   ├── about/                    # About page
+│   │   └── page.tsx
 │   ├── auth/                     # Authentication routes
+│   │   └── signin/
+│   │       ├── page.tsx
+│   │       └── sign-in-button.tsx
 │   ├── api/                      # API routes
+│   │   └── auth/
+│   │       └── [...nextauth]/
+│   │           └── route.ts
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
+├── assets/                       # Static assets
+│   └── images/                   # Image files
+│       ├── hero-image.png
+│       ├── hero-image-square.png
+│       └── placeholder.png
 ├── features/  
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
@@ -75,11 +103,10 @@ src/
 │   │   │   └── search-schemas.ts
 │   │   ├── utils/                # Model utilities
 │   │   │   └── cache-invalidation.ts
-│   │   └── search-params.ts      # Type-safe search params
+│   │   └── search-params.ts       # Type-safe search params
 │   └── categories/               # Categories feature
 │       ├── components/           # Category-specific components
 │       │   ├── categories-header.tsx
-│       │   ├── categories-nav.tsx
 │       │   └── categories-nav-client.tsx
 │       └── queries/              # Category data queries
 │           ├── get-all-categories.ts
@@ -87,7 +114,7 @@ src/
 │           └── get-category-by-slug.ts
 ├── components/                   # Shared/generic components
 │   ├── generic-component.tsx     # Generic wrapper component
-│   ├── has-auth.tsx             # Generic auth component with Stream
+│   ├── has-auth.tsx              # Generic auth component with Stream
 │   ├── pill.tsx                  # Reusable pill component
 │   └── streamable.tsx            # Streaming utilities
 ├── db/                          # Database configuration
@@ -105,8 +132,11 @@ src/
 ├── lib/                         # Utility functions
 │   ├── auth.ts                  # NextAuth configuration
 │   └── date.ts                  # Date utilities
-└── types/                       # Type definitions
-    └── index.ts                 # Shared types
+├── types/                       # Type definitions
+│   └── index.ts                 # Shared types
+├── utils/                       # Utility functions
+│   └── try-catch.ts             # Error handling utilities
+└── proxy.ts                     # Proxy configuration
 ```
 
 ## 🏗️ Architecture Overview
@@ -245,10 +275,10 @@ The application uses Next.js cache with granular cache tags for efficient invali
 #### Feature Components
 - `features/models/components/model-card` - Individual model display
 - `features/models/components/models-grid` - Grid layout for model cards
-- `features/models/components/heart-button` - Server component for like/unlike (fetches auth & like status)
+- `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
 - `features/models/components/heart-button-client` - Client component for like interactions
 - `features/models/components/search-input` - Model search functionality
-- `features/categories/components/categories-nav` - Category filtering sidebar
+- `features/categories/components/categories-nav-client` - Category filtering sidebar
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration

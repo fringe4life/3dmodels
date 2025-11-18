@@ -4,7 +4,7 @@ import { cache } from "react";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
-
+import { tryCatch } from "@/utils/try-catch";
 export const getModelsByCategory = cache(
   async (category: string): Promise<Model[]> => {
     "use cache";
@@ -12,13 +12,13 @@ export const getModelsByCategory = cache(
     cacheTag("models", `models-category-${category}`);
     cacheLife("hours");
 
-    try {
-      return await db
-        .select()
-        .from(models)
-        .where(eq(models.categorySlug, category));
-    } catch {
-      throw new Error("Failed to fetch models by category");
+    const { data, error } = await tryCatch(
+      async () =>
+        await db.select().from(models).where(eq(models.categorySlug, category)),
+    );
+    if (!data || error) {
+      return [];
     }
+    return data;
   },
 );
