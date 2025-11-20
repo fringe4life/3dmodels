@@ -20,7 +20,7 @@
     "db:seed": "tsx src/db/seed.ts",
     "db:drop": "tsx src/db/drop-tables.ts",
     "prepare": "husky",
-    "type": "tsgo --noEmit"
+    "type": "tsgo --noEmit --skipLibCheck --project tsconfig.json"
   },
   "dependencies": {
     "@auth/core": "^0.41.1",
@@ -70,6 +70,6 @@
   "overrides": {
     "esbuild": ">=0.25",
     "tmp": ">=0.2.4",
-    "glob": "^11.0.4"
+    "glob": "^12.0.0"
   }
 }
