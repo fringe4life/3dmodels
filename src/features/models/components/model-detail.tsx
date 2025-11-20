@@ -1,0 +1,50 @@
+import { ViewTransition } from "react";
+import placeholderImg from "@/assets/images/placeholder.png";
+import Pill from "@/components/pill";
+import { toggleLike } from "../actions/likes";
+import type { getModelBySlug } from "../queries/get-model-by-slug";
+import { HeartButtonServer } from "./heart-button-server";
+export default function ModelDetail({
+  slug,
+  name,
+  categorySlug,
+  description,
+  dateAdded,
+}: NonNullable<Awaited<ReturnType<typeof getModelBySlug>>>) {
+  return (
+    <ViewTransition name={`model-${slug}`}>
+      <div className="container mx-auto max-w-6xl px-4 py-8">
+        <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <figure className="relative aspect-square rounded-lg shadow-lg contain-content">
+            <img
+              alt={`3D model of ${name}`}
+              className="absolute inset-0 h-full w-full object-cover"
+              height={300}
+              src={placeholderImg.src}
+              width={300}
+            />
+          </figure>
+
+          {/* Content Section - Static with Dynamic Like Status */}
+          <section className="grid content-center">
+            {/* Dynamic Like Status */}
+            <HeartButtonServer slug={slug} toggleAction={toggleLike} />
+            <h1 className="mb-6 font-bold text-4xl">{name}</h1>
+
+            <Pill className="mb-6 w-fit">{categorySlug}</Pill>
+
+            <div className="prose prose-lg mb-6 max-w-none">
+              <p className="text-gray-700 leading-relaxed">{description}</p>
+            </div>
+
+            <footer className="text-gray-500 text-sm">
+              <time dateTime={dateAdded.toISOString()}>
+                Added on {dateAdded.toLocaleDateString()}
+              </time>
+            </footer>
+          </section>
+        </article>
+      </div>
+    </ViewTransition>
+  );
+}

@@ -19,8 +19,6 @@ export function SearchInput() {
       history: "push",
       shallow: false,
       startTransition,
-      // Debounce URL updates to avoid excessive server requests
-      limitUrlUpdates: debounce(SEARCH_DEBOUNCE_DELAY),
     }),
   );
 

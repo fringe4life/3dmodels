@@ -6,7 +6,7 @@ import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
 import { tryCatch } from "@/utils/try-catch";
 export const getModelsByCategory = cache(
-  async (category: string): Promise<Model[]> => {
+  async (category: string): Promise<Model[] | null> => {
     "use cache";
 
     cacheTag("models", `models-category-${category}`);
@@ -17,7 +17,7 @@ export const getModelsByCategory = cache(
         await db.select().from(models).where(eq(models.categorySlug, category)),
     );
     if (!data || error) {
-      return [];
+      return null;
     }
     return data;
   },

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import CategoriesHeader from "@/features/categories/components/categories-header";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
@@ -14,6 +15,9 @@ export async function generateMetadata({
 }: PageProps<"/3d-models/categories/[categoryName]">): Promise<Metadata> {
   const { categoryName } = await params;
   const category = await getCategoryBySlug(categoryName);
+  if (!category) {
+    return notFound();
+  }
 
   return {
     title: category.displayName,
@@ -31,7 +35,17 @@ export default async function CategoryPage({
   const { categoryName } = await params;
 
   const category = await getCategoryBySlug(categoryName);
+
+  if (!category) {
+    return notFound();
+  }
+
   const models = await getModelsByCategory(categoryName);
+
+  if (!models) {
+    return notFound();
+  }
+
   return (
     <>
       {/* Static header content */}

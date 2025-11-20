@@ -21,6 +21,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-0.44.7-FFE66D?logo=postgresql)
 ![NextAuth](https://img.shields.io/badge/NextAuth-5.0.0--beta.30-000000?logo=next.js)
 ![Biome](https://img.shields.io/badge/Biome-2.3.6-60A5FA?logo=biome)
+[![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
+[![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
 - **Framework**: Next.js 16.0.3 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.0
@@ -89,6 +91,7 @@ src/
 │   │   │   ├── heart-button-client.tsx
 │   │   │   ├── heart-button-skeleton.tsx
 │   │   │   ├── model-card.tsx
+│   │   │   ├── model-detail.tsx
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   └── search-input.tsx
@@ -153,6 +156,11 @@ The project follows a feature-based architecture where related functionality is 
 - **`features/`**: Feature-based modules with their own components and queries
 - **`components/`**: Shared/generic components used across features
 - **`db/seed-data/`**: Explicitly named seed data files
+
+### Performance Optimizations
+- **NuqsAdapter**: Scoped to `/3d-models` layout only (not root layout) for reduced overhead on routes that don't use URL state management
+- **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
+- **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 
 ## 🚀 Getting Started
 
@@ -273,11 +281,12 @@ The application uses Next.js cache with granular cache tags for efficient invali
 ### Key Components
 
 #### Feature Components
-- `features/models/components/model-card` - Individual model display
+- `features/models/components/model-card` - Individual model display card
+- `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
 - `features/models/components/heart-button-client` - Client component for like interactions
-- `features/models/components/search-input` - Model search functionality
+- `features/models/components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav-client` - Category filtering sidebar
 
 #### Navigation Components

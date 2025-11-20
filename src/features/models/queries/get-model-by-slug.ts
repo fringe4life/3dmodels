@@ -26,7 +26,7 @@ export const getModelBySlug = cache(async (slug: string) => {
         .limit(1),
   );
   if (error || !data) {
-    throw new Error(`Model with slug ${slug} not found`);
+    return null;
   }
   return data[0];
 });

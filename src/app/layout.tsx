@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css" with { type: "module" };
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const albertSans = Albert_Sans({
   subsets: ["latin"],
@@ -77,9 +76,7 @@ export default function RootLayout({
         className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh max-w-svw grid-rows-[5.35rem_1fr_5.35rem] gap-y-10 overflow-x-clip`}
       >
         {navbar}
-        <NuqsAdapter>
-          <main>{children}</main>
-        </NuqsAdapter>
+        <main>{children}</main>
         {footer}
       </body>
     </html>

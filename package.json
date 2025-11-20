@@ -19,7 +19,8 @@
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx src/db/seed.ts",
     "db:drop": "tsx src/db/drop-tables.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "type": "tsgo --noEmit"
   },
   "dependencies": {
     "@auth/core": "^0.41.1",
@@ -50,10 +51,10 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
-    "@typescript/native-preview": "^7.0.0-dev.20251118.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251119.1",
     "drizzle-kit": "^0.31.7",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6",
+    "lint-staged": "^16.2.7",
     "tailwindcss": "^4.1.17",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",

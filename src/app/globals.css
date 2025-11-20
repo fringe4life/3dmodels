@@ -5,6 +5,7 @@
   --color-search-input: #606060;
 }
 
+/* BASE STYLES */
 @layer base {
   html {
     scrollbar-gutter: stable;
@@ -20,6 +21,7 @@
   }
 }
 
+/* UTILITIES */
 @utility nav-link {
   @apply px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200;
   &.active {
@@ -36,6 +38,41 @@
   scrollbar-width: none; /* Firefox */
 }
 
+/* Animated loading dots */
+@utility loading-dots {
+  position: relative;
+  &::before,
+  &::after {
+    content: ".";
+    position: absolute;
+    animation: --fade-in 0.6s ease-in-out infinite alternate;
+  }
+
+  &::before {
+    animation-delay: 0.2s;
+  }
+
+  &::after {
+    animation-delay: 0.4s;
+  }
+}
+
+@utility scroll-spy {
+  container-type: scroll-state;
+
+  @container scroll-state (stuck: inline-start) {
+    ul {
+      @apply bg-red-400 text-3xl;
+    }
+  }
+  @container scroll-state (stuck: inline-end) {
+    ul {
+      @apply bg-green-500 text-xl;
+    }
+  }
+}
+
+/* VIEW TRANSITIONS */
 ::view-transition-group(*) {
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -48,7 +85,7 @@
 ::view-transition-new(.enter):only-child {
   animation-name: --fade-in;
 }
-
+/* ANIMATIONS */
 @keyframes --fade-out {
   from {
     opacity: 1;
@@ -69,40 +106,5 @@
   to {
     opacity: 1;
     translate: 0 0;
-  }
-}
-
-/* Animated loading dots */
-.loading-dots {
-  position: relative;
-}
-
-.loading-dots::before,
-.loading-dots::after {
-  content: ".";
-  position: absolute;
-  animation: --fade-in 0.6s ease-in-out infinite alternate;
-}
-
-.loading-dots::before {
-  animation-delay: 0.2s;
-}
-
-.loading-dots::after {
-  animation-delay: 0.4s;
-}
-
-@utility scroll-spy {
-  container-type: scroll-state;
-
-  @container scroll-state (stuck: inline-start) {
-    ul {
-      @apply bg-red-400 text-3xl;
-    }
-  }
-  @container scroll-state (stuck: inline-end) {
-    ul {
-      @apply bg-green-500 text-xl;
-    }
   }
 }
