@@ -1,18 +1,21 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { cache } from "react";
 import { db } from "@/db";
 import type { Category } from "@/db/schema/models";
 import { categories } from "@/db/schema/models";
+import { tryCatch } from "@/utils/try-catch";
 
-export const getAllCategories = cache(async (): Promise<Category[]> => {
+export const getAllCategories = async (): Promise<Category[]> => {
   "use cache";
   cacheLife("max");
   cacheTag("categories");
 
-  try {
-    const allCategories = await db.select().from(categories);
-    return allCategories;
-  } catch {
-    throw new Error("Failed to fetch categories from database");
+  const { data, error } = await tryCatch(
+    async () => await db.select().from(categories),
+  );
+
+  if (!data || error) {
+    return [];
   }
-});
+
+  return data;
+};

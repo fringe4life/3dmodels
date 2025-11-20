@@ -26,6 +26,7 @@ export default function AboutPage() {
             <img
               alt="PrintForge Community - A group of makers collaborating on 3D printing projects"
               className="absolute inset-0 h-full w-full rounded-lg object-cover"
+              height={300}
               src={HeroImageSquare.src}
             />
           </div>

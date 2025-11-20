@@ -10,6 +10,7 @@ import {
   searchFormSchema,
 } from "@/features/models/schemas/search-schemas";
 import { invalidateAllModels } from "@/features/models/utils/cache-invalidation";
+import { tryCatch } from "@/utils/try-catch";
 
 // Type for search action state
 export type SearchActionState = {
@@ -38,7 +39,16 @@ export async function performSearch(
     const { query } = validation.data;
 
     // Use optimized search function with database-level filtering
-    const filteredModels = await searchModels(query);
+    const { data: filteredModels, error } = await tryCatch(
+      async () => await searchModels(query),
+    );
+
+    if (error || !filteredModels) {
+      return {
+        error: "Failed to perform search. Please try again.",
+        query: prevState.query || "",
+      };
+    }
 
     // Revalidate the models cache to show updated results
     invalidateAllModels();
@@ -62,13 +72,13 @@ export async function performAdvancedSearch(
   formData: FormData,
 ): Promise<SearchActionState> {
   try {
-    // Validate form data with Zod
+    // Validate form data with Valibot
     const validation = parseFormData(formData, advancedSearchFormSchema);
 
     if (!validation.success) {
       return {
         error: validation.error,
-        query: prevState.query || "",
+        query: prevState.query ?? "",
       };
     }
 
@@ -82,7 +92,16 @@ export async function performAdvancedSearch(
     }
 
     // Use optimized advanced search function with database-level filtering and sorting
-    const sortedModels = await searchModelsAdvanced(query, category, sortBy);
+    const { data: sortedModels, error } = await tryCatch(
+      async () => await searchModelsAdvanced(query, category, sortBy),
+    );
+
+    if (error || !sortedModels) {
+      return {
+        error: "Failed to perform advanced search. Please try again.",
+        query: prevState.query ?? "",
+      };
+    }
 
     invalidateAllModels();
 

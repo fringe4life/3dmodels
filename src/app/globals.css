@@ -57,21 +57,6 @@
   }
 }
 
-@utility scroll-spy {
-  container-type: scroll-state;
-
-  @container scroll-state (stuck: inline-start) {
-    ul {
-      @apply bg-red-400 text-3xl;
-    }
-  }
-  @container scroll-state (stuck: inline-end) {
-    ul {
-      @apply bg-green-500 text-xl;
-    }
-  }
-}
-
 /* VIEW TRANSITIONS */
 ::view-transition-group(*) {
   animation-duration: 0.5s;
