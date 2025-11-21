@@ -94,6 +94,7 @@ src/
 │   │   │   ├── model-detail.tsx
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
+│   │   │   ├── models-not-found.tsx
 │   │   │   └── search-input.tsx
 │   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-models.ts
@@ -289,6 +290,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `features/models/components/model-card` - Individual model display card
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
+- `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
 - `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
 - `features/models/components/heart-button-client` - Client component for like interactions
 - `features/models/components/search-input` - Model search functionality with URL state

@@ -41,7 +41,7 @@ export const searchModels = async (
     async () =>
       await db.select().from(models).where(whereCondition).orderBy(models.name),
   );
-  if (!data || error) {
+  if (!data || data.length === 0 || error) {
     return null;
   }
   return data;
