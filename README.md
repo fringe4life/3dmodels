@@ -118,6 +118,8 @@ src/
 ├── components/                   # Shared/generic components
 │   ├── generic-component.tsx     # Generic wrapper component
 │   ├── has-auth.tsx              # Generic auth component with Stream
+│   ├── not-found.tsx             # Reusable not-found page component
+│   ├── not-found-list-item.tsx   # List item component for not-found pages
 │   ├── pill.tsx                  # Reusable pill component
 │   └── streamable.tsx            # Streaming utilities
 ├── db/                          # Database configuration
@@ -161,6 +163,7 @@ The project follows a feature-based architecture where related functionality is 
 - **NuqsAdapter**: Scoped to `/3d-models` layout only (not root layout) for reduced overhead on routes that don't use URL state management
 - **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
+- **Cache Components**: Uses "use cache" directive for persistent caching; React `cache()` is not needed when using "use cache" unless functions are called multiple times in the same render pass
 
 ## 🚀 Getting Started
 
@@ -297,6 +300,8 @@ The application uses Next.js cache with granular cache tags for efficient invali
 
 #### Shared Components
 - `components/has-auth` - Generic auth component that handles authentication with Stream internally
+- `components/not-found` - Reusable not-found page component with centered layout and context-specific messaging
+- `components/not-found-list-item` - List item component for not-found page suggestions
 - `components/pill` - Small label component
 - `components/streamable` - Streaming utilities for progressive rendering
 - `components/generic-component` - Generic wrapper for collections

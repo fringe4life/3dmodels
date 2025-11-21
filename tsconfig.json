@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es2022",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -14,10 +13,13 @@
     "jsx": "react-jsx",
     "incremental": true,
     "noImplicitAny": true,
+    "allowJs": true,
     "plugins": [
       {
-        "name": "next",
-        "directives": "typescript-plugin-directives"
+        "name": "next"
+      },
+      {
+        "name": "typescript-plugin-directives"
       }
     ],
     "paths": {

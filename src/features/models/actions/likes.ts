@@ -4,8 +4,8 @@ import { and, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
-import { invalidateModel } from "@/features/models/utils/cache-invalidation";
 import { auth } from "@/lib/auth";
+import { invalidateModel } from "@/utils/cache-invalidation";
 import { tryCatch } from "@/utils/try-catch";
 
 export async function toggleLike(_prevState: unknown, formData: FormData) {

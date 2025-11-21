@@ -14,6 +14,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/3d-models/categories/[categoryName]">): Promise<Metadata> {
   const { categoryName } = await params;
+
   const category = await getCategoryBySlug(categoryName);
   if (!category) {
     return notFound();

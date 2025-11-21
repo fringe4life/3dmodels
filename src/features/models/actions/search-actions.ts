@@ -9,7 +9,7 @@ import {
   parseFormData,
   searchFormSchema,
 } from "@/features/models/schemas/search-schemas";
-import { invalidateAllModels } from "@/features/models/utils/cache-invalidation";
+import { invalidateAllModels } from "@/utils/cache-invalidation";
 import { tryCatch } from "@/utils/try-catch";
 
 // Type for search action state
