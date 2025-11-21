@@ -3,6 +3,8 @@
 @theme {
   --color-orange-accent: #f77d36;
   --color-search-input: #606060;
+
+  --shadow-model-card: 0 5px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* BASE STYLES */

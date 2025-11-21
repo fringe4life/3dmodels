@@ -11,3 +11,8 @@ export type WithLike<T> = T & { hasLiked: boolean };
  * This can be used when you need the full Model type with like information
  */
 export type ModelWithLike = WithLike<Model>;
+
+/**
+ * Used to handle potential failures. It can be used to return a value or null.
+ */
+export type Maybe<T> = T | null;

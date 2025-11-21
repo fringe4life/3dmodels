@@ -1,13 +1,16 @@
 import { db } from "@/db";
-import { models } from "@/db/schema/models";
+import { type Model, models } from "@/db/schema/models";
+import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
-export const getAllModelSlugs = async (): Promise<{ slug: string }[]> => {
+export const getAllModelSlugs = async (): Promise<
+  Maybe<Pick<Model, "slug">[]>
+> => {
   const { data, error } = await tryCatch(
     async () => await db.select({ slug: models.slug }).from(models),
   );
   if (error || !data) {
-    return [];
+    throw new Error("Failed to fetch all model slugs from database");
   }
   return data;
 };

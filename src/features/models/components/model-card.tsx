@@ -14,11 +14,7 @@ export default function ModelCard({ model }: ModelCardProps) {
   const { slug, name, description, categorySlug } = model;
   return (
     <ViewTransition enter="enter" exit="exit" name={`model-${slug}`}>
-      <article className="group hover:-translate-y-[3px] relative block overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-300 ease-out">
-        {/* Pseudo-element for hover shadow */}
-        <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 shadow-[0_5px_12px_rgba(0,0,0,0.1)] transition-opacity duration-300 ease-out group-hover:opacity-100" />
-
-        {/* Shared element transition for the model image */}
+      <article className="hover:-translate-y-0.5 relative block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-lg after:opacity-0 after:shadow-model-card hover:after:opacity-100">
         <div className="relative aspect-square contain-strict">
           <img
             alt={name}

@@ -1,9 +1,4 @@
-import { cacheLife } from "next/cache";
-
-// biome-ignore lint/suspicious/useAwait: needed for use cache
-export async function ModelsGridSkeleton() {
-  "use cache";
-  cacheLife("max");
+export function ModelsGridSkeleton() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="animate-pulse">

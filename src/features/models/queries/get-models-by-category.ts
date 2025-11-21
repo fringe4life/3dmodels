@@ -3,11 +3,12 @@ import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
+import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
 export async function getModelsByCategory(
   category: string,
-): Promise<Model[] | null> {
+): Promise<Maybe<Model[]>> {
   "use cache";
 
   cacheTag("models", `models-category-${category}`);

@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import NotFound from "@/components/not-found";
 import Stream from "@/components/streamable";
 import ModelsGrid from "@/features/models/components/models-grid";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
@@ -24,6 +25,21 @@ async function ResultsContent({ searchParams }: ResultsContentProps) {
   const search = await searchParams;
   const { query } = modelsSearchParamsCache.parse(search);
   const models = await getModelsForQuery(query);
+  if (!models) {
+    return (
+      <NotFound
+        heading="No models found"
+        links={[
+          {
+            label: "Browse all models",
+            href: "/3d-models",
+          },
+        ]}
+        listItems={[]}
+        subheading="Your search returned no results."
+      />
+    );
+  }
   return <ModelsGrid models={models} title="3D Models" />;
 }
 

@@ -3,12 +3,13 @@ import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
+import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 // Optimized search function that doesn't fetch like status
 export const searchModels = async (
   query: string,
   category?: string,
-): Promise<Model[]> => {
+): Promise<Maybe<Model[]>> => {
   "use cache";
 
   // Set cache tags for revalidation control
@@ -41,7 +42,7 @@ export const searchModels = async (
       await db.select().from(models).where(whereCondition).orderBy(models.name),
   );
   if (!data || error) {
-    return [];
+    return null;
   }
   return data;
 };
@@ -49,7 +50,7 @@ export const searchModels = async (
 // Get models by category without like status (for search)
 export const getModelsByCategoryForSearch = async (
   category: string,
-): Promise<Model[]> => {
+): Promise<Maybe<Model[]>> => {
   "use cache";
 
   // Set cache tags for revalidation control
@@ -72,7 +73,7 @@ export const getModelsByCategoryForSearch = async (
 };
 
 // Get all models for search (without like status)
-export const getAllModelsForSearch = async (): Promise<Model[]> => {
+export const getAllModelsForSearch = async (): Promise<Maybe<Model[]>> => {
   "use cache";
 
   // Set cache tags for revalidation control
@@ -84,7 +85,7 @@ export const getAllModelsForSearch = async (): Promise<Model[]> => {
     async () => await db.select().from(models).orderBy(models.name),
   );
   if (!data || error) {
-    return [];
+    return null;
   }
   return data;
 };
@@ -94,7 +95,7 @@ export async function searchModelsAdvanced(
   query?: string,
   category?: string,
   sortBy?: "name" | "likes" | "dateAdded",
-): Promise<Model[]> {
+): Promise<Maybe<Model[]>> {
   "use cache";
 
   // Set cache tags for revalidation control
@@ -143,7 +144,7 @@ export async function searchModelsAdvanced(
     }
   });
   if (!data || error) {
-    return [];
+    return null;
   }
   return data;
 }

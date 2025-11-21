@@ -138,8 +138,9 @@ src/
 │   ├── auth.ts                  # NextAuth configuration
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
-│   └── index.ts                 # Shared types
+│   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike)
 ├── utils/                       # Utility functions
+│   ├── cache-invalidation.ts    # Cache invalidation utilities
 │   └── try-catch.ts             # Error handling utilities
 └── proxy.ts                     # Proxy configuration
 ```
@@ -163,7 +164,8 @@ The project follows a feature-based architecture where related functionality is 
 - **NuqsAdapter**: Scoped to `/3d-models` layout only (not root layout) for reduced overhead on routes that don't use URL state management
 - **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
-- **Cache Components**: Uses "use cache" directive for persistent caching; React `cache()` is not needed when using "use cache" unless functions are called multiple times in the same render pass
+- **Cache Components**: Uses "use cache" directive for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
+- **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types
 
 ## 🚀 Getting Started
 

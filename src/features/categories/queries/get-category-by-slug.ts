@@ -4,10 +4,11 @@ import { cache } from "react";
 import { db } from "@/db";
 import type { Category } from "@/db/schema/models";
 import { categories } from "@/db/schema/models";
+import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
 export const getCategoryBySlug = cache(
-  async (slug: string): Promise<Pick<Category, "displayName"> | null> => {
+  async (slug: string): Promise<Maybe<Pick<Category, "displayName">>> => {
     "use cache";
     cacheTag("categories", `category-${slug}`);
     cacheLife("max");
