@@ -19,8 +19,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-0.44.7-FFE66D?logo=postgresql)
-![NextAuth](https://img.shields.io/badge/NextAuth-5.0.0--beta.30-000000?logo=next.js)
-![Biome](https://img.shields.io/badge/Biome-2.3.6-60A5FA?logo=biome)
+![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.1-000000?logo=next.js)
+![Biome](https://img.shields.io/badge/Biome-2.3.7-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
@@ -28,9 +28,9 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript 5.9.3 with React 19.2.0
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7
-- **Authentication**: NextAuth.js v5.0.0-beta.30 with Google OAuth and JWT sessions
-- **Search Params**: nuqs 2.8.0 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.6 with Ultracite 6.3.4 rules
+- **Authentication**: Better Auth 1.4.1 with email/password and GitHub OAuth
+- **Search Params**: nuqs 2.8.1 for type-safe URL state management
+- **Linting & Formatting**: Biome 2.3.7 with Ultracite 6.3.6 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
@@ -65,14 +65,16 @@ src/
 │   │   └── page.tsx              # Models listing page
 │   ├── about/                    # About page
 │   │   └── page.tsx
-│   ├── auth/                     # Authentication routes
-│   │   └── signin/
-│   │       ├── page.tsx
-│   │       └── sign-in-button.tsx
+│   ├── (auth)/                   # Authentication group route
+│   │   ├── layout.tsx            # Centered auth layout
+│   │   ├── signin/
+│   │   │   └── page.tsx
+│   │   └── signup/
+│   │       └── page.tsx
 │   ├── api/                      # API routes
 │   │   └── auth/
-│   │       └── [...nextauth]/
-│   │           └── route.ts
+│   │       └── [...all]/
+│   │           └── route.ts      # Better Auth API handler
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
@@ -82,6 +84,14 @@ src/
 │       ├── hero-image-square.png
 │       └── placeholder.png
 ├── features/  
+│   ├── auth/                     # Authentication feature
+│   │   ├── actions/              # Server actions
+│   │   │   ├── sign-in-action.ts
+│   │   │   └── sign-up-action.ts
+│   │   ├── components/           # Auth components
+│   │   │   └── sign-in-button.tsx
+│   │   └── queries/              # Auth queries
+│   │       └── get-session.ts
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
 │   │   │   ├── likes.ts
@@ -97,7 +107,6 @@ src/
 │   │   │   ├── models-not-found.tsx
 │   │   │   └── search-input.tsx
 │   │   ├── queries/              # Model data queries
-│   │   │   ├── get-all-models.ts
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts
@@ -105,8 +114,6 @@ src/
 │   │   │   └── search-models.ts
 │   │   ├── schemas/              # Validation schemas (Valibot)
 │   │   │   └── search-schemas.ts
-│   │   ├── utils/                # Model utilities
-│   │   │   └── cache-invalidation.ts
 │   │   └── search-params.ts       # Type-safe search params
 │   └── categories/               # Categories feature
 │       ├── components/           # Category-specific components
@@ -135,15 +142,19 @@ src/
 │   ├── seed.ts                  # Database seeding script
 │   ├── drop-tables.ts           # Drop all tables script
 │   └── index.ts                 # Database connection
-├── lib/                         # Utility functions
-│   ├── auth.ts                  # NextAuth configuration
+├── lib/                         # Utility libraries
+│   ├── auth.ts                  # Better Auth configuration
+│   ├── auth-client.ts           # Better Auth client instance
+│   ├── auth-actions.ts         # Auth server actions
+│   ├── better-auth-errors.ts   # Better Auth error mapping
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
 │   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
+│   ├── to-action-state.ts       # Action state utilities for server actions
 │   └── try-catch.ts             # Error handling utilities
-└── proxy.ts                     # Proxy configuration
+└── proxy.ts                     # Next.js proxy middleware
 ```
 
 ## 🏗️ Architecture Overview
@@ -192,9 +203,10 @@ The project follows a feature-based architecture where related functionality is 
    Create a `.env` file in the root directory:
    ```env
    DATABASE_URL="your-neon-database-connection-string"
-   AUTH_GOOGLE_ID="your-google-oauth-client-id"
-   AUTH_GOOGLE_SECRET="your-google-oauth-client-secret"
-   AUTH_SECRET="your-auth-secret-for-jwt-sessions"
+   GITHUB_CLIENT_ID="your-github-oauth-client-id"
+   GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
+   AUTH_URL="http://localhost:3000"  # or your production URL
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"  # or your production URL
    ```
 
 4. **Database Setup**
@@ -243,12 +255,11 @@ The project follows a feature-based architecture where related functionality is 
 - `createdAt`: Timestamp when like was created
 - Unique constraint on `(userId, modelSlug)` pair
 
-### Authentication Tables (NextAuth.js)
-- `users`: User accounts
-- `accounts`: OAuth provider accounts
-- `sessions`: User sessions
-- `verificationTokens`: Email verification tokens
-- `authenticators`: WebAuthn authenticators
+### Authentication Tables (Better Auth)
+- `user`: User accounts with email/password and OAuth support
+- `account`: OAuth provider accounts (GitHub)
+- `session`: User sessions with cookie caching
+- `verification`: Email verification tokens
 
 ## 🗄️ Database Operations
 
@@ -311,7 +322,13 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `components/generic-component` - Generic wrapper for collections
 
 #### Authentication & Data Access
-- `lib/auth` - NextAuth v5 configuration with Google OAuth and JWT sessions
+- `lib/auth` - Better Auth configuration with email/password and GitHub OAuth
+- `lib/auth-client` - Better Auth client instance for client-side usage
+- `lib/auth-actions` - Auth server actions for cache invalidation
+- `lib/better-auth-errors` - Error mapping utilities for Better Auth
+- `features/auth/actions` - Sign-in and sign-up server actions with Valibot validation
+- `features/auth/queries/get-session` - Session query with cache directives
+- `utils/to-action-state` - Action state utilities for consistent server action responses
 
 ## 🔧 Development
 
@@ -361,9 +378,10 @@ The project follows a consistent coding style with:
 
 Ensure these are set in your deployment environment:
 - `DATABASE_URL`: Your Neon database connection string
-- `AUTH_GOOGLE_ID`: Your Google OAuth client ID
-- `AUTH_GOOGLE_SECRET`: Your Google OAuth client secret
-- `AUTH_SECRET`: Secret for JWT session encryption
+- `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
+- `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret
+- `AUTH_URL`: Your application URL (e.g., `https://yourdomain.com`)
+- `NEXT_PUBLIC_APP_URL`: Your public application URL
 
 ## 📝 Data Management
 
@@ -379,10 +397,11 @@ Ensure these are set in your deployment environment:
 
 ### Cache Management
 
-- Use centralized cache invalidation utilities in `features/models/utils/cache-invalidation.ts`
+- Use centralized cache invalidation utilities in `utils/cache-invalidation.ts`
 - Functions: `invalidateAllModels()`, `invalidateModel(slug)`, `invalidateCategory(slug)`
 - Cache tags provide granular control over what gets invalidated
 - Automatic cache invalidation on data mutations
+- Session cache uses `"use cache: private"` directive with `cacheTag("session")` for responsive auth state
 
 ## 🤝 Contributing
 

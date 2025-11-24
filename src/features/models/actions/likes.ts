@@ -4,13 +4,13 @@ import { and, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
-import { auth } from "@/lib/auth";
+import { getSession } from "@/features/auth/queries/get-session";
 import { invalidateModel } from "@/utils/cache-invalidation";
 import { tryCatch } from "@/utils/try-catch";
 
 export async function toggleLike(_prevState: unknown, formData: FormData) {
   const modelSlug = String(formData.get("modelSlug"));
-  const session = await auth();
+  const session = await getSession();
 
   if (!session?.user?.id) {
     throw new Error("Authentication required");

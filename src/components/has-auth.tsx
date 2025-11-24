@@ -1,6 +1,7 @@
-import type { Session } from "next-auth";
 import Stream from "@/components/streamable";
-import { auth } from "@/lib/auth";
+import { getSession } from "@/features/auth/queries/get-session";
+import type { ServerSession } from "@/features/auth/types";
+import type { Maybe } from "@/types";
 
 // Helper type to extract props from a React component
 type ComponentProps<C> = C extends React.ComponentType<infer P> ? P : never;
@@ -22,7 +23,7 @@ type InferAdditionalProps<C, AuthProps> = Omit<
 function HasAuth<
   C extends React.ComponentType<ComponentProps<C>>,
   P extends (
-    session: Session | null,
+    session: Maybe<ServerSession>,
     isAuthenticated: boolean,
   ) => Promise<InferAuthProps<P>> | InferAuthProps<P>,
 >(props: {
@@ -35,7 +36,7 @@ function HasAuth<
 function HasAuth<
   C extends React.ComponentType<ComponentProps<C>>,
   P extends (
-    session: Session | null,
+    session: Maybe<ServerSession>,
     isAuthenticated: boolean,
     additionalProps: InferAdditionalProps<C, InferAuthProps<P>>,
   ) => Promise<InferAuthProps<P>> | InferAuthProps<P>,
@@ -49,7 +50,7 @@ function HasAuth<
 function HasAuth<
   C extends React.ComponentType<ComponentProps<C>>,
   P extends (
-    session: Session | null,
+    session: Maybe<ServerSession>,
     isAuthenticated: boolean,
     ...args: never[]
   ) => Promise<InferAuthProps<P>> | InferAuthProps<P>,
@@ -66,7 +67,7 @@ function HasAuth<
 }) {
   // Internal helper function to render auth content
   const renderAuthContent = async (): Promise<React.ReactElement> => {
-    const session = await auth();
+    const session = await getSession();
     const isAuthenticated = !!session;
 
     type AuthProps = InferAuthProps<P>;
@@ -78,7 +79,7 @@ function HasAuth<
     if (additionalProps !== undefined) {
       authProps = await (
         processUser as unknown as (
-          sessionParam: Session | null,
+          sessionParam: Maybe<ServerSession>,
           isAuthenticatedParam: boolean,
           additionalPropsParam: AdditionalProps,
         ) => Promise<AuthProps> | AuthProps

@@ -1,42 +1,31 @@
-/** biome-ignore-all lint/suspicious/useAwait: needs to be */
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { betterAuth } from "better-auth/minimal";
+import { nextCookies } from "better-auth/next-js";
 import { db } from "@/db";
-import {
-  accounts,
-  sessions,
-  users,
-  verificationTokens,
-} from "@/db/schema/auth";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db, {
-    usersTable: users,
-    accountsTable: accounts,
-    sessionsTable: sessions,
-    verificationTokensTable: verificationTokens,
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: "pg",
   }),
-  providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID as string,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
-    }),
-  ],
+  experimental: {
+    joins: true,
+  },
   session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/auth/signin",
-  },
-  callbacks: {
-    async session({ session, token }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
-      return session;
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // 5 minutes
     },
   },
-  // Trust localhost in development
-  trustHost: true,
+  baseURL: process.env.AUTH_URL || process.env.NEXT_PUBLIC_APP_URL,
+  emailAndPassword: {
+    enabled: true,
+    autoSignIn: true,
+  },
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
+  },
+  plugins: [nextCookies()], // Must be last plugin
 });

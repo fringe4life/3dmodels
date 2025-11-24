@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import Stream from "@/components/streamable";
-import { auth } from "@/lib/auth";
-import SignInButton from "./sign-in-button";
+import SignInButton from "@/features/auth/components/sign-in-button";
 
 export const metadata: Metadata = {
   title: "Sign In",
@@ -14,34 +12,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Server component that handles auth check
-async function SignInContent() {
-  const session = await auth();
-
-  if (session) {
-    redirect("/");
-  }
-
-  return (
-    <div className="mt-8 space-y-6">
-      <div className="rounded-md bg-white p-6 shadow-md">
-        <SignInButton />
-      </div>
-    </div>
-  );
-}
-
-// Loading skeleton for signin content
-function SignInSkeleton() {
-  return (
-    <div className="mt-8 space-y-6">
-      <div className="rounded-md bg-white p-6 shadow-md">
-        <div className="h-10 w-full animate-pulse rounded bg-gray-200" />
-      </div>
-    </div>
-  );
-}
-
 export default function SignInPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -51,9 +21,18 @@ export default function SignInPage() {
             Sign in to your account
           </h2>
         </div>
-        <Stream fallback={<SignInSkeleton />} value={SignInContent()}>
-          {(content) => content}
-        </Stream>
+        <div className="mt-8 space-y-6">
+          <div className="rounded-md bg-white p-6 shadow-md">
+            <Stream
+              fallback={
+                <div className="h-10 w-full animate-pulse rounded bg-gray-200" />
+              }
+              value={SignInButton()}
+            >
+              {(content) => content}
+            </Stream>
+          </div>
+        </div>
       </div>
     </div>
   );

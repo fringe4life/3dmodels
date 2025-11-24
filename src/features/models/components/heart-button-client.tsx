@@ -4,13 +4,14 @@ import { clsx } from "clsx";
 import { type MouseEventHandler, useActionState, useTransition } from "react";
 import { FaHeart } from "react-icons/fa6";
 import type { toggleLike } from "@/features/models/actions/likes";
+import type { Maybe } from "@/types";
 
 export type HeartButtonClientProps = {
   slug: string;
   likesCount: number;
   hasLiked: boolean;
   isAuthenticated: boolean;
-  userId?: string | null;
+  userId: Maybe<string>;
   toggleAction: typeof toggleLike;
 };
 
