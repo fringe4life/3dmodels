@@ -1,11 +1,11 @@
 "use server";
 
-import { updateTag } from "next/cache";
 import { headers } from "next/headers";
 import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
 import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
+import { invalidateSessionCache } from "@/utils/cache-invalidation";
 import {
   type ActionState,
   fromErrorToActionState,
@@ -70,7 +70,7 @@ export async function signInAction(
     }
 
     // Invalidate session cache
-    updateTag("session");
+    invalidateSessionCache();
 
     // Redirect on success
     throw redirect("/", RedirectType.replace);

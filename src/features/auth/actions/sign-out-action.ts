@@ -1,9 +1,9 @@
 "use server";
 
-import { updateTag } from "next/cache";
 import { headers } from "next/headers";
 import { RedirectType, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { invalidateSessionCache } from "@/utils/cache-invalidation";
 import { fromErrorToActionState } from "@/utils/to-action-state";
 import { tryCatch } from "@/utils/try-catch";
 
@@ -22,7 +22,7 @@ export async function signOutAction() {
   }
 
   // Invalidate session cache
-  updateTag("session");
+  invalidateSessionCache();
 
   // Redirect to home page
   throw redirect("/", RedirectType.replace);

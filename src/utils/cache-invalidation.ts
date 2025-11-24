@@ -103,3 +103,7 @@ export function invalidateCategories(categorySlugs: string[]) {
  *   invalidateAllModels();
  * }
  */
+
+export function invalidateSessionCache() {
+  updateTag("session");
+}

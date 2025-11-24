@@ -1,5 +1,5 @@
 import { pgTable, serial, text, timestamp, unique } from "drizzle-orm/pg-core";
-import { users } from "./auth";
+import { user } from "./auth";
 import { models } from "./models";
 
 export const likes = pgTable(
@@ -8,7 +8,7 @@ export const likes = pgTable(
     id: serial("id").primaryKey(),
     userId: text("user_id")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     modelSlug: text("model_slug")
       .notNull()
       .references(() => models.slug, { onDelete: "cascade" }),

@@ -1,6 +1,5 @@
 import { APIError } from "better-auth/api";
 import { flatten, ValiError } from "valibot";
-import { mapBetterAuthErrorToFields } from "@/lib/better-auth-errors";
 
 export type ActionState<T = unknown> = {
   status?: "SUCCESS" | "ERROR";
@@ -32,27 +31,7 @@ const fromErrorToActionState = <T = unknown>(
     };
   }
 
-  // Check for Better Auth APIError
-  if (err instanceof APIError) {
-    // In Better Auth v1.4+, APIError has message and status directly
-    // Error codes may be in the message or we can check status codes
-    const apiError = err as APIError & {
-      code?: string;
-    };
-
-    const errorMessage = apiError.message || "Authentication error";
-    const fieldErrors = mapBetterAuthErrorToFields(errorMessage, apiError.code);
-
-    return {
-      message: errorMessage,
-      fieldErrors,
-      payload: formData,
-      status: "ERROR",
-      timestamp: Date.now(),
-    };
-  }
-
-  if (err instanceof Error) {
+  if (err instanceof Error || err instanceof APIError) {
     return {
       message: err.message,
       fieldErrors: {},

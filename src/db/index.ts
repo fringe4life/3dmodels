@@ -1,16 +1,16 @@
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 
-import { accounts, sessions, users, verificationTokens } from "./schema/auth";
-
+import { account, session, user, verification } from "./schema/auth";
 import { likes } from "./schema/likes";
-
-import { models } from "./schema/models";
-
+import { categories, models } from "./schema/models";
 import {
+  accountRelations,
   categoriesRelations,
   likesRelations,
   modelsRelations,
+  sessionRelations,
+  userRelations,
 } from "./schema/relations";
 
 // Create the SQL client
@@ -18,15 +18,19 @@ const sql = neon(process.env.DATABASE_URL as string);
 
 // Combine all schemas
 const schema = {
-  ...sessions,
-  ...users,
-  ...verificationTokens,
-  ...accounts,
-  ...likes,
-  ...models,
-  ...categoriesRelations,
-  ...modelsRelations,
-  ...likesRelations,
+  user,
+  session,
+  account,
+  verification,
+  categories,
+  models,
+  likes,
+  userRelations,
+  sessionRelations,
+  accountRelations,
+  categoriesRelations,
+  modelsRelations,
+  likesRelations,
 };
 
 // Create the Drizzle database instance

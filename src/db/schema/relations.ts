@@ -1,7 +1,26 @@
 import { relations } from "drizzle-orm";
-import { users } from "./auth";
+import { account, session, user } from "./auth";
 import { likes } from "./likes";
 import { categories, models } from "./models";
+
+export const userRelations = relations(user, ({ many }) => ({
+  sessions: many(session),
+  accounts: many(account),
+}));
+
+export const sessionRelations = relations(session, ({ one }) => ({
+  user: one(user, {
+    fields: [session.userId],
+    references: [user.id],
+  }),
+}));
+
+export const accountRelations = relations(account, ({ one }) => ({
+  user: one(user, {
+    fields: [account.userId],
+    references: [user.id],
+  }),
+}));
 
 // Define relations
 export const categoriesRelations = relations(categories, ({ many }) => ({
@@ -17,9 +36,9 @@ export const modelsRelations = relations(models, ({ one, many }) => ({
 }));
 
 export const likesRelations = relations(likes, ({ one }) => ({
-  user: one(users, {
+  user: one(user, {
     fields: [likes.userId],
-    references: [users.id],
+    references: [user.id],
   }),
   model: one(models, {
     fields: [likes.modelSlug],

@@ -1,10 +1,11 @@
 "use server";
 
-import { updateTag } from "next/cache";
 import { headers } from "next/headers";
 import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
 import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { auth } from "@/lib/auth";
+import type { Maybe } from "@/types";
+import { invalidateSessionCache } from "@/utils/cache-invalidation";
 import {
   type ActionState,
   fromErrorToActionState,
@@ -55,7 +56,7 @@ export type SignUpData = {
 
 // Server action for sign-up
 export async function signUpAction(
-  _: ActionState<SignUpData>,
+  _: Maybe<ActionState<SignUpData>>,
   formData: FormData,
 ): Promise<ActionState<SignUpData>> {
   try {
@@ -86,7 +87,7 @@ export async function signUpAction(
     }
 
     // Invalidate session cache
-    updateTag("session");
+    invalidateSessionCache();
 
     // Redirect on success
     throw redirect("/", RedirectType.replace);
@@ -95,6 +96,6 @@ export async function signUpAction(
     unstable_rethrow(error);
 
     // Convert error to ActionState
-    return fromErrorToActionState<SignUpData>(error, formData);
+    return fromErrorToActionState(error, formData);
   }
 }

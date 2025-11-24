@@ -19,7 +19,7 @@ export const searchModels = async (
 
   const searchPattern = `%${query}%`;
 
-  let whereCondition: SQL | undefined;
+  let whereCondition: Maybe<SQL>;
 
   if (category) {
     // Search in both name and description, filtered by category
@@ -103,7 +103,7 @@ export async function searchModelsAdvanced(
   // Set cache life to default (1 hour)
   cacheLife("default");
 
-  let whereCondition: SQL | undefined;
+  let whereCondition: Maybe<SQL>;
 
   if (query && category) {
     // Search with category filter
