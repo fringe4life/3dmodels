@@ -18,3 +18,6 @@ export const likes = pgTable(
   },
   (table) => [unique("unique_user_model").on(table.userId, table.modelSlug)],
 );
+
+export type Like = typeof likes.$inferSelect;
+export type NewLike = typeof likes.$inferInsert;

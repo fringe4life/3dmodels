@@ -6,6 +6,7 @@ import { categories, models } from "./models";
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
+  models: many(models),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -31,6 +32,10 @@ export const modelsRelations = relations(models, ({ one, many }) => ({
   category: one(categories, {
     fields: [models.categorySlug],
     references: [categories.slug],
+  }),
+  user: one(user, {
+    fields: [models.userId],
+    references: [user.id],
   }),
   likes: many(likes),
 }));

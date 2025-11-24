@@ -87,11 +87,13 @@ src/
 │   ├── auth/                     # Authentication feature
 │   │   ├── actions/              # Server actions
 │   │   │   ├── sign-in-action.ts
+│   │   │   ├── sign-out-action.ts
 │   │   │   └── sign-up-action.ts
 │   │   ├── components/           # Auth components
 │   │   │   └── sign-in-button.tsx
-│   │   └── queries/              # Auth queries
-│   │       └── get-session.ts
+│   │   ├── queries/              # Auth queries
+│   │   │   └── get-session.ts
+│   │   └── types.ts              # Auth type definitions
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
 │   │   │   ├── likes.ts
@@ -126,8 +128,9 @@ src/
 ├── components/                   # Shared/generic components
 │   ├── generic-component.tsx     # Generic wrapper component
 │   ├── has-auth.tsx              # Generic auth component with Stream
-│   ├── not-found.tsx             # Reusable not-found page component
+│   ├── loading-dots.tsx          # Loading indicator component
 │   ├── not-found-list-item.tsx   # List item component for not-found pages
+│   ├── not-found.tsx             # Reusable not-found page component
 │   ├── pill.tsx                  # Reusable pill component
 │   └── streamable.tsx            # Streaming utilities
 ├── db/                          # Database configuration
@@ -145,8 +148,6 @@ src/
 ├── lib/                         # Utility libraries
 │   ├── auth.ts                  # Better Auth configuration
 │   ├── auth-client.ts           # Better Auth client instance
-│   ├── auth-actions.ts         # Auth server actions
-│   ├── better-auth-errors.ts   # Better Auth error mapping
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
 │   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike)
@@ -214,7 +215,8 @@ The project follows a feature-based architecture where related functionality is 
    # Push schema to Neon database
    bunx drizzle-kit push
    
-   # Seed the database with initial data
+   # Note: Users must be created manually (via sign-up or Better Auth admin)
+   # Seed the database with initial data (requires existing users)
    bun run db:seed
    ```
    
@@ -246,6 +248,7 @@ The project follows a feature-based architecture where related functionality is 
 - `likes`: Number of likes (counter)
 - `image`: Image URL
 - `categorySlug`: Foreign key to categories.slug
+- `userId`: Foreign key to user.id (cascade delete)
 - `dateAdded`: Timestamp when model was added
 
 ### Likes Table
@@ -324,10 +327,9 @@ The application uses Next.js cache with granular cache tags for efficient invali
 #### Authentication & Data Access
 - `lib/auth` - Better Auth configuration with email/password and GitHub OAuth
 - `lib/auth-client` - Better Auth client instance for client-side usage
-- `lib/auth-actions` - Auth server actions for cache invalidation
-- `lib/better-auth-errors` - Error mapping utilities for Better Auth
-- `features/auth/actions` - Sign-in and sign-up server actions with Valibot validation
+- `features/auth/actions` - Sign-in, sign-up, and sign-out server actions with Valibot validation
 - `features/auth/queries/get-session` - Session query with cache directives
+- `features/auth/components/sign-in-button` - GitHub OAuth sign-in button
 - `utils/to-action-state` - Action state utilities for consistent server action responses
 
 ## 🔧 Development
@@ -387,8 +389,8 @@ Ensure these are set in your deployment environment:
 
 ### Adding New Models
 
-1. Update `src/db/seed-data/models.ts` with new model data
-2. Run `bun run db:seed` to update the database
+1. Update `src/db/seed-data/models.ts` with new model data (note: `userId` and `likes` are omitted from seed data)
+2. Run `bun run db:seed` to update the database (requires existing users in the database)
 
 ### Adding New Categories
 

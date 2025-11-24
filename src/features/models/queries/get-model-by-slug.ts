@@ -6,7 +6,9 @@ import { type Model, models } from "@/db/schema/models";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 export const getModelBySlug = cache(
-  async (slug: string): Promise<Maybe<Omit<Model, "hasLiked" | "likes">>> => {
+  async (
+    slug: string,
+  ): Promise<Maybe<Omit<Model, "hasLiked" | "likes" | "userId">>> => {
     "use cache";
 
     cacheTag("models", `model-${slug}`);

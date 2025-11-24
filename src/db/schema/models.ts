@@ -1,4 +1,5 @@
 import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { user } from "./auth";
 
 export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
@@ -15,6 +16,9 @@ export const models = pgTable("models", {
   categorySlug: text("category_slug")
     .notNull()
     .references(() => categories.slug),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
   dateAdded: timestamp("date_added", { withTimezone: true })
     .notNull()
     .defaultNow(),
