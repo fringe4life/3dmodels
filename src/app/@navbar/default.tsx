@@ -1,6 +1,6 @@
 import Link from "next/link";
 import NavLink from "@/app/_navigation/nav-link";
-import HasAuth from "@/components/has-auth";
+import { HasAuthSuspense } from "@/components/has-auth";
 import AuthButtons from "../_navigation/auth-buttons";
 
 // Main component with Stream boundary
@@ -32,21 +32,21 @@ export default function Navbar() {
           <NavLink href="/3d-models">3D Models</NavLink>
           <NavLink href="/about">About</NavLink>
           <li className="text-sm">
-            <HasAuth
-              Component={AuthButtons}
+            <HasAuthSuspense
               fallback={
                 <div className="h-8 w-20 animate-pulse rounded bg-gray-200" />
               }
-              processUser={(session, isAuthenticated) => {
-                const user = session
-                  ? {
-                      name: session.user?.name,
-                      email: session.user?.email,
-                    }
-                  : null;
-                return { isAuthenticated, user };
+            >
+              {(session) => {
+                const isAuthenticated = !!session?.user?.id;
+                return (
+                  <AuthButtons
+                    isAuthenticated={isAuthenticated}
+                    user={session?.user}
+                  />
+                );
               }}
-            />
+            </HasAuthSuspense>
           </li>
         </ul>
       </nav>

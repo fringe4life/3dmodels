@@ -1,109 +1,28 @@
-import Stream from "@/components/streamable";
+import { Suspense } from "react";
 import { getSession } from "@/features/auth/queries/get-session";
 import type { ServerSession } from "@/features/auth/types";
 import type { Maybe } from "@/types";
 
-// Helper type to extract props from a React component
-type ComponentProps<C> = C extends React.ComponentType<infer P> ? P : never;
+// HasAuth component that provides session to children
+export const HasAuth = async ({
+  children,
+}: {
+  children: (session: Maybe<ServerSession>) => React.ReactNode;
+}) => {
+  const session = await getSession();
 
-// Helper type to infer AuthProps from processUser return type
-type InferAuthProps<P> = P extends (...args: never[]) => Promise<infer R>
-  ? R
-  : P extends (...args: never[]) => infer R
-    ? R
-    : never;
+  return <>{children(session)}</>;
+};
 
-// Helper type to compute AdditionalProps (Component props minus AuthProps)
-type InferAdditionalProps<C, AuthProps> = Omit<
-  ComponentProps<C>,
-  keyof AuthProps
->;
-
-// Function overloads for HasAuth with different processUser signatures
-function HasAuth<
-  C extends React.ComponentType<ComponentProps<C>>,
-  P extends (
-    session: Maybe<ServerSession>,
-    isAuthenticated: boolean,
-  ) => Promise<InferAuthProps<P>> | InferAuthProps<P>,
->(props: {
-  Component: C;
-  processUser: P;
-  fallback: React.ReactNode;
-  additionalProps?: never;
-}): React.ReactElement;
-
-function HasAuth<
-  C extends React.ComponentType<ComponentProps<C>>,
-  P extends (
-    session: Maybe<ServerSession>,
-    isAuthenticated: boolean,
-    additionalProps: InferAdditionalProps<C, InferAuthProps<P>>,
-  ) => Promise<InferAuthProps<P>> | InferAuthProps<P>,
->(props: {
-  Component: C;
-  processUser: P;
-  fallback: React.ReactNode;
-  additionalProps: InferAdditionalProps<C, InferAuthProps<P>>;
-}): React.ReactElement;
-
-function HasAuth<
-  C extends React.ComponentType<ComponentProps<C>>,
-  P extends (
-    session: Maybe<ServerSession>,
-    isAuthenticated: boolean,
-    ...args: never[]
-  ) => Promise<InferAuthProps<P>> | InferAuthProps<P>,
->({
-  Component,
-  processUser,
-  additionalProps,
+// Suspense wrapper for dynamic auth-dependent content
+export const HasAuthSuspense = ({
+  children,
   fallback,
 }: {
-  Component: C;
-  processUser: P;
+  children: (session: Maybe<ServerSession>) => React.ReactNode;
   fallback: React.ReactNode;
-  additionalProps?: InferAdditionalProps<C, InferAuthProps<P>>;
-}) {
-  // Internal helper function to render auth content
-  const renderAuthContent = async (): Promise<React.ReactElement> => {
-    const session = await getSession();
-    const isAuthenticated = !!session;
-
-    type AuthProps = InferAuthProps<P>;
-    type AdditionalProps = InferAdditionalProps<C, AuthProps>;
-    type AllProps = ComponentProps<C>;
-
-    // Call processUser with or without additionalProps
-    let authProps: AuthProps;
-    if (additionalProps !== undefined) {
-      authProps = await (
-        processUser as unknown as (
-          sessionParam: Maybe<ServerSession>,
-          isAuthenticatedParam: boolean,
-          additionalPropsParam: AdditionalProps,
-        ) => Promise<AuthProps> | AuthProps
-      )(session, isAuthenticated, additionalProps);
-    } else {
-      authProps = await processUser(session, isAuthenticated);
-    }
-
-    const mergedProps = {
-      ...authProps,
-      ...(additionalProps || {}),
-    } as AllProps;
-
-    // TypeScript needs this cast because React.ComponentType expects IntrinsicAttributes
-    // but we've verified that mergedProps contains all required props
-    // @ts-expect-error - mergedProps is correctly typed but TS needs explicit cast
-    return <Component {...mergedProps} />;
-  };
-
-  return (
-    <Stream fallback={fallback} value={renderAuthContent()}>
-      {(content) => content}
-    </Stream>
-  );
-}
-
-export default HasAuth;
+}) => (
+  <Suspense fallback={fallback}>
+    <HasAuth>{children}</HasAuth>
+  </Suspense>
+);
