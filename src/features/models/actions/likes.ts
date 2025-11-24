@@ -1,84 +1,95 @@
 "use server";
 
 import { and, eq, sql } from "drizzle-orm";
+import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
 import { getSession } from "@/features/auth/queries/get-session";
+import type { Maybe } from "@/types";
 import { invalidateModel } from "@/utils/cache-invalidation";
+import {
+  type ActionState,
+  fromErrorToActionState,
+  toActionState,
+} from "@/utils/to-action-state";
 import { tryCatch } from "@/utils/try-catch";
 
-export async function toggleLike(_prevState: unknown, formData: FormData) {
-  const modelSlug = String(formData.get("modelSlug"));
-  const session = await getSession();
+const likeSchema = object({
+  modelSlug: pipe(
+    string(),
+    minLength(1, "Model slug is required"),
+    maxLength(255, "Model slug is too long"),
+  ),
+});
 
-  if (!session?.user?.id) {
-    throw new Error("Authentication required");
-  }
+export async function toggleLike(
+  _prevState: Maybe<ActionState>,
+  formData: FormData,
+) {
+  try {
+    const { modelSlug } = parse(
+      likeSchema,
+      Object.fromEntries(formData.entries()),
+    );
 
-  const userId = session.user.id;
+    const session = await getSession();
 
-  const { data, error } = await tryCatch(async () => {
-    return await db.transaction(async (tx) => {
-      // Check if user already liked this model
-      const existingLike = await tx
-        .select()
-        .from(likes)
-        .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
-        .limit(1);
+    if (!session?.user?.id) {
+      throw new Error("Authentication required");
+    }
 
-      if (existingLike.length > 0) {
-        // Unlike: remove the like record
-        await tx
-          .delete(likes)
-          .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)));
+    const userId = session.user.id;
 
-        // Decrement likes count
-        await tx
-          .update(models)
-          .set({ likes: sql`likes - 1` })
-          .where(eq(models.slug, modelSlug));
-      } else {
-        // Like: add the like record
-        await tx.insert(likes).values({
-          userId,
-          modelSlug,
-        });
+    const { data, error } = await tryCatch(async () => {
+      return await db.transaction(async (tx) => {
+        // Check if user already liked this model
+        const existingLike = await tx
+          .select()
+          .from(likes)
+          .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
+          .limit(1);
 
-        // Increment likes count
-        await tx
-          .update(models)
-          .set({ likes: sql`likes + 1` })
-          .where(eq(models.slug, modelSlug));
-      }
+        if (existingLike.length > 0) {
+          // Unlike: remove the like record
+          await tx
+            .delete(likes)
+            .where(
+              and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)),
+            );
 
-      return { success: true };
+          // Decrement likes count
+          await tx
+            .update(models)
+            .set({ likes: sql`likes - 1` })
+            .where(eq(models.slug, modelSlug));
+        } else {
+          // Like: add the like record
+          await tx.insert(likes).values({
+            userId,
+            modelSlug,
+          });
+
+          // Increment likes count
+          await tx
+            .update(models)
+            .set({ likes: sql`likes + 1` })
+            .where(eq(models.slug, modelSlug));
+        }
+
+        return toActionState("Like toggled successfully", "SUCCESS");
+      });
     });
-  });
 
-  if (error || !data) {
-    throw new Error("Failed to toggle like");
+    if (error || !data) {
+      return fromErrorToActionState(error);
+    }
+
+    // Invalidate the specific model's cache since likes count changed
+    invalidateModel(modelSlug);
+
+    return data;
+  } catch (error) {
+    return fromErrorToActionState(error);
   }
-
-  // Invalidate the specific model's cache since likes count changed
-  invalidateModel(modelSlug);
-
-  return data;
-}
-
-export async function checkIfLiked(modelSlug: string, userId: string) {
-  const { data, error } = await tryCatch(
-    async () =>
-      await db
-        .select()
-        .from(likes)
-        .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
-        .limit(1),
-  );
-
-  if (error || !data) {
-    throw new Error("Failed to check if liked");
-  }
-
-  return data.length > 0;
 }

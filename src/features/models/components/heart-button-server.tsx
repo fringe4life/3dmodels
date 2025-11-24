@@ -27,7 +27,6 @@ export function HeartButtonServer({
         );
         return {
           isAuthenticated,
-          userId,
           hasLiked,
           likesCount,
         };
