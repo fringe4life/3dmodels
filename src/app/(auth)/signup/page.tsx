@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useActionState, useTransition } from "react";
+import FieldError from "@/components/field-errors";
+import FormError from "@/components/form-error";
 import { signUpAction } from "@/features/auth/actions/sign-up-action";
 
 export default function SignUpPage() {
@@ -9,14 +11,8 @@ export default function SignUpPage() {
   const [isPending, startTransition] = useTransition();
 
   // Extract form values from payload if available (for preserving on error)
-  const nameValue =
-    state?.payload instanceof FormData
-      ? state.payload.get("name")?.toString() || ""
-      : "";
-  const emailValue =
-    state?.payload instanceof FormData
-      ? state.payload.get("email")?.toString() || ""
-      : "";
+  const nameValue = state?.payload?.get("name")?.toString() ?? "";
+  const emailValue = state?.payload?.get("email")?.toString() ?? "";
 
   return (
     <>
@@ -51,11 +47,8 @@ export default function SignUpPage() {
                 required
                 type="text"
               />
-              {state?.fieldErrors.name && (
-                <p className="mt-1 text-red-600 text-sm">
-                  {state.fieldErrors.name[0]}
-                </p>
-              )}
+
+              <FieldError actionState={state} name="name" />
             </div>
             <div>
               <label
@@ -73,11 +66,8 @@ export default function SignUpPage() {
                 required
                 type="email"
               />
-              {state?.fieldErrors.email && (
-                <p className="mt-1 text-red-600 text-sm">
-                  {state.fieldErrors.email[0]}
-                </p>
-              )}
+
+              <FieldError actionState={state} name="email" />
             </div>
             <div>
               <label
@@ -94,17 +84,10 @@ export default function SignUpPage() {
                 required
                 type="password"
               />
-              {state?.fieldErrors.password && (
-                <p className="mt-1 text-red-600 text-sm">
-                  {state.fieldErrors.password[0]}
-                </p>
-              )}
+
+              <FieldError actionState={state} name="password" />
             </div>
-            {state?.message && state?.status === "ERROR" && (
-              <div className="rounded-md bg-red-50 p-3 text-red-800 text-sm">
-                {state.message}
-              </div>
-            )}
+            <FormError actionState={state} />
             <button
               className="flex w-full justify-center rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
               disabled={isPending}

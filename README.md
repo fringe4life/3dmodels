@@ -126,6 +126,8 @@ src/
 │           ├── get-all-category-slugs.ts
 │           └── get-category-by-slug.ts
 ├── components/                   # Shared/generic components
+│   ├── field-errors.tsx          # Field error display component
+│   ├── form-error.tsx            # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
 │   ├── has-auth.tsx              # Generic auth component with Stream
 │   ├── loading-dots.tsx          # Loading indicator component
@@ -317,6 +319,8 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `app/_navigation/auth-buttons` - Authentication buttons
 
 #### Shared Components
+- `components/field-errors` - Field-level error display component with ViewTransition support
+- `components/form-error` - Form-level error display component with ViewTransition support
 - `components/has-auth` - Generic auth component that handles authentication with Stream internally
 - `components/not-found` - Reusable not-found page component with centered layout and context-specific messaging
 - `components/not-found-list-item` - List item component for not-found page suggestions
@@ -331,6 +335,8 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `features/auth/queries/get-session` - Session query with cache directives
 - `features/auth/components/sign-in-button` - GitHub OAuth sign-in button
 - `utils/to-action-state` - Action state utilities for consistent server action responses
+- `components/field-errors` - Reusable field error component used in auth forms
+- `components/form-error` - Reusable form-level error component used in auth forms
 
 ## 🔧 Development
 
