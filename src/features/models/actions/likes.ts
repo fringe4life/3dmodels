@@ -81,8 +81,12 @@ export async function toggleLike(
       });
     });
 
-    if (error || !data) {
+    if (error) {
       return fromErrorToActionState(error);
+    }
+
+    if (!data) {
+      return fromErrorToActionState(new Error("Failed to toggle like"));
     }
 
     // Invalidate the specific model's cache since likes count changed

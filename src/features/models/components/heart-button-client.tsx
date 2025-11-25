@@ -29,13 +29,10 @@ export default function HeartButtonClient({
   const [isPending, startTransition] = useTransition();
   const [optimisticLike, setOptimisticLike] = useOptimistic(hasLiked);
 
-  const handleLikeClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-
+  const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
     if (!isAuthenticated) {
       return;
     }
-
     const formData = new FormData();
     formData.append("modelSlug", slug);
 
@@ -45,25 +42,25 @@ export default function HeartButtonClient({
     });
   };
 
+  const isDisabled = isPending || !isAuthenticated;
+  const isLiked = optimisticLike && !isPending;
+  const isNotLiked = !(optimisticLike || isPending);
   return (
     <button
       aria-label={
         isAuthenticated ? "Like this model" : "Sign in to like this model"
       }
-      className="relative z-5 flex items-center transition-colors hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-50"
-      disabled={isPending || !isAuthenticated}
-      onClick={handleLikeClick}
+      className="relative z-5 flex cursor-pointer items-center gap-x-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+      disabled={isDisabled}
+      onClick={handleClick}
       type="button"
     >
       <FaHeart
         aria-hidden="true"
-        className={clsx("mr-1 h-5 w-5 transition-colors", {
-          // Liked state - full red
-          "text-red-500": optimisticLike && !isPending,
-          // Pending state - semi-transparent red
-          "text-red-500/50": isPending,
-          // Not liked state - gray with hover effect
-          "text-gray-400 hover:text-red-500": !(optimisticLike || isPending),
+        className={clsx("aspect-square h-5 transition-colors duration-200", {
+          "text-red-500": isLiked,
+          "cursor-progress text-red-500/75": isPending,
+          "text-gray-400 hover:text-red-500/50": isNotLiked,
         })}
       />
       <span>{likesCount}</span>
