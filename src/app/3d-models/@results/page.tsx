@@ -3,18 +3,8 @@ import Stream from "@/components/streamable";
 import ModelsGrid from "@/features/models/components/models-grid";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import ModelsNotFound from "@/features/models/components/models-not-found";
-import {
-  getAllModelsForSearch,
-  searchModels,
-} from "@/features/models/queries/search-models";
-import { modelsSearchParamsCache } from "@/features/models/search-params";
-
-async function getModelsForQuery(query: string) {
-  const models = query
-    ? await searchModels(query)
-    : await getAllModelsForSearch();
-  return models;
-}
+import ModelsPagination from "@/features/models/components/models-pagination";
+import { getModels } from "@/features/models/queries/search-models";
 
 type ResultsContentProps = {
   searchParams: PageProps<"/3d-models">["searchParams"];
@@ -22,13 +12,17 @@ type ResultsContentProps = {
 
 async function ResultsContent({ searchParams }: ResultsContentProps) {
   await connection();
-  const search = await searchParams;
-  const { query } = modelsSearchParamsCache.parse(search);
-  const models = await getModelsForQuery(query);
-  if (!models) {
+
+  const result = await getModels(searchParams);
+  if (!result.list || result.list.length === 0) {
     return <ModelsNotFound />;
   }
-  return <ModelsGrid models={models} title="3D Models" />;
+  return (
+    <div className="space-y-4">
+      <ModelsGrid models={result.list ?? []} title="3D Models" />
+      <ModelsPagination metadata={result.metadata} />
+    </div>
+  );
 }
 
 export default function ResultsPage({ searchParams }: PageProps<"/3d-models">) {

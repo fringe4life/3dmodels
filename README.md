@@ -14,17 +14,17 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.3-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.4-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-0.44.7-FFE66D?logo=postgresql)
-![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.1-000000?logo=next.js)
+![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.2-000000?logo=next.js)
 ![Biome](https://img.shields.io/badge/Biome-2.3.7-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.0.3 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.0.4 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.0
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7
@@ -34,7 +34,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
-- **Validation**: Valibot 1.1.0 for schema validation
+- **Validation**: Valibot 1.2.0 for schema validation
 
 ## 📁 Project Structure
 
@@ -52,6 +52,8 @@ src/
 │   │   ├── @categories/          # Parallel route for categories nav
 │   │   │   └── default.tsx
 │   │   ├── @results/             # Parallel route for search results
+│   │   │   ├── [...catchAll]/
+│   │   │   │   └── page.tsx
 │   │   │   ├── default.tsx
 │   │   │   └── page.tsx
 │   │   ├── [slug]/               # Individual model page
@@ -62,7 +64,7 @@ src/
 │   │   │       ├── not-found.tsx
 │   │   │       └── page.tsx
 │   │   ├── layout.tsx            # Models layout
-│   │   └── page.tsx              # Models listing page
+│   │   └── page.tsx              # Models landing page
 │   ├── about/                    # About page
 │   │   └── page.tsx
 │   ├── (auth)/                   # Authentication group route
@@ -107,6 +109,7 @@ src/
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
+│   │   │   ├── models-pagination.tsx
 │   │   │   └── search-input.tsx
 │   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
@@ -116,7 +119,8 @@ src/
 │   │   │   └── search-models.ts
 │   │   ├── schemas/              # Validation schemas (Valibot)
 │   │   │   └── search-schemas.ts
-│   │   └── search-params.ts       # Type-safe search params
+│   │   ├── pagination-search-params.ts  # Shared pagination search params
+│   │   └── search-params.ts       # Type-safe search params for models
 │   └── categories/               # Categories feature
 │       ├── components/           # Category-specific components
 │       │   ├── categories-header.tsx

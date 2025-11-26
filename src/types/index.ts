@@ -16,3 +16,14 @@ export type ModelWithLike = WithLike<Model>;
  * Used to handle potential failures. It can be used to return a value or null.
  */
 export type Maybe<T> = T | null | undefined;
+
+export type PaginationMetadata = {
+  count: number;
+  hasNextPage: boolean;
+  nextCursor: Maybe<string>;
+};
+
+export type PaginatedResult<T> = {
+  list: Maybe<T[]>;
+  metadata: PaginationMetadata;
+};

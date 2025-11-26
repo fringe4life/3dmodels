@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
+import Stream from "@/components/streamable";
 import CategoriesHeader from "@/features/categories/components/categories-header";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import ModelsGrid from "@/features/models/components/models-grid";
-import { getModelsByCategory } from "@/features/models/queries/get-models-by-category";
+import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
+import ModelsNotFound from "@/features/models/components/models-not-found";
+import ModelsPagination from "@/features/models/components/models-pagination";
+import { getCategoryModels } from "@/features/models/queries/get-models-by-category";
 
 export async function generateStaticParams() {
   return await getAllCategorySlugs();
@@ -30,8 +35,35 @@ export async function generateMetadata({
   };
 }
 
+type CategoryResultsProps = {
+  categoryName: string;
+  categoryDisplayName: string;
+  searchParams: PageProps<"/3d-models/categories/[categoryName]">["searchParams"];
+};
+
+async function CategoryResultsContent({
+  categoryName,
+  categoryDisplayName,
+  searchParams,
+}: CategoryResultsProps) {
+  await connection();
+
+  const result = await getCategoryModels(categoryName, searchParams);
+  if (!result.list || result.list.length === 0) {
+    return <ModelsNotFound />;
+  }
+
+  return (
+    <div className="space-y-4">
+      <ModelsGrid models={result.list} title={categoryDisplayName} />
+      <ModelsPagination metadata={result.metadata} />
+    </div>
+  );
+}
+
 export default async function CategoryPage({
   params,
+  searchParams,
 }: PageProps<"/3d-models/categories/[categoryName]">) {
   const { categoryName } = await params;
 
@@ -41,18 +73,19 @@ export default async function CategoryPage({
     return notFound();
   }
 
-  const models = await getModelsByCategory(categoryName);
-
-  if (!models) {
-    return notFound();
-  }
-
   return (
     <>
-      {/* Static header content */}
       <CategoriesHeader category={category} />
-      {/* Models grid */}
-      <ModelsGrid models={models} title={category.displayName} />
+      <Stream
+        fallback={<ModelsGridSkeleton />}
+        value={CategoryResultsContent({
+          categoryName,
+          categoryDisplayName: category.displayName,
+          searchParams,
+        })}
+      >
+        {(content) => content}
+      </Stream>
     </>
   );
 }
