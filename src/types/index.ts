@@ -1,3 +1,4 @@
+import type { SearchParams } from "nuqs/server";
 import type { Model } from "@/db/schema/models";
 
 /**
@@ -26,4 +27,8 @@ export type PaginationMetadata = {
 export type PaginatedResult<T> = {
   list: Maybe<T[]>;
   metadata: PaginationMetadata;
+};
+
+export type SearchParamsProps = {
+  searchParams: Promise<SearchParams>;
 };

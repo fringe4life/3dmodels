@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "@toolwind/corner-shape": "^0.0.8-3",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "^1.4.3",
     "bufferutil": "^4.0.9",
@@ -51,7 +52,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20251126.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251127.1",
     "drizzle-kit": "^0.31.7",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",

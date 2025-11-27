@@ -10,6 +10,7 @@ import { ModelsGridSkeleton } from "@/features/models/components/models-grid-ske
 import ModelsNotFound from "@/features/models/components/models-not-found";
 import ModelsPagination from "@/features/models/components/models-pagination";
 import { getCategoryModels } from "@/features/models/queries/get-models-by-category";
+import type { SearchParamsProps } from "@/types";
 
 export async function generateStaticParams() {
   return await getAllCategorySlugs();
@@ -38,8 +39,7 @@ export async function generateMetadata({
 type CategoryResultsProps = {
   categoryName: string;
   categoryDisplayName: string;
-  searchParams: PageProps<"/3d-models/categories/[categoryName]">["searchParams"];
-};
+} & SearchParamsProps;
 
 async function CategoryResultsContent({
   categoryName,

@@ -14,7 +14,7 @@ export default function ModelCard({ model }: ModelCardProps) {
   const { slug, name, description, categorySlug } = model;
   return (
     <ViewTransition enter="enter" exit="exit" name={`model-${slug}`}>
-      <article className="hover:-translate-y-0.5 relative block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-lg after:opacity-0 after:shadow-model-card hover:after:opacity-100">
+      <article className="hover:-translate-y-0.5 corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-lg after:opacity-0 after:shadow-model-card hover:after:opacity-100">
         <div className="relative aspect-square contain-strict">
           <img
             alt={name}
@@ -33,7 +33,7 @@ export default function ModelCard({ model }: ModelCardProps) {
             >
               <Link href={`/3d-models/${slug}`}>
                 {name}
-                <span className="absolute inset-0 h-full w-full" />
+                <span className="absolute inset-0 z-20 h-full w-full" />
               </Link>
             </h2>
           </div>

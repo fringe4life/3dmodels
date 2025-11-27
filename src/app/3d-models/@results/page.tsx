@@ -5,12 +5,9 @@ import { ModelsGridSkeleton } from "@/features/models/components/models-grid-ske
 import ModelsNotFound from "@/features/models/components/models-not-found";
 import ModelsPagination from "@/features/models/components/models-pagination";
 import { getModels } from "@/features/models/queries/search-models";
+import type { SearchParamsProps } from "@/types";
 
-type ResultsContentProps = {
-  searchParams: PageProps<"/3d-models">["searchParams"];
-};
-
-async function ResultsContent({ searchParams }: ResultsContentProps) {
+async function ResultsContent({ searchParams }: SearchParamsProps) {
   await connection();
 
   const result = await getModels(searchParams);
@@ -19,7 +16,7 @@ async function ResultsContent({ searchParams }: ResultsContentProps) {
   }
   return (
     <div className="space-y-4">
-      <ModelsGrid models={result.list ?? []} title="3D Models" />
+      <ModelsGrid models={result.list} title="3D Models" />
       <ModelsPagination metadata={result.metadata} />
     </div>
   );
