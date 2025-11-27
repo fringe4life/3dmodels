@@ -14,21 +14,21 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.4-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.5-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-0.44.7-FFE66D?logo=postgresql)
-![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.2-000000?logo=next.js)
+![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.3-000000?logo=next.js)
 ![Biome](https://img.shields.io/badge/Biome-2.3.7-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.0.4 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.0.5 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.0
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7
-- **Authentication**: Better Auth 1.4.1 with email/password and GitHub OAuth
+- **Authentication**: Better Auth 1.4.3 with email/password and GitHub OAuth
 - **Search Params**: nuqs 2.8.1 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.7 with Ultracite 6.3.6 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
@@ -98,8 +98,7 @@ src/
 │   │   └── types.ts              # Auth type definitions
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
-│   │   │   ├── likes.ts
-│   │   │   └── search-actions.ts
+│   │   │   └── likes.ts
 │   │   ├── components/           # Model-specific components
 │   │   │   ├── heart-button-server.tsx
 │   │   │   ├── heart-button-client.tsx
@@ -137,6 +136,7 @@ src/
 │   ├── loading-dots.tsx          # Loading indicator component
 │   ├── not-found-list-item.tsx   # List item component for not-found pages
 │   ├── not-found.tsx             # Reusable not-found page component
+│   ├── pagination.tsx            # Pagination controls component
 │   ├── pill.tsx                  # Reusable pill component
 │   └── streamable.tsx            # Streaming utilities
 ├── db/                          # Database configuration
@@ -156,7 +156,7 @@ src/
 │   ├── auth-client.ts           # Better Auth client instance
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
-│   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike)
+│   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike, PaginatedResult<T>, PaginationMetadata)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
 │   ├── to-action-state.ts       # Action state utilities for server actions
@@ -311,6 +311,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
+- `features/models/components/models-pagination` - Pagination controls for model listings with nuqs integration
 - `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
 - `features/models/components/heart-button-client` - Client component for like interactions
 - `features/models/components/search-input` - Model search functionality with URL state
@@ -328,6 +329,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `components/has-auth` - Generic auth component that handles authentication with Stream internally
 - `components/not-found` - Reusable not-found page component with centered layout and context-specific messaging
 - `components/not-found-list-item` - List item component for not-found page suggestions
+- `components/pagination` - Reusable pagination controls with page navigation and limit selection
 - `components/pill` - Small label component
 - `components/streamable` - Streaming utilities for progressive rendering
 - `components/generic-component` - Generic wrapper for collections
