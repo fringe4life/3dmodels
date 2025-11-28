@@ -5,8 +5,8 @@ export default async function CategoriesDefault() {
   const categories = await getAllCategories();
 
   return (
-    <aside className="sticky inset-(--category-inset) border-gray-200 border-b bg-white md:fixed md:col-start-1 md:self-center md:border-none">
-      <nav className="no-scrollbar mask-r-from-95% md:mask-r-from-100% w-full max-w-svw overflow-x-auto md:overflow-visible">
+    <aside className="relative border-gray-200 border-b bg-white md:col-start-1 md:border-none">
+      <nav className="md:-translate-y-1/2 no-scrollbar mask-r-from-95% md:mask-r-from-100% sticky w-full max-w-(--category-mobile-width) overflow-x-auto md:fixed md:top-1/2 md:max-w-(--category-width) md:overflow-visible">
         <CategoriesNavClient categories={categories} />
       </nav>
     </aside>

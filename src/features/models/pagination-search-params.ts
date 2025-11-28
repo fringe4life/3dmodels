@@ -24,7 +24,7 @@ export const sortParser = {
 };
 
 const DEFAULT_PAGE = 0;
-const DEFAULT_LIMIT = 5 as const;
+const DEFAULT_LIMIT = 10 as const;
 export const LIMITS = [5, 10, 20, 50] as const;
 
 export type LimitItem = (typeof LIMITS)[number];

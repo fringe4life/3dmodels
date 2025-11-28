@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @plugin "@toolwind/corner-shape";
+
+@custom-variant data-detail (&[data-detail="true"]);
 @theme {
   --color-orange-accent: #f77d36;
   --color-search-input: #606060;
@@ -9,6 +11,8 @@
   --category-width: 256px;
 
   --category-inset: 0 calc(100% - var(--category-width)) 0 0;
+
+  --category-mobile-width: calc(100svw - 10px);
 }
 
 /* BASE STYLES */

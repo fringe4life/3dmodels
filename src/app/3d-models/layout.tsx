@@ -7,9 +7,9 @@ export default function ModelsLayout({
 }: LayoutProps<"/3d-models">) {
   return (
     <NuqsAdapter>
-      <div className="relative grid min-h-screen md:grid-cols-[var(--category-width)_1fr]">
+      <div className="grid min-h-screen grid-rows-[min-content_1fr] md:grid-cols-[var(--category-width)_1fr] md:grid-rows-1">
         {categories}
-        <section className="p-4 md:col-start-2">
+        <section className="p-4">
           {children}
           {results}
         </section>

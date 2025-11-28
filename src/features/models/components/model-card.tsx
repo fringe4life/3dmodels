@@ -14,11 +14,11 @@ export default function ModelCard({ model }: ModelCardProps) {
   const { slug, name, description, categorySlug } = model;
   return (
     <ViewTransition enter="enter" exit="exit" name={`model-${slug}`}>
-      <article className="hover:-translate-y-0.5 corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-lg after:opacity-0 after:shadow-model-card hover:after:opacity-100">
-        <div className="relative aspect-square contain-strict">
+      <article className="hover:-translate-y-0.5 corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:after:opacity-100">
+        <div className="relative aspect-square rounded-t-[inherit] contain-strict">
           <img
             alt={name}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 w-full object-cover"
             height={300}
             src={placeholderImg.src}
             width={300}
@@ -43,7 +43,7 @@ export default function ModelCard({ model }: ModelCardProps) {
           <div className="mt-2">
             <Pill>{categorySlug}</Pill>
           </div>
-          <div className="mt-2 flex items-center text-gray-600">
+          <div className="relative z-50 mt-2 flex items-center text-gray-600">
             <HeartButtonServer slug={slug} toggleAction={toggleLike} />
           </div>
         </div>

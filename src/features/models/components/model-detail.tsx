@@ -13,7 +13,10 @@ export default function ModelDetail({
 }: NonNullable<Awaited<ReturnType<typeof getModelBySlug>>>) {
   return (
     <ViewTransition name={`model-${slug}`}>
-      <div className="corner-squircle mx-auto max-w-6xl self-center rounded-lg px-4 py-8">
+      <div
+        className="corner-squircle mx-auto max-w-6xl self-center rounded-lg px-4 py-8"
+        data-detail
+      >
         <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <figure className="relative aspect-square rounded-lg shadow-lg contain-content">
             <img
