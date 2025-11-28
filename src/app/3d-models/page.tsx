@@ -15,8 +15,13 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Stream fallback={<div className="py-4">Loading search…</div>} value={null}>
-      {() => <SearchInput />}
-    </Stream>
+    <div className="relative h-10 w-full px-5 md:max-w-xl md:px-0">
+      <Stream
+        fallback={<div className="py-4">Loading search…</div>}
+        value={null}
+      >
+        {() => <SearchInput />}
+      </Stream>
+    </div>
   );
 }

@@ -43,7 +43,7 @@ export function SearchInput() {
   };
 
   return (
-    <div className="relative h-10 w-full px-5 md:max-w-xl md:px-0">
+    <>
       <input
         autoComplete="off"
         className="absolute inset-0 w-full rounded-full border border-search-input bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-search-input focus:outline-none focus:ring-0 md:text-base"
@@ -58,6 +58,6 @@ export function SearchInput() {
           .
         </div>
       </Activity>
-    </div>
+    </>
   );
 }
