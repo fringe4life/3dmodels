@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @plugin "@toolwind/corner-shape";
 
-@custom-variant data-detail (&[data-detail="true"]);
 @theme {
   --color-orange-accent: #f77d36;
   --color-search-input: #606060;
@@ -9,8 +8,6 @@
   --shadow-model-card: 0 5px 12px rgba(0, 0, 0, 0.1);
 
   --category-width: 256px;
-
-  --category-inset: 0 calc(100% - var(--category-width)) 0 0;
 
   --category-mobile-width: calc(100svw - 10px);
 }
@@ -33,9 +30,21 @@
 
 /* UTILITIES */
 @utility nav-link {
-  @apply px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200;
+  @apply text-sm font-medium text-black hover:text-orange-accent/75 transition-colors duration-200;
+
   &.active {
-    @apply text-blue-600 bg-blue-50 font-semibold;
+    @apply text-orange-accent font-semibold border-current;
+  }
+  &:not([data-border-bottom]).active {
+    @apply border-l-2 pl-3;
+  }
+
+  &[data-border-bottom] {
+    @apply py-2;
+  }
+
+  &[data-border-bottom].active {
+    @apply border-b-2;
   }
 }
 

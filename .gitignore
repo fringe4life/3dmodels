@@ -4,4 +4,4 @@ node_modules
 .vercel
 
 # TypeScript
-*.tsbuildinfo
+tsconfig.tsbuildinfo

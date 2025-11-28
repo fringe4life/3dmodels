@@ -21,12 +21,13 @@ function NavLinkSkeleton() {
 
 function NavLinkContent({ href, children }: NavLinkProps) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = pathname.includes(href);
 
   return (
     <li className="text-sm uppercase">
       <Link
-        className={`cursor-pointer rounded-md px-4 py-2 transition-colors hover:text-orange-accent ${isActive ? "text-orange-accent" : "text-gray-700"}`}
+        className={`nav-link ${isActive ? "active" : ""}`}
+        data-border-bottom
         href={href}
       >
         {children}

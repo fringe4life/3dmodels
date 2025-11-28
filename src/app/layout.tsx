@@ -73,7 +73,7 @@ export default function RootLayout({
   return (
     <html data-scroll-behavior="smooth" lang="en">
       <body
-        className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh max-w-svw grid-rows-[5.35rem_1fr_5.35rem] gap-y-10 overflow-x-clip`}
+        className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh grid-rows-[5.35rem_1fr_5.35rem] gap-y-10`}
       >
         {navbar}
         <main>{children}</main>

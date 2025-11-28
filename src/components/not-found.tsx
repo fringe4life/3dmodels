@@ -33,7 +33,7 @@ export default function NotFound({
           <p className="text-lg text-muted-foreground">{subheading}</p>
         </div>
 
-        <div className="space-y-4 rounded-lg border bg-card p-6 text-left">
+        <div className="corner-squircle space-y-4 rounded-lg border bg-card p-6 text-left">
           <h2 className="font-semibold text-xl">What you can do:</h2>
           <GenericComponent
             as="ul"
@@ -50,7 +50,7 @@ export default function NotFound({
           Component={Link}
           className="flex flex-col gap-3 sm:flex-row sm:justify-center"
           items={links}
-          renderKey={(_item, index) => index}
+          renderKey={(_, index) => index}
           renderProps={(item) => ({
             href: item.href,
             className: `inline-flex items-center justify-center rounded-md px-6 py-3 font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
