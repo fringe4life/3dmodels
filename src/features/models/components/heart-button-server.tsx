@@ -1,4 +1,4 @@
-import { HasAuthSuspense } from "@/components/has-auth";
+import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 import { getLikeStatusOfModel } from "../queries/get-model-with-like-status";
 import HeartButtonClient, {
   type HeartButtonClientProps,

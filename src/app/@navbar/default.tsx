@@ -1,6 +1,6 @@
 import Link from "next/link";
 import NavLink from "@/app/_navigation/nav-link";
-import { HasAuthSuspense } from "@/components/has-auth";
+import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 import AuthButtons from "../_navigation/auth-buttons";
 
 // Main component with Stream boundary

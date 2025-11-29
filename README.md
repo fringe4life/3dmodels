@@ -92,6 +92,7 @@ src/
 │   │   │   ├── sign-out-action.ts
 │   │   │   └── sign-up-action.ts
 │   │   ├── components/           # Auth components
+│   │   │   ├── has-auth.tsx      # Generic auth component with session provider
 │   │   │   └── sign-in-button.tsx
 │   │   ├── queries/              # Auth queries
 │   │   │   └── get-session.ts
@@ -116,7 +117,6 @@ src/
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
-│   │   │   ├── models-pagination.tsx
 │   │   │   └── search-input.tsx
 │   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
@@ -129,6 +129,7 @@ src/
 │   │   └── search-params.ts       # Type-safe search params for models
 │   └── pagination/               # Pagination feature
 │       ├── components/           # Pagination components
+│       │   ├── nuqs-pagination.tsx  # Pagination wrapper with nuqs integration
 │       │   └── pagination.tsx
 │       ├── utils/                # Pagination utilities
 │       │   └── to-paginated-result.ts
@@ -138,10 +139,8 @@ src/
 │   ├── field-errors.tsx          # Field error display component
 │   ├── form-error.tsx            # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
-│   ├── has-auth.tsx              # Generic auth component with Stream
 │   ├── not-found-list-item.tsx   # List item component for not-found pages
 │   ├── not-found.tsx             # Reusable not-found page component
-│   ├── pagination.tsx            # Pagination controls component
 │   ├── pill.tsx                  # Reusable pill component
 │   └── streamable.tsx            # Streaming utilities
 ├── db/                          # Database configuration
@@ -321,8 +320,8 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
-- `features/models/components/models-pagination` - Model-specific pagination wrapper
-- `features/pagination/components/pagination` - Reusable pagination component with nuqs integration
+- `features/pagination/components/nuqs-pagination` - Pagination wrapper with nuqs integration
+- `features/pagination/components/pagination` - Reusable pagination component
 - `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
 - `features/models/components/heart-button-client` - Client component for like interactions
 - `features/models/components/search-input` - Model search functionality with URL state
@@ -337,10 +336,8 @@ The application uses Next.js cache with granular cache tags for efficient invali
 #### Shared Components
 - `components/field-errors` - Field-level error display component with ViewTransition support
 - `components/form-error` - Form-level error display component with ViewTransition support
-- `components/has-auth` - Generic auth component that handles authentication with Stream internally
 - `components/not-found` - Reusable not-found page component with centered layout and context-specific messaging
 - `components/not-found-list-item` - List item component for not-found page suggestions
-- `components/pagination` - Reusable pagination controls with page navigation and limit selection
 - `components/pill` - Small label component
 - `components/streamable` - Streaming utilities for progressive rendering
 - `components/generic-component` - Generic wrapper for collections
@@ -349,6 +346,7 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `lib/auth` - Better Auth configuration with email/password and GitHub OAuth
 - `lib/auth-client` - Better Auth client instance for client-side usage
 - `features/auth/actions` - Sign-in, sign-up, and sign-out server actions with Valibot validation
+- `features/auth/components/has-auth` - Generic auth component with session provider and Suspense wrapper
 - `features/auth/queries/get-session` - Session query with cache directives
 - `features/auth/components/sign-in-button` - GitHub OAuth sign-in button
 - `utils/to-action-state` - Action state utilities for consistent server action responses

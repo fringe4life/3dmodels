@@ -13,7 +13,7 @@ export default function ModelsGrid({ title, models }: ModelsGridProps) {
       <h1 className="mb-8 font-bold text-3xl">{title}</h1>
       <GenericComponent
         Component={ModelCard}
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        className="models-grid"
         items={models}
         renderKey={(item) => item.slug}
         renderProps={(model) => ({ model })}

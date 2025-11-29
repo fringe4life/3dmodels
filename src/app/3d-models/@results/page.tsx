@@ -3,8 +3,8 @@ import Stream from "@/components/streamable";
 import ModelsGrid from "@/features/models/components/models-grid";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import ModelsNotFound from "@/features/models/components/models-not-found";
-import ModelsPagination from "@/features/models/components/models-pagination";
 import { getModels } from "@/features/models/queries/search-models";
+import ModelsPagination from "@/features/pagination/components/nuqs-pagination";
 import type { SearchParamsProps } from "@/types";
 
 async function ResultsContent({ searchParams }: SearchParamsProps) {

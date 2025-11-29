@@ -8,8 +8,8 @@ import { getCategoryBySlug } from "@/features/categories/queries/get-category-by
 import ModelsGrid from "@/features/models/components/models-grid";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import ModelsNotFound from "@/features/models/components/models-not-found";
-import ModelsPagination from "@/features/models/components/models-pagination";
 import { getCategoryModels } from "@/features/models/queries/get-models-by-category";
+import ModelsPagination from "@/features/pagination/components/nuqs-pagination";
 import type { SearchParamsProps } from "@/types";
 
 export async function generateStaticParams() {
