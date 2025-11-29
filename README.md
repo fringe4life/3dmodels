@@ -133,7 +133,6 @@ src/
 │   ├── form-error.tsx            # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
 │   ├── has-auth.tsx              # Generic auth component with Stream
-│   ├── loading-dots.tsx          # Loading indicator component
 │   ├── not-found-list-item.tsx   # List item component for not-found pages
 │   ├── not-found.tsx             # Reusable not-found page component
 │   ├── pagination.tsx            # Pagination controls component

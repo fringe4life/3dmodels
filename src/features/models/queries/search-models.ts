@@ -1,4 +1,4 @@
-import { and, count, eq, ilike, or, type SQL, sql } from "drizzle-orm";
+import { and, count, eq, ilike, or, type SQL } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import type { SearchParams } from "nuqs/server";
 import { db } from "@/db";
@@ -11,12 +11,18 @@ import {
   searchParamsCache,
 } from "../pagination-search-params";
 import { modelsSearchParamsCache } from "../search-params";
+
+type DatabaseQueryResult = {
+  items: Maybe<Model[]>;
+  totalRows: Maybe<{ value: number }[]>;
+};
+
 // Optimized search function that doesn't fetch like status
 export const searchModels = async (
   query: string,
   pagination: PaginationType,
   category?: string,
-): Promise<PaginatedResult<Model>> => {
+): Promise<DatabaseQueryResult> => {
   "use cache";
 
   // Set cache tags for revalidation control
@@ -65,18 +71,9 @@ export const searchModels = async (
     ),
   ]);
 
-  const list = items ?? null;
-  const totalCount = totalRows?.[0]?.value ?? 0;
-  const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
-  const nextCursor = hasNextPage ? String(pagination.page + 1) : null;
-
   return {
-    list,
-    metadata: {
-      count: totalCount,
-      hasNextPage,
-      nextCursor,
-    },
+    items,
+    totalRows,
   };
 };
 
@@ -108,7 +105,7 @@ export const getModelsByCategoryForSearch = async (
 // Get all models for search (without like status)
 export const getModelsForSearch = async (
   pagination: PaginationType,
-): Promise<PaginatedResult<Model>> => {
+): Promise<DatabaseQueryResult> => {
   "use cache";
 
   // Set cache tags for revalidation control
@@ -134,7 +131,17 @@ export const getModelsForSearch = async (
     ),
   ]);
 
-  const list = items ?? null;
+  return {
+    items,
+    totalRows,
+  };
+};
+
+function transformToPaginatedResult(
+  { items, totalRows }: DatabaseQueryResult,
+  pagination: PaginationType,
+): PaginatedResult<Model> {
+  const list = items;
   const totalCount = totalRows?.[0]?.value ?? 0;
   const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
   const nextCursor = hasNextPage ? String(pagination.page + 1) : null;
@@ -147,72 +154,16 @@ export const getModelsForSearch = async (
       nextCursor,
     },
   };
-};
-
-// Advanced search with sorting
-export async function searchModelsAdvanced(
-  query?: string,
-  category?: string,
-  sortBy?: "name" | "likes" | "dateAdded",
-): Promise<Maybe<Model[]>> {
-  "use cache";
-
-  // Set cache tags for revalidation control
-  cacheTag("models");
-  // Set cache life to default (1 hour)
-  cacheLife("default");
-
-  let whereCondition: Maybe<SQL>;
-
-  if (query && category) {
-    // Search with category filter
-    const searchPattern = `%${query}%`;
-    whereCondition = and(
-      eq(models.categorySlug, category),
-      or(
-        ilike(models.name, searchPattern),
-        ilike(models.description, searchPattern),
-      ),
-    );
-  } else if (query) {
-    // Search across all categories
-    const searchPattern = `%${query}%`;
-    whereCondition = or(
-      ilike(models.name, searchPattern),
-      ilike(models.description, searchPattern),
-    );
-  } else if (category) {
-    // Filter by category only
-    whereCondition = eq(models.categorySlug, category);
-  }
-
-  // Build base query
-  const baseQuery = whereCondition
-    ? db.select().from(models).where(whereCondition)
-    : db.select().from(models);
-
-  const { data, error } = await tryCatch(async () => {
-    // Apply sorting
-    switch (sortBy) {
-      case "likes":
-        return await baseQuery.orderBy(sql`${models.likes} DESC`);
-      case "dateAdded":
-        return await baseQuery.orderBy(sql`${models.dateAdded} DESC`);
-      default:
-        return await baseQuery.orderBy(models.name);
-    }
-  });
-  if (!data || data.length === 0 || error) {
-    return null;
-  }
-  return data;
 }
 
 export async function getModels(searchParams: Promise<SearchParams>) {
   const search = await searchParams;
   const { query } = modelsSearchParamsCache.parse(search);
   const pagination = searchParamsCache.parse(search);
-  return query
+
+  const dbResult = query
     ? await searchModels(query, pagination)
     : await getModelsForSearch(pagination);
+
+  return transformToPaginatedResult(dbResult, pagination);
 }

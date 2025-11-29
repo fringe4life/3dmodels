@@ -22,7 +22,7 @@ const stableKeys = (() => {
 
   return {
     get: (streamable: unknown): string =>
-      streamable != null && typeof streamable === "object"
+      streamable !== null && typeof streamable === "object"
         ? getObjectKey(streamable)
         : JSON.stringify(streamable),
   };
@@ -77,7 +77,7 @@ function all<T extends readonly unknown[] | []>(
   const cached = promiseCache.get(cacheKey);
 
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  if (cached != null) {
+  if (cached !== null) {
     return cached as { -readonly [P in keyof T]: Awaited<T[P]> };
   }
 
