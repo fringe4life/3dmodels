@@ -50,7 +50,7 @@ export default function HeartButtonClient({
       aria-label={
         isAuthenticated ? "Like this model" : "Sign in to like this model"
       }
-      className="relative z-5 flex cursor-pointer items-center gap-x-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+      className="group relative z-5 flex cursor-pointer items-center gap-x-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
       disabled={isDisabled}
       onClick={handleClick}
       type="button"
@@ -60,7 +60,7 @@ export default function HeartButtonClient({
         className={clsx("aspect-square h-5 transition-colors duration-200", {
           "text-red-500": isLiked,
           "cursor-progress text-red-500/75": isPending,
-          "text-gray-400 hover:text-red-500/50": isNotLiked,
+          "text-gray-400 not-group-disabled:hover:text-red-500/50": isNotLiked,
         })}
       />
       <span>{likesCount}</span>

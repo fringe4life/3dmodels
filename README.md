@@ -160,7 +160,7 @@ src/
 │   ├── auth-client.ts           # Better Auth client instance
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
-│   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike, SearchParamsProps)
+│   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
 │   ├── to-action-state.ts       # Action state utilities for server actions
