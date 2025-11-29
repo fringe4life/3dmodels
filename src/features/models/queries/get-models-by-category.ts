@@ -4,17 +4,18 @@ import type { SearchParams } from "nuqs/server";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
-import type { PaginatedResult } from "@/types";
+import type { DatabaseQueryResult } from "@/features/pagination/types";
+import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
 import { tryCatch } from "@/utils/try-catch";
 import {
   type PaginationType,
   searchParamsCache,
-} from "../pagination-search-params";
+} from "../../pagination/pagination-search-params";
 
 export async function getModelsByCategory(
   category: string,
   pagination: PaginationType,
-): Promise<PaginatedResult<Model>> {
+): Promise<DatabaseQueryResult<Model>> {
   "use cache";
 
   cacheTag("models", `models-category-${category}`);
@@ -40,18 +41,9 @@ export async function getModelsByCategory(
     ),
   ]);
 
-  const list = items ?? null;
-  const totalCount = totalRows?.[0]?.value ?? 0;
-  const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
-  const nextCursor = hasNextPage ? String(pagination.page + 1) : null;
-
   return {
-    list,
-    metadata: {
-      count: totalCount,
-      hasNextPage,
-      nextCursor,
-    },
+    items,
+    totalRows,
   };
 }
 
@@ -61,5 +53,8 @@ export async function getCategoryModels(
 ) {
   const search = await searchParams;
   const pagination = searchParamsCache.parse(search);
-  return getModelsByCategory(category, pagination);
+
+  const dbResult = await getModelsByCategory(category, pagination);
+
+  return transformToPaginatedResult(dbResult, pagination);
 }

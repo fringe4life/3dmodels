@@ -20,7 +20,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-0.44.7-FFE66D?logo=postgresql)
 ![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.3-000000?logo=next.js)
-![Biome](https://img.shields.io/badge/Biome-2.3.7-60A5FA?logo=biome)
+![Biome](https://img.shields.io/badge/Biome-2.3.8-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
@@ -30,7 +30,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7
 - **Authentication**: Better Auth 1.4.3 with email/password and GitHub OAuth
 - **Search Params**: nuqs 2.8.1 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.7 with Ultracite 6.3.6 rules
+- **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.8 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
@@ -96,6 +96,14 @@ src/
 │   │   ├── queries/              # Auth queries
 │   │   │   └── get-session.ts
 │   │   └── types.ts              # Auth type definitions
+│   ├── categories/               # Categories feature
+│   │   ├── components/           # Category-specific components
+│   │   │   ├── categories-header.tsx
+│   │   │   └── categories-nav-client.tsx
+│   │   └── queries/              # Category data queries
+│   │       ├── get-all-categories.ts
+│   │       ├── get-all-category-slugs.ts
+│   │       └── get-category-by-slug.ts
 │   ├── models/                   # Models feature
 │   │   ├── actions/              # Server actions
 │   │   │   └── likes.ts
@@ -118,16 +126,14 @@ src/
 │   │   │   └── search-models.ts
 │   │   ├── schemas/              # Validation schemas (Valibot)
 │   │   │   └── search-schemas.ts
-│   │   ├── pagination-search-params.ts  # Shared pagination search params
 │   │   └── search-params.ts       # Type-safe search params for models
-│   └── categories/               # Categories feature
-│       ├── components/           # Category-specific components
-│       │   ├── categories-header.tsx
-│       │   └── categories-nav-client.tsx
-│       └── queries/              # Category data queries
-│           ├── get-all-categories.ts
-│           ├── get-all-category-slugs.ts
-│           └── get-category-by-slug.ts
+│   └── pagination/               # Pagination feature
+│       ├── components/           # Pagination components
+│       │   └── pagination.tsx
+│       ├── utils/                # Pagination utilities
+│       │   └── to-paginated-result.ts
+│       ├── pagination-search-params.ts  # Pagination search params
+│       └── types.ts              # Pagination type definitions
 ├── components/                   # Shared/generic components
 │   ├── field-errors.tsx          # Field error display component
 │   ├── form-error.tsx            # Form-level error display component
@@ -155,7 +161,7 @@ src/
 │   ├── auth-client.ts           # Better Auth client instance
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
-│   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike, PaginatedResult<T>, PaginationMetadata)
+│   └── index.ts                 # Shared types (Maybe<T>, WithLike<T>, ModelWithLike, SearchParamsProps)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
 │   ├── to-action-state.ts       # Action state utilities for server actions
@@ -170,6 +176,8 @@ The project follows a feature-based architecture where related functionality is 
 
 - **`features/models/`**: All model-related components, actions, queries, and search params
 - **`features/categories/`**: All category-related components and data queries
+- **`features/pagination/`**: Pagination utilities, types, and components shared across features
+- **`features/auth/`**: Authentication actions, components, queries, and types
 - **`app/_navigation/`**: Private navigation components (not part of routing)
 
 ### Directory Conventions
@@ -184,6 +192,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses "use cache" directive for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types
+- **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
 
 ## 🚀 Getting Started
 
@@ -214,6 +223,8 @@ The project follows a feature-based architecture where related functionality is 
    AUTH_URL="http://localhost:3000"  # or your production URL
    NEXT_PUBLIC_APP_URL="http://localhost:3000"  # or your production URL
    ```
+   
+   **Note**: `AUTH_URL` will fall back to `NEXT_PUBLIC_APP_URL` if not set.
 
 4. **Database Setup**
    ```bash
@@ -310,7 +321,8 @@ The application uses Next.js cache with granular cache tags for efficient invali
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
-- `features/models/components/models-pagination` - Pagination controls for model listings with nuqs integration
+- `features/models/components/models-pagination` - Model-specific pagination wrapper
+- `features/pagination/components/pagination` - Reusable pagination component with nuqs integration
 - `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
 - `features/models/components/heart-button-client` - Client component for like interactions
 - `features/models/components/search-input` - Model search functionality with URL state

@@ -18,17 +18,6 @@ export type ModelWithLike = WithLike<Model>;
  */
 export type Maybe<T> = T | null | undefined;
 
-export type PaginationMetadata = {
-  count: number;
-  hasNextPage: boolean;
-  nextCursor: Maybe<string>;
-};
-
-export type PaginatedResult<T> = {
-  list: Maybe<T[]>;
-  metadata: PaginationMetadata;
-};
-
 export type SearchParamsProps = {
   searchParams: Promise<SearchParams>;
 };

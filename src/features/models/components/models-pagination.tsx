@@ -1,12 +1,12 @@
 "use client";
 
 import { useQueryStates } from "nuqs";
-import Pagination from "@/components/pagination";
+import Pagination from "@/features/pagination/components/pagination";
 import {
   options as PaginationOptions,
   paginationParser,
-} from "@/features/models/pagination-search-params";
-import type { PaginationMetadata } from "@/types";
+} from "@/features/pagination/pagination-search-params";
+import type { PaginationMetadata } from "@/features/pagination/types";
 
 export type ModelsPaginationProps = {
   metadata: PaginationMetadata;
