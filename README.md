@@ -14,7 +14,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.5-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
@@ -24,7 +24,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.0.5 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.0.6 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.0
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Stream from "@/components/streamable";
-import CategoriesHeader from "@/features/categories/components/categories-header";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
@@ -49,18 +48,15 @@ export default async function CategoryPage({
   }
 
   return (
-    <>
-      <CategoriesHeader category={category} />
-      <Stream
-        fallback={<ModelsGridSkeleton />}
-        value={ResultsContent({
-          category: categoryName,
-          categoryDisplayName: category.displayName,
-          searchParams,
-        })}
-      >
-        {(content) => content}
-      </Stream>
-    </>
+    <Stream
+      fallback={<ModelsGridSkeleton />}
+      value={ResultsContent({
+        category: categoryName,
+        categoryDisplayName: category.displayName,
+        searchParams,
+      })}
+    >
+      {(content) => content}
+    </Stream>
   );
 }

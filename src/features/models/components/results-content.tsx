@@ -1,7 +1,7 @@
 import ModelsGrid from "@/features/models/components/models-grid";
 import ModelsNotFound from "@/features/models/components/models-not-found";
 import { getModels } from "@/features/models/queries/search-models";
-import ModelsPagination from "@/features/pagination/components/nuqs-pagination";
+import Pagination from "@/features/pagination/components/nuqs-pagination";
 import type { SearchParamsProps } from "@/types";
 
 type ResultsContentProps = SearchParamsProps & {
@@ -9,6 +9,8 @@ type ResultsContentProps = SearchParamsProps & {
   categoryDisplayName?: string;
   title?: string;
 };
+
+const DEFAULT_TITLE = "3D Models";
 
 export async function ResultsContent({
   searchParams,
@@ -22,12 +24,12 @@ export async function ResultsContent({
   }
 
   // Determine the title: categoryDisplayName takes precedence, then title prop, default to "3D Models"
-  const displayTitle = categoryDisplayName ?? title ?? "3D Models";
+  const displayTitle = categoryDisplayName ?? title ?? DEFAULT_TITLE;
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-rows-[0.9fr_min-content] content-between gap-y-4 px-4 pt-4">
       <ModelsGrid models={result.list} title={displayTitle} />
-      <ModelsPagination metadata={result.metadata} />
+      <Pagination metadata={result.metadata} />
     </div>
   );
 }

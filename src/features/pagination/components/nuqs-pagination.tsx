@@ -1,25 +1,25 @@
 "use client";
 
 import { useQueryStates } from "nuqs";
-import Pagination from "@/features/pagination/components/pagination";
+import PaginationComponent from "@/features/pagination/components/pagination";
 import {
   options as PaginationOptions,
   paginationParser,
 } from "@/features/pagination/pagination-search-params";
 import type { PaginationMetadata } from "@/features/pagination/types";
 
-export type ModelsPaginationProps = {
+export type PaginationProps = {
   metadata: PaginationMetadata;
 };
 
-const ModelsPagination = ({ metadata }: ModelsPaginationProps) => {
+const Pagination = ({ metadata }: PaginationProps) => {
   const [pagination, setPagination] = useQueryStates(
     paginationParser,
     PaginationOptions,
   );
 
   return (
-    <Pagination
+    <PaginationComponent
       metadata={metadata}
       pagination={pagination}
       setPagination={setPagination}
@@ -27,4 +27,4 @@ const ModelsPagination = ({ metadata }: ModelsPaginationProps) => {
   );
 };
 
-export default ModelsPagination;
+export default Pagination;
