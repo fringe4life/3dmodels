@@ -5,14 +5,14 @@ import type { SearchParams } from "nuqs/server";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
+import {
+  type PaginationType,
+  searchParamsCache,
+} from "@/features/pagination/pagination-search-params";
 import type { DatabaseQueryResult } from "@/features/pagination/types";
 import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
-import {
-  type PaginationType,
-  searchParamsCache,
-} from "../../pagination/pagination-search-params";
 import { modelsSearchParamsCache } from "../search-params";
 
 // Optimized search function that doesn't fetch like status
@@ -25,6 +25,9 @@ export const searchModels = async (
 
   // Set cache tags for revalidation control
   cacheTag("models");
+  if (category) {
+    cacheTag(`models-category-${category}`);
+  }
   // Set cache life to default (1 hour)
   cacheLife("default");
 
@@ -78,30 +81,45 @@ export const searchModels = async (
 // Get all models for search (without like status)
 export const getModelsForSearch = async (
   pagination: PaginationType,
+  category?: string,
 ): Promise<DatabaseQueryResult<Model>> => {
   "use cache: remote";
 
   // Set cache tags for revalidation control
   cacheTag("models");
+  if (category) {
+    cacheTag(`models-category-${category}`);
+  }
   // Set cache life to default (1 hour)
   cacheLife("default");
 
+  let whereCondition: Maybe<SQL>;
+  if (category) {
+    whereCondition = eq(models.categorySlug, category);
+  }
+
   const [{ data: items }, { data: totalRows }] = await Promise.all([
-    tryCatch(
-      async () =>
-        await db
-          .select()
-          .from(models)
-          .orderBy(models.name)
-          .limit(pagination.limit)
-          .offset(pagination.page * pagination.limit),
-    ),
-    tryCatch(
-      async () =>
-        await db
-          .select({ value: count(models.slug).mapWith(Number) })
-          .from(models),
-    ),
+    tryCatch(async () => {
+      const baseQuery = db
+        .select()
+        .from(models)
+        .orderBy(models.name)
+        .limit(pagination.limit)
+        .offset(pagination.page * pagination.limit);
+      return whereCondition
+        ? await baseQuery.where(whereCondition)
+        : await baseQuery;
+    }),
+    tryCatch(async () => {
+      const baseQuery = db
+        .select({
+          value: count(models.slug).mapWith(Number),
+        })
+        .from(models);
+      return whereCondition
+        ? await baseQuery.where(whereCondition)
+        : await baseQuery;
+    }),
   ]);
 
   return {
@@ -110,15 +128,18 @@ export const getModelsForSearch = async (
   };
 };
 
-export async function getModels(searchParams: Promise<SearchParams>) {
+export async function getModels(
+  searchParams: Promise<SearchParams>,
+  category?: string,
+) {
   await connection();
   const search = await searchParams;
   const { query } = modelsSearchParamsCache.parse(search);
   const pagination = searchParamsCache.parse(search);
 
   const dbResult = query
-    ? await searchModels(query, pagination)
-    : await getModelsForSearch(pagination);
+    ? await searchModels(query, pagination, category)
+    : await getModelsForSearch(pagination, category);
 
   return transformToPaginatedResult(dbResult, pagination);
 }

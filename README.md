@@ -117,13 +117,13 @@ src/
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
+│   │   │   ├── results-content.tsx  # Shared component for search results and category pages
 │   │   │   └── search-input.tsx
 │   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
-│   │   │   ├── get-models-by-category.ts
-│   │   │   └── search-models.ts
+│   │   │   └── search-models.ts  # Unified query function (handles search, category filtering, and listing)
 │   │   ├── schemas/              # Validation schemas (Valibot)
 │   │   │   └── search-schemas.ts
 │   │   └── search-params.ts       # Type-safe search params for models
@@ -303,6 +303,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
 - **Categories**: Cached with `categories` tag
 - **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), weeks/max for static categories
+- **Query Functions**: Unified `getModels()` function handles search, category filtering, and listing with optional parameters
 - **Like Status**: Split into two functions:
   - `getLikesCount`: Uses `"use cache: remote"` for shared likes count (works after `connection()`)
   - `getHasLikedStatus`: Uses `"use cache: private"` for user-specific like status (cached on device)
@@ -323,6 +324,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
+- `features/models/components/results-content` - Shared component for displaying search results and category pages (unified component)
 - `features/pagination/components/nuqs-pagination` - Pagination wrapper with nuqs integration
 - `features/pagination/components/pagination` - Reusable pagination component
 - `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
