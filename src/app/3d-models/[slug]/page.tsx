@@ -8,6 +8,11 @@ export async function generateStaticParams() {
   return await getAllModelSlugs();
 }
 
+const MODEL_NOT_FOUND = {
+  title: "Model Not Found",
+  description: "The model you are looking for does not exist.",
+};
+
 export async function generateMetadata({
   params,
 }: PageProps<"/3d-models/[slug]">): Promise<Metadata> {
@@ -15,9 +20,8 @@ export async function generateMetadata({
   const model = await getModelBySlug(slug);
 
   if (!model) {
-    return notFound();
+    return MODEL_NOT_FOUND;
   }
-
   const { name, description } = model;
 
   return {

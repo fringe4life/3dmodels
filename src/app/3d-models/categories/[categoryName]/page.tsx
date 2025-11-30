@@ -11,6 +11,11 @@ export async function generateStaticParams() {
   return await getAllCategorySlugs();
 }
 
+const CATEGORY_NOT_FOUND = {
+  title: "Category Not Found",
+  description: "The category you are looking for does not exist.",
+};
+
 export async function generateMetadata({
   params,
 }: PageProps<"/3d-models/categories/[categoryName]">): Promise<Metadata> {
@@ -18,7 +23,7 @@ export async function generateMetadata({
 
   const category = await getCategoryBySlug(categoryName);
   if (!category) {
-    return notFound();
+    return CATEGORY_NOT_FOUND;
   }
 
   return {
