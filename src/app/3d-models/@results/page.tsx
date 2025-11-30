@@ -1,4 +1,3 @@
-import { connection } from "next/server";
 import Stream from "@/components/streamable";
 import ModelsGrid from "@/features/models/components/models-grid";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
@@ -8,8 +7,6 @@ import ModelsPagination from "@/features/pagination/components/nuqs-pagination";
 import type { SearchParamsProps } from "@/types";
 
 async function ResultsContent({ searchParams }: SearchParamsProps) {
-  await connection();
-
   const result = await getModels(searchParams);
   if (!result.list || result.list.length === 0) {
     return <ModelsNotFound />;

@@ -1,5 +1,6 @@
 import { and, count, eq, ilike, or, type SQL } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
+import { connection } from "next/server";
 import type { SearchParams } from "nuqs/server";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
@@ -20,7 +21,7 @@ export const searchModels = async (
   pagination: PaginationType,
   category?: string,
 ): Promise<DatabaseQueryResult<Model>> => {
-  "use cache";
+  "use cache: remote";
 
   // Set cache tags for revalidation control
   cacheTag("models");
@@ -78,7 +79,7 @@ export const searchModels = async (
 export const getModelsForSearch = async (
   pagination: PaginationType,
 ): Promise<DatabaseQueryResult<Model>> => {
-  "use cache";
+  "use cache: remote";
 
   // Set cache tags for revalidation control
   cacheTag("models");
@@ -110,6 +111,7 @@ export const getModelsForSearch = async (
 };
 
 export async function getModels(searchParams: Promise<SearchParams>) {
+  await connection();
   const search = await searchParams;
   const { query } = modelsSearchParamsCache.parse(search);
   const pagination = searchParamsCache.parse(search);
