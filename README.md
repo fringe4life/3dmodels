@@ -121,7 +121,7 @@ src/
 │   │   ├── queries/              # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
-│   │   │   ├── get-model-with-like-status.ts
+│   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
 │   │   │   ├── get-models-by-category.ts
 │   │   │   └── search-models.ts
 │   │   ├── schemas/              # Validation schemas (Valibot)
@@ -189,7 +189,7 @@ The project follows a feature-based architecture where related functionality is 
 - **NuqsAdapter**: Scoped to `/3d-models` layout only (not root layout) for reduced overhead on routes that don't use URL state management
 - **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
-- **Cache Components**: Uses "use cache" directive for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
+- **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
 
@@ -299,11 +299,14 @@ The application uses Next.js Cache Components for optimal performance:
 
 ### Caching Strategy
 
-The application uses Next.js cache with granular cache tags for efficient invalidation:
+The application uses Next.js Cache Components with granular cache tags for efficient invalidation:
 - **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
 - **Categories**: Cached with `categories` tag
-- **Cache Life**: 1 hour for most queries, weeks for static categories
-- **Invalidation**: Centralized utilities in `features/models/utils/cache-invalidation.ts`
+- **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), weeks/max for static categories
+- **Like Status**: Split into two functions:
+  - `getLikesCount`: Uses `"use cache: remote"` for shared likes count (works after `connection()`)
+  - `getHasLikedStatus`: Uses `"use cache: private"` for user-specific like status (cached on device)
+- **Invalidation**: Centralized utilities in `utils/cache-invalidation.ts` with on-demand invalidation via `invalidateModel()`
 
 ## 🎨 Styling & Components
 
@@ -423,8 +426,9 @@ Ensure these are set in your deployment environment:
 - Use centralized cache invalidation utilities in `utils/cache-invalidation.ts`
 - Functions: `invalidateAllModels()`, `invalidateModel(slug)`, `invalidateCategory(slug)`
 - Cache tags provide granular control over what gets invalidated
-- Automatic cache invalidation on data mutations
+- Automatic cache invalidation on data mutations (e.g., `toggleLike` invalidates model cache)
 - Session cache uses `"use cache: private"` directive with `cacheTag("session")` for responsive auth state
+- Like status split into separate functions: `getLikesCount` (remote cache) and `getHasLikedStatus` (private cache)
 
 ## 🤝 Contributing
 

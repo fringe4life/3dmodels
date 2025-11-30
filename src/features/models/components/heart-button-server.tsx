@@ -1,5 +1,8 @@
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
-import { getLikeStatusOfModel } from "../queries/get-model-with-like-status";
+import {
+  getHasLikedStatus,
+  getLikesCount,
+} from "../queries/get-model-with-like-status";
 import HeartButtonClient, {
   type HeartButtonClientProps,
 } from "./heart-button-client";
@@ -18,10 +21,11 @@ export function HeartButtonServer({
     <HasAuthSuspense fallback={<HeartButtonSkeleton />}>
       {async (session) => {
         const userId = session?.user?.id;
-        const { hasLiked, likesCount } = await getLikeStatusOfModel(
-          slug,
-          userId,
-        );
+        const { likesCount } = await getLikesCount(slug);
+        const hasLiked = userId
+          ? (await getHasLikedStatus(slug, userId)).hasLiked
+          : false;
+
         return (
           <HeartButtonClient
             hasLiked={hasLiked}
