@@ -2,14 +2,20 @@
 @plugin "@toolwind/corner-shape";
 
 @theme {
-  --color-orange-accent: #f77d36;
-  --color-search-input: #606060;
+  --color-orange-accent: oklch(71.85% 0.17 47.43);
+  --color-search-input: oklch(48.91% 0 0);
+  --color-black: oklch(0% 0 0);
 
-  --shadow-model-card: 0 5px 12px rgba(0, 0, 0, 0.1);
+  --shadow-model-card: 0 5px 12px oklch(from var(--color-black) l c h / 0.1);
 
-  --category-width: 140px;
+  --category-width-tablet: 140px;
 
-  --category-mobile-width: calc(100svw - 10px);
+  --category-width-mobile: calc(100vw - 10px);
+
+  --category-width-max: max(
+    var(--category-width-tablet),
+    var(--category-width-mobile)
+  );
 }
 
 /* BASE STYLES */
@@ -76,7 +82,7 @@
 }
 
 @utility models-grid {
-  @apply grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-6;
+  @apply grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-6;
 }
 
 /* VIEW TRANSITIONS */
