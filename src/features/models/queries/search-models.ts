@@ -5,6 +5,7 @@ import type { SearchParams } from "nuqs/server";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
+import { modelsSearchParamsCache } from "@/features/models/search-params";
 import {
   type PaginationType,
   searchParamsCache,
@@ -13,7 +14,6 @@ import type { DatabaseQueryResult } from "@/features/pagination/types";
 import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
-import { modelsSearchParamsCache } from "../search-params";
 
 // Optimized search function that doesn't fetch like status
 export const searchModels = async (

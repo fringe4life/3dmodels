@@ -1,7 +1,7 @@
 import Link from "next/link";
-import NavLink from "@/app/_navigation/nav-link";
+import NavLink from "@/components/nav-link";
+import AuthButtons from "@/features/auth/components/auth-buttons";
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
-import AuthButtons from "../_navigation/auth-buttons";
 
 // Main component with Stream boundary
 export default function Navbar() {

@@ -8,7 +8,7 @@ import {
   type LimitItem,
   type PaginationType,
 } from "@/features/pagination/pagination-search-params";
-import type { PaginationMetadata } from "../types";
+import type { PaginationMetadata } from "@/features/pagination/types";
 
 type PaginationProps = {
   pagination: PaginationType;

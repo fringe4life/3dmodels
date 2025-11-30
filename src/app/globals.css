@@ -36,7 +36,7 @@
     @apply text-orange-accent font-semibold border-current;
   }
   &:not([data-border-bottom]).active {
-    @apply border-l-2 pl-3;
+    @apply md:border-l-2 md:pl-3;
   }
 
   &[data-border-bottom] {

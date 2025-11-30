@@ -41,9 +41,6 @@ A modern web application for browsing and discovering 3D models, built with Next
 ```
 src/
 ├── app/                          # Next.js App Router
-│   ├── _navigation/              # Private navigation components
-│   │   ├── auth-buttons.tsx
-│   │   └── nav-link.tsx
 │   ├── @navbar/                  # Parallel route for navbar
 │   │   └── default.tsx
 │   ├── @footer/                  # Parallel route for footer
@@ -92,6 +89,7 @@ src/
 │   │   │   ├── sign-out-action.ts
 │   │   │   └── sign-up-action.ts
 │   │   ├── components/           # Auth components
+│   │   │   ├── auth-buttons.tsx  # Authentication buttons component
 │   │   │   ├── has-auth.tsx      # Generic auth component with session provider
 │   │   │   └── sign-in-button.tsx
 │   │   ├── queries/              # Auth queries
@@ -139,6 +137,7 @@ src/
 │   ├── field-errors.tsx          # Field error display component
 │   ├── form-error.tsx            # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
+│   ├── nav-link.tsx              # Navigation link with active state
 │   ├── not-found-list-item.tsx   # List item component for not-found pages
 │   ├── not-found.tsx             # Reusable not-found page component
 │   ├── pill.tsx                  # Reusable pill component
@@ -177,7 +176,7 @@ The project follows a feature-based architecture where related functionality is 
 - **`features/categories/`**: All category-related components and data queries
 - **`features/pagination/`**: Pagination utilities, types, and components shared across features
 - **`features/auth/`**: Authentication actions, components, queries, and types
-- **`app/_navigation/`**: Private navigation components (not part of routing)
+- **`components/`**: Shared components used across features (including navigation)
 
 ### Directory Conventions
 - **`_` prefix**: Private folders that are not part of Next.js routing
@@ -335,8 +334,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration
 - `app/@footer/default` - Footer parallel route with copyright
-- `app/_navigation/nav-link` - Navigation link with active state
-- `app/_navigation/auth-buttons` - Authentication buttons
+- `components/nav-link` - Navigation link with active state (client component)
+- `features/auth/components/auth-buttons` - Authentication buttons component
 
 #### Shared Components
 - `components/field-errors` - Field-level error display component with ViewTransition support

@@ -1,5 +1,8 @@
-import type { PaginationType } from "../pagination-search-params";
-import type { DatabaseQueryResult, PaginatedResult } from "../types";
+import type { PaginationType } from "@/features/pagination/pagination-search-params";
+import type {
+  DatabaseQueryResult,
+  PaginatedResult,
+} from "@/features/pagination/types";
 
 export function transformToPaginatedResult<T>(
   { items, totalRows }: DatabaseQueryResult<T>,

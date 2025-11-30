@@ -1,9 +1,9 @@
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
-import { toggleLike } from "../actions/likes";
-import type { getModelBySlug } from "../queries/get-model-by-slug";
-import { HeartButtonServer } from "./heart-button-server";
+import { toggleLike } from "@/features/models/actions/likes";
+import { HeartButtonServer } from "@/features/models/components/heart-button-server";
+import type { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
 export default function ModelDetail({
   slug,
   name,
