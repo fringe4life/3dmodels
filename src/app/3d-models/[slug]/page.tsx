@@ -1,17 +1,13 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next/types";
 import ModelDetail from "@/features/models/components/model-detail";
+import { MODEL_NOT_FOUND } from "@/features/models/constants";
 import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
 import { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
 
 export async function generateStaticParams() {
   return await getAllModelSlugs();
 }
-
-const MODEL_NOT_FOUND = {
-  title: "Model Not Found",
-  description: "The model you are looking for does not exist.",
-};
 
 export async function generateMetadata({
   params,

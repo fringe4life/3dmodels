@@ -1,17 +1,10 @@
 import { and, count, eq, ilike, or, type SQL } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
-import { connection } from "next/server";
-import type { SearchParams } from "nuqs/server";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
-import { modelsSearchParamsCache } from "@/features/models/search-params";
-import {
-  type PaginationType,
-  searchParamsCache,
-} from "@/features/pagination/pagination-search-params";
+import type { PaginationType } from "@/features/pagination/pagination-search-params";
 import type { DatabaseQueryResult } from "@/features/pagination/types";
-import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
@@ -127,19 +120,3 @@ export const getModelsForSearch = async (
     totalRows,
   };
 };
-
-export async function getModels(
-  searchParams: Promise<SearchParams>,
-  category?: string,
-) {
-  await connection();
-  const search = await searchParams;
-  const { query } = modelsSearchParamsCache.parse(search);
-  const pagination = searchParamsCache.parse(search);
-
-  const dbResult = query
-    ? await searchModels(query, pagination, category)
-    : await getModelsForSearch(pagination, category);
-
-  return transformToPaginatedResult(dbResult, pagination);
-}

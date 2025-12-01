@@ -3,7 +3,7 @@ import NotFound from "@/components/not-found";
 
 // biome-ignore lint/suspicious/useAwait: needed for use cache
 export default async function ModelsNotFound() {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   return (
     <NotFound

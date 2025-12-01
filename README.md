@@ -29,7 +29,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7
 - **Authentication**: Better Auth 1.4.4 with email/password and GitHub OAuth
-- **Search Params**: nuqs 2.8.1 for type-safe URL state management
+- **Search Params**: nuqs 2.8.2 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.8 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
@@ -97,8 +97,8 @@ src/
 │   │   └── types.ts              # Auth type definitions
 │   ├── categories/               # Categories feature
 │   │   ├── components/           # Category-specific components
-│   │   │   ├── categories-header.tsx
 │   │   │   └── categories-nav-client.tsx
+│   │   ├── constants.ts          # Category metadata and display configuration
 │   │   └── queries/              # Category data queries
 │   │       ├── get-all-categories.ts
 │   │       ├── get-all-category-slugs.ts
@@ -117,12 +117,15 @@ src/
 │   │   │   ├── models-not-found.tsx
 │   │   │   ├── results-content.tsx  # Shared component for search results and category pages
 │   │   │   └── search-input.tsx
-│   │   ├── queries/              # Model data queries
+│   │   ├── constants.ts           # Model categories, filters, and display metadata
+│   │   ├── dal/                   # Data access layer for models
+│   │   │   └── get-models.ts
+│   │   ├── queries/               # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
-│   │   │   └── search-models.ts  # Unified query function (handles search, category filtering, and listing)
-│   │   ├── schemas/              # Validation schemas (Valibot)
+│   │   │   └── search-models.ts   # Unified query function (handles search, category filtering, and listing)
+│   │   ├── schemas/               # Validation schemas (Valibot)
 │   │   │   └── search-schemas.ts
 │   │   └── search-params.ts       # Type-safe search params for models
 │   └── pagination/               # Pagination feature

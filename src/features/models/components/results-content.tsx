@@ -1,6 +1,7 @@
 import ModelsGrid from "@/features/models/components/models-grid";
 import ModelsNotFound from "@/features/models/components/models-not-found";
-import { getModels } from "@/features/models/queries/search-models";
+import { DEFAULT_TITLE } from "@/features/models/constants";
+import { getModels } from "@/features/models/dal/get-models";
 import Pagination from "@/features/pagination/components/nuqs-pagination";
 import type { SearchParamsProps } from "@/types";
 
@@ -9,8 +10,6 @@ type ResultsContentProps = SearchParamsProps & {
   categoryDisplayName?: string;
   title?: string;
 };
-
-const DEFAULT_TITLE = "3D Models";
 
 export async function ResultsContent({
   searchParams,
@@ -23,7 +22,6 @@ export async function ResultsContent({
     return <ModelsNotFound />;
   }
 
-  // Determine the title: categoryDisplayName takes precedence, then title prop, default to "3D Models"
   const displayTitle = categoryDisplayName ?? title ?? DEFAULT_TITLE;
 
   return (

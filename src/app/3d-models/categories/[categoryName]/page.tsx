@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Stream from "@/components/streamable";
+import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
@@ -9,11 +10,6 @@ import { ResultsContent } from "@/features/models/components/results-content";
 export async function generateStaticParams() {
   return await getAllCategorySlugs();
 }
-
-const CATEGORY_NOT_FOUND = {
-  title: "Category Not Found",
-  description: "The category you are looking for does not exist.",
-};
 
 export async function generateMetadata({
   params,
