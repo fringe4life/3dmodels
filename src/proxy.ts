@@ -1,9 +1,8 @@
-import { getSessionCookie } from "better-auth/cookies";
+import { getCookieCache } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
-// biome-ignore lint/suspicious/useAwait: recommended way to do this
 export async function proxy(request: NextRequest) {
-  const sessionCookie = getSessionCookie(request);
+  const sessionCookie = await getCookieCache(request);
   // THIS IS NOT SECURE!
   if (sessionCookie) {
     return NextResponse.redirect(new URL("/", request.url));
