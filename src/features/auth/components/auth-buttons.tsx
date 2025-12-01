@@ -10,10 +10,7 @@ type AuthButtonsProps = {
   user?: Pick<ServerUser, "name" | "email"> | null;
 };
 
-export default function AuthButtons({
-  isAuthenticated,
-  user,
-}: AuthButtonsProps) {
+const AuthButtons = ({ isAuthenticated, user }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();
 
   const handleSignOut = () => {
@@ -48,4 +45,6 @@ export default function AuthButtons({
       Sign In
     </Link>
   );
-}
+};
+
+export default AuthButtons;

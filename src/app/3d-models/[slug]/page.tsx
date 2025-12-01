@@ -5,13 +5,11 @@ import { MODEL_NOT_FOUND } from "@/features/models/constants";
 import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
 import { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
 
-export async function generateStaticParams() {
-  return await getAllModelSlugs();
-}
+export const generateStaticParams = async () => await getAllModelSlugs();
 
-export async function generateMetadata({
+export const generateMetadata = async ({
   params,
-}: PageProps<"/3d-models/[slug]">): Promise<Metadata> {
+}: PageProps<"/3d-models/[slug]">): Promise<Metadata> => {
   const { slug } = await params;
   const model = await getModelBySlug(slug);
 
@@ -37,11 +35,9 @@ export async function generateMetadata({
       ],
     },
   };
-}
+};
 
-export default async function ModelDetailPage({
-  params,
-}: PageProps<"/3d-models/[slug]">) {
+const ModelDetailPage = async ({ params }: PageProps<"/3d-models/[slug]">) => {
   const { slug } = await params;
 
   const model = await getModelBySlug(slug);
@@ -51,4 +47,6 @@ export default async function ModelDetailPage({
   }
 
   return <ModelDetail {...model} />;
-}
+};
+
+export default ModelDetailPage;

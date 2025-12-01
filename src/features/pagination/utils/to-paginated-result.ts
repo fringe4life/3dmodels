@@ -4,10 +4,10 @@ import type {
   PaginatedResult,
 } from "@/features/pagination/types";
 
-export function transformToPaginatedResult<T>(
+export const transformToPaginatedResult = <T>(
   { items, totalRows }: DatabaseQueryResult<T>,
   pagination: PaginationType,
-): PaginatedResult<T> {
+): PaginatedResult<T> => {
   const list = items;
   const totalCount = totalRows?.at(0)?.value ?? 0;
   const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
@@ -21,4 +21,4 @@ export function transformToPaginatedResult<T>(
       nextCursor,
     },
   };
-}
+};

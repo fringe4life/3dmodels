@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
-export async function getSession(): Promise<Maybe<ServerSession>> {
+const getSession = async (): Promise<Maybe<ServerSession>> => {
   "use cache: private";
   cacheTag("session");
 
@@ -21,4 +21,6 @@ export async function getSession(): Promise<Maybe<ServerSession>> {
   }
 
   return session;
-}
+};
+
+export default getSession;

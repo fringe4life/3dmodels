@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getSession } from "@/features/auth/queries/get-session";
+import getSession from "@/features/auth/queries/get-session";
 import type { ServerSession } from "@/features/auth/types";
 import type { Maybe } from "@/types";
 
@@ -7,11 +7,16 @@ import type { Maybe } from "@/types";
 export const HasAuth = async ({
   children,
 }: {
-  children: (session: Maybe<ServerSession>) => React.ReactNode;
+  children: (
+    session: Maybe<ServerSession>,
+    isAuthenticated: boolean,
+  ) => React.ReactNode;
 }) => {
   const session = await getSession();
 
-  return <>{children(session)}</>;
+  const isAuthenticated = !!session?.user?.id;
+
+  return <>{children(session, isAuthenticated)}</>;
 };
 
 // Suspense wrapper for dynamic auth-dependent content
@@ -19,7 +24,10 @@ export const HasAuthSuspense = ({
   children,
   fallback,
 }: {
-  children: (session: Maybe<ServerSession>) => React.ReactNode;
+  children: (
+    session: Maybe<ServerSession>,
+    isAuthenticated: boolean,
+  ) => React.ReactNode;
   fallback: React.ReactNode;
 }) => (
   <Suspense fallback={fallback}>

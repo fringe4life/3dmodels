@@ -1,3 +1,3 @@
-export default function ResultsDefault() {
-  return null;
-}
+const ResultsDefault = () => null;
+
+export default ResultsDefault;

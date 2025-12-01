@@ -8,7 +8,7 @@ import { fromErrorToActionState } from "@/utils/to-action-state";
 import { tryCatch } from "@/utils/try-catch";
 
 // Server action for sign-out
-export async function signOutAction() {
+export const signOutAction = async () => {
   // Call Better Auth sign-out API
   const { data, error } = await tryCatch(
     async () =>
@@ -26,4 +26,4 @@ export async function signOutAction() {
 
   // Redirect to home page
   throw redirect("/", RedirectType.replace);
-}
+};

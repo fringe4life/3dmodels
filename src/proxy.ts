@@ -1,7 +1,7 @@
 import { getCookieCache } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
-export async function proxy(request: NextRequest) {
+export const proxy = async (request: NextRequest) => {
   const sessionCookie = await getCookieCache(request);
   // THIS IS NOT SECURE!
   if (sessionCookie) {
@@ -9,7 +9,7 @@ export async function proxy(request: NextRequest) {
   }
 
   return NextResponse.next();
-}
+};
 
 export const config = {
   matcher: ["/signin", "/signup"], // Specify the routes the middleware applies to

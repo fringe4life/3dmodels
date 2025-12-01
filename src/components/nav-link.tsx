@@ -10,7 +10,7 @@ type NavLinkProps = {
   children: ReactNode;
 };
 
-export default function NavLink({ href, children }: NavLinkProps) {
+const NavLink = ({ href, children }: NavLinkProps) => {
   const pathname = usePathname();
   const isActive = pathname.includes(href);
 
@@ -25,4 +25,6 @@ export default function NavLink({ href, children }: NavLinkProps) {
       </Link>
     </li>
   );
-}
+};
+
+export default NavLink;

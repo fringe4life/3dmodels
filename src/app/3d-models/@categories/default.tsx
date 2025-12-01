@@ -1,7 +1,7 @@
 import CategoriesNavClient from "@/features/categories/components/categories-nav-client";
 import { getAllCategories } from "@/features/categories/queries/get-all-categories";
 
-export default async function CategoriesDefault() {
+const CategoriesDefault = async () => {
   const categories = await getAllCategories();
 
   return (
@@ -11,4 +11,6 @@ export default async function CategoriesDefault() {
       </nav>
     </aside>
   );
-}
+};
+
+export default CategoriesDefault;

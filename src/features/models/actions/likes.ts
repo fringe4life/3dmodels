@@ -5,7 +5,7 @@ import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
-import { getSession } from "@/features/auth/queries/get-session";
+import getSession from "@/features/auth/queries/get-session";
 import type { Maybe } from "@/types";
 import { invalidateModel } from "@/utils/cache-invalidation";
 import {
@@ -23,10 +23,10 @@ const likeSchema = object({
   ),
 });
 
-export async function toggleLike(
+const toggleLike = async (
   _prevState: Maybe<ActionState>,
   formData: FormData,
-) {
+) => {
   try {
     const { modelSlug } = parse(
       likeSchema,
@@ -96,4 +96,6 @@ export async function toggleLike(
   } catch (error) {
     return fromErrorToActionState(error);
   }
-}
+};
+
+export default toggleLike;

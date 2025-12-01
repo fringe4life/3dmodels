@@ -10,9 +10,7 @@ type CategoriesNavClientProps = {
   categories: Category[];
 };
 
-export default function CategoriesNavClient({
-  categories,
-}: CategoriesNavClientProps) {
+const CategoriesNavClient = ({ categories }: CategoriesNavClientProps) => {
   const pathname = usePathname();
   const allId = useId();
   const allCategories = [
@@ -37,4 +35,6 @@ export default function CategoriesNavClient({
       })}
     />
   );
-}
+};
+
+export default CategoriesNavClient;

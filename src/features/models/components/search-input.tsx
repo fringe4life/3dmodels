@@ -11,7 +11,7 @@ import {
 // Constants for debounce timing
 const SEARCH_DEBOUNCE_DELAY = 250; // milliseconds
 
-export function SearchInput() {
+export const SearchInput = () => {
   const [isPending, startTransition] = useTransition();
   const [query, setQuery] = useQueryState(
     "query",
@@ -61,4 +61,4 @@ export function SearchInput() {
       </Activity>
     </>
   );
-}
+};

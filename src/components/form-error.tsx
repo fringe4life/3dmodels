@@ -2,11 +2,11 @@ import { ViewTransition } from "react";
 import type { Maybe } from "@/types";
 import type { ActionState } from "@/utils/to-action-state";
 
-export default function FormError<T = unknown>({
+const FormError = <T = unknown>({
   actionState,
 }: {
   actionState: Maybe<ActionState<T>>;
-}) {
+}) => {
   let formErrorElement: React.ReactNode = null;
   if (actionState?.message && actionState?.status === "ERROR") {
     formErrorElement = (
@@ -16,4 +16,6 @@ export default function FormError<T = unknown>({
     );
   }
   return <ViewTransition>{formErrorElement}</ViewTransition>;
-}
+};
+
+export default FormError;

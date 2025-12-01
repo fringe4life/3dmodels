@@ -17,7 +17,6 @@ const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 128;
 const MAX_EMAIL_LENGTH = 255;
 
-// Valibot schema for sign-in form
 const signInFormSchema = object({
   email: pipe(
     string("Email must be a string"),
@@ -38,22 +37,16 @@ const signInFormSchema = object({
   ),
 });
 
-// Server action for sign-in
-export async function signInAction(
+const signInAction = async (
   _: Maybe<ActionState>,
   formData: FormData,
-): Promise<ActionState> {
+): Promise<ActionState> => {
   try {
-    // Convert FormData to object
-    const data: Record<string, unknown> = {};
-    for (const [key, value] of formData.entries()) {
-      data[key] = value;
-    }
+    const { email, password } = parse(
+      signInFormSchema,
+      Object.fromEntries(formData.entries()),
+    );
 
-    // Validate form data with Valibot (parse throws ValiError on failure)
-    const { email, password } = parse(signInFormSchema, data);
-
-    // Call Better Auth sign-in API
     const { data: authResponse, error } = await tryCatch(
       async () =>
         await auth.api.signInEmail({
@@ -69,16 +62,14 @@ export async function signInAction(
       throw error || new Error("Failed to sign in");
     }
 
-    // Invalidate session cache
     invalidateSessionCache();
 
-    // Redirect on success
     throw redirect("/", RedirectType.replace);
   } catch (error) {
-    // Handle redirect separately (it's an error, but needs to be thrown to be handled by the next error boundary)
     unstable_rethrow(error);
 
-    // Convert error to ActionState
     return fromErrorToActionState(error, formData);
   }
-}
+};
+
+export default signInAction;

@@ -13,29 +13,29 @@ type HeartButtonAdditionalProps = Pick<
   "slug" | "toggleAction"
 >;
 
-export function HeartButtonServer({
+const HeartButtonServer = ({
   slug,
   toggleAction,
-}: HeartButtonAdditionalProps) {
-  return (
-    <HasAuthSuspense fallback={<HeartButtonSkeleton />}>
-      {async (session) => {
-        const userId = session?.user?.id;
-        const { likesCount } = await getLikesCount(slug);
-        const hasLiked = userId
-          ? (await getHasLikedStatus(slug, userId)).hasLiked
-          : false;
+}: HeartButtonAdditionalProps) => (
+  <HasAuthSuspense fallback={<HeartButtonSkeleton />}>
+    {async (session, isAuthenticated) => {
+      const userId = session?.user?.id;
+      const { likesCount } = await getLikesCount(slug);
+      const hasLiked = userId
+        ? (await getHasLikedStatus(slug, userId)).hasLiked
+        : false;
 
-        return (
-          <HeartButtonClient
-            hasLiked={hasLiked}
-            isAuthenticated={!!session?.user?.id}
-            likesCount={likesCount}
-            slug={slug}
-            toggleAction={toggleAction}
-          />
-        );
-      }}
-    </HasAuthSuspense>
-  );
-}
+      return (
+        <HeartButtonClient
+          hasLiked={hasLiked}
+          isAuthenticated={isAuthenticated}
+          likesCount={likesCount}
+          slug={slug}
+          toggleAction={toggleAction}
+        />
+      );
+    }}
+  </HasAuthSuspense>
+);
+
+export default HeartButtonServer;

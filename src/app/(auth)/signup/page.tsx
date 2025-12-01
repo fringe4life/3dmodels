@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useActionState, useTransition } from "react";
 import FieldError from "@/components/field-errors";
 import FormError from "@/components/form-error";
-import { signUpAction } from "@/features/auth/actions/sign-up-action";
+import signUpAction from "@/features/auth/actions/sign-up-action";
 
-export default function SignUpPage() {
+const SignUpPage = () => {
   const [state, formAction] = useActionState(signUpAction, null);
   const [isPending, startTransition] = useTransition();
 
@@ -110,4 +110,6 @@ export default function SignUpPage() {
       </div>
     </>
   );
-}
+};
+
+export default SignUpPage;

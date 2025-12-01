@@ -4,7 +4,7 @@ import { type MouseEventHandler, useTransition, ViewTransition } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { authClient } from "@/lib/auth-client";
 
-export default function SignInButton() {
+const SignInButton = () => {
   const [isPending, startTransition] = useTransition();
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
@@ -34,4 +34,6 @@ export default function SignInButton() {
       </div>
     </div>
   );
-}
+};
+
+export default SignInButton;

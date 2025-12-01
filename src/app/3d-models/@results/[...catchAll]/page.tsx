@@ -1,3 +1,3 @@
-export default function ResultsCatchAll() {
-  return null;
-}
+const ResultsCatchAll = () => null;
+
+export default ResultsCatchAll;

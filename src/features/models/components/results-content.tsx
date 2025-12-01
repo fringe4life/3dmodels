@@ -11,12 +11,12 @@ type ResultsContentProps = SearchParamsProps & {
   title?: string;
 };
 
-export async function ResultsContent({
+const ResultsContent = async ({
   searchParams,
   category,
   categoryDisplayName,
   title,
-}: ResultsContentProps) {
+}: ResultsContentProps) => {
   const result = await getModels(searchParams, category);
   if (!result.list || result.list.length === 0) {
     return <ModelsNotFound />;
@@ -30,4 +30,6 @@ export async function ResultsContent({
       <Pagination metadata={result.metadata} />
     </div>
   );
-}
+};
+
+export default ResultsContent;

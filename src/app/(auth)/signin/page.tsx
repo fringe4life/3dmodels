@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useActionState, useTransition } from "react";
 import FieldError from "@/components/field-errors";
 import FormError from "@/components/form-error";
-import { signInAction } from "@/features/auth/actions/sign-in-action";
+import signInAction from "@/features/auth/actions/sign-in-action";
 import SignInButton from "@/features/auth/components/sign-in-button";
 
-export default function SignInPage() {
+const SignInPage = () => {
   const [state, formAction] = useActionState(signInAction, null);
   const [isPending, startTransition] = useTransition();
 
@@ -106,4 +106,6 @@ export default function SignInPage() {
       </div>
     </>
   );
-}
+};
+
+export default SignInPage;

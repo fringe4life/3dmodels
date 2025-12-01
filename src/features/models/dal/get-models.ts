@@ -8,10 +8,10 @@ import { modelsSearchParamsCache } from "@/features/models/search-params";
 import { searchParamsCache } from "@/features/pagination/pagination-search-params";
 import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
 
-export async function getModels(
+export const getModels = async (
   searchParams: Promise<SearchParams>,
   category?: string,
-) {
+) => {
   await connection();
   const search = await searchParams;
   const { query } = modelsSearchParamsCache.parse(search);
@@ -22,4 +22,4 @@ export async function getModels(
     : await getModelsForSearch(pagination, category);
 
   return transformToPaginatedResult(dbResult, pagination);
-}
+};

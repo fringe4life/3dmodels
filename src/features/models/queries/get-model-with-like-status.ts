@@ -15,7 +15,7 @@ export type LikeStatusOfModel = LikesCount & HasLikedStatus;
  * Shared across all users.
  * Cache is invalidated on-demand via invalidateModel() when likes change.
  */
-export async function getLikesCount(modelSlug: string) {
+export const getLikesCount = async (modelSlug: string) => {
   "use cache: remote";
   cacheTag(`model-${modelSlug}`);
   cacheLife("hours");
@@ -34,7 +34,7 @@ export async function getLikesCount(modelSlug: string) {
   const likesCount = data.at(0)?.likes ?? 0;
 
   return { modelSlug, likesCount };
-}
+};
 
 /**
  * Fetches whether a user has liked a model.
@@ -42,7 +42,7 @@ export async function getLikesCount(modelSlug: string) {
  * User-specific data.
  * Cache is invalidated on-demand via invalidateModel() when likes change.
  */
-export async function getHasLikedStatus(modelSlug: string, userId: string) {
+export const getHasLikedStatus = async (modelSlug: string, userId: string) => {
   "use cache: private";
   cacheTag(`model-${modelSlug}`);
   cacheLife("hours");
@@ -62,4 +62,4 @@ export async function getHasLikedStatus(modelSlug: string, userId: string) {
   const hasLiked = existingLike.length > 0;
 
   return { modelSlug, hasLiked };
-}
+};

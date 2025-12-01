@@ -2,7 +2,7 @@ import { cacheLife } from "next/cache";
 import NotFound from "@/components/not-found";
 
 // biome-ignore lint/suspicious/useAwait: needed for use cache
-export default async function ModelsNotFound() {
+const ModelsNotFound = async () => {
   "use cache: remote";
   cacheLife("max");
   return (
@@ -31,4 +31,6 @@ export default async function ModelsNotFound() {
       subheading="Your search returned no results."
     />
   );
-}
+};
+
+export default ModelsNotFound;

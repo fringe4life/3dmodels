@@ -55,10 +55,10 @@ export type SignUpData = {
 };
 
 // Server action for sign-up
-export async function signUpAction(
+const signUpAction = async (
   _: Maybe<ActionState<SignUpData>>,
   formData: FormData,
-): Promise<ActionState<SignUpData>> {
+): Promise<ActionState<SignUpData>> => {
   try {
     // Convert FormData to object
     const data: Record<string, unknown> = {};
@@ -98,4 +98,6 @@ export async function signUpAction(
     // Convert error to ActionState
     return fromErrorToActionState(error, formData);
   }
-}
+};
+
+export default signUpAction;

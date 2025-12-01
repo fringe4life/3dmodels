@@ -8,7 +8,7 @@ import {
   useTransition,
 } from "react";
 import { FaHeart } from "react-icons/fa6";
-import type { toggleLike } from "@/features/models/actions/likes";
+import type toggleLike from "@/features/models/actions/likes";
 
 export type HeartButtonClientProps = {
   slug: string;
@@ -18,13 +18,13 @@ export type HeartButtonClientProps = {
   toggleAction: typeof toggleLike;
 };
 
-export default function HeartButtonClient({
+const HeartButtonClient = ({
   slug,
   likesCount,
   hasLiked,
   isAuthenticated,
   toggleAction,
-}: HeartButtonClientProps) {
+}: HeartButtonClientProps) => {
   const [, formAction] = useActionState(toggleAction, null);
   const [isPending, startTransition] = useTransition();
   const [optimisticLike, setOptimisticLike] = useOptimistic(hasLiked);
@@ -66,4 +66,6 @@ export default function HeartButtonClient({
       <span>{likesCount}</span>
     </button>
   );
-}
+};
+
+export default HeartButtonClient;
