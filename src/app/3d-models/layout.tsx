@@ -9,7 +9,7 @@ export default function ModelsLayout({
     <NuqsAdapter>
       <div className="grid min-h-screen grid-rows-[min-content_1fr] md:grid-cols-[var(--category-width-tablet)_1fr] md:grid-rows-1 md:gap-x-25">
         {categories}
-        <section className="self-center">
+        <section className="self-center p-4">
           {children}
           {results}
         </section>

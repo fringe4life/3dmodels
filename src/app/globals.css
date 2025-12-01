@@ -50,7 +50,7 @@
   }
 
   &[data-border-bottom].active {
-    @apply border-b-2;
+    @apply md:border-b-2;
   }
 }
 

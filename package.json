@@ -52,7 +52,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20251130.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251201.1",
     "drizzle-kit": "^0.31.7",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",

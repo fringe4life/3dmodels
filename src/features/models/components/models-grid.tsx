@@ -1,6 +1,6 @@
 import GenericComponent from "@/components/generic-component";
 import type { Model } from "@/db/schema/models";
-import ModelCard from "./model-card";
+import ModelCard from "@/features/models/components/model-card";
 
 type ModelsGridProps = {
   title: string;
@@ -9,7 +9,7 @@ type ModelsGridProps = {
 
 export default function ModelsGrid({ title, models }: ModelsGridProps) {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto py-8">
       <h1 className="mb-8 font-bold text-3xl">{title}</h1>
       <GenericComponent
         Component={ModelCard}

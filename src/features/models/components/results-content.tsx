@@ -27,7 +27,7 @@ export async function ResultsContent({
   const displayTitle = categoryDisplayName ?? title ?? DEFAULT_TITLE;
 
   return (
-    <div className="grid grid-rows-[0.9fr_min-content] content-between gap-y-4 px-4 pt-4">
+    <div className="grid grid-rows-[0.9fr_min-content] content-between gap-y-4">
       <ModelsGrid models={result.list} title={displayTitle} />
       <Pagination metadata={result.metadata} />
     </div>
