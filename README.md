@@ -18,7 +18,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
-![Drizzle ORM](https://img.shields.io/badge/Drizzle-0.44.7-FFE66D?logo=postgresql)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.4-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.8-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
@@ -27,7 +27,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Framework**: Next.js 16.0.6 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.0
 - **Styling**: Tailwind CSS v4.1.17
-- **Database**: Neon (PostgreSQL) with Drizzle ORM 0.44.7
+- **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
 - **Authentication**: Better Auth 1.4.4 with email/password and GitHub OAuth
 - **Search Params**: nuqs 2.8.2 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.8 rules
@@ -96,8 +96,11 @@ src/
 │   │   │   └── get-session.ts
 │   │   └── types.ts              # Auth type definitions
 │   ├── categories/               # Categories feature
+│   │   ├── actions/              # Server actions
+│   │   │   └── revalidate-categories.ts
 │   │   ├── components/           # Category-specific components
-│   │   │   └── categories-nav-client.tsx
+│   │   │   ├── categories-nav-client.tsx
+│   │   │   └── categories-retry-button.tsx
 │   │   ├── constants.ts          # Category metadata and display configuration
 │   │   └── queries/              # Category data queries
 │   │       ├── get-all-categories.ts
@@ -150,7 +153,8 @@ src/
 │   │   ├── auth.ts              # Authentication tables
 │   │   ├── likes.ts             # Likes table
 │   │   ├── models.ts            # Models and categories tables
-│   │   └── relations.ts         # Table relations
+│   │   ├── relations.ts         # Table relations (Drizzle ORM v1 beta)
+│   │   └── schema.ts            # Schema export for relations
 │   ├── seed-data/               # Seed data
 │   │   ├── categories.ts
 │   │   └── models.ts
@@ -193,6 +197,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types
+- **Error Recovery**: Retry functionality for failed queries (e.g., categories query returns `Maybe<Category[]>` with retry button on failure)
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
 
 ## 🚀 Getting Started
@@ -292,12 +297,19 @@ The project follows a feature-based architecture where related functionality is 
 - `bun run db:seed` - Seed database with initial data
 - `bun run db:drop` - Drop all tables (useful for development reset)
 
+### Database Relations
+The application uses Drizzle ORM v1 (beta) with `defineRelations` for type-safe relations:
+- Relations defined using the new v1 beta syntax with `r.one()` and `r.many()` helpers
+- Relation names avoid conflicts with column names (e.g., `modelLikes` instead of `likes` to avoid conflict with `models.likes` column)
+- All relations exported from `schema/relations.ts` and included in the database schema
+
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:
 - Static content is pre-rendered at build time
 - Dynamic content (like authentication state) is rendered at request time
 - Server components use `connection()` to opt into dynamic rendering when needed
 - Cache invalidation handled by `cacheTag` utilities
+- Error handling with retry functionality for failed queries (e.g., categories retry button)
 
 ### Caching Strategy
 
@@ -333,6 +345,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/heart-button-client` - Client component for like interactions
 - `features/models/components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav-client` - Category filtering sidebar
+- `features/categories/components/categories-retry-button` - Retry button for failed category loads
+- `features/categories/actions/revalidate-categories` - Server action to revalidate categories cache
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration

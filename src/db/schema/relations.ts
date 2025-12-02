@@ -1,52 +1,46 @@
-import { relations } from "drizzle-orm";
-import { account, session, user } from "./auth";
-import { likes } from "./likes";
-import { categories, models } from "./models";
+import { defineRelations } from "drizzle-orm";
+import { schema } from "./schema";
 
-export const userRelations = relations(user, ({ many }) => ({
-  sessions: many(session),
-  accounts: many(account),
-  models: many(models),
-}));
-
-export const sessionRelations = relations(session, ({ one }) => ({
-  user: one(user, {
-    fields: [session.userId],
-    references: [user.id],
-  }),
-}));
-
-export const accountRelations = relations(account, ({ one }) => ({
-  user: one(user, {
-    fields: [account.userId],
-    references: [user.id],
-  }),
-}));
-
-// Define relations
-export const categoriesRelations = relations(categories, ({ many }) => ({
-  models: many(models),
-}));
-
-export const modelsRelations = relations(models, ({ one, many }) => ({
-  category: one(categories, {
-    fields: [models.categorySlug],
-    references: [categories.slug],
-  }),
-  user: one(user, {
-    fields: [models.userId],
-    references: [user.id],
-  }),
-  likes: many(likes),
-}));
-
-export const likesRelations = relations(likes, ({ one }) => ({
-  user: one(user, {
-    fields: [likes.userId],
-    references: [user.id],
-  }),
-  model: one(models, {
-    fields: [likes.modelSlug],
-    references: [models.slug],
-  }),
+export const relations = defineRelations(schema, (r) => ({
+  user: {
+    sessions: r.many.session(),
+    accounts: r.many.account(),
+    models: r.many.models(),
+  },
+  session: {
+    user: r.one.user({
+      from: r.session.userId,
+      to: r.user.id,
+    }),
+  },
+  account: {
+    user: r.one.user({
+      from: r.account.userId,
+      to: r.user.id,
+    }),
+  },
+  categories: {
+    models: r.many.models(),
+  },
+  models: {
+    category: r.one.categories({
+      from: r.models.categorySlug,
+      to: r.categories.slug,
+    }),
+    user: r.one.user({
+      from: r.models.userId,
+      to: r.user.id,
+    }),
+    modelLikes: r.many.likes(),
+  },
+  likes: {
+    user: r.one.user({
+      from: r.likes.userId,
+      to: r.user.id,
+    }),
+    model: r.one.models({
+      from: r.likes.modelSlug,
+      to: r.models.slug,
+    }),
+  },
 }));

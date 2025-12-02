@@ -36,11 +36,8 @@ const Navbar = () => (
               <div className="h-8 w-20 animate-pulse rounded bg-gray-200" />
             }
           >
-            {(session, isAuthenticated) => (
-              <AuthButtons
-                isAuthenticated={isAuthenticated}
-                user={session?.user}
-              />
+            {(user, isAuthenticated) => (
+              <AuthButtons isAuthenticated={isAuthenticated} user={user} />
             )}
           </HasAuthSuspense>
         </li>

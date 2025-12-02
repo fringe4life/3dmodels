@@ -18,8 +18,8 @@ const HeartButtonServer = ({
   toggleAction,
 }: HeartButtonAdditionalProps) => (
   <HasAuthSuspense fallback={<HeartButtonSkeleton />}>
-    {async (session, isAuthenticated) => {
-      const userId = session?.user?.id;
+    {async (user, isAuthenticated) => {
+      const userId = user?.id;
       const { likesCount } = await getLikesCount(slug);
       const hasLiked = userId
         ? (await getHasLikedStatus(slug, userId)).hasLiked

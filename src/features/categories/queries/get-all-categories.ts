@@ -2,9 +2,10 @@ import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import type { Category } from "@/db/schema/models";
 import { categories } from "@/db/schema/models";
+import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
-export const getAllCategories = async (): Promise<Category[]> => {
+export const getAllCategories = async (): Promise<Maybe<Category[]>> => {
   "use cache";
   cacheLife("max");
   cacheTag("categories");
@@ -14,7 +15,7 @@ export const getAllCategories = async (): Promise<Category[]> => {
   );
 
   if (!data || error) {
-    return [];
+    return null;
   }
 
   return data;

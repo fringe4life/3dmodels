@@ -1,17 +1,9 @@
 import { neonConfig, Pool } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import ws from "ws";
-import { account, session, user, verification } from "./schema/auth";
-import { likes } from "./schema/likes";
-import { categories, models } from "./schema/models";
-import {
-  accountRelations,
-  categoriesRelations,
-  likesRelations,
-  modelsRelations,
-  sessionRelations,
-  userRelations,
-} from "./schema/relations";
+import { verification } from "./schema/auth";
+import { relations } from "./schema/relations";
+import { schema as relationsSchema } from "./schema/schema";
 
 neonConfig.webSocketConstructor = ws;
 // Create the Pool client (WebSocket-based for transaction support)
@@ -19,19 +11,9 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL as string });
 
 // Combine all schemas
 const schema = {
-  user,
-  session,
-  account,
+  ...relationsSchema,
   verification,
-  categories,
-  models,
-  likes,
-  userRelations,
-  sessionRelations,
-  accountRelations,
-  categoriesRelations,
-  modelsRelations,
-  likesRelations,
+  ...relations,
 };
 
 // Create the Drizzle database instance
