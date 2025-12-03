@@ -60,14 +60,11 @@ const signUpAction = async (
   formData: FormData,
 ): Promise<ActionState<SignUpData>> => {
   try {
-    // Convert FormData to object
-    const data: Record<string, unknown> = {};
-    for (const [key, value] of formData.entries()) {
-      data[key] = value;
-    }
-
     // Validate form data with Valibot (parse throws ValiError on failure)
-    const { email, password, name } = parse(signUpFormSchema, data);
+    const { email, password, name } = parse(
+      signUpFormSchema,
+      Object.fromEntries(formData.entries()),
+    );
 
     // Call Better Auth sign-up API
     const { data: authResponse, error } = await tryCatch(
