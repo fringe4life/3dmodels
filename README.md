@@ -14,21 +14,21 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.6-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.7-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19.2.1-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.4-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.5-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.8-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.0.6 with App Router, Cache Components, and PPR (Partial Prerendering)
-- **Language**: TypeScript 5.9.3 with React 19.2.0
+- **Framework**: Next.js 16.0.7 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Language**: TypeScript 5.9.3 with React 19.2.1
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
-- **Authentication**: Better Auth 1.4.5 with email/password and GitHub OAuth (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
+- **Authentication**: Better Auth 1.4.5 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
 - **Search Params**: nuqs 2.8.2 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.8 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
@@ -110,16 +110,16 @@ src/
 │   │   ├── actions/              # Server actions
 │   │   │   └── likes.ts
 │   │   ├── components/           # Model-specific components
-│   │   │   ├── heart-button-server.tsx
-│   │   │   ├── heart-button-client.tsx
-│   │   │   ├── heart-button-skeleton.tsx
+│   │   │   ├── heart-button/      # Heart button component group
+│   │   │   │   ├── heart-button-server.tsx
+│   │   │   │   ├── heart-button-client.tsx
+│   │   │   │   └── heart-button-skeleton.tsx
 │   │   │   ├── model-card.tsx
 │   │   │   ├── model-detail.tsx
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
-│   │   │   ├── results-content.tsx  # Shared component for search results and category pages
-│   │   │   └── search-input.tsx
+│   │   │   ├── models-view.tsx # Shared component for search results and category pages
 │   │   ├── constants.ts           # Model categories, filters, and display metadata
 │   │   ├── dal/                   # Data access layer for models
 │   │   │   └── get-models.ts
@@ -128,8 +128,6 @@ src/
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
 │   │   │   └── search-models.ts   # Unified query function (handles search, category filtering, and listing)
-│   │   ├── schemas/               # Validation schemas (Valibot)
-│   │   │   └── search-schemas.ts
 │   │   └── search-params.ts       # Type-safe search params for models
 │   └── pagination/               # Pagination feature
 │       ├── components/           # Pagination components
@@ -147,6 +145,7 @@ src/
 │   ├── not-found-list-item.tsx   # List item component for not-found pages
 │   ├── not-found.tsx             # Reusable not-found page component
 │   ├── pill.tsx                  # Reusable pill component
+│   ├── search-input.tsx          # Search input component with URL state
 │   └── streamable.tsx            # Streaming utilities
 ├── db/                          # Database configuration
 │   ├── schema/                  # Database schema definitions
@@ -226,7 +225,7 @@ The project follows a feature-based architecture where related functionality is 
    DATABASE_URL="your-neon-database-connection-string"
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
-   AUTH_URL="http://localhost:3000"  # or your production URL
+   AUTH_URL="http://localhost:3000"  # or your production URL (falls back to NEXT_PUBLIC_APP_URL)
    NEXT_PUBLIC_APP_URL="http://localhost:3000"  # or your production URL
    ```
    
@@ -342,9 +341,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/results-content` - Shared component for displaying search results and category pages (unified component)
 - `features/pagination/components/nuqs-pagination` - Pagination wrapper with nuqs integration
 - `features/pagination/components/pagination` - Reusable pagination component
-- `features/models/components/heart-button-server` - Server component for like/unlike (fetches auth & like status)
-- `features/models/components/heart-button-client` - Client component for like interactions
-- `features/models/components/search-input` - Model search functionality with URL state
+- `features/models/components/heart-button/heart-button-server` - Server component for like/unlike (fetches auth & like status)
+- `features/models/components/heart-button/heart-button-client` - Client component for like interactions
+- `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
+- `components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav-client` - Category filtering sidebar
 - `features/categories/components/categories-retry-button` - Retry button for failed category loads
 - `features/categories/actions/revalidate-categories` - Server action to revalidate categories cache
@@ -353,7 +353,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/@navbar/default` - Navbar parallel route with auth integration
 - `app/@footer/default` - Footer parallel route with copyright
 - `components/nav-link` - Navigation link with active state (client component)
-- `features/auth/components/auth-buttons` - Authentication buttons component
+- `features/auth/components/auth-buttons` - Authentication buttons component with user avatar (GitHub image priority, icon fallback)
 
 #### Shared Components
 - `components/field-errors` - Field-level error display component with ViewTransition support

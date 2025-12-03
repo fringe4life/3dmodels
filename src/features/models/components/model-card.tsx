@@ -4,7 +4,7 @@ import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
 import type { Model } from "@/db/schema/models";
 import toggleLike from "@/features/models/actions/likes";
-import HeartButtonServer from "@/features/models/components/heart-button-server";
+import HeartButtonServer from "@/features/models/components/heart-button/heart-button-server";
 
 type ModelCardProps = {
   model: Model;

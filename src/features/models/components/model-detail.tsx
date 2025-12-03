@@ -2,7 +2,7 @@ import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
 import toggleLike from "@/features/models/actions/likes";
-import HeartButtonServer from "@/features/models/components/heart-button-server";
+import HeartButtonServer from "@/features/models/components/heart-button/heart-button-server";
 import type { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
 
 const ModelDetail = ({

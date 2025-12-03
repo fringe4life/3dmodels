@@ -1,6 +1,6 @@
 import Stream from "@/components/streamable";
 import ModelsGridSkeleton from "@/features/models/components/models-grid-skeleton";
-import ResultsContent from "@/features/models/components/results-content";
+import ResultsContent from "@/features/models/components/models-view";
 
 const ResultsPage = ({ searchParams }: PageProps<"/3d-models">) => (
   <Stream

@@ -1,8 +1,8 @@
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 import HeartButtonClient, {
   type HeartButtonClientProps,
-} from "@/features/models/components/heart-button-client";
-import HeartButtonSkeleton from "@/features/models/components/heart-button-skeleton";
+} from "@/features/models/components/heart-button/heart-button-client";
+import HeartButtonSkeleton from "@/features/models/components/heart-button/heart-button-skeleton";
 import {
   getHasLikedStatus,
   getLikesCount,

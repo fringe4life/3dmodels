@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { SearchInput } from "@/components/search-input";
 import Stream from "@/components/streamable";
-import { SearchInput } from "@/features/models/components/search-input";
 
 export const metadata: Metadata = {
   title: "3d-Models",
