@@ -13,8 +13,7 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL as string });
 const schema = {
   ...relationsSchema,
   verification,
-  ...relations,
 };
 
 // Create the Drizzle database instance
-export const db = drizzle({ client: pool, schema });
+export const db = drizzle({ client: pool, schema, relations });

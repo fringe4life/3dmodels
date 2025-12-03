@@ -1,17 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { revalidateCategoriesAction } from "@/features/categories/actions/revalidate-categories";
 
 const CategoriesRetryButton = () => {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleRetry = () => {
     startTransition(async () => {
       await revalidateCategoriesAction();
-      router.refresh();
     });
   };
 

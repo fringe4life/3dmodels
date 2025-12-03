@@ -1,8 +1,9 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
+import { getAllCategories } from "../queries/get-all-categories";
 
-// biome-ignore lint/suspicious/useAwait: server action
 export async function revalidateCategoriesAction() {
-  revalidateTag("categories", "max");
+  await getAllCategories();
+  updateTag("categories");
 }

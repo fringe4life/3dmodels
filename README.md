@@ -28,7 +28,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript 5.9.3 with React 19.2.0
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
-- **Authentication**: Better Auth 1.4.4 with email/password and GitHub OAuth
+- **Authentication**: Better Auth 1.4.5 with email/password and GitHub OAuth (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
 - **Search Params**: nuqs 2.8.2 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.8 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
@@ -302,6 +302,7 @@ The application uses Drizzle ORM v1 (beta) with `defineRelations` for type-safe 
 - Relations defined using the new v1 beta syntax with `r.one()` and `r.many()` helpers
 - Relation names avoid conflicts with column names (e.g., `modelLikes` instead of `likes` to avoid conflict with `models.likes` column)
 - All relations exported from `schema/relations.ts` and included in the database schema
+- **Note**: Better Auth's `drizzleAdapter` may show warnings about models not found in query object due to v1 beta relations structure incompatibility, but authentication functionality works correctly (Better Auth falls back to direct table queries)
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:

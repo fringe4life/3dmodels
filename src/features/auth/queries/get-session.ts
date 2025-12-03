@@ -1,11 +1,11 @@
 import { cacheTag } from "next/cache";
 import { headers } from "next/headers";
-import type { ServerSession } from "@/features/auth/types";
 import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
+import type { ServerUser } from "../types";
 
-const getSession = async (): Promise<Maybe<ServerSession>> => {
+const getSession = async (): Promise<Maybe<ServerUser>> => {
   "use cache: private";
   cacheTag("session");
 
@@ -20,7 +20,7 @@ const getSession = async (): Promise<Maybe<ServerSession>> => {
     return null;
   }
 
-  return session;
+  return session.user;
 };
 
 export default getSession;

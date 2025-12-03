@@ -12,10 +12,10 @@ export const HasAuth = async ({
     isAuthenticated: boolean,
   ) => React.ReactNode;
 }) => {
-  const session = await getSession();
-  const isAuthenticated = !!session?.user?.id;
+  const user = await getSession();
+  const isAuthenticated = !!user?.id;
 
-  return <>{children(session?.user, isAuthenticated)}</>;
+  return <>{children(user, isAuthenticated)}</>;
 };
 
 // Suspense wrapper for dynamic auth-dependent content

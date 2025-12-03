@@ -68,7 +68,7 @@ export const viewport: Viewport = {
 const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
   <html data-scroll-behavior="smooth" lang="en">
     <body
-      className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh grid-rows-[5.35rem_1fr_5.35rem] gap-y-10`}
+      className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh grid-rows-[5.35rem_1fr_5.35rem] md:gap-y-10`}
     >
       {navbar}
       <main>{children}</main>

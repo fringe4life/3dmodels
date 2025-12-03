@@ -33,13 +33,13 @@ const toggleLike = async (
       Object.fromEntries(formData.entries()),
     );
 
-    const session = await getSession();
+    const user = await getSession();
 
-    if (!session?.user?.id) {
+    if (!user?.id) {
       throw new Error("Authentication required");
     }
 
-    const userId = session.user.id;
+    const userId = user.id;
 
     const { data, error } = await tryCatch(async () => {
       return await db.transaction(async (tx) => {

@@ -43,7 +43,7 @@ const ModelDetailPage = async ({ params }: PageProps<"/3d-models/[slug]">) => {
   const model = await getModelBySlug(slug);
 
   if (!model) {
-    return notFound();
+    throw notFound();
   }
 
   return <ModelDetail {...model} />;
