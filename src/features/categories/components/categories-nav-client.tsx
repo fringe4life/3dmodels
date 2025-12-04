@@ -22,7 +22,7 @@ const CategoriesNavClient = ({ categories }: CategoriesNavClientProps) => {
     <GenericComponent
       as="ul"
       Component={Link}
-      className="grid auto-cols-max grid-flow-col gap-5 px-4 py-3 md:w-full md:auto-cols-[100%] md:grid-flow-row md:p-0"
+      className="grid auto-cols-max grid-flow-col gap-5 px-4 py-3 md:grid-flow-row md:p-0"
       items={allCategories}
       renderKey={(item) => item.slug}
       renderProps={(item) => ({

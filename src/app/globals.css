@@ -11,11 +11,6 @@
   --category-width-tablet: 140px;
 
   --category-width-mobile: calc(100vw - 10px);
-
-  --category-width-max: max(
-    var(--category-width-tablet),
-    var(--category-width-mobile)
-  );
 }
 
 /* BASE STYLES */
@@ -79,6 +74,10 @@
   &::after {
     animation-delay: 0.4s;
   }
+}
+
+@utility max-w-inherit {
+  @apply max-w-[inherit];
 }
 
 @utility models-grid {

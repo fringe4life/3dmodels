@@ -28,7 +28,7 @@ const Home = () => (
       </p>
 
       <Link
-        className="justify-self-start border-2 border-black bg-white px-6 py-3 text-black transition duration-100 hover:bg-black hover:text-white"
+        className="justify-self-start border-2 border-black bg-white px-6 py-3 text-black transition-colors duration-200 hover:bg-black hover:text-white"
         href="/3d-models"
       >
         Browse Models

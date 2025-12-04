@@ -30,7 +30,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
 - **Authentication**: Better Auth 1.4.5 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
 - **Search Params**: nuqs 2.8.2 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.8 rules
+- **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.9 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
@@ -168,6 +168,7 @@ src/
 │   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
+│   ├── env.ts                   # Environment variable validation (Valibot)
 │   ├── to-action-state.ts       # Action state utilities for server actions
 │   └── try-catch.ts             # Error handling utilities
 └── proxy.ts                     # Next.js proxy middleware
@@ -222,14 +223,22 @@ The project follows a feature-based architecture where related functionality is 
 3. **Environment Setup**
    Create a `.env` file in the root directory:
    ```env
-   DATABASE_URL="your-neon-database-connection-string"
+   # Site Configuration
+   NEXT_PUBLIC_SITE_URL="http://localhost:3000"  # or your production URL
+   
+   # Better Auth Configuration
+   AUTH_SECRET="your-secret-key-here-change-this-in-production"
+   AUTH_DRIZZLE_URL="http://localhost:3000"  # Better Auth base URL (falls back to NEXT_PUBLIC_SITE_URL)
+   
+   # GitHub OAuth
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
-   AUTH_URL="http://localhost:3000"  # or your production URL (falls back to NEXT_PUBLIC_APP_URL)
-   NEXT_PUBLIC_APP_URL="http://localhost:3000"  # or your production URL
+   
+   # Database
+   DATABASE_URL="your-neon-database-connection-string"
    ```
    
-   **Note**: `AUTH_URL` will fall back to `NEXT_PUBLIC_APP_URL` if not set.
+   **Note**: All environment variables are validated at application startup using Valibot in `src/utils/env.ts`. If any required variable is missing or invalid, the application will fail to start with a clear error message. See `AUTH_SETUP.md` for detailed setup instructions.
 
 4. **Database Setup**
    ```bash
@@ -422,11 +431,14 @@ The project follows a consistent coding style with:
 ### Environment Variables
 
 Ensure these are set in your deployment environment:
-- `DATABASE_URL`: Your Neon database connection string
+- `NEXT_PUBLIC_SITE_URL`: Your public application URL (e.g., `https://yourdomain.com`)
+- `AUTH_SECRET`: A strong, random secret key for Better Auth (generate with `openssl rand -base64 32`)
+- `AUTH_DRIZZLE_URL`: Better Auth base URL (falls back to `NEXT_PUBLIC_SITE_URL` if not set)
 - `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
 - `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret
-- `AUTH_URL`: Your application URL (e.g., `https://yourdomain.com`)
-- `NEXT_PUBLIC_APP_URL`: Your public application URL
+- `DATABASE_URL`: Your Neon database connection string
+
+All variables are validated at startup - see `src/utils/env.ts` for validation schema.
 
 ## 📝 Data Management
 

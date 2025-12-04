@@ -52,14 +52,14 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20251203.1",
-    "drizzle-kit": "^0.31.7",
+    "@typescript/native-preview": "^7.0.0-dev.20251204.1",
+    "drizzle-kit": "beta",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4.1.17",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "ultracite": "6.3.8",
+    "ultracite": "6.3.9",
     "zod": "^4.1.13"
   },
   "trustedDependencies": [

@@ -1,8 +1,9 @@
 /** biome-ignore-all lint/suspicious/noConsole: a command to clear db */
 import { neon } from "@neondatabase/serverless";
 import "dotenv/config";
+import { env } from "@/utils/env";
 
-const sql = neon(process.env.DATABASE_URL as string);
+const sql = neon(env.DATABASE_URL);
 
 await sql`DROP TABLE IF EXISTS "likes" CASCADE`;
 await sql`DROP TABLE IF EXISTS "models" CASCADE`;
