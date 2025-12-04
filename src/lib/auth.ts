@@ -24,7 +24,7 @@ export const auth = betterAuth({
       maxAge: 5 * 60, // 5 minutes
     },
   },
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_SITE_URL,
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,

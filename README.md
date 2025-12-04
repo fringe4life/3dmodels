@@ -2,16 +2,6 @@
 
 A modern web application for browsing and discovering 3D models, built with Next.js, TypeScript, and Drizzle ORM.
 
-## 🚀 Features
-
-- **Browse 3D Models**: View a curated collection of 3D models across various categories
-- **Category Filtering**: Filter models by category (3D Printer, Art, Education, Fashion, etc.)
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Type-Safe Database**: Full TypeScript support with Drizzle ORM
-- **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
-- **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
-
 ## 🛠️ Tech Stack
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.0.7-black?logo=next.js)
@@ -36,6 +26,17 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Build Tool**: Turbopack with view transitions and MCP server
 - **Validation**: Valibot 1.2.0 for schema validation
 
+## 🚀 Features
+
+- **Browse 3D Models**: View a curated collection of 3D models across various categories
+- **Category Filtering**: Filter models by category (3D Printer, Art, Education, Fashion, etc.)
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Type-Safe Database**: Full TypeScript support with Drizzle ORM
+- **Performance Optimized**: Caching for frequently accessed data
+- **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
+- **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
+
+
 ## 📁 Project Structure
 
 ```
@@ -47,7 +48,8 @@ src/
 │   │   └── default.tsx
 │   ├── 3d-models/                # 3D models routes
 │   │   ├── @categories/          # Parallel route for categories nav
-│   │   │   └── default.tsx
+│   │   │   ├── default.tsx
+│   │   │   └── error.tsx         # Error boundary for categories
 │   │   ├── @results/             # Parallel route for search results
 │   │   │   ├── [...catchAll]/
 │   │   │   │   └── page.tsx
@@ -96,11 +98,8 @@ src/
 │   │   │   └── get-session.ts
 │   │   └── types.ts              # Auth type definitions
 │   ├── categories/               # Categories feature
-│   │   ├── actions/              # Server actions
-│   │   │   └── revalidate-categories.ts
 │   │   ├── components/           # Category-specific components
-│   │   │   ├── categories-nav-client.tsx
-│   │   │   └── categories-retry-button.tsx
+│   │   │   └── categories-nav-client.tsx
 │   │   ├── constants.ts          # Category metadata and display configuration
 │   │   └── queries/              # Category data queries
 │   │       ├── get-all-categories.ts
@@ -197,7 +196,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types
-- **Error Recovery**: Retry functionality for failed queries (e.g., categories query returns `Maybe<Category[]>` with retry button on failure)
+- **Error Recovery**: Error boundaries with `error.tsx` for failed queries (e.g., categories error boundary with built-in `reset()` retry functionality)
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
 
 ## 🚀 Getting Started
@@ -318,7 +317,7 @@ The application uses Next.js Cache Components for optimal performance:
 - Dynamic content (like authentication state) is rendered at request time
 - Server components use `connection()` to opt into dynamic rendering when needed
 - Cache invalidation handled by `cacheTag` utilities
-- Error handling with retry functionality for failed queries (e.g., categories retry button)
+- Error handling with `error.tsx` error boundaries for failed queries (e.g., categories error boundary with built-in `reset()` retry)
 
 ### Caching Strategy
 
@@ -355,8 +354,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
 - `components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav-client` - Category filtering sidebar
-- `features/categories/components/categories-retry-button` - Retry button for failed category loads
-- `features/categories/actions/revalidate-categories` - Server action to revalidate categories cache
+- `app/3d-models/@categories/error.tsx` - Error boundary for categories with built-in retry functionality
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration
