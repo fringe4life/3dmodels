@@ -1,4 +1,4 @@
-import NotFound from "@/components/not-found";
+import NotFound from "@/components/not-found/not-found";
 import {
   CATEGORY_LINKS,
   CATEGORY_LIST_ITEMS,

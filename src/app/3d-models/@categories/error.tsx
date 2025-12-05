@@ -8,9 +8,9 @@ export default function CategoriesError({
 }) {
   return (
     <div className="flex items-center gap-4 p-4 md:flex-col md:items-start">
-      <p className="text-muted-foreground text-sm">Failed to load categories</p>
+      <p className="text-gray-600 text-sm">Failed to load categories</p>
       <button
-        className="rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground text-sm transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-md bg-orange-accent px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-orange-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
         onClick={reset}
         type="button"
       >

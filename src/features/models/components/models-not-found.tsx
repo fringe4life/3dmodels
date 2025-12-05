@@ -1,5 +1,5 @@
 import { cacheLife } from "next/cache";
-import NotFound from "@/components/not-found";
+import NotFound from "@/components/not-found/not-found";
 
 // biome-ignore lint/suspicious/useAwait: needed for use cache
 const ModelsNotFound = async () => {

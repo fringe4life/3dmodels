@@ -19,7 +19,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
 - **Authentication**: Better Auth 1.4.5 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
-- **Search Params**: nuqs 2.8.2 for type-safe URL state management
+- **Search Params**: nuqs 2.8.3 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.9 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
@@ -323,8 +323,8 @@ The application uses Next.js Cache Components for optimal performance:
 
 The application uses Next.js Cache Components with granular cache tags for efficient invalidation:
 - **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
-- **Categories**: Cached with `categories` tag
-- **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), weeks/max for static categories
+- **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output
+- **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), max for static categories (component-level caching)
 - **Query Functions**: Unified `getModels()` function handles search, category filtering, and listing with optional parameters
 - **Like Status**: Split into two functions:
   - `getLikesCount`: Uses `"use cache: remote"` for shared likes count (works after `connection()`)
@@ -334,7 +334,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ## 🎨 Styling & Components
 
 ### Design System
-- **Colors**: Custom color palette with orange accent
+- **Colors**: Custom color palette with orange accent (Tailwind CSS classes, no shadcn/ui dependencies)
 - **Typography**: Consistent font hierarchy
 - **Spacing**: Systematic spacing using Tailwind utilities
 - **Responsive**: Mobile-first responsive design
@@ -353,13 +353,13 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/heart-button/heart-button-client` - Client component for like interactions
 - `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
 - `components/search-input` - Model search functionality with URL state
-- `features/categories/components/categories-nav-client` - Category filtering sidebar
+- `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `app/3d-models/@categories/error.tsx` - Error boundary for categories with built-in retry functionality
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration
 - `app/@footer/default` - Footer parallel route with copyright
-- `components/nav-link` - Navigation link with active state (client component)
+- `components/nav-link` - Reusable navigation link component with configurable active state matching (`includes` or `endsWith`), border position (`bottom` or `left`), and list item styling (client component)
 - `features/auth/components/auth-buttons` - Authentication buttons component with user avatar (GitHub image priority, icon fallback)
 
 #### Shared Components

@@ -12,7 +12,7 @@ const ModelsLayout = ({
           {categories}
         </nav>
       </aside>
-      <section className="self-center p-4">
+      <section className="self-center p-4 has-not-found:self-start">
         {children}
         {results}
       </section>

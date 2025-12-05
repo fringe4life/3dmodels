@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useActionState, useTransition } from "react";
-import FieldError from "@/components/field-errors";
-import FormError from "@/components/form-error";
+import FieldError from "@/components/form/field-errors";
+import FormError from "@/components/form/form-error";
 import signInAction from "@/features/auth/actions/sign-in-action";
 import SignInButton from "@/features/auth/components/sign-in-button";
 

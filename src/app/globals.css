@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@toolwind/corner-shape";
 
+@custom-variant not-found (&:where([data-not-found="true"]));
+
 @theme {
   --color-orange-accent: oklch(71.85% 0.17 47.43);
   --color-search-input: oklch(48.91% 0 0);
@@ -76,12 +78,8 @@
   }
 }
 
-@utility max-w-inherit {
-  @apply max-w-[inherit];
-}
-
 @utility models-grid {
-  @apply grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-6;
+  @apply grid grid-cols-[repeat(auto-fill,minmax(min(100%,250px),1fr))] gap-6;
 }
 
 /* VIEW TRANSITIONS */

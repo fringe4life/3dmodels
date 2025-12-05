@@ -8,17 +8,29 @@ import type { ReactNode } from "react";
 type NavLinkProps = {
   href: Route;
   children: ReactNode;
+  matchStrategy?: "includes" | "endsWith";
+  borderPosition?: "bottom" | "left";
+  liClassName?: string;
 };
 
-const NavLink = ({ href, children }: NavLinkProps) => {
+const NavLink = ({
+  href,
+  children,
+  matchStrategy = "includes",
+  borderPosition = "bottom",
+  liClassName = "text-sm uppercase",
+}: NavLinkProps) => {
   const pathname = usePathname();
-  const isActive = pathname.includes(href);
+  const isActive =
+    matchStrategy === "endsWith"
+      ? pathname.endsWith(href)
+      : pathname.includes(href);
 
   return (
-    <li className="text-sm uppercase">
+    <li className={liClassName}>
       <Link
         className={`nav-link ${isActive ? "active" : ""}`}
-        data-border-bottom
+        {...(borderPosition === "bottom" && { "data-border-bottom": true })}
         href={href}
       >
         {children}

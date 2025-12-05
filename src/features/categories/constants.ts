@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import type { NotFoundLink } from "@/components/not-found";
-import type { NotFoundListItemProps } from "@/components/not-found-list-item";
+import type { NotFoundLink } from "@/components/not-found/not-found";
+import type { NotFoundListItemProps } from "@/components/not-found/not-found-list-item";
 
 export const CATEGORY_NOT_FOUND: Metadata = {
   title: "Category Not Found",

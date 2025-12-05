@@ -1,4 +1,4 @@
-import NotFound from "@/components/not-found";
+import NotFound from "@/components/not-found/not-found";
 import { MODEL_LINKS, MODEL_LIST_ITEMS } from "@/features/models/constants";
 
 const ModelNotFound = () => (
