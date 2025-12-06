@@ -1,8 +1,0 @@
-refactor:
-♻️ Made NavLink component reusable with configurable props (matchStrategy, borderPosition, liClassName)
-🎯 Moved categories cache from query function to component level for pre-rendered HTML
-🎨 Replaced shadcn/ui color classes with Tailwind CSS equivalents
-📁 Reorganized components: moved form components to form/ directory
-📁 Reorganized components: moved not-found components to not-found/ directory
-🔀 Renamed categories-nav-client to categories-nav (server component)
-📝 Updated README with caching strategy and NavLink documentation

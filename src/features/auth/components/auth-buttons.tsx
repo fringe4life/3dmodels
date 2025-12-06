@@ -27,7 +27,7 @@ const AuthButtons = ({ isAuthenticated, user }: AuthButtonsProps) => {
         <div className="relative aspect-square h-8 overflow-hidden rounded-full">
           {user?.image ? (
             <img
-              alt={user?.name || user?.email || "User avatar"}
+              alt={user.name}
               className="h-full w-full object-cover"
               height={32}
               src={user.image}
