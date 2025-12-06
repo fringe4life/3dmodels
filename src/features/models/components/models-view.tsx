@@ -18,7 +18,10 @@ const ResultsContent = async ({
   title,
 }: ResultsContentProps) => {
   const result = await getModels(searchParams, category);
-  if (!result.list || result.list.length === 0) {
+  if (!result.list) {
+    throw new Error("Failed to load models");
+  }
+  if (result.list.length === 0) {
     return <ModelsNotFound />;
   }
 

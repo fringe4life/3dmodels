@@ -54,12 +54,16 @@ src/
 │   │   │   ├── [...catchAll]/
 │   │   │   │   └── page.tsx
 │   │   │   ├── default.tsx
+│   │   │   ├── error.tsx         # Error boundary for results
+│   │   │   ├── loading.tsx       # Loading state for results
 │   │   │   └── page.tsx
 │   │   ├── [slug]/               # Individual model page
 │   │   │   ├── not-found.tsx
 │   │   │   └── page.tsx
 │   │   ├── categories/           # Category-specific pages
 │   │   │   └── [categoryName]/
+│   │   │       ├── error.tsx     # Error boundary for category pages
+│   │   │       ├── loading.tsx   # Loading state for category pages
 │   │   │       ├── not-found.tsx
 │   │   │       └── page.tsx
 │   │   ├── layout.tsx            # Models layout
@@ -99,7 +103,7 @@ src/
 │   │   └── types.ts              # Auth type definitions
 │   ├── categories/               # Categories feature
 │   │   ├── components/           # Category-specific components
-│   │   │   └── categories-nav-client.tsx
+│   │   │   └── categories-nav.tsx
 │   │   ├── constants.ts          # Category metadata and display configuration
 │   │   └── queries/              # Category data queries
 │   │       ├── get-all-categories.ts
@@ -317,7 +321,8 @@ The application uses Next.js Cache Components for optimal performance:
 - Dynamic content (like authentication state) is rendered at request time
 - Server components use `connection()` to opt into dynamic rendering when needed
 - Cache invalidation handled by `cacheTag` utilities
-- Error handling with `error.tsx` error boundaries for failed queries (e.g., categories error boundary with built-in `reset()` retry)
+- Error handling with `error.tsx` error boundaries for failed queries (categories, results, and category pages with built-in `reset()` retry functionality)
+- Loading states with `loading.tsx` for results and category pages
 
 ### Caching Strategy
 
@@ -355,6 +360,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `app/3d-models/@categories/error.tsx` - Error boundary for categories with built-in retry functionality
+- `app/3d-models/@results/error.tsx` - Error boundary for search results
+- `app/3d-models/@results/loading.tsx` - Loading state for search results
+- `app/3d-models/categories/[categoryName]/error.tsx` - Error boundary for category pages
+- `app/3d-models/categories/[categoryName]/loading.tsx` - Loading state for category pages
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration

@@ -3,7 +3,7 @@ import NavLink from "@/components/nav-link";
 import AuthButtons from "@/features/auth/components/auth-buttons";
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 
-// Main component with Stream boundary
+// Main component with HasAuthSuspense boundary
 const Navbar = () => (
   <header className="bg-white">
     <nav className="flex justify-between px-6 py-4 pr-2">

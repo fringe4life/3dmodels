@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Stream from "@/components/streamable";
 import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
-import ModelsGridSkeleton from "@/features/models/components/models-grid-skeleton";
 import ResultsContent from "@/features/models/components/models-view";
 
 export const generateStaticParams = async () => await getAllCategorySlugs();
@@ -42,16 +40,11 @@ const CategoryPage = async ({
   }
 
   return (
-    <Stream
-      fallback={<ModelsGridSkeleton />}
-      value={ResultsContent({
-        category: categoryName,
-        categoryDisplayName: category.displayName,
-        searchParams,
-      })}
-    >
-      {(content) => content}
-    </Stream>
+    <ResultsContent
+      category={categoryName}
+      categoryDisplayName={category.displayName}
+      searchParams={searchParams}
+    />
   );
 };
 

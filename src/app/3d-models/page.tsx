@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SearchInput } from "@/components/search-input";
-import Stream from "@/components/streamable";
 
 export const metadata: Metadata = {
   title: "3d-Models",
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 
 const Page = () => (
   <div className="relative h-10 w-full px-4 md:max-w-xl">
-    <Stream fallback={<div className="py-4">Loading search…</div>} value={null}>
-      {() => <SearchInput />}
-    </Stream>
+    <Suspense fallback={<div className="py-4">Loading search…</div>}>
+      <SearchInput />
+    </Suspense>
   </div>
 );
 
