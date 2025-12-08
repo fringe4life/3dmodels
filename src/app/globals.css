@@ -2,6 +2,7 @@
 @plugin "@toolwind/corner-shape";
 
 @custom-variant not-found (&:where([data-not-found="true"]));
+@custom-variant error (&:where([data-error="true"]));
 
 @theme {
   --color-orange-accent: oklch(71.85% 0.17 47.43);

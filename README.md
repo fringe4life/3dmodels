@@ -54,15 +54,16 @@ src/
 │   │   │   ├── [...catchAll]/
 │   │   │   │   └── page.tsx
 │   │   │   ├── default.tsx
-│   │   │   ├── error.tsx         # Error boundary for results
+│   │   │   ├── error.tsx         # Error boundary for results with retry functionality
 │   │   │   ├── loading.tsx       # Loading state for results
 │   │   │   └── page.tsx
 │   │   ├── [slug]/               # Individual model page
+│   │   │   ├── error.tsx         # Error boundary for model detail page
 │   │   │   ├── not-found.tsx
 │   │   │   └── page.tsx
 │   │   ├── categories/           # Category-specific pages
 │   │   │   └── [categoryName]/
-│   │   │       ├── error.tsx     # Error boundary for category pages
+│   │   │       ├── error.tsx     # Error boundary for category pages with retry functionality
 │   │   │       ├── loading.tsx   # Loading state for category pages
 │   │   │       ├── not-found.tsx
 │   │   │       └── page.tsx
@@ -123,7 +124,7 @@ src/
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
 │   │   │   ├── models-view.tsx # Shared component for search results and category pages
-│   │   ├── constants.ts           # Model categories, filters, and display metadata
+│   │   ├── constants.ts           # Model categories, filters, display metadata, and error guidance
 │   │   ├── dal/                   # Data access layer for models
 │   │   │   └── get-models.ts
 │   │   ├── queries/               # Model data queries
@@ -145,8 +146,9 @@ src/
 │   ├── form-error.tsx            # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
 │   ├── nav-link.tsx              # Navigation link with active state
-│   ├── not-found-list-item.tsx   # List item component for not-found pages
-│   ├── not-found.tsx             # Reusable not-found page component
+│   ├── not-found/                # Unsuccessful state components
+│   │   ├── unsuccessful-state-list-item.tsx  # List item component for unsuccessful states
+│   │   └── unsuccessful-state.tsx            # Unified component for not-found and error states
 │   ├── pill.tsx                  # Reusable pill component
 │   ├── search-input.tsx          # Search input component with URL state
 │   └── streamable.tsx            # Streaming utilities
@@ -200,7 +202,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types
-- **Error Recovery**: Error boundaries with `error.tsx` for failed queries (e.g., categories error boundary with built-in `reset()` retry functionality)
+- **Error Recovery**: Error boundaries with `error.tsx` for failed queries (results, category pages, and model detail pages) with built-in `reset()` retry functionality and helpful error guidance
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
 
 ## 🚀 Getting Started
@@ -360,10 +362,11 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `app/3d-models/@categories/error.tsx` - Error boundary for categories with built-in retry functionality
-- `app/3d-models/@results/error.tsx` - Error boundary for search results
+- `app/3d-models/@results/error.tsx` - Error boundary for search results with retry and error guidance
 - `app/3d-models/@results/loading.tsx` - Loading state for search results
-- `app/3d-models/categories/[categoryName]/error.tsx` - Error boundary for category pages
+- `app/3d-models/categories/[categoryName]/error.tsx` - Error boundary for category pages with retry and error guidance
 - `app/3d-models/categories/[categoryName]/loading.tsx` - Loading state for category pages
+- `app/3d-models/[slug]/error.tsx` - Error boundary for model detail pages with retry and error guidance
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration
@@ -374,8 +377,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 #### Shared Components
 - `components/field-errors` - Field-level error display component with ViewTransition support
 - `components/form-error` - Form-level error display component with ViewTransition support
-- `components/not-found` - Reusable not-found page component with centered layout and context-specific messaging
-- `components/not-found-list-item` - List item component for not-found page suggestions
+- `components/not-found/unsuccessful-state` - Unified component for not-found and error states with conditional styling based on `isError` prop
+- `components/not-found/unsuccessful-state-list-item` - List item component for unsuccessful state suggestions
 - `components/pill` - Small label component
 - `components/streamable` - Streaming utilities for progressive rendering
 - `components/generic-component` - Generic wrapper for collections

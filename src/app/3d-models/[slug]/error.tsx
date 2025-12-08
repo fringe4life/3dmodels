@@ -3,7 +3,7 @@
 import UnsuccessfulState from "@/components/not-found/unsuccessful-state";
 import { MODELS_ERROR_LIST } from "@/features/models/constants";
 
-const ResultsError = ({
+const ModelDetailError = ({
   reset,
 }: {
   error: Error & { digest?: string };
@@ -19,11 +19,11 @@ const ResultsError = ({
         Try again
       </button>
     }
-    heading="Failed to load results"
+    heading="Failed to load Model"
     isError
     listItems={MODELS_ERROR_LIST}
-    subheading="Something went wrong while loading the search results."
+    subheading="Something went wrong while loading the model details."
   />
 );
 
-export default ResultsError;
+export default ModelDetailError;

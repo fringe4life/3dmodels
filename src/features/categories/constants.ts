@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import type { NotFoundLink } from "@/components/not-found/not-found";
-import type { NotFoundListItemProps } from "@/components/not-found/not-found-list-item";
+import type { UnsuccessfulStateListItemProps } from "@/components/not-found/unsuccessful-state-list-item";
+import type { UnsuccessfulStateLink } from "@/types";
 
 export const CATEGORY_NOT_FOUND: Metadata = {
   title: "Category Not Found",
   description: "The category you are looking for does not exist.",
 };
 
-export const CATEGORY_LIST_ITEMS: NotFoundListItemProps[] = [
+export const CATEGORY_LIST_ITEMS: UnsuccessfulStateListItemProps[] = [
   {
     text: "Check the URL for typos or try navigating from the categories menu",
   },
@@ -19,7 +19,7 @@ export const CATEGORY_LIST_ITEMS: NotFoundListItemProps[] = [
   },
 ];
 
-export const CATEGORY_LINKS: NotFoundLink[] = [
+export const CATEGORY_LINKS: UnsuccessfulStateLink[] = [
   {
     href: "/3d-models",
     label: "Browse All Models",

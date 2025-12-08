@@ -23,7 +23,11 @@ export const getCategoryBySlug = cache(
       return foundCategory.at(0);
     });
 
-    if (!data || error) {
+    if (error) {
+      throw new Error("Failed to load category");
+    }
+
+    if (!data) {
       return null;
     }
 

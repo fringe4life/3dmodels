@@ -30,8 +30,8 @@ export const getModelBySlug = cache(
           .limit(1),
     );
     if (error || !data) {
-      return null;
+      throw new Error("Model not found");
     }
-    return data[0];
+    return data.at(0);
   },
 );

@@ -8,3 +8,9 @@ export type Maybe<T> = T | null | undefined;
 export type SearchParamsProps = {
   searchParams: Promise<SearchParams>;
 };
+
+export type UnsuccessfulStateLink = {
+  href: string;
+  label: string;
+  variant?: "primary" | "secondary";
+};
