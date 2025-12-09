@@ -17,7 +17,7 @@ const ModelDetail = ({
       <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <figure className="relative aspect-square rounded-lg shadow-lg contain-content">
           <img
-            alt={`3D model of ${name}`}
+            alt={description}
             className="absolute inset-0 h-full w-full object-cover"
             height={300}
             src={placeholderImg.src}

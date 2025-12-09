@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import getSession from "@/features/auth/queries/get-session";
+import getUser from "@/features/auth/queries/get-session";
 import type { HasAuthChildren } from "@/features/auth/types";
 
 // HasAuth component that provides session to children
 export const HasAuth = async ({ children }: { children: HasAuthChildren }) => {
-  const user = await getSession();
+  const user = await getUser();
   const isAuthenticated = !!user?.id;
 
   return <>{children(user, isAuthenticated)}</>;

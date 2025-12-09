@@ -13,15 +13,13 @@ export const getCategoryBySlug = cache(
     cacheTag("categories", `category-${slug}`);
     cacheLife("max");
 
-    const { data, error } = await tryCatch(async () => {
-      const foundCategory = await db
+    const { data, error } = await tryCatch(() =>
+      db
         .select({ displayName: categories.displayName })
         .from(categories)
         .where(eq(categories.slug, slug))
-        .limit(1);
-
-      return foundCategory.at(0);
-    });
+        .limit(1),
+    );
 
     if (error) {
       throw new Error("Failed to load category");
@@ -31,6 +29,6 @@ export const getCategoryBySlug = cache(
       return null;
     }
 
-    return data;
+    return data.at(0);
   },
 );

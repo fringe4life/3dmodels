@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@toolwind/corner-shape";
+@plugin "@tailwindcss/typography";
 
 @custom-variant not-found (&:where([data-not-found="true"]));
 @custom-variant error (&:where([data-error="true"]));

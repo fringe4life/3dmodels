@@ -18,7 +18,7 @@ const NavLink = ({
   children,
   matchStrategy = "includes",
   borderPosition = "bottom",
-  liClassName = "text-sm uppercase",
+  liClassName = "text-sm uppercase tracking-wide",
 }: NavLinkProps) => {
   const pathname = usePathname();
   const isActive =

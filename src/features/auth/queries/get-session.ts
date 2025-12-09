@@ -5,7 +5,7 @@ import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 import type { ServerUser } from "../types";
 
-const getSession = async (): Promise<Maybe<ServerUser>> => {
+const getUser = async (): Promise<Maybe<ServerUser>> => {
   "use cache: private";
   cacheTag("session");
 
@@ -23,4 +23,4 @@ const getSession = async (): Promise<Maybe<ServerUser>> => {
   return session.user;
 };
 
-export default getSession;
+export default getUser;

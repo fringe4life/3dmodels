@@ -4,12 +4,6 @@ import UnsuccessfulStateListItem, {
   type UnsuccessfulStateListItemProps,
 } from "@/components/not-found/unsuccessful-state-list-item";
 
-// export type NotFoundLink = {
-//   href: string;
-//   label: string;
-//   variant?: "primary" | "secondary";
-// };
-
 type UnsuccessfulStateProps = {
   heading: string;
   subheading: string;

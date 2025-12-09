@@ -5,7 +5,7 @@ import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
-import getSession from "@/features/auth/queries/get-session";
+import getUser from "@/features/auth/queries/get-session";
 import type { Maybe } from "@/types";
 import { invalidateModel } from "@/utils/cache-invalidation";
 import {
@@ -33,7 +33,7 @@ const toggleLike = async (
       Object.fromEntries(formData.entries()),
     );
 
-    const user = await getSession();
+    const user = await getUser();
 
     if (!user?.id) {
       throw new Error("Authentication required");
@@ -41,8 +41,8 @@ const toggleLike = async (
 
     const userId = user.id;
 
-    const { data, error } = await tryCatch(async () => {
-      return await db.transaction(async (tx) => {
+    const { data, error } = await tryCatch(() => {
+      return db.transaction(async (tx) => {
         // Check if user already liked this model
         const existingLike = await tx
           .select()

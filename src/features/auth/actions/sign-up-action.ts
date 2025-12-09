@@ -11,13 +11,13 @@ import {
   fromErrorToActionState,
 } from "@/utils/to-action-state";
 import { tryCatch } from "@/utils/try-catch";
-
-// Constants for validation limits
-const MIN_PASSWORD_LENGTH = 8;
-const MAX_PASSWORD_LENGTH = 128;
-const MAX_EMAIL_LENGTH = 255;
-const MAX_NAME_LENGTH = 100;
-const MIN_NAME_LENGTH = 1;
+import {
+  MAX_EMAIL_LENGTH,
+  MAX_NAME_LENGTH,
+  MAX_PASSWORD_LENGTH,
+  MIN_NAME_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from "../constants";
 
 // Valibot schema for sign-up form
 const signUpFormSchema = object({
@@ -67,7 +67,7 @@ const signUpAction = async (
     );
 
     // Call Better Auth sign-up API
-    const { data: authResponse, error } = await tryCatch(
+    const { data, error } = await tryCatch(
       async () =>
         await auth.api.signUpEmail({
           body: {
@@ -79,7 +79,7 @@ const signUpAction = async (
         }),
     );
 
-    if (error || !authResponse) {
+    if (error || !data) {
       throw error || new Error("Failed to sign up");
     }
 

@@ -4,7 +4,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.7-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.8-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.1-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
@@ -14,13 +14,13 @@ A modern web application for browsing and discovering 3D models, built with Next
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.0.7 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.0.8 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.1
 - **Styling**: Tailwind CSS v4.1.17
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
 - **Authentication**: Better Auth 1.4.5 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
-- **Search Params**: nuqs 2.8.3 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.9 rules
+- **Search Params**: nuqs 2.8.4 for type-safe URL state management
+- **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.10 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
@@ -99,6 +99,7 @@ src/
 │   │   │   ├── auth-buttons.tsx  # Authentication buttons component
 │   │   │   ├── has-auth.tsx      # Generic auth component with session provider
 │   │   │   └── sign-in-button.tsx
+│   │   ├── constants.ts         # Auth validation constants
 │   │   ├── queries/              # Auth queries
 │   │   │   └── get-session.ts
 │   │   └── types.ts              # Auth type definitions
@@ -142,8 +143,9 @@ src/
 │       ├── pagination-search-params.ts  # Pagination search params
 │       └── types.ts              # Pagination type definitions
 ├── components/                   # Shared/generic components
-│   ├── field-errors.tsx          # Field error display component
-│   ├── form-error.tsx            # Form-level error display component
+│   ├── form/                     # Form-related components
+│   │   ├── field-errors.tsx      # Field error display component
+│   │   └── form-error.tsx        # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
 │   ├── nav-link.tsx              # Navigation link with active state
 │   ├── not-found/                # Unsuccessful state components
@@ -375,8 +377,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/auth/components/auth-buttons` - Authentication buttons component with user avatar (GitHub image priority, icon fallback)
 
 #### Shared Components
-- `components/field-errors` - Field-level error display component with ViewTransition support
-- `components/form-error` - Form-level error display component with ViewTransition support
+- `components/form/field-errors` - Field-level error display component with ViewTransition support
+- `components/form/form-error` - Form-level error display component with ViewTransition support
 - `components/not-found/unsuccessful-state` - Unified component for not-found and error states with conditional styling based on `isError` prop
 - `components/not-found/unsuccessful-state-list-item` - List item component for unsuccessful state suggestions
 - `components/pill` - Small label component
@@ -388,11 +390,12 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `lib/auth-client` - Better Auth client instance for client-side usage
 - `features/auth/actions` - Sign-in, sign-up, and sign-out server actions with Valibot validation
 - `features/auth/components/has-auth` - Generic auth component with session provider and Suspense wrapper
+- `features/auth/constants` - Validation constants (password length, email length, name length limits)
 - `features/auth/queries/get-session` - Session query with cache directives
 - `features/auth/components/sign-in-button` - GitHub OAuth sign-in button
 - `utils/to-action-state` - Action state utilities for consistent server action responses
-- `components/field-errors` - Reusable field error component used in auth forms
-- `components/form-error` - Reusable form-level error component used in auth forms
+- `components/form/field-errors` - Reusable field error component used in auth forms
+- `components/form/form-error` - Reusable form-level error component used in auth forms
 
 ## 🔧 Development
 

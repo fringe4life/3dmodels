@@ -13,11 +13,16 @@ type ModelCardProps = {
 const ModelCard = ({
   model: { slug, name, description, categorySlug },
 }: ModelCardProps) => (
-  <ViewTransition enter="enter" exit="exit" name={`model-${slug}`}>
+  <ViewTransition
+    default="none"
+    enter="enter"
+    exit="exit"
+    name={`model-${slug}`}
+  >
     <article className="hover:-translate-y-0.5 corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:after:opacity-100">
       <div className="relative aspect-square rounded-t-[inherit] contain-strict">
         <img
-          alt={name}
+          alt={description}
           className="absolute inset-0 w-full object-cover"
           height={300}
           src={placeholderImg.src}
@@ -27,10 +32,7 @@ const ModelCard = ({
 
       <div className="p-4">
         <div className="mb-2 flex min-h-14 justify-between">
-          <h2
-            className="line-clamp-2 font-semibold text-gray-800 text-xl"
-            id={`model-${slug}-title`}
-          >
+          <h2 className="line-clamp-2 font-semibold text-gray-800 text-xl">
             <Link href={`/3d-models/${slug}`}>
               {name}
               <span className="absolute inset-0 z-20 h-full w-full" />

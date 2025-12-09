@@ -2,7 +2,15 @@
 
 import { headers } from "next/headers";
 import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
-import { maxLength, minLength, object, parse, pipe, string } from "valibot";
+import {
+  examples,
+  maxLength,
+  minLength,
+  object,
+  parse,
+  pipe,
+  string,
+} from "valibot";
 import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
 import { invalidateSessionCache } from "@/utils/cache-invalidation";
@@ -11,17 +19,24 @@ import {
   fromErrorToActionState,
 } from "@/utils/to-action-state";
 import { tryCatch } from "@/utils/try-catch";
-
-// Constants for validation limits
-const MIN_PASSWORD_LENGTH = 8;
-const MAX_PASSWORD_LENGTH = 128;
-const MAX_EMAIL_LENGTH = 255;
+import {
+  MAX_EMAIL_LENGTH,
+  MAX_PASSWORD_LENGTH,
+  MIN_EMAIL_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from "../constants";
 
 const signInFormSchema = object({
   email: pipe(
     string("Email must be a string"),
-    minLength(1, "Email is required"),
+    minLength(MIN_EMAIL_LENGTH, "Email is required"),
     maxLength(MAX_EMAIL_LENGTH, "Email is too long"),
+    examples([
+      "john@gmail.com",
+      "jane@protonmail.com",
+      "mike@yahoo.com",
+      "admin@admin.com",
+    ]),
   ),
   password: pipe(
     string("Password must be a string"),

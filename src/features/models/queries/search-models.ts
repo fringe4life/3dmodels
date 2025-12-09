@@ -46,22 +46,20 @@ export const searchModels = async (
   }
 
   const [{ data: items }, { data: totalRows }] = await Promise.all([
-    tryCatch(
-      async () =>
-        await db
-          .select()
-          .from(models)
-          .where(whereCondition)
-          .orderBy(models.name)
-          .limit(pagination.limit)
-          .offset(pagination.page * pagination.limit),
+    tryCatch(() =>
+      db
+        .select()
+        .from(models)
+        .where(whereCondition)
+        .orderBy(models.name)
+        .limit(pagination.limit)
+        .offset(pagination.page * pagination.limit),
     ),
-    tryCatch(
-      async () =>
-        await db
-          .select({ value: count(models.slug).mapWith(Number) })
-          .from(models)
-          .where(whereCondition),
+    tryCatch(() =>
+      db
+        .select({ value: count(models.slug).mapWith(Number) })
+        .from(models)
+        .where(whereCondition),
     ),
   ]);
 

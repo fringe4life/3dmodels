@@ -20,13 +20,12 @@ export const getLikesCount = async (modelSlug: string) => {
   cacheTag(`model-${modelSlug}`);
   cacheLife("hours");
 
-  const { data, error } = await tryCatch(
-    async () =>
-      await db
-        .select({ likes: models.likes })
-        .from(models)
-        .where(eq(models.slug, modelSlug))
-        .limit(1),
+  const { data, error } = await tryCatch(() =>
+    db
+      .select({ likes: models.likes })
+      .from(models)
+      .where(eq(models.slug, modelSlug))
+      .limit(1),
   );
   if (!data || error) {
     return { modelSlug, likesCount: 0 };
@@ -47,19 +46,18 @@ export const getHasLikedStatus = async (modelSlug: string, userId: string) => {
   cacheTag(`model-${modelSlug}`);
   cacheLife("hours");
 
-  const { data: existingLike, error: existingLikeError } = await tryCatch(
-    async () =>
-      await db
-        .select()
-        .from(likes)
-        .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
-        .limit(1),
+  const { data, error } = await tryCatch(() =>
+    db
+      .select()
+      .from(likes)
+      .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
+      .limit(1),
   );
 
-  if (!existingLike || existingLikeError) {
+  if (!data || error) {
     return { modelSlug, hasLiked: false };
   }
-  const hasLiked = existingLike.length > 0;
+  const hasLiked = data.length > 0;
 
   return { modelSlug, hasLiked };
 };

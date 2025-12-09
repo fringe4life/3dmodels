@@ -14,20 +14,19 @@ export const getModelBySlug = cache(
     cacheTag("models", `model-${slug}`);
     cacheLife("hours");
 
-    const { data, error } = await tryCatch(
-      async () =>
-        await db
-          .select({
-            slug: models.slug,
-            name: models.name,
-            description: models.description,
-            image: models.image,
-            categorySlug: models.categorySlug,
-            dateAdded: models.dateAdded,
-          })
-          .from(models)
-          .where(eq(models.slug, slug))
-          .limit(1),
+    const { data, error } = await tryCatch(() =>
+      db
+        .select({
+          slug: models.slug,
+          name: models.name,
+          description: models.description,
+          image: models.image,
+          categorySlug: models.categorySlug,
+          dateAdded: models.dateAdded,
+        })
+        .from(models)
+        .where(eq(models.slug, slug))
+        .limit(1),
     );
     if (error || !data) {
       throw new Error("Model not found");

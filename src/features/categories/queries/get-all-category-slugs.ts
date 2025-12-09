@@ -5,8 +5,8 @@ import { tryCatch } from "@/utils/try-catch";
 export const getAllCategorySlugs = async (): Promise<
   { categoryName: string }[]
 > => {
-  const { data, error } = await tryCatch(
-    async () => await db.select({ slug: categories.slug }).from(categories),
+  const { data, error } = await tryCatch(() =>
+    db.select({ slug: categories.slug }).from(categories),
   );
 
   if (!data || error) {
