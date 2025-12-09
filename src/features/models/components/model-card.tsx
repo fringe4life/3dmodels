@@ -13,12 +13,7 @@ type ModelCardProps = {
 const ModelCard = ({
   model: { slug, name, description, categorySlug },
 }: ModelCardProps) => (
-  <ViewTransition
-    default="none"
-    enter="enter"
-    exit="exit"
-    name={`model-${slug}`}
-  >
+  <ViewTransition enter="enter" exit="exit" name={`model-${slug}`}>
     <article className="hover:-translate-y-0.5 corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:after:opacity-100">
       <div className="relative aspect-square rounded-t-[inherit] contain-strict">
         <img

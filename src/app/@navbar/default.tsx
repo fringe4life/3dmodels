@@ -36,8 +36,8 @@ const Navbar = () => (
               <div className="h-8 w-20 animate-pulse rounded bg-gray-200" />
             }
           >
-            {(user, isAuthenticated) => (
-              <AuthButtons isAuthenticated={isAuthenticated} user={user} />
+            {(user, _) => (
+              <AuthButtons user={{ name: user?.name, image: user?.image }} />
             )}
           </HasAuthSuspense>
         </li>

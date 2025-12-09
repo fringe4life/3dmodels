@@ -23,7 +23,6 @@ export const searchModels = async (
   }
   // Set cache life to default (1 hour)
   cacheLife("default");
-
   const searchPattern = `%${query}%`;
 
   let whereCondition: Maybe<SQL>;

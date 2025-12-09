@@ -8,11 +8,10 @@ import type { ServerUser } from "@/features/auth/types";
 import type { Maybe } from "@/types";
 
 type AuthButtonsProps = {
-  isAuthenticated: boolean;
-  user: Maybe<Pick<ServerUser, "name" | "email" | "image">>;
+  user: Maybe<Pick<Partial<ServerUser>, "name" | "image">>;
 };
 
-const AuthButtons = ({ isAuthenticated, user }: AuthButtonsProps) => {
+const AuthButtons = ({ user }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();
 
   const handleSignOut = () => {
@@ -21,11 +20,11 @@ const AuthButtons = ({ isAuthenticated, user }: AuthButtonsProps) => {
     });
   };
 
-  if (isAuthenticated) {
+  if (user?.name) {
     return (
       <div className="flex items-center gap-2">
         <div className="relative aspect-square h-8 overflow-hidden rounded-full">
-          {user?.image ? (
+          {user.image ? (
             <img
               alt={user.name}
               className="h-full w-full object-cover"
