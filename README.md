@@ -4,22 +4,22 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.8-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19.2.1-61DAFB?logo=react)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19.2.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?logo=tailwind-css)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.6-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.8-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.0.8 with App Router, Cache Components, and PPR (Partial Prerendering)
-- **Language**: TypeScript 5.9.3 with React 19.2.1
-- **Styling**: Tailwind CSS v4.1.17
+- **Framework**: Next.js 16.0.10 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Language**: TypeScript 5.9.3 with React 19.2.3
+- **Styling**: Tailwind CSS v4.1.18
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
 - **Authentication**: Better Auth 1.4.6 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
-- **Search Params**: nuqs 2.8.4 for type-safe URL state management
+- **Search Params**: nuqs 2.8.5 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.10 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
@@ -422,6 +422,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run db:studio` - Open Drizzle Studio
 - `bun run db:seed` - Seed database with initial data
 - `bun run db:drop` - Drop all tables (development reset)
+- `bun run ultracite` - Run Ultracite linter
+- `bun run ultracite:fix` - Fix Ultracite linting issues
+- `bun run ultracite:check` - Check Ultracite linting rules
+- `bun run ultracite:doctor` - Run Ultracite doctor diagnostics
 
 ### Code Style
 
