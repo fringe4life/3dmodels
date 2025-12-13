@@ -14,3 +14,8 @@ export type UnsuccessfulStateLink = {
   label: string;
   variant?: "primary" | "secondary";
 };
+
+export type ErrorProps = {
+  error: Error & { digest?: string };
+  reset: () => void;
+};

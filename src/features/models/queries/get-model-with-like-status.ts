@@ -3,11 +3,8 @@ import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
+import type { HasLiked } from "@/features/models/types";
 import { tryCatch } from "@/utils/try-catch";
-
-export type LikesCount = Awaited<ReturnType<typeof getLikesCount>>;
-export type HasLikedStatus = Awaited<ReturnType<typeof getHasLikedStatus>>;
-export type LikeStatusOfModel = LikesCount & HasLikedStatus;
 
 /**
  * Fetches the likes count for a model.
@@ -41,7 +38,10 @@ export const getLikesCount = async (modelSlug: string) => {
  * User-specific data.
  * Cache is invalidated on-demand via invalidateModel() when likes change.
  */
-export const getHasLikedStatus = async (modelSlug: string, userId: string) => {
+export const getHasLikedStatus = async (
+  modelSlug: string,
+  userId: string,
+): Promise<HasLiked> => {
   "use cache: private";
   cacheTag(`model-${modelSlug}`);
   cacheLife("hours");

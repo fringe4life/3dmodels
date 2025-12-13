@@ -2,13 +2,9 @@
 
 import UnsuccessfulState from "@/components/not-found/unsuccessful-state";
 import { MODELS_ERROR_LIST } from "@/features/models/constants";
+import type { ErrorProps } from "@/types";
 
-const ModelDetailError = ({
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) => (
+const ModelDetailError = ({ reset }: ErrorProps) => (
   <UnsuccessfulState
     action={
       <button
@@ -22,7 +18,7 @@ const ModelDetailError = ({
     heading="Failed to load Model"
     isError
     listItems={MODELS_ERROR_LIST}
-    subheading="Something went wrong while loading the model details."
+    subheading={"Something went wrong while loading the model details."}
   />
 );
 

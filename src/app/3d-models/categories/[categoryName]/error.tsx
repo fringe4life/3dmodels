@@ -2,13 +2,9 @@
 
 import UnsuccessfulState from "@/components/not-found/unsuccessful-state";
 import { MODELS_ERROR_LIST } from "@/features/models/constants";
+import type { ErrorProps } from "@/types";
 
-const CategoryResultError = ({
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) => (
+const CategoryResultError = ({ reset }: ErrorProps) => (
   <UnsuccessfulState
     action={
       <button

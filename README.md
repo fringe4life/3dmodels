@@ -355,7 +355,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
-- `features/models/components/results-content` - Shared component for displaying search results and category pages (unified component)
+- `features/models/components/models-view` - Shared component for displaying search results and category pages (unified component)
 - `features/pagination/components/nuqs-pagination` - Pagination wrapper with nuqs integration
 - `features/pagination/components/pagination` - Reusable pagination component
 - `features/models/components/heart-button/heart-button-server` - Server component for like/unlike (fetches auth & like status)
@@ -454,6 +454,8 @@ Ensure these are set in your deployment environment:
 - `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
 - `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret
 - `DATABASE_URL`: Your Neon database connection string
+
+All variables are validated at startup using Valibot in `src/utils/env.ts`.
 
 All variables are validated at startup - see `src/utils/env.ts` for validation schema.
 

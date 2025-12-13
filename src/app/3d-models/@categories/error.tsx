@@ -1,11 +1,8 @@
 "use client";
 
-const CategoriesError = ({
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) => (
+import type { ErrorProps } from "@/types";
+
+const CategoriesError = ({ reset }: ErrorProps) => (
   <div className="flex items-center gap-4 p-4 md:flex-col md:items-start">
     <p className="text-gray-600 text-sm">Failed to load categories</p>
     <button
