@@ -1,11 +1,5 @@
 import { ViewTransition } from "react";
-import type { Maybe } from "@/types";
-import type { ActionState } from "@/utils/to-action-state";
-
-type FieldErrorProps = {
-  actionState: Maybe<ActionState>;
-  name: string;
-};
+import type { FieldErrorProps } from "@/types";
 
 const FieldError = ({ actionState, name }: FieldErrorProps) => {
   // Only use fieldErrors for security (no payload fallback to avoid exposing sensitive data)

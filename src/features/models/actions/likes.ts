@@ -16,7 +16,7 @@ import {
 import { tryCatch } from "@/utils/try-catch";
 
 const likeSchema = object({
-  modelSlug: pipe(
+  slug: pipe(
     string(),
     minLength(1, "Model slug is required"),
     maxLength(255, "Model slug is too long"),
@@ -28,10 +28,7 @@ const toggleLike = async (
   formData: FormData,
 ) => {
   try {
-    const { modelSlug } = parse(
-      likeSchema,
-      Object.fromEntries(formData.entries()),
-    );
+    const { slug } = parse(likeSchema, Object.fromEntries(formData.entries()));
 
     const user = await getUser();
 
@@ -47,34 +44,32 @@ const toggleLike = async (
         const existingLike = await tx
           .select()
           .from(likes)
-          .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
+          .where(and(eq(likes.userId, userId), eq(likes.modelSlug, slug)))
           .limit(1);
 
         if (existingLike.length > 0) {
           // Unlike: remove the like record
           await tx
             .delete(likes)
-            .where(
-              and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)),
-            );
+            .where(and(eq(likes.userId, userId), eq(likes.modelSlug, slug)));
 
           // Decrement likes count
           await tx
             .update(models)
             .set({ likes: sql`likes - 1` })
-            .where(eq(models.slug, modelSlug));
+            .where(eq(models.slug, slug));
         } else {
           // Like: add the like record
           await tx.insert(likes).values({
             userId,
-            modelSlug,
+            modelSlug: slug,
           });
 
           // Increment likes count
           await tx
             .update(models)
             .set({ likes: sql`likes + 1` })
-            .where(eq(models.slug, modelSlug));
+            .where(eq(models.slug, slug));
         }
 
         return toActionState("Like toggled successfully", "SUCCESS");
@@ -90,7 +85,7 @@ const toggleLike = async (
     }
 
     // Invalidate the specific model's cache since likes count changed
-    invalidateModel(modelSlug);
+    invalidateModel(slug);
 
     return data;
   } catch (error) {

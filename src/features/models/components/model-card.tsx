@@ -2,19 +2,15 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import Pill from "@/components/pill";
-import type { Model } from "@/db/schema/models";
 import toggleLike from "@/features/models/actions/likes";
 import HeartButtonServer from "@/features/models/components/heart-button/heart-button-server";
-
-type ModelCardProps = {
-  model: Model;
-};
+import type { ModelCardProps } from "../types";
 
 const ModelCard = ({
   model: { slug, name, description, categorySlug },
 }: ModelCardProps) => (
   <ViewTransition enter="enter" exit="exit" name={`model-${slug}`}>
-    <article className="hover:-translate-y-0.5 corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:after:opacity-100">
+    <article className="corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:-translate-y-0.5 hover:after:opacity-100">
       <div className="relative aspect-square rounded-t-[inherit] contain-strict">
         <img
           alt={description}

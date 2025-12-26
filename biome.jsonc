@@ -44,7 +44,6 @@
   "files": {
     "ignoreUnknown": true,
     "includes": [
-      "**",
       "!**/.next",
       "!!**/node_modules",
       "!!**/dist",

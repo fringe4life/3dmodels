@@ -4,12 +4,7 @@ import Link from "next/link";
 import { useTransition, ViewTransition } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { signOutAction } from "@/features/auth/actions/sign-out-action";
-import type { ServerUser } from "@/features/auth/types";
-import type { Maybe } from "@/types";
-
-type AuthButtonsProps = {
-  user: Maybe<Pick<Partial<ServerUser>, "name" | "image">>;
-};
+import type { AuthButtonsProps } from "../types";
 
 const AuthButtons = ({ user }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import type { UnsuccessfulStateListItemProps } from "@/components/not-found/unsuccessful-state-list-item";
-import type { UnsuccessfulStateLink } from "@/types";
+import type {
+  UnsuccessfulStateLink,
+  UnsuccessfulStateListItemProps,
+} from "@/types";
 
 export const MODEL_NOT_FOUND: Metadata = {
   title: "Model Not Found",

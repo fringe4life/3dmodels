@@ -1,12 +1,5 @@
-export type GenericComponentProps<T, P, E extends React.ElementType = "div"> = {
-  Component: React.ComponentType<P>;
-  items: T[];
-  renderProps: (item: T, index: number) => P;
-  renderKey: (item: T, index: number) => React.Key;
-  className?: string;
-  as?: E;
-  wrapperProps?: React.ComponentPropsWithoutRef<E>;
-};
+import type { GenericComponentProps } from "@/types";
+
 const GenericComponent = <T, P, E extends React.ElementType = "div">({
   Component,
   items,

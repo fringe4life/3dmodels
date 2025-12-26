@@ -1,10 +1,6 @@
 import GenericComponent from "@/components/generic-component";
 import NavLink from "@/components/nav-link";
-import type { Category } from "@/db/schema/models";
-
-type CategoriesNavProps = {
-  categories: Category[];
-};
+import type { CategoriesNavProps } from "../types";
 
 const CategoriesNav = ({ categories }: CategoriesNavProps) => {
   const allCategories = [

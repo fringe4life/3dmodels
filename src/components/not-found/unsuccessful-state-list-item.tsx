@@ -1,6 +1,4 @@
-export type UnsuccessfulStateListItemProps = {
-  text: string;
-};
+import type { UnsuccessfulStateListItemProps } from "@/types";
 
 const UnsuccessfulStateListItem = ({
   text,

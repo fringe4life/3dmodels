@@ -3,18 +3,8 @@ import type { MouseEventHandler } from "react";
 import { startTransition } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-import {
-  LIMITS,
-  type LimitItem,
-  type PaginationType,
-} from "@/features/pagination/pagination-search-params";
-import type { PaginationMetadata } from "@/features/pagination/types";
-
-type PaginationProps = {
-  pagination: PaginationType;
-  setPagination: (pagination: PaginationType) => void;
-  metadata: PaginationMetadata;
-};
+import { LIMITS } from "@/features/pagination/pagination-search-params";
+import type { LimitItem, PaginationProps } from "../types";
 
 const Pagination = ({
   pagination,

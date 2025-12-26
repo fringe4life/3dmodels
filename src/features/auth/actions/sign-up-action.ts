@@ -18,6 +18,7 @@ import {
   MIN_NAME_LENGTH,
   MIN_PASSWORD_LENGTH,
 } from "../constants";
+import type { SignUpData } from "../types";
 
 // Valibot schema for sign-up form
 const signUpFormSchema = object({
@@ -46,13 +47,6 @@ const signUpFormSchema = object({
 });
 
 // Type for sign-up action state data
-export type SignUpData = {
-  user: {
-    id: string;
-    email: string;
-    name: string;
-  };
-};
 
 // Server action for sign-up
 const signUpAction = async (

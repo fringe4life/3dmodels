@@ -1,11 +1,6 @@
 import GenericComponent from "@/components/generic-component";
-import type { Model } from "@/db/schema/models";
 import ModelCard from "@/features/models/components/model-card";
-
-type ModelsGridProps = {
-  title: string;
-  models: Model[];
-};
+import type { ModelsGridProps } from "../types";
 
 const ModelsGrid = ({ title, models }: ModelsGridProps) => (
   <div className="container mx-auto py-8">

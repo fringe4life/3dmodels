@@ -27,16 +27,9 @@ const DEFAULT_PAGE = 0;
 const DEFAULT_LIMIT = 10 as const;
 export const LIMITS = [5, 10, 20, 50] as const;
 
-export type LimitItem = (typeof LIMITS)[number];
-
 export const paginationParser = {
   page: parseAsInteger.withDefault(DEFAULT_PAGE),
   limit: parseAsNumberLiteral(LIMITS).withDefault(DEFAULT_LIMIT),
-};
-
-export type PaginationType = {
-  page: number;
-  limit: LimitItem;
 };
 
 export const searchParamsParsers = {

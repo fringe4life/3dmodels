@@ -12,24 +12,24 @@ import { tryCatch } from "@/utils/try-catch";
  * Shared across all users.
  * Cache is invalidated on-demand via invalidateModel() when likes change.
  */
-export const getLikesCount = async (modelSlug: string) => {
+export const getLikesCount = async (slug: string) => {
   "use cache: remote";
-  cacheTag(`model-${modelSlug}`);
+  cacheTag(`model-${slug}`);
   cacheLife("hours");
 
   const { data, error } = await tryCatch(() =>
     db
       .select({ likes: models.likes })
       .from(models)
-      .where(eq(models.slug, modelSlug))
+      .where(eq(models.slug, slug))
       .limit(1),
   );
   if (!data || error) {
-    return { modelSlug, likesCount: 0 };
+    return { slug, likesCount: 0 };
   }
   const likesCount = data.at(0)?.likes ?? 0;
 
-  return { modelSlug, likesCount };
+  return { slug, likesCount };
 };
 
 /**
@@ -39,25 +39,25 @@ export const getLikesCount = async (modelSlug: string) => {
  * Cache is invalidated on-demand via invalidateModel() when likes change.
  */
 export const getHasLikedStatus = async (
-  modelSlug: string,
+  slug: string,
   userId: string,
 ): Promise<HasLiked> => {
   "use cache: private";
-  cacheTag(`model-${modelSlug}`);
+  cacheTag(`model-${slug}`);
   cacheLife("hours");
 
   const { data, error } = await tryCatch(() =>
     db
       .select()
       .from(likes)
-      .where(and(eq(likes.userId, userId), eq(likes.modelSlug, modelSlug)))
+      .where(and(eq(likes.userId, userId), eq(likes.modelSlug, slug)))
       .limit(1),
   );
 
   if (!data || error) {
-    return { modelSlug, hasLiked: false };
+    return { slug, hasLiked: false };
   }
   const hasLiked = data.length > 0;
 
-  return { modelSlug, hasLiked };
+  return { slug, hasLiked };
 };

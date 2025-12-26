@@ -5,18 +5,18 @@ import { getModels } from "@/features/models/dal/get-models";
 import Pagination from "@/features/pagination/components/nuqs-pagination";
 import type { SearchParamsProps } from "@/types";
 
-type ResultsContentProps = SearchParamsProps & {
+type ModelsViewProps = SearchParamsProps & {
   category?: string;
   categoryDisplayName?: string;
   title?: string;
 };
 
-const ResultsContent = async ({
+const ModelsView = async ({
   searchParams,
   category,
   categoryDisplayName,
   title,
-}: ResultsContentProps) => {
+}: ModelsViewProps) => {
   const result = await getModels(searchParams, category);
   if (!result.list) {
     throw new Error("Failed to load models");
@@ -27,12 +27,14 @@ const ResultsContent = async ({
 
   const displayTitle = categoryDisplayName ?? title ?? DEFAULT_TITLE;
 
+  const { metadata, list } = result;
+
   return (
-    <div className="grid grid-rows-[0.9fr_min-content] content-between gap-y-4">
-      <ModelsGrid models={result.list} title={displayTitle} />
-      <Pagination metadata={result.metadata} />
+    <div className="grid auto-rows-min grid-rows-1 content-between gap-y-4">
+      <ModelsGrid models={list} title={displayTitle} />
+      <Pagination metadata={metadata} />
     </div>
   );
 };
 
-export default ResultsContent;
+export default ModelsView;

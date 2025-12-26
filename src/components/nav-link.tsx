@@ -1,17 +1,8 @@
 "use client";
 
-import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
-
-type NavLinkProps = {
-  href: Route;
-  children: ReactNode;
-  matchStrategy?: "includes" | "endsWith";
-  borderPosition?: "bottom" | "left";
-  liClassName?: string;
-};
+import type { NavLinkProps } from "@/types";
 
 const NavLink = ({
   href,

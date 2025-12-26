@@ -3,8 +3,10 @@ import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
-import type { PaginationType } from "@/features/pagination/pagination-search-params";
-import type { DatabaseQueryResult } from "@/features/pagination/types";
+import type {
+  DatabaseQueryResult,
+  PaginationType,
+} from "@/features/pagination/types";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 

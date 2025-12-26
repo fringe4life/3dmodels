@@ -4,23 +4,23 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.6-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.3.8-60A5FA?logo=biome)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.9-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.3.10-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.0.10 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.1.1 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.3
 - **Styling**: Tailwind CSS v4.1.18
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
-- **Authentication**: Better Auth 1.4.6 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
-- **Search Params**: nuqs 2.8.5 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.8 with Ultracite 6.3.10 rules
+- **Authentication**: Better Auth 1.4.9 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
+- **Search Params**: nuqs 2.8.6 for type-safe URL state management
+- **Linting & Formatting**: Biome 2.3.10 with Ultracite 6.5.0 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
@@ -102,11 +102,12 @@ src/
 │   │   ├── constants.ts         # Auth validation constants
 │   │   ├── queries/              # Auth queries
 │   │   │   └── get-session.ts
-│   │   └── types.ts              # Auth type definitions
+│   │   └── types.ts              # Auth type definitions (AuthButtonsProps, SignUpData, HasAuthChildren, ServerUser)
 │   ├── categories/               # Categories feature
 │   │   ├── components/           # Category-specific components
 │   │   │   └── categories-nav.tsx
 │   │   ├── constants.ts          # Category metadata and display configuration
+│   │   ├── types.ts               # Category type definitions
 │   │   └── queries/              # Category data queries
 │   │       ├── get-all-categories.ts
 │   │       ├── get-all-category-slugs.ts
@@ -133,7 +134,8 @@ src/
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
 │   │   │   └── search-models.ts   # Unified query function (handles search, category filtering, and listing)
-│   │   └── search-params.ts       # Type-safe search params for models
+│   │   ├── search-params.ts       # Type-safe search params for models
+│   │   └── types.ts               # Model type definitions
 │   └── pagination/               # Pagination feature
 │       ├── components/           # Pagination components
 │       │   ├── nuqs-pagination.tsx  # Pagination wrapper with nuqs integration
@@ -141,7 +143,7 @@ src/
 │       ├── utils/                # Pagination utilities
 │       │   └── to-paginated-result.ts
 │       ├── pagination-search-params.ts  # Pagination search params
-│       └── types.ts              # Pagination type definitions
+│       └── types.ts              # Pagination type definitions (includes PaginationProps, NuqsPaginationProps, PaginationType, etc.)
 ├── components/                   # Shared/generic components
 │   ├── form/                     # Form-related components
 │   │   ├── field-errors.tsx      # Field error display component
@@ -172,7 +174,7 @@ src/
 │   ├── auth-client.ts           # Better Auth client instance
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
-│   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps)
+│   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps, NavLinkProps, GenericComponentProps, FieldErrorProps, UnsuccessfulStateProps, etc.)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
 │   ├── env.ts                   # Environment variable validation (Valibot)
@@ -203,7 +205,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
-- **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types
+- **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types; centralized type definitions in `src/types/index.ts` and feature-specific `types.ts` files for better organization and reusability
 - **Error Recovery**: Error boundaries with `error.tsx` for failed queries (results, category pages, and model detail pages) with built-in `reset()` retry functionality and helpful error guidance
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
 
@@ -355,7 +357,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
-- `features/models/components/models-view` - Shared component for displaying search results and category pages (unified component)
+- `features/models/components/models-view` - Shared component for displaying search results and category pages (renamed from `ResultsContent`)
 - `features/pagination/components/nuqs-pagination` - Pagination wrapper with nuqs integration
 - `features/pagination/components/pagination` - Reusable pagination component
 - `features/models/components/heart-button/heart-button-server` - Server component for like/unlike (fetches auth & like status)
@@ -408,6 +410,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ### Available Scripts
 
 - `bun run dev` - Start development server with Turbopack
+- `bun run dev:inspect` - Start development server with Node.js inspector
+- `bun run next:upgrade` - Upgrade Next.js to latest version
+- `bun run next:analyze` - Analyze Next.js bundle
 - `bun run build` - Build for production
 - `bun run build:debug` - Build with debug prerender information
 - `bun run start` - Start production server
@@ -426,6 +431,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run ultracite:fix` - Fix Ultracite linting issues
 - `bun run ultracite:check` - Check Ultracite linting rules
 - `bun run ultracite:doctor` - Run Ultracite doctor diagnostics
+- `bun run ultracite:upgrade` - Upgrade Ultracite configuration
 
 ### Code Style
 

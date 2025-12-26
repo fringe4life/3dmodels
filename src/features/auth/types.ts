@@ -8,3 +8,11 @@ export type HasAuthChildren = (
   user: Maybe<ServerUser>,
   isAuthenticated: boolean,
 ) => React.ReactNode;
+
+export interface AuthButtonsProps {
+  user: Maybe<Pick<Partial<ServerUser>, "name" | "image">>;
+}
+
+export interface SignUpData {
+  user: Pick<ServerUser, "id" | "email" | "name">;
+}

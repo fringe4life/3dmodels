@@ -1,16 +1,6 @@
-import type { ReactNode } from "react";
 import GenericComponent from "@/components/generic-component";
-import UnsuccessfulStateListItem, {
-  type UnsuccessfulStateListItemProps,
-} from "@/components/not-found/unsuccessful-state-list-item";
-
-type UnsuccessfulStateProps = {
-  heading: string;
-  subheading: string;
-  action?: ReactNode;
-  listItems: UnsuccessfulStateListItemProps[];
-  isError?: boolean;
-};
+import UnsuccessfulStateListItem from "@/components/not-found/unsuccessful-state-list-item";
+import type { UnsuccessfulStateProps } from "@/types";
 
 const UnsuccessfulState = ({
   heading,

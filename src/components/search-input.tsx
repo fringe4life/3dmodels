@@ -55,7 +55,7 @@ export const SearchInput = () => {
         value={query || ""}
       />
       <Activity mode={isPending ? "visible" : "hidden"}>
-        <div className="-translate-y-1/2 loading-dots absolute top-1/2 left-95/100 text-gray-500 text-sm">
+        <div className="loading-dots absolute top-1/2 left-95/100 -translate-y-1/2 text-gray-500 text-sm">
           .
         </div>
       </Activity>

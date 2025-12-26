@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev:inspect": "next dev --inspect",
+    "next:upgrade": "next upgrade",
+    "next:analyze": "next analyze",
     "build": "next build",
     "build:debug": "next build --debug-prerender",
     "start": "next start",
@@ -24,20 +27,21 @@
     "ultracite": "bun x ultracite",
     "ultracite:fix": "bun x ultracite fix",
     "ultracite:check": "bun x ultracite check",
-    "ultracite:doctor": "bun x ultracite doctor"
+    "ultracite:doctor": "bun x ultracite doctor",
+    "ultracite:upgrade": "bun x ultracite@latest init --pm bun --editors vscode --hooks cursor --agents cursor --frameworks next --quiet"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
     "@toolwind/corner-shape": "^0.0.8-3",
     "babel-plugin-react-compiler": "^1.0.0",
-    "better-auth": "^1.4.6",
-    "bufferutil": "^4.0.9",
+    "better-auth": "^1.4.9",
+    "bufferutil": "^4.1.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
     "drizzle-orm": "beta",
-    "next": "^16.0.10",
+    "next": "^16.1.1",
     "next-devtools-mcp": "^0.3.7",
-    "nuqs": "^2.8.5",
+    "nuqs": "^2.8.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-icons": "^5.5.0",
@@ -49,23 +53,23 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.8",
+    "@biomejs/biome": "2.3.10",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@types/minimatch": "^6.0.0",
-    "@types/node": "^25.0.1",
+    "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20251212.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251226.1",
     "drizzle-kit": "beta",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "ultracite": "6.4.0",
-    "zod": "^4.1.13"
+    "ultracite": "6.5.0",
+    "zod": "^4.2.1"
   },
   "trustedDependencies": [
     "@swc/core",
@@ -81,6 +85,7 @@
     "body-parser": "^2.2.1",
     "express": "^5.2.0",
     "@modelcontextprotocol/sdk": ">=1.24.0",
-    "jws": "^3.2.3"
+    "jws": "^3.2.3",
+    "@trpc/server": ">=11.8.0"
   }
 }

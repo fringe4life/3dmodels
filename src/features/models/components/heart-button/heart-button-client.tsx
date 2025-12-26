@@ -8,15 +8,7 @@ import {
   useTransition,
 } from "react";
 import { FaHeart } from "react-icons/fa6";
-import type toggleLike from "@/features/models/actions/likes";
-
-export type HeartButtonClientProps = {
-  slug: string;
-  likesCount: number;
-  hasLiked: boolean;
-  isAuthenticated: boolean;
-  toggleAction: typeof toggleLike;
-};
+import type { HeartButtonClientProps } from "@/features/models/types";
 
 const HeartButtonClient = ({
   slug,
