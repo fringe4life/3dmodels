@@ -206,6 +206,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types; centralized type definitions in `src/types/index.ts` and feature-specific `types.ts` files for better organization and reusability
+- **Query Builder**: Migrated to Drizzle ORM RQBv2 for simple relational queries (`db.query.tableName.findMany/findFirst`) with object-based `where` clauses; complex queries and mutations remain on SQL builder
 - **Error Recovery**: Error boundaries with `error.tsx` for failed queries (results, category pages, and model detail pages) with built-in `reset()` retry functionality and helpful error guidance
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
 
@@ -319,7 +320,14 @@ The application uses Drizzle ORM v1 (beta) with `defineRelations` for type-safe 
 - Relations defined using the new v1 beta syntax with `r.one()` and `r.many()` helpers
 - Relation names avoid conflicts with column names (e.g., `modelLikes` instead of `likes` to avoid conflict with `models.likes` column)
 - All relations exported from `schema/relations.ts` and included in the database schema
-- **Note**: Better Auth's `drizzleAdapter` may show warnings about models not found in query object due to v1 beta relations structure incompatibility, but authentication functionality works correctly (Better Auth falls back to direct table queries)
+
+### Query Builder (RQBv2)
+The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-safe relational queries:
+- **Simple queries**: Use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses for better type safety and developer experience
+- **Complex queries**: Complex queries with `ilike`, `or`, and `and` conditions, as well as count queries, still use the SQL builder syntax due to RQBv2 beta limitations
+- **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
+- **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 for simple relational queries, SQL builder for complex conditions and mutations
+- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Authentication functionality may be affected until Better Auth updates their adapter to support RQBv2. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon.
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:

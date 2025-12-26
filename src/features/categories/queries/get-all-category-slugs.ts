@@ -1,12 +1,15 @@
 import { db } from "@/db";
-import { categories } from "@/db/schema/models";
 import { tryCatch } from "@/utils/try-catch";
 
 export const getAllCategorySlugs = async (): Promise<
   { categoryName: string }[]
 > => {
   const { data, error } = await tryCatch(() =>
-    db.select({ slug: categories.slug }).from(categories),
+    db.query.categories.findMany({
+      columns: {
+        slug: true,
+      },
+    }),
   );
 
   if (!data || error) {

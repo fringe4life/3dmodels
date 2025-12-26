@@ -1,8 +1,7 @@
-import { eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
-import { type Model, models } from "@/db/schema/models";
+import type { Model } from "@/db/schema/models";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 export const getModelBySlug = cache(
@@ -15,22 +14,21 @@ export const getModelBySlug = cache(
     cacheLife("hours");
 
     const { data, error } = await tryCatch(() =>
-      db
-        .select({
-          slug: models.slug,
-          name: models.name,
-          description: models.description,
-          image: models.image,
-          categorySlug: models.categorySlug,
-          dateAdded: models.dateAdded,
-        })
-        .from(models)
-        .where(eq(models.slug, slug))
-        .limit(1),
+      db.query.models.findFirst({
+        where: { slug },
+        columns: {
+          slug: true,
+          name: true,
+          description: true,
+          image: true,
+          categorySlug: true,
+          dateAdded: true,
+        },
+      }),
     );
     if (error || !data) {
       throw new Error("Model not found");
     }
-    return data.at(0);
+    return data;
   },
 );

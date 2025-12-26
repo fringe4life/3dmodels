@@ -67,7 +67,7 @@ export const searchModels = async (
   return {
     items,
     totalRows,
-  };
+  } satisfies DatabaseQueryResult<Model>;
 };
 
 // Get all models for search (without like status)
@@ -85,37 +85,34 @@ export const getModelsForSearch = async (
   // Set cache life to default (1 hour)
   cacheLife("default");
 
-  let whereCondition: Maybe<SQL>;
-  if (category) {
-    whereCondition = eq(models.categorySlug, category);
-  }
+  // Build where condition for count query (still using SQL builder for count)
+  const whereCondition = category
+    ? eq(models.categorySlug, category)
+    : undefined;
 
   const [{ data: items }, { data: totalRows }] = await Promise.all([
-    tryCatch(async () => {
-      const baseQuery = db
-        .select()
-        .from(models)
-        .orderBy(models.name)
-        .limit(pagination.limit)
-        .offset(pagination.page * pagination.limit);
-      return whereCondition
-        ? await baseQuery.where(whereCondition)
-        : await baseQuery;
-    }),
-    tryCatch(async () => {
-      const baseQuery = db
+    tryCatch(() =>
+      db.query.models.findMany({
+        where: category ? { categorySlug: category } : undefined,
+        orderBy: (models, { asc }) => [asc(models.name)],
+        limit: pagination.limit,
+        offset: pagination.page * pagination.limit,
+      }),
+    ),
+    tryCatch(() => {
+      const baseQueryCount = db
         .select({
           value: count(models.slug).mapWith(Number),
         })
         .from(models);
       return whereCondition
-        ? await baseQuery.where(whereCondition)
-        : await baseQuery;
+        ? baseQueryCount.where(whereCondition)
+        : baseQueryCount;
     }),
   ]);
 
   return {
     items,
     totalRows,
-  };
+  } satisfies DatabaseQueryResult<Model>;
 };

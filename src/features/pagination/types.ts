@@ -1,7 +1,6 @@
-import type { Maybe } from "@/types";
+import type { List, Maybe } from "@/types";
 import type { LIMITS } from "./pagination-search-params";
 
-type List<T> = Maybe<T[]>;
 export interface PaginationMetadata {
   count: number;
   hasNextPage: boolean;

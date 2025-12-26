@@ -40,14 +40,15 @@ const toggleLike = async (
 
     const { data, error } = await tryCatch(() => {
       return db.transaction(async (tx) => {
-        // Check if user already liked this model
-        const existingLike = await tx
-          .select()
-          .from(likes)
-          .where(and(eq(likes.userId, userId), eq(likes.modelSlug, slug)))
-          .limit(1);
+        // Check if user already liked this model using RQBv2
+        const existingLike = await tx.query.likes.findFirst({
+          where: {
+            userId,
+            modelSlug: slug,
+          },
+        });
 
-        if (existingLike.length > 0) {
+        if (existingLike) {
           // Unlike: remove the like record
           await tx
             .delete(likes)

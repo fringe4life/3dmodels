@@ -19,4 +19,4 @@ const schema = {
 };
 
 // Create the Drizzle database instance
-export const db = drizzle({ client: pool, schema });
+export const db = drizzle({ client: pool, schema, relations });

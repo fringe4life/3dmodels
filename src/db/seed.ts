@@ -2,7 +2,6 @@
 import "dotenv/config";
 import { count, eq } from "drizzle-orm";
 import { db } from "@/db";
-import { user } from "@/db/schema/auth";
 import { likes, type NewLike } from "@/db/schema/likes";
 import { categories, models } from "@/db/schema/models";
 import { categoriesData } from "@/db/seed-data/categories";
@@ -20,7 +19,7 @@ async function seed() {
 
     // Fetch all existing users
     console.log("👥 Fetching existing users...");
-    const existingUsers = await db.select().from(user);
+    const existingUsers = await db.query.user.findMany();
     if (existingUsers.length === 0) {
       throw new Error(
         "No users found in database. Please create users manually before running seed.",

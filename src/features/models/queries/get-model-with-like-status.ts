@@ -1,8 +1,5 @@
-import { and, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
-import { likes } from "@/db/schema/likes";
-import { models } from "@/db/schema/models";
 import type { HasLiked } from "@/features/models/types";
 import { tryCatch } from "@/utils/try-catch";
 
@@ -18,16 +15,17 @@ export const getLikesCount = async (slug: string) => {
   cacheLife("hours");
 
   const { data, error } = await tryCatch(() =>
-    db
-      .select({ likes: models.likes })
-      .from(models)
-      .where(eq(models.slug, slug))
-      .limit(1),
+    db.query.models.findFirst({
+      where: { slug },
+      columns: {
+        likes: true,
+      },
+    }),
   );
   if (!data || error) {
     return { slug, likesCount: 0 };
   }
-  const likesCount = data.at(0)?.likes ?? 0;
+  const likesCount = data.likes ?? 0;
 
   return { slug, likesCount };
 };
@@ -47,17 +45,18 @@ export const getHasLikedStatus = async (
   cacheLife("hours");
 
   const { data, error } = await tryCatch(() =>
-    db
-      .select()
-      .from(likes)
-      .where(and(eq(likes.userId, userId), eq(likes.modelSlug, slug)))
-      .limit(1),
+    db.query.likes.findFirst({
+      where: {
+        userId,
+        modelSlug: slug,
+      },
+    }),
   );
 
   if (!data || error) {
     return { slug, hasLiked: false };
   }
-  const hasLiked = data.length > 0;
+  const hasLiked = data !== null;
 
   return { slug, hasLiked };
 };
