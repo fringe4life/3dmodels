@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import getUser from "@/features/auth/queries/get-session";
+import getUser from "@/features/auth/queries/get-user";
 import type { HasAuthChildren } from "@/features/auth/types";
 
 // HasAuth component that provides session to children

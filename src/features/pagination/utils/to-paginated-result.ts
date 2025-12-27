@@ -9,7 +9,7 @@ export const transformToPaginatedResult = <T>(
   pagination: PaginationType,
 ): PaginatedResult<T> => {
   const list = items;
-  const totalCount = totalRows?.at(0)?.value ?? 0;
+  const totalCount = totalRows ?? 0;
   const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
   const nextCursor = hasNextPage ? String(pagination.page + 1) : null;
 

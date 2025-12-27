@@ -11,23 +11,23 @@ type ModelsViewProps = SearchParamsProps & {
   title?: string;
 };
 
+const EMPTY_LIST_LENGTH = 0 as const;
+
 const ModelsView = async ({
   searchParams,
   category,
   categoryDisplayName,
   title,
 }: ModelsViewProps) => {
-  const result = await getModels(searchParams, category);
-  if (!result.list) {
+  const { list, metadata } = await getModels(searchParams, category);
+  if (!list) {
     throw new Error("Failed to load models");
   }
-  if (result.list.length === 0) {
+  if (list.length === EMPTY_LIST_LENGTH) {
     return <ModelsNotFound />;
   }
 
   const displayTitle = categoryDisplayName ?? title ?? DEFAULT_TITLE;
-
-  const { metadata, list } = result;
 
   return (
     <div className="grid auto-rows-min grid-rows-1 content-between gap-y-4">

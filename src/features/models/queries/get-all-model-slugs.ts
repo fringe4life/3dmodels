@@ -1,9 +1,10 @@
 import { db } from "@/db";
-import type { Maybe } from "@/types";
+import type { Model } from "@/db/schema/models";
+import type { List } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
 export const getAllModelSlugs = async (): Promise<
-  Maybe<{ slug: string }[]>
+  List<Pick<Model, "slug">>
 > => {
   const { data, error } = await tryCatch(() =>
     db.query.models.findMany({

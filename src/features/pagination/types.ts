@@ -13,7 +13,7 @@ export interface PaginatedResult<T> extends PaginationMetadataObject {
 
 export interface DatabaseQueryResult<T> {
   items: List<T>;
-  totalRows: Maybe<{ value: number }[]>;
+  totalRows: Maybe<number>;
 }
 
 export type LimitItem = (typeof LIMITS)[number];

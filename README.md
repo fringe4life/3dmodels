@@ -323,10 +323,10 @@ The application uses Drizzle ORM v1 (beta) with `defineRelations` for type-safe 
 
 ### Query Builder (RQBv2)
 The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-safe relational queries:
-- **Simple queries**: Use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses for better type safety and developer experience
-- **Complex queries**: Complex queries with `ilike`, `or`, and `and` conditions, as well as count queries, still use the SQL builder syntax due to RQBv2 beta limitations
+- **Read queries**: All read queries use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses, including complex conditions with `OR`, `AND`, `ilike`, `eq`, and other operators for better type safety and developer experience
+- **Count queries**: Count queries use `db.$count()` (RQBv2), with where conditions passed using SQL builder syntax (`and()`, `or()`, `ilike()`, etc.) since `$count` accepts SQL builder conditions
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
-- **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 for simple relational queries, SQL builder for complex conditions and mutations
+- **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 for all read queries (including complex conditions), SQL builder for count where conditions and mutations
 - **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Authentication functionality may be affected until Better Auth updates their adapter to support RQBv2. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon.
 
 ### Cache Components
