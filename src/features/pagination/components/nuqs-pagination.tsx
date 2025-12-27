@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryStates } from "nuqs";
-import PaginationComponent from "@/features/pagination/components/pagination";
+import { PaginationView } from "@/features/pagination/components/pagination";
 import {
   options as PaginationOptions,
   paginationParser,
@@ -15,7 +15,7 @@ const Pagination = ({ metadata }: NuqsPaginationProps) => {
   );
 
   return (
-    <PaginationComponent
+    <PaginationView
       metadata={metadata}
       pagination={pagination}
       setPagination={setPagination}
@@ -23,4 +23,4 @@ const Pagination = ({ metadata }: NuqsPaginationProps) => {
   );
 };
 
-export default Pagination;
+export { Pagination };

@@ -1,11 +1,11 @@
 import { ViewTransition } from "react";
+import { EMPTY_LIST_LENGTH } from "@/constants";
 import type { FieldErrorProps } from "@/types";
 
 const FieldError = ({ actionState, name }: FieldErrorProps) => {
-  // Only use fieldErrors for security (no payload fallback to avoid exposing sensitive data)
   const fieldError = actionState?.fieldErrors[name];
   let fieldErrorElement: React.ReactNode = null;
-  if (fieldError && fieldError.length > 0) {
+  if (fieldError && fieldError.length > EMPTY_LIST_LENGTH) {
     fieldErrorElement = (
       <span className="text-red-500 text-sm">{fieldError[0]}</span>
     );
@@ -13,4 +13,4 @@ const FieldError = ({ actionState, name }: FieldErrorProps) => {
   return <ViewTransition>{fieldErrorElement}</ViewTransition>;
 };
 
-export default FieldError;
+export { FieldError };

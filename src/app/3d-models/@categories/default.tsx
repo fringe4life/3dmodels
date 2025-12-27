@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import CategoriesNav from "@/features/categories/components/categories-nav";
+import { CategoriesNav } from "@/features/categories/components/categories-nav";
 import { getAllCategories } from "@/features/categories/queries/get-all-categories";
 
 const CategoriesDefault = async () => {

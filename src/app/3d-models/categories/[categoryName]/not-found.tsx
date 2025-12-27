@@ -1,6 +1,6 @@
 import Link from "next/link";
-import GenericComponent from "@/components/generic-component";
-import UnsuccessfulState from "@/components/not-found/unsuccessful-state";
+import { GenericComponent } from "@/components/generic-component";
+import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import {
   CATEGORY_LINKS,
   CATEGORY_LIST_ITEMS,

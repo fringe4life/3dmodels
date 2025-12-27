@@ -1,4 +1,4 @@
-import ModelsGridSkeleton from "@/features/models/components/models-grid-skeleton";
+import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 
 const ResultsLoading = () => <ModelsGridSkeleton />;
 

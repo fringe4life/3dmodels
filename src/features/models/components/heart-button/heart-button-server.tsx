@@ -1,6 +1,6 @@
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
-import HeartButtonClient from "@/features/models/components/heart-button/heart-button-client";
-import HeartButtonSkeleton from "@/features/models/components/heart-button/heart-button-skeleton";
+import { HeartButtonClient } from "@/features/models/components/heart-button/heart-button-client";
+import { HeartButtonSkeleton } from "@/features/models/components/heart-button/heart-button-skeleton";
 import {
   getHasLikedStatus,
   getLikesCount,
@@ -32,4 +32,4 @@ const HeartButtonServer = ({
   </HasAuthSuspense>
 );
 
-export default HeartButtonServer;
+export { HeartButtonServer };

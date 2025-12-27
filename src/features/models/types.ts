@@ -1,4 +1,5 @@
 import type { Model } from "@/db/schema/models";
+import type { SearchParamsProps } from "@/types";
 import type toggleLike from "./actions/likes";
 
 export interface HasLiked {
@@ -24,3 +25,9 @@ export type HeartButtonAdditionalProps = Pick<
   HeartButtonClientProps,
   "slug" | "toggleAction"
 >;
+
+export type ModelsViewProps = SearchParamsProps & {
+  category?: string;
+  categoryDisplayName?: string;
+  title?: string;
+};

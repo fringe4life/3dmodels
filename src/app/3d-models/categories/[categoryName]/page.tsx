@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
-import ModelsView from "@/features/models/components/models-view";
+import { ModelsView } from "@/features/models/components/models-view";
 
 export const generateStaticParams = async () => await getAllCategorySlugs();
 

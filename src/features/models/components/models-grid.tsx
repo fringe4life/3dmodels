@@ -1,4 +1,4 @@
-import GenericComponent from "@/components/generic-component";
+import { GenericComponent } from "@/components/generic-component";
 import ModelCard from "@/features/models/components/model-card";
 import type { ModelsGridProps } from "../types";
 
@@ -15,4 +15,4 @@ const ModelsGrid = ({ title, models }: ModelsGridProps) => (
   </div>
 );
 
-export default ModelsGrid;
+export { ModelsGrid };

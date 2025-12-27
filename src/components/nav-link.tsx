@@ -30,4 +30,4 @@ const NavLink = ({
   );
 };
 
-export default NavLink;
+export { NavLink };

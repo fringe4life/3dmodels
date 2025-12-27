@@ -1,5 +1,5 @@
+import type { LIMITS } from "@/features/pagination/constants";
 import type { List, Maybe } from "@/types";
-import type { LIMITS } from "./pagination-search-params";
 
 export interface PaginationMetadata {
   count: number;

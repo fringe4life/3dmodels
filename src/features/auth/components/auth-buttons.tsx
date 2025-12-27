@@ -55,4 +55,4 @@ const AuthButtons = ({ user }: AuthButtonsProps) => {
   );
 };
 
-export default AuthButtons;
+export { AuthButtons };

@@ -19,4 +19,4 @@ const GenericComponent = <T, P, E extends React.ElementType = "div">({
   );
 };
 
-export default GenericComponent;
+export { GenericComponent };

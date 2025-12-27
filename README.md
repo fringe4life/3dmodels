@@ -101,7 +101,7 @@ src/
 │   │   │   └── sign-in-button.tsx
 │   │   ├── constants.ts         # Auth validation constants
 │   │   ├── queries/              # Auth queries
-│   │   │   └── get-session.ts
+│   │   │   └── get-user.ts
 │   │   └── types.ts              # Auth type definitions (AuthButtonsProps, SignUpData, HasAuthChildren, ServerUser)
 │   ├── categories/               # Categories feature
 │   │   ├── components/           # Category-specific components
@@ -143,7 +143,9 @@ src/
 │       ├── utils/                # Pagination utilities
 │       │   └── to-paginated-result.ts
 │       ├── pagination-search-params.ts  # Pagination search params
+│       ├── constants.ts          # Pagination constants (DEFAULT_PAGE, DEFAULT_LIMIT, LIMITS, SORT_ORDERS)
 │       └── types.ts              # Pagination type definitions (includes PaginationProps, NuqsPaginationProps, PaginationType, etc.)
+├── constants.ts                 # Shared constants (EMPTY_LIST_LENGTH)
 ├── components/                   # Shared/generic components
 │   ├── form/                     # Form-related components
 │   │   ├── field-errors.tsx      # Field error display component
@@ -382,6 +384,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 #### Navigation Components
 - `app/@navbar/default` - Navbar parallel route with auth integration
+- `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
 - `components/nav-link` - Reusable navigation link component with configurable active state matching (`includes` or `endsWith`), border position (`bottom` or `left`), and list item styling (client component)
 - `features/auth/components/auth-buttons` - Authentication buttons component with user avatar (GitHub image priority, icon fallback)
@@ -401,7 +404,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/auth/actions` - Sign-in, sign-up, and sign-out server actions with Valibot validation
 - `features/auth/components/has-auth` - Generic auth component with session provider and Suspense wrapper
 - `features/auth/constants` - Validation constants (password length, email length, name length limits)
-- `features/auth/queries/get-session` - Session query with cache directives
+- `features/auth/queries/get-user` - User query with cache directives (returns user from session)
 - `features/auth/components/sign-in-button` - GitHub OAuth sign-in button
 - `utils/to-action-state` - Action state utilities for consistent server action responses
 - `components/form/field-errors` - Reusable field error component used in auth forms

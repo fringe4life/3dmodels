@@ -1,17 +1,10 @@
-import ModelsGrid from "@/features/models/components/models-grid";
-import ModelsNotFound from "@/features/models/components/models-not-found";
+import { EMPTY_LIST_LENGTH } from "@/constants";
+import { ModelsGrid } from "@/features/models/components/models-grid";
+import { ModelsNotFound } from "@/features/models/components/models-not-found";
 import { DEFAULT_TITLE } from "@/features/models/constants";
 import { getModels } from "@/features/models/dal/get-models";
-import Pagination from "@/features/pagination/components/nuqs-pagination";
-import type { SearchParamsProps } from "@/types";
-
-type ModelsViewProps = SearchParamsProps & {
-  category?: string;
-  categoryDisplayName?: string;
-  title?: string;
-};
-
-const EMPTY_LIST_LENGTH = 0 as const;
+import type { ModelsViewProps } from "@/features/models/types";
+import { Pagination } from "@/features/pagination/components/nuqs-pagination";
 
 const ModelsView = async ({
   searchParams,
@@ -20,6 +13,7 @@ const ModelsView = async ({
   title,
 }: ModelsViewProps) => {
   const { list, metadata } = await getModels(searchParams, category);
+
   if (!list) {
     throw new Error("Failed to load models");
   }
@@ -37,4 +31,4 @@ const ModelsView = async ({
   );
 };
 
-export default ModelsView;
+export { ModelsView };

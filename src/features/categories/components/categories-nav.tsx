@@ -1,5 +1,5 @@
-import GenericComponent from "@/components/generic-component";
-import NavLink from "@/components/nav-link";
+import { GenericComponent } from "@/components/generic-component";
+import { NavLink } from "@/components/nav-link";
 import type { CategoriesNavProps } from "../types";
 
 const CategoriesNav = ({ categories }: CategoriesNavProps) => {
@@ -28,4 +28,4 @@ const CategoriesNav = ({ categories }: CategoriesNavProps) => {
   );
 };
 
-export default CategoriesNav;
+export { CategoriesNav };

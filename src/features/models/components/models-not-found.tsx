@@ -1,7 +1,7 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
-import GenericComponent from "@/components/generic-component";
-import UnsuccessfulState from "@/components/not-found/unsuccessful-state";
+import { GenericComponent } from "@/components/generic-component";
+import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import type { UnsuccessfulStateLink } from "@/types";
 
 // biome-ignore lint/suspicious/useAwait: needed for use cache
@@ -54,4 +54,4 @@ const ModelsNotFound = async () => {
   );
 };
 
-export default ModelsNotFound;
+export { ModelsNotFound };

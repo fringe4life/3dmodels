@@ -22,4 +22,4 @@ const FormError = <T = unknown>({
   return <ViewTransition>{formErrorElement}</ViewTransition>;
 };
 
-export default FormError;
+export { FormError };

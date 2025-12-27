@@ -6,4 +6,4 @@ const Pill = ({ children, className = "" }: React.ComponentProps<"span">) => (
   </span>
 );
 
-export default Pill;
+export { Pill };

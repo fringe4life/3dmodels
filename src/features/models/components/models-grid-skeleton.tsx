@@ -16,4 +16,4 @@ const ModelsGridSkeleton = () => (
   </div>
 );
 
-export default ModelsGridSkeleton;
+export { ModelsGridSkeleton };

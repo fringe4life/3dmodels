@@ -1,6 +1,6 @@
 import Link from "next/link";
-import GenericComponent from "@/components/generic-component";
-import UnsuccessfulState from "@/components/not-found/unsuccessful-state";
+import { GenericComponent } from "@/components/generic-component";
+import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import { MODEL_LINKS, MODEL_LIST_ITEMS } from "@/features/models/constants";
 import type { UnsuccessfulStateLink } from "@/types";
 

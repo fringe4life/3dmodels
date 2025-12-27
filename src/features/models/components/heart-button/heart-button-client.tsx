@@ -60,4 +60,4 @@ const HeartButtonClient = ({
   );
 };
 
-export default HeartButtonClient;
+export { HeartButtonClient };

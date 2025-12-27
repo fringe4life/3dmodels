@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useActionState, useTransition } from "react";
-import FieldError from "@/components/form/field-errors";
-import FormError from "@/components/form/form-error";
-import signUpAction from "@/features/auth/actions/sign-up-action";
+import { FieldError } from "@/components/form/field-errors";
+import { FormError } from "@/components/form/form-error";
+import { signUpAction } from "@/features/auth/actions/sign-up-action";
 
 const SignUpPage = () => {
   const [state, formAction] = useActionState(signUpAction, null);

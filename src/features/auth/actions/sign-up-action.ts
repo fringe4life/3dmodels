@@ -91,4 +91,4 @@ const signUpAction = async (
   }
 };
 
-export default signUpAction;
+export { signUpAction };

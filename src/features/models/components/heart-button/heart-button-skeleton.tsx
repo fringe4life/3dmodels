@@ -4,4 +4,4 @@ const HeartButtonSkeleton = () => (
   </div>
 );
 
-export default HeartButtonSkeleton;
+export { HeartButtonSkeleton };

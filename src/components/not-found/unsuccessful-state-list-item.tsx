@@ -9,4 +9,4 @@ const UnsuccessfulStateListItem = ({
   </li>
 );
 
-export default UnsuccessfulStateListItem;
+export { UnsuccessfulStateListItem };

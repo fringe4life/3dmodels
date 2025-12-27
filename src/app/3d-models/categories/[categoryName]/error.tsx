@@ -1,6 +1,6 @@
 "use client";
 
-import UnsuccessfulState from "@/components/not-found/unsuccessful-state";
+import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import { MODELS_ERROR_LIST } from "@/features/models/constants";
 import type { ErrorProps } from "@/types";
 

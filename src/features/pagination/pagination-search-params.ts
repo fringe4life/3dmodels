@@ -6,8 +6,12 @@ import {
   parseAsString,
   parseAsStringLiteral,
 } from "nuqs/server";
-
-const SORT_ORDERS = ["asc", "desc"] as const;
+import {
+  DEFAULT_LIMIT,
+  DEFAULT_PAGE,
+  LIMITS,
+  SORT_ORDERS,
+} from "@/features/pagination/constants";
 
 export const options: Options = {
   clearOnDefault: true,
@@ -22,10 +26,6 @@ export const sortParser = {
   sortKey: parseAsString.withDefault("createdAt"),
   sortValue: parseAsStringLiteral(SORT_ORDERS).withDefault("desc"),
 };
-
-const DEFAULT_PAGE = 0;
-const DEFAULT_LIMIT = 10 as const;
-export const LIMITS = [5, 10, 20, 50] as const;
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(DEFAULT_PAGE),

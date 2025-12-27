@@ -87,4 +87,4 @@ const signInAction = async (
   }
 };
 
-export default signInAction;
+export { signInAction };

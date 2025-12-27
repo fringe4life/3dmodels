@@ -1,5 +1,5 @@
-import GenericComponent from "@/components/generic-component";
-import UnsuccessfulStateListItem from "@/components/not-found/unsuccessful-state-list-item";
+import { GenericComponent } from "@/components/generic-component";
+import { UnsuccessfulStateListItem } from "@/components/not-found/unsuccessful-state-list-item";
 import type { UnsuccessfulStateProps } from "@/types";
 
 const UnsuccessfulState = ({
@@ -43,4 +43,4 @@ const UnsuccessfulState = ({
   </div>
 );
 
-export default UnsuccessfulState;
+export { UnsuccessfulState };
