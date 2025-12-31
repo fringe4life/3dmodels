@@ -12,12 +12,12 @@ const ModelsView = async ({
   categoryDisplayName,
   title,
 }: ModelsViewProps) => {
-  const { list, metadata } = await getModels(searchParams, category);
+  const { items, metadata } = await getModels(searchParams, category);
 
-  if (!list) {
+  if (!items) {
     throw new Error("Failed to load models");
   }
-  if (list.length === EMPTY_LIST_LENGTH) {
+  if (items.length === EMPTY_LIST_LENGTH) {
     return <ModelsNotFound />;
   }
 
@@ -25,7 +25,7 @@ const ModelsView = async ({
 
   return (
     <div className="grid auto-rows-min grid-rows-1 content-between gap-y-4">
-      <ModelsGrid models={list} title={displayTitle} />
+      <ModelsGrid models={items} title={displayTitle} />
       <Pagination metadata={metadata} />
     </div>
   );

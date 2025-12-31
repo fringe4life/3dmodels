@@ -3,15 +3,18 @@
 import { type MouseEventHandler, useTransition, ViewTransition } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { authClient } from "@/lib/auth-client";
+import { tryCatch } from "@/utils/try-catch";
 
 const SignInButton = () => {
   const [isPending, startTransition] = useTransition();
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
     startTransition(async () => {
-      await authClient.signIn.social({
-        provider: "github",
-      });
+      await tryCatch(() =>
+        authClient.signIn.social({
+          provider: "github",
+        }),
+      );
     });
   };
   return (

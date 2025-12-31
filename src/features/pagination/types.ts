@@ -7,13 +7,21 @@ export interface PaginationMetadata {
   nextCursor: Maybe<string>;
 }
 
-export interface PaginatedResult<T> extends PaginationMetadataObject {
-  list: List<T>;
+export interface ListObject<T> {
+  items: List<T>;
 }
 
-export interface DatabaseQueryResult<T> {
-  items: List<T>;
-  totalRows: Maybe<number>;
+export interface PaginatedResult<T>
+  extends PaginationMetadataObject,
+    ListObject<T> {}
+
+export interface RawPaginationAccess<T> {
+  getItems: () => Promise<List<T>>;
+  getItemsCount: () => Promise<Maybe<number>>;
+}
+
+export interface RawPaginationResult<T> extends ListObject<T> {
+  itemsCount: Maybe<number>;
 }
 
 export type LimitItem = (typeof LIMITS)[number];

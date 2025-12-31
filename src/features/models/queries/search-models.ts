@@ -1,20 +1,23 @@
-import { and, eq, ilike, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import type { Model } from "@/db/schema/models";
 import { models } from "@/db/schema/models";
+import { paginateItems } from "@/features/pagination/dal/paginate-items";
 import type {
-  DatabaseQueryResult,
   PaginationType,
+  RawPaginationResult,
 } from "@/features/pagination/types";
 import { tryCatch } from "@/utils/try-catch";
+import { getModelsCount } from "./get-models-count";
+import { getModelsList } from "./get-models-list";
 
 // Optimized search function that doesn't fetch like status
 export const searchModels = async (
   query: string,
   pagination: PaginationType,
   category?: string,
-): Promise<DatabaseQueryResult<Model>> => {
+): Promise<RawPaginationResult<Model>> => {
   "use cache: remote";
 
   // Set cache tags for revalidation control
@@ -25,43 +28,20 @@ export const searchModels = async (
   // Set cache life to default (1 hour)
   cacheLife("default");
   const searchPattern = `%${query}%`;
-  const searchWhereCondition = or(
-    ilike(models.name, searchPattern),
-    ilike(models.description, searchPattern),
-  );
-  const countWhereCondition = category
-    ? and(eq(models.categorySlug, category), searchWhereCondition)
-    : searchWhereCondition;
 
-  const [{ data: items }, { data: totalRows }] = await Promise.all([
-    tryCatch(() => {
-      return db.query.models.findMany({
-        where: {
-          OR: [
-            { name: { ilike: searchPattern } },
-            { description: { ilike: searchPattern } },
-          ],
-          categorySlug: { eq: category },
-        },
-        orderBy: (models, { asc }) => [asc(models.name)],
-        limit: pagination.limit,
-        offset: pagination.page * pagination.limit,
-      });
-    }),
-    tryCatch(() => db.$count(models, countWhereCondition)),
-  ]);
+  const result = await paginateItems({
+    getItems: () => getModelsList({ searchPattern, category, pagination }),
+    getItemsCount: () => getModelsCount({ searchPattern, category }),
+  });
 
-  return {
-    items,
-    totalRows,
-  } satisfies DatabaseQueryResult<Model>;
+  return result satisfies RawPaginationResult<Model>;
 };
 
 // Get all models for search (without like status)
 export const getModelsForSearch = async (
   pagination: PaginationType,
   category?: string,
-): Promise<DatabaseQueryResult<Model>> => {
+): Promise<RawPaginationResult<Model>> => {
   "use cache: remote";
 
   // Set cache tags for revalidation control
@@ -72,7 +52,7 @@ export const getModelsForSearch = async (
   // Set cache life to default (1 hour)
   cacheLife("default");
 
-  const [{ data: items }, { data: totalRows }] = await Promise.all([
+  const [{ data: items }, { data: itemsCount }] = await Promise.all([
     tryCatch(() =>
       db.query.models.findMany({
         where: { categorySlug: { eq: category } },
@@ -91,6 +71,6 @@ export const getModelsForSearch = async (
 
   return {
     items,
-    totalRows,
-  } satisfies DatabaseQueryResult<Model>;
+    itemsCount,
+  } satisfies RawPaginationResult<Model>;
 };

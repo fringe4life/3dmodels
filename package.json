@@ -34,7 +34,7 @@
     "@neondatabase/serverless": "^1.0.2",
     "@toolwind/corner-shape": "^0.0.8-3",
     "babel-plugin-react-compiler": "^1.0.0",
-    "better-auth": "^1.4.9",
+    "better-auth": "^1.4.10",
     "bufferutil": "^4.1.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
@@ -61,7 +61,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20251227.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251231.1",
     "drizzle-kit": "beta",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
@@ -69,7 +69,7 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "ultracite": "6.5.0",
-    "zod": "^4.2.1"
+    "zod": "^4.3.2"
   },
   "trustedDependencies": [
     "@swc/core",

@@ -3,7 +3,7 @@ import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import toggleLike from "@/features/models/actions/likes";
 import { HeartButtonServer } from "@/features/models/components/heart-button/heart-button-server";
-import type { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
+import type { ModelDetailProps } from "../types";
 
 const ModelDetail = ({
   slug,
@@ -11,7 +11,7 @@ const ModelDetail = ({
   categorySlug,
   description,
   dateAdded,
-}: NonNullable<Awaited<ReturnType<typeof getModelBySlug>>>) => (
+}: ModelDetailProps) => (
   <ViewTransition name={`model-${slug}`}>
     <div className="corner-squircle mx-auto max-w-6xl self-center rounded-lg px-4 py-8">
       <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -48,4 +48,4 @@ const ModelDetail = ({
   </ViewTransition>
 );
 
-export default ModelDetail;
+export { ModelDetail };

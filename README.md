@@ -9,7 +9,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.9-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.10-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.10-60A5FA?logo=biome)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
@@ -133,6 +133,8 @@ src/
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
+│   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax)
+│   │   │   ├── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
 │   │   │   └── search-models.ts   # Unified query function (handles search, category filtering, and listing)
 │   │   ├── search-params.ts       # Type-safe search params for models
 │   │   └── types.ts               # Model type definitions
@@ -140,6 +142,8 @@ src/
 │       ├── components/           # Pagination components
 │       │   ├── nuqs-pagination.tsx  # Pagination wrapper with nuqs integration
 │       │   └── pagination.tsx
+│       ├── dal/                  # Data access layer for pagination
+│       │   └── paginate-items.ts  # Pagination helper function
 │       ├── utils/                # Pagination utilities
 │       │   └── to-paginated-result.ts
 │       ├── pagination-search-params.ts  # Pagination search params
@@ -325,10 +329,11 @@ The application uses Drizzle ORM v1 (beta) with `defineRelations` for type-safe 
 
 ### Query Builder (RQBv2)
 The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-safe relational queries:
-- **Read queries**: All read queries use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses, including complex conditions with `OR`, `AND`, `ilike`, `eq`, and other operators for better type safety and developer experience
+- **Read queries**: All read queries use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses, including complex conditions with `OR: []`, `AND: []`, `NOT: {}`, and column filters like `{ column: { eq: value, ilike: pattern } }` for better type safety and developer experience
 - **Count queries**: Count queries use `db.$count()` (RQBv2), with where conditions passed using SQL builder syntax (`and()`, `or()`, `ilike()`, etc.) since `$count` accepts SQL builder conditions
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
-- **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 for all read queries (including complex conditions), SQL builder for count where conditions and mutations
+- **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
+- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level functions like `search-models.ts`
 - **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Authentication functionality may be affected until Better Auth updates their adapter to support RQBv2. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon.
 
 ### Cache Components

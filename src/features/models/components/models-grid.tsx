@@ -1,5 +1,5 @@
 import { GenericComponent } from "@/components/generic-component";
-import ModelCard from "@/features/models/components/model-card";
+import { ModelCard } from "@/features/models/components/model-card";
 import type { ModelsGridProps } from "../types";
 
 const ModelsGrid = ({ title, models }: ModelsGridProps) => (

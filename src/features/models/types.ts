@@ -1,6 +1,7 @@
 import type { Model } from "@/db/schema/models";
 import type { SearchParamsProps } from "@/types";
 import type toggleLike from "./actions/likes";
+import type { getModelBySlug } from "./queries/get-model-by-slug";
 
 export interface HasLiked {
   slug: string;
@@ -31,3 +32,7 @@ export type ModelsViewProps = SearchParamsProps & {
   categoryDisplayName?: string;
   title?: string;
 };
+
+export type ModelDetailProps = NonNullable<
+  Awaited<ReturnType<typeof getModelBySlug>>
+>;

@@ -44,4 +44,4 @@ const ModelCard = ({
   </ViewTransition>
 );
 
-export default ModelCard;
+export { ModelCard };
