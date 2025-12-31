@@ -1,13 +1,11 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
-import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
+import type { CategoryDetail } from "../types";
 
 export const getCategoryBySlug = cache(
-  async (
-    slug: string,
-  ): Promise<Maybe<Pick<{ displayName: string }, "displayName">>> => {
+  async (slug: string): Promise<CategoryDetail> => {
     "use cache";
     cacheTag("categories", `category-${slug}`);
     cacheLife("max");

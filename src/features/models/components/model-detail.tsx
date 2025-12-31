@@ -1,7 +1,7 @@
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
-import toggleLike from "@/features/models/actions/likes";
+import { toggleLike } from "@/features/models/actions/likes";
 import { HeartButtonServer } from "@/features/models/components/heart-button/heart-button-server";
 import type { ModelDetailProps } from "../types";
 

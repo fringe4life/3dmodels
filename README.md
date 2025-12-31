@@ -133,9 +133,9 @@ src/
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
-│   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax)
+│   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax, optional search/category)
 │   │   │   ├── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
-│   │   │   └── search-models.ts   # Unified query function (handles search, category filtering, and listing)
+│   │   │   └── search-models.ts   # Unified query function (handles search with optional query, category filtering, and listing)
 │   │   ├── search-params.ts       # Type-safe search params for models
 │   │   └── types.ts               # Model type definitions
 │   └── pagination/               # Pagination feature
@@ -333,7 +333,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Count queries**: Count queries use `db.$count()` (RQBv2), with where conditions passed using SQL builder syntax (`and()`, `or()`, `ilike()`, etc.) since `$count` accepts SQL builder conditions
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
-- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level functions like `search-models.ts`
+- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level functions like `search-models.ts`. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
 - **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Authentication functionality may be affected until Better Auth updates their adapter to support RQBv2. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon.
 
 ### Cache Components
@@ -351,7 +351,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
 - **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output
 - **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), max for static categories (component-level caching)
-- **Query Functions**: Unified `getModels()` function handles search, category filtering, and listing with optional parameters
+- **Query Functions**: Unified `getModels()` function uses `searchModels()` which handles search (with optional query), category filtering, and listing. The function uses helper functions `getModelsList` and `getModelsCount` which support optional search and category parameters
 - **Like Status**: Split into two functions:
   - `getLikesCount`: Uses `"use cache: remote"` for shared likes count (works after `connection()`)
   - `getHasLikedStatus`: Uses `"use cache: private"` for user-specific like status (cached on device)

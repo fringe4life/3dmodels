@@ -1,9 +1,8 @@
 import { db } from "@/db";
 import { tryCatch } from "@/utils/try-catch";
+import type { CategoryName } from "../types";
 
-export const getAllCategorySlugs = async (): Promise<
-  { categoryName: string }[]
-> => {
+export const getAllCategorySlugs = async (): Promise<CategoryName[]> => {
   const { data, error } = await tryCatch(() =>
     db.query.categories.findMany({
       columns: {

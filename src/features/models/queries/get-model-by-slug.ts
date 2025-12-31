@@ -1,13 +1,10 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
-import type { Model } from "@/db/schema/models";
-import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
+import type { ModelDetail } from "../types";
 export const getModelBySlug = cache(
-  async (
-    slug: string,
-  ): Promise<Maybe<Omit<Model, "hasLiked" | "likes" | "userId">>> => {
+  async (slug: string): Promise<ModelDetail> => {
     "use cache";
 
     cacheTag("models", `model-${slug}`);

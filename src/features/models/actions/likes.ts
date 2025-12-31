@@ -94,4 +94,4 @@ const toggleLike = async (
   }
 };
 
-export default toggleLike;
+export { toggleLike };

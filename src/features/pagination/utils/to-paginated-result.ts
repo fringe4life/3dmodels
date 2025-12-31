@@ -19,5 +19,5 @@ export const transformToPaginatedResult = <T>(
       hasNextPage,
       nextCursor,
     },
-  };
+  } satisfies PaginatedResult<T>;
 };

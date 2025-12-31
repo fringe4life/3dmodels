@@ -1,6 +1,6 @@
 import type { Model } from "@/db/schema/models";
-import type { SearchParamsProps } from "@/types";
-import type toggleLike from "./actions/likes";
+import type { List, Maybe, SearchParamsProps } from "@/types";
+import type { toggleLike } from "./actions/likes";
 import type { getModelBySlug } from "./queries/get-model-by-slug";
 
 export interface HasLiked {
@@ -15,6 +15,8 @@ export interface ModelsGridProps {
 export interface ModelCardProps {
   model: Model;
 }
+
+export type ModelDetail = Maybe<Omit<Model, "hasLiked" | "likes" | "userId">>;
 
 export interface HeartButtonClientProps extends HasLiked {
   likesCount: number;
@@ -36,3 +38,5 @@ export type ModelsViewProps = SearchParamsProps & {
 export type ModelDetailProps = NonNullable<
   Awaited<ReturnType<typeof getModelBySlug>>
 >;
+
+export type ModelSlugs = List<Pick<Model, "slug">>;

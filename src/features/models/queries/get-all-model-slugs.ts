@@ -1,11 +1,8 @@
 import { db } from "@/db";
-import type { Model } from "@/db/schema/models";
-import type { List } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
+import type { ModelSlugs } from "../types";
 
-export const getAllModelSlugs = async (): Promise<
-  List<Pick<Model, "slug">>
-> => {
+export const getAllModelSlugs = async (): Promise<ModelSlugs> => {
   const { data, error } = await tryCatch(() =>
     db.query.models.findMany({
       columns: {
