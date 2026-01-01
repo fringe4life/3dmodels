@@ -28,7 +28,7 @@
     "ultracite:fix": "bun x ultracite fix",
     "ultracite:check": "bun x ultracite check",
     "ultracite:doctor": "bun x ultracite doctor",
-    "ultracite:upgrade": "bun x ultracite@latest init --pm bun --editors vscode --hooks cursor --agents cursor --frameworks next --quiet"
+    "ultracite:upgrade": "bun x ultracite@latest init --pm bun --linter biome --editors vscode --hooks cursor --frameworks next --quiet"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -61,14 +61,14 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20251231.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260101.1",
     "drizzle-kit": "beta",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "ultracite": "6.5.0"
+    "ultracite": "7.0.3"
   },
   "trustedDependencies": [
     "@swc/core",

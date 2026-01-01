@@ -1,5 +1,8 @@
+import type {
+  RawPaginationAccess,
+  RawPaginationResult,
+} from "@/features/pagination/types";
 import { tryCatch } from "@/utils/try-catch";
-import type { RawPaginationAccess, RawPaginationResult } from "../types";
 
 const paginateItems = async <T>({
   getItems,
