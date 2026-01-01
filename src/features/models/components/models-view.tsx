@@ -1,4 +1,3 @@
-import { EMPTY_LIST_LENGTH } from "@/constants";
 import { ModelsGrid } from "@/features/models/components/models-grid";
 import { ModelsNotFound } from "@/features/models/components/models-not-found";
 import { DEFAULT_TITLE } from "@/features/models/constants";
@@ -12,23 +11,25 @@ const ModelsView = async ({
   categoryDisplayName,
   title,
 }: ModelsViewProps) => {
-  const { items, metadata } = await getModels(searchParams, category);
-
-  if (!items) {
-    throw new Error("Failed to load models");
-  }
-  if (items.length === EMPTY_LIST_LENGTH) {
-    return <ModelsNotFound />;
-  }
+  const result = await getModels(searchParams, category);
 
   const displayTitle = categoryDisplayName ?? title ?? DEFAULT_TITLE;
 
-  return (
-    <div className="grid auto-rows-min grid-rows-1 content-between gap-y-4">
-      <ModelsGrid models={items} title={displayTitle} />
-      <Pagination metadata={metadata} />
-    </div>
-  );
+  switch (result.type) {
+    case "error":
+      throw new Error(result.message);
+    case "empty":
+      return <ModelsNotFound />;
+    case "success":
+      return (
+        <div className="grid auto-rows-min grid-rows-1 content-between gap-y-4">
+          <ModelsGrid models={result.items} title={displayTitle} />
+          <Pagination metadata={result.metadata} />
+        </div>
+      );
+    default:
+      throw new Error("Should not happen") as never;
+  }
 };
 
 export { ModelsView };

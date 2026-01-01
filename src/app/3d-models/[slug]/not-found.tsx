@@ -2,7 +2,6 @@ import Link from "next/link";
 import { GenericComponent } from "@/components/generic-component";
 import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import { MODEL_LINKS, MODEL_LIST_ITEMS } from "@/features/models/constants";
-import type { UnsuccessfulStateLink } from "@/types";
 
 const ModelNotFound = () => (
   <UnsuccessfulState
@@ -13,7 +12,7 @@ const ModelNotFound = () => (
         className="flex flex-col gap-3 sm:flex-row sm:justify-center"
         items={MODEL_LINKS}
         renderKey={(_, index) => index}
-        renderProps={(item: UnsuccessfulStateLink) => ({
+        renderProps={(item) => ({
           href: item.href,
           className: `inline-flex items-center justify-center rounded-md px-6 py-3 font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 ${
             item.variant === "primary"

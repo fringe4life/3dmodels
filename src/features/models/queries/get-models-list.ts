@@ -6,7 +6,7 @@ import type { List, Maybe } from "@/types";
 const getModelsList = ({
   searchPattern,
   category,
-  pagination,
+  pagination: { limit, page },
 }: {
   searchPattern: Exclude<Maybe<string>, null>;
   category: Exclude<Maybe<string>, null>;
@@ -48,8 +48,8 @@ const getModelsList = ({
   return db.query.models.findMany({
     where,
     orderBy: (models, { asc }) => [asc(models.name)],
-    limit: pagination.limit,
-    offset: pagination.page * pagination.limit,
+    limit,
+    offset: page * limit,
   });
 };
 

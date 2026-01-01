@@ -11,6 +11,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.10-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.10-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.0.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
@@ -20,7 +21,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
 - **Authentication**: Better Auth 1.4.10 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
 - **Search Params**: nuqs 2.8.6 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.10 with Ultracite 7.0.3 rules
+- **Linting & Formatting**: Biome 2.3.10 with Ultracite 7.0.4 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
@@ -128,14 +129,14 @@ src/
 │   │   │   ├── models-view.tsx # Shared component for search results and category pages
 │   │   ├── constants.ts           # Model categories, filters, display metadata, and error guidance
 │   │   ├── dal/                   # Data access layer for models
-│   │   │   └── get-models.ts
+│   │   │   ├── get-models.ts
+│   │   │   └── search-models.ts   # Unified search function (handles search with optional query, category filtering, and listing)
 │   │   ├── queries/               # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
 │   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax, optional search/category)
-│   │   │   ├── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
-│   │   │   └── search-models.ts   # Unified query function (handles search with optional query, category filtering, and listing)
+│   │   │   └── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
 │   │   ├── search-params.ts       # Type-safe search params for models
 │   │   └── types.ts               # Model type definitions
 │   └── pagination/               # Pagination feature
@@ -333,7 +334,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Count queries**: Count queries use `db.$count()` (RQBv2), with where conditions passed using SQL builder syntax (`and()`, `or()`, `ilike()`, etc.) since `$count` accepts SQL builder conditions
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
-- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level functions like `search-models.ts`. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
+- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions like `search-models.ts` in the `dal/` directory. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
 - **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Authentication functionality may be affected until Better Auth updates their adapter to support RQBv2. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon.
 
 ### Cache Components

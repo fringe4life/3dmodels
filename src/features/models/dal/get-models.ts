@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import type { SearchParams } from "nuqs/server";
 import type { Model } from "@/db/schema/models";
-import { searchModels } from "@/features/models/queries/search-models";
+import { searchModels } from "@/features/models/dal/search-models";
 import { modelsSearchParamsCache } from "@/features/models/search-params";
 import { searchParamsCache } from "@/features/pagination/pagination-search-params";
 import type { PaginatedResult } from "@/features/pagination/types";

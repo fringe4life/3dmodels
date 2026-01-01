@@ -1,16 +1,34 @@
+import { EMPTY_LIST_LENGTH } from "@/constants";
 import type {
   PaginatedResult,
+  PaginatedResultEmpty,
+  PaginatedResultError,
+  PaginatedResultSuccess,
   PaginationType,
-  RawPaginationResult,
+  RawPaginatedResult,
 } from "@/features/pagination/types";
 
 export const transformToPaginatedResult = <T>(
-  { items, itemsCount }: RawPaginationResult<T>,
+  { items, itemsCount }: RawPaginatedResult<T>,
   pagination: PaginationType,
 ): PaginatedResult<T> => {
   const totalCount = itemsCount ?? 0;
   const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
   const nextCursor = hasNextPage ? String(pagination.page + 1) : null;
+
+  if (!items) {
+    return {
+      type: "error",
+      message: "Something went wrong. Please try again later.",
+    } satisfies PaginatedResultError;
+  }
+
+  if (items.length === EMPTY_LIST_LENGTH) {
+    return {
+      type: "empty",
+      message: "There are no Models",
+    } satisfies PaginatedResultEmpty;
+  }
 
   return {
     items,
@@ -19,5 +37,6 @@ export const transformToPaginatedResult = <T>(
       hasNextPage,
       nextCursor,
     },
-  } satisfies PaginatedResult<T>;
+    type: "success",
+  } satisfies PaginatedResultSuccess<T>;
 };

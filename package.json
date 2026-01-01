@@ -68,7 +68,7 @@
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "ultracite": "7.0.3"
+    "ultracite": "7.0.4"
   },
   "trustedDependencies": [
     "@swc/core",

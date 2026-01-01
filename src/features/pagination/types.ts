@@ -11,16 +11,31 @@ export interface ListObject<T> {
   items: List<T>;
 }
 
-export interface PaginatedResult<T>
-  extends PaginationMetadataObject,
-    ListObject<T> {}
+export type PaginatedResult<T> =
+  | PaginatedResultError
+  | PaginatedResultEmpty
+  | PaginatedResultSuccess<T>;
+
+export interface PaginatedResultError {
+  type: "error";
+  message: string;
+}
+
+export interface PaginatedResultEmpty {
+  type: "empty";
+  message: string;
+}
+export interface PaginatedResultSuccess<T> extends PaginationMetadataObject {
+  type: "success";
+  items: T[];
+}
 
 export interface RawPaginationAccess<T> {
   getItems: () => Promise<List<T>>;
   getItemsCount: () => Promise<Maybe<number>>;
 }
 
-export interface RawPaginationResult<T> extends ListObject<T> {
+export interface RawPaginatedResult<T> extends ListObject<T> {
   itemsCount: Maybe<number>;
 }
 

@@ -1,20 +1,20 @@
 import { cacheLife, cacheTag } from "next/cache";
 import type { Model } from "@/db/schema/models";
+import { getModelsCount } from "@/features/models/queries/get-models-count";
+import { getModelsList } from "@/features/models/queries/get-models-list";
 import { paginateItems } from "@/features/pagination/dal/paginate-items";
 import type {
   PaginationType,
-  RawPaginationResult,
+  RawPaginatedResult,
 } from "@/features/pagination/types";
 import type { Maybe } from "@/types";
-import { getModelsCount } from "./get-models-count";
-import { getModelsList } from "./get-models-list";
 
 // Optimized search function that doesn't fetch like status
 export const searchModels = async (
   query: Exclude<Maybe<string>, null>,
   pagination: PaginationType,
   category?: string,
-): Promise<RawPaginationResult<Model>> => {
+): Promise<RawPaginatedResult<Model>> => {
   "use cache: remote";
 
   // Set cache tags for revalidation control
@@ -31,5 +31,5 @@ export const searchModels = async (
     getItemsCount: () => getModelsCount({ searchPattern, category }),
   });
 
-  return result satisfies RawPaginationResult<Model>;
+  return result satisfies RawPaginatedResult<Model>;
 };
