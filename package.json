@@ -28,7 +28,7 @@
     "ultracite:fix": "bun x ultracite fix",
     "ultracite:check": "bun x ultracite check",
     "ultracite:doctor": "bun x ultracite doctor",
-    "ultracite:upgrade": "bun x ultracite@latest init --pm bun --linter biome --editors vscode --hooks cursor --frameworks next --quiet"
+    "ultracite:upgrade": "bun x ultracite@latest init --pm bun --linter biome --agents cursor-cli --editors vscode --hooks cursor --frameworks next --quiet"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -40,7 +40,7 @@
     "dotenv": "^17.2.3",
     "drizzle-orm": "beta",
     "next": "^16.1.1",
-    "next-devtools-mcp": "^0.3.7",
+    "next-devtools-mcp": "^0.3.8",
     "nuqs": "^2.8.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -53,7 +53,7 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.10",
+    "@biomejs/biome": "2.3.11",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@types/minimatch": "^6.0.0",
@@ -61,14 +61,14 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20260101.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260104.1",
     "drizzle-kit": "beta",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "ultracite": "7.0.4"
+    "ultracite": "7.0.8"
   },
   "trustedDependencies": [
     "@swc/core",

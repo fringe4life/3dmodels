@@ -10,8 +10,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.10-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.3.10-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.0.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+![Biome](https://img.shields.io/badge/Biome-2.3.11-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.0.8-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
@@ -21,7 +21,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
 - **Authentication**: Better Auth 1.4.10 with email/password and GitHub OAuth, cookie caching enabled (note: adapter has compatibility warnings with Drizzle v1 beta relations, but functionality works correctly)
 - **Search Params**: nuqs 2.8.6 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.10 with Ultracite 7.0.4 rules
+- **Linting & Formatting**: Biome 2.3.11 with Ultracite 7.0.8 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server

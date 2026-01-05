@@ -18,7 +18,7 @@ const ModelDetailError = ({ reset }: ErrorProps) => (
     heading="Failed to load Model"
     isError
     listItems={MODELS_ERROR_LIST}
-    subheading={"Something went wrong while loading the model details."}
+    subheading={"Something went wrong while loading the model."}
   />
 );
 

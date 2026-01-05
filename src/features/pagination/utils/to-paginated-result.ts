@@ -14,7 +14,6 @@ export const transformToPaginatedResult = <T>(
 ): PaginatedResult<T> => {
   const totalCount = itemsCount ?? 0;
   const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
-  const nextCursor = hasNextPage ? String(pagination.page + 1) : null;
 
   if (!items) {
     return {
@@ -35,7 +34,6 @@ export const transformToPaginatedResult = <T>(
     metadata: {
       count: totalCount,
       hasNextPage,
-      nextCursor,
     },
     type: "success",
   } satisfies PaginatedResultSuccess<T>;

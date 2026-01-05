@@ -4,7 +4,6 @@ import type { List, Maybe } from "@/types";
 export interface PaginationMetadata {
   count: number;
   hasNextPage: boolean;
-  nextCursor: Maybe<string>;
 }
 
 export interface ListObject<T> {

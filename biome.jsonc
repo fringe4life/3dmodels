@@ -10,12 +10,6 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "correctness": {
-        "noUndeclaredDependencies": "error"
-      },
-      "complexity": {
-        "noExcessiveCognitiveComplexity": "warn"
-      },
       "performance": {
         "noImgElement": "off"
       }

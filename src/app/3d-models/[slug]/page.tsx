@@ -16,13 +16,13 @@ export const generateMetadata = async ({
   if (!model) {
     return MODEL_NOT_FOUND;
   }
-  const { name, description } = model;
+  const { name: title, description } = model;
 
   return {
-    title: name,
+    title,
     description,
     openGraph: {
-      title: name,
+      title,
       description,
       type: "article",
       images: [
