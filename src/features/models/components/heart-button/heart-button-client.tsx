@@ -26,7 +26,7 @@ const HeartButtonClient = ({
       return;
     }
     const formData = new FormData();
-    formData.append("modelSlug", slug);
+    formData.append("slug", slug);
 
     startTransition(() => {
       setOptimisticLike(!optimisticLike);

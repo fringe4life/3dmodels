@@ -2,22 +2,17 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "@/db";
-import { account, session, user, verification } from "@/db/schema/auth";
+import { schema } from "@/db/schema";
 import { env } from "@/utils/env";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
-    schema: {
-      user,
-      session,
-      account,
-      verification,
-    },
+    schema,
   }),
-  experimental: {
-    joins: true,
-  },
+  // experimental: {
+  //   joins: true,
+  // },
   session: {
     cookieCache: {
       enabled: true,
@@ -25,6 +20,7 @@ export const auth = betterAuth({
     },
   },
   baseURL: process.env.NEXT_PUBLIC_SITE_URL,
+  basePath: "/api/auth",
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
@@ -35,5 +31,6 @@ export const auth = betterAuth({
       clientSecret: env.GITHUB_CLIENT_SECRET,
     },
   },
+  secret: env.AUTH_SECRET,
   plugins: [nextCookies()], // Must be last plugin
 });

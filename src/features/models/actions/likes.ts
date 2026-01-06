@@ -29,7 +29,6 @@ const toggleLike = async (
 ) => {
   try {
     const { slug } = parse(likeSchema, Object.fromEntries(formData.entries()));
-
     const user = await getUser();
 
     if (!user?.id) {
