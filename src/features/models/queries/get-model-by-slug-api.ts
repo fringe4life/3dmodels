@@ -1,0 +1,22 @@
+import { db } from "@/db";
+import { tryCatch } from "@/utils/try-catch";
+import type { ModelDetail } from "../types";
+export const getModelBySlugApi = async (slug: string): Promise<ModelDetail> => {
+  const { data, error } = await tryCatch(() =>
+    db.query.models.findFirst({
+      where: { slug },
+      columns: {
+        slug: true,
+        name: true,
+        description: true,
+        image: true,
+        categorySlug: true,
+        dateAdded: true,
+      },
+    }),
+  );
+  if (error || !data) {
+    throw new Error("Model not found");
+  }
+  return data;
+};

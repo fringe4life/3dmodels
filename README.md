@@ -36,6 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Performance Optimized**: Caching for frequently accessed data
 - **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
+- **Current Limitation**: `models/:slug` detail route works, but the `/models` listing route (backed by the ElysiaJS `/api/models` endpoint) is currently not returning results while the Elysia + Cache Components integration is being debugged
 
 
 ## 📁 Project Structure
@@ -334,7 +335,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
 - **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions like `search-models.ts` in the `dal/` directory. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
-- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled to fix email/password authentication, but this causes GitHub social login to return 404 errors. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are now handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler mounted at `/auth`.
+- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled to fix email/password authentication, but this causes GitHub social login to return 404 errors. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are now handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler mounted at `/auth`. To avoid Cache Components interfering with API handlers, Elysia now calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:

@@ -26,7 +26,7 @@ const likeSchema = object({
 const toggleLike = async (
   _prevState: Maybe<ActionState>,
   formData: FormData,
-) => {
+): Promise<ActionState> => {
   try {
     const { slug } = parse(likeSchema, Object.fromEntries(formData.entries()));
     const user = await getUser();
@@ -76,12 +76,10 @@ const toggleLike = async (
       });
     });
 
-    if (error) {
-      return fromErrorToActionState(error);
-    }
-
-    if (!data) {
-      return fromErrorToActionState(new Error("Failed to toggle like"));
+    if (error || !data) {
+      return fromErrorToActionState(
+        error || new Error("Failed to toggle like"),
+      );
     }
 
     // Invalidate the specific model's cache since likes count changed

@@ -8,6 +8,7 @@ import {
   useTransition,
 } from "react";
 import { FaHeart } from "react-icons/fa6";
+import { FieldError } from "@/components/form/field-errors";
 import type { HeartButtonClientProps } from "@/features/models/types";
 
 const HeartButtonClient = ({
@@ -17,7 +18,7 @@ const HeartButtonClient = ({
   isAuthenticated,
   toggleAction,
 }: HeartButtonClientProps) => {
-  const [, formAction] = useActionState(toggleAction, null);
+  const [state, formAction] = useActionState(toggleAction, null);
   const [isPending, startTransition] = useTransition();
   const [optimisticLike, setOptimisticLike] = useOptimistic(hasLiked);
 
@@ -42,8 +43,9 @@ const HeartButtonClient = ({
       aria-label={
         isAuthenticated ? "Like this model" : "Sign in to like this model"
       }
-      className="group relative z-5 flex cursor-pointer items-center gap-x-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+      className="group relative z-5 flex cursor-pointer flex-wrap items-center gap-x-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
       disabled={isDisabled}
+      name="slug"
       onClick={handleClick}
       type="button"
     >
@@ -56,6 +58,7 @@ const HeartButtonClient = ({
         })}
       />
       <span>{likesCount}</span>
+      <FieldError actionState={state} name="slug" />
     </button>
   );
 };

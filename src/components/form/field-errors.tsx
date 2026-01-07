@@ -7,7 +7,7 @@ const FieldError = ({ actionState, name }: FieldErrorProps) => {
   let fieldErrorElement: React.ReactNode = null;
   if (fieldError && fieldError.length > EMPTY_LIST_LENGTH) {
     fieldErrorElement = (
-      <span className="text-red-500 text-sm">{fieldError[0]}</span>
+      <span className="flex-1 text-red-500 text-sm">{fieldError[0]}</span>
     );
   }
   return <ViewTransition>{fieldErrorElement}</ViewTransition>;
