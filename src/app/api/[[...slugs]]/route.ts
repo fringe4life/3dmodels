@@ -1,4 +1,5 @@
 import { cors } from "@elysiajs/cors";
+import { openapi } from "@elysiajs/openapi";
 import { Elysia, t } from "elysia";
 import { searchModelsAPI } from "@/features/models/dal/search-models-api";
 import { getModelBySlugApi } from "@/features/models/queries/get-model-by-slug-api";
@@ -8,6 +9,7 @@ import { transformToPaginatedResult } from "@/features/pagination/utils/to-pagin
 import { auth } from "@/lib/auth";
 
 const app = new Elysia({ prefix: "/api" })
+  .use(openapi())
   .use(
     cors({
       origin: process.env.NEXT_PUBLIC_SITE_URL,

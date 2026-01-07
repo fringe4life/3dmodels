@@ -12,7 +12,6 @@ const paginateItems = async <T>({
     tryCatch(() => getItems()),
     tryCatch(() => getItemsCount()),
   ]);
-
   return { items, itemsCount };
 };
 export { paginateItems };

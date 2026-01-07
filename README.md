@@ -36,7 +36,6 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Performance Optimized**: Caching for frequently accessed data
 - **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
-- **Current Limitation**: `models/:slug` detail route works, but the `/models` listing route (backed by the ElysiaJS `/api/models` endpoint) is currently not returning results while the Elysia + Cache Components integration is being debugged
 
 
 ## 📁 Project Structure

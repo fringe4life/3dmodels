@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.4.1",
+    "@elysiajs/openapi": "^1.4.13",
     "@neondatabase/serverless": "^1.0.2",
     "@toolwind/corner-shape": "^0.0.8-3",
     "babel-plugin-react-compiler": "^1.0.0",
@@ -64,14 +65,14 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20260106.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260107.1",
     "drizzle-kit": "beta",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "ultracite": "7.0.8"
+    "ultracite": "7.0.9"
   },
   "trustedDependencies": [
     "@swc/core",

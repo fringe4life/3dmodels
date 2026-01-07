@@ -24,7 +24,7 @@ export const searchModels = async (
   }
   // Set cache life to default (1 hour)
   cacheLife("default");
-  const searchPattern = `%${query}%`;
+  const searchPattern = query ? `%${query}%` : undefined;
 
   const result = await paginateItems({
     getItems: () => getModelsList({ searchPattern, category, pagination }),

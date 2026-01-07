@@ -8,14 +8,19 @@ import type {
 } from "@/features/pagination/types";
 import type { Maybe } from "@/types";
 
-// Optimized search function that doesn't fetch like status
+/**
+ * @abstract api version to paginate items without nextjs cacheComponents
+ * @param query a search query string
+ * @param pagination a pagination object
+ * @param category a category slug
+ * @returns a raw paginated result of models with a count of items
+ */
 export const searchModelsAPI = async (
   query: Exclude<Maybe<string>, null>,
   pagination: PaginationType,
   category?: string,
 ): Promise<RawPaginatedResult<Model>> => {
-  const searchPattern = `%${query}%`;
-
+  const searchPattern = query ? `%${query}%` : undefined;
   const result = await paginateItems({
     getItems: () => getModelsList({ searchPattern, category, pagination }),
     getItemsCount: () => getModelsCount({ searchPattern, category }),
