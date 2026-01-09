@@ -3,7 +3,6 @@ import { drizzle } from "drizzle-orm/neon-serverless";
 import ws from "ws";
 import { env } from "@/utils/env";
 import { schema as relationsSchema } from "./schema";
-import { verification } from "./schema/auth";
 import { relations } from "./schema/relations";
 
 neonConfig.webSocketConstructor = ws;
@@ -13,8 +12,6 @@ const pool = new Pool({ connectionString: env.DATABASE_URL });
 // Combine all schemas
 const schema = {
   ...relationsSchema,
-  verification,
-
   ...relations,
 };
 

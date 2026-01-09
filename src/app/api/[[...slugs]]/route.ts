@@ -1,14 +1,15 @@
 import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { searchModelsAPI } from "@/features/models/dal/search-models-api";
 import { getModelBySlugApi } from "@/features/models/queries/get-model-by-slug-api";
 import { LIMITS } from "@/features/pagination/constants";
 import type { LimitItem } from "@/features/pagination/types";
 import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
+import { app } from "@/lib/api";
 import { auth } from "@/lib/auth";
 
-const app = new Elysia({ prefix: "/api" })
+app
   .use(openapi())
   .use(
     cors({

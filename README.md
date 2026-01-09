@@ -19,7 +19,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript 5.9.3 with React 19.2.3
 - **Styling**: Tailwind CSS v4.1.18
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
-- **Authentication**: Better Auth 1.4.10 with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (note: experimental joins disabled - fixes email/password login but GitHub social login currently not working;)
+- **Authentication**: Better Auth 1.4.10 with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
 - **Search Params**: nuqs 2.8.6 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.11 with Ultracite 7.0.8 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
@@ -334,7 +334,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
 - **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions like `search-models.ts` in the `dal/` directory. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
-- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled to fix email/password authentication, but this causes GitHub social login to return 404 errors. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are now handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler mounted at `/auth`. To avoid Cache Components interfering with API handlers, Elysia now calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
+- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are now handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler mounted at `/auth` (basePath set to `/auth` since ElysiaJS app has prefix `/api`). To avoid Cache Components interfering with API handlers, Elysia now calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:

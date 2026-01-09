@@ -5,7 +5,6 @@ import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
 import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
-import { invalidateSessionCache } from "@/utils/cache-invalidation";
 import {
   type ActionState,
   fromErrorToActionState,
@@ -78,7 +77,7 @@ const signUpAction = async (
     }
 
     // Invalidate session cache
-    invalidateSessionCache();
+    // invalidateSessionCache();
 
     // Redirect on success
     throw redirect("/", RedirectType.replace);

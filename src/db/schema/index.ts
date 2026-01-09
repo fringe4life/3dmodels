@@ -1,4 +1,4 @@
-import { account, session, user } from "./auth";
+import { account, session, user, verification } from "./auth";
 import { likes } from "./likes";
 import { categories, models } from "./models";
 
@@ -9,4 +9,5 @@ export const schema = {
   models,
   session,
   user,
+  verification,
 };

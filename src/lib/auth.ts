@@ -20,7 +20,7 @@ export const auth = betterAuth({
     },
   },
   baseURL: process.env.NEXT_PUBLIC_SITE_URL,
-  basePath: "/api/auth",
+  basePath: "/auth",
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
@@ -29,6 +29,7 @@ export const auth = betterAuth({
     github: {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+      redirectURI: "http://localhost:3000/api/auth/callback/github",
     },
   },
   secret: env.AUTH_SECRET,

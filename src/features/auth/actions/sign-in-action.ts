@@ -13,7 +13,6 @@ import {
 } from "valibot";
 import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
-import { invalidateSessionCache } from "@/utils/cache-invalidation";
 import {
   type ActionState,
   fromErrorToActionState,
@@ -77,7 +76,7 @@ const signInAction = async (
       throw error || new Error("Failed to sign in");
     }
 
-    invalidateSessionCache();
+    // invalidateSessionCache();
 
     throw redirect("/", RedirectType.replace);
   } catch (error) {
