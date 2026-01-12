@@ -4,6 +4,7 @@ import type { List, Maybe } from "@/types";
 export interface PaginationMetadata {
   count: number;
   hasNextPage: boolean;
+  page: number;
 }
 
 export interface ListObject<T> {
@@ -49,9 +50,4 @@ interface PaginationMetadataObject {
   metadata: PaginationMetadata;
 }
 
-export interface PaginationProps extends PaginationMetadataObject {
-  pagination: PaginationType;
-  setPagination: (pagination: PaginationType) => void;
-}
-
-export interface NuqsPaginationProps extends PaginationMetadataObject {}
+export interface PaginationProps extends PaginationMetadataObject {}

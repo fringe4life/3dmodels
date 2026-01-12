@@ -1,8 +1,6 @@
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
-import { toggleLike } from "@/features/models/actions/likes";
-import { HeartButtonServer } from "@/features/models/components/heart-button/heart-button-server";
 import type { ModelDetailProps } from "../types";
 
 const ModelDetail = ({
@@ -28,7 +26,7 @@ const ModelDetail = ({
         {/* Content Section - Static with Dynamic Like Status */}
         <section className="grid content-center">
           {/* Dynamic Like Status */}
-          <HeartButtonServer slug={slug} toggleAction={toggleLike} />
+          {/* <HeartButtonServer slug={slug} toggleAction={toggleLike} /> */}
           <h1 className="mb-6 font-bold text-4xl">{name}</h1>
 
           <Pill className="mb-6 w-fit">{categorySlug}</Pill>

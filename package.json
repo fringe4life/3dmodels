@@ -61,18 +61,18 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@types/minimatch": "^6.0.0",
-    "@types/node": "^25.0.3",
-    "@types/react": "^19.2.7",
+    "@types/node": "^25.0.6",
+    "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",
-    "@typescript/native-preview": "^7.0.0-dev.20260108.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260111.1",
     "drizzle-kit": "beta",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "ultracite": "7.0.10"
+    "ultracite": "7.0.11"
   },
   "trustedDependencies": [
     "@swc/core",

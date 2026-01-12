@@ -34,6 +34,7 @@ export const transformToPaginatedResult = <T>(
     metadata: {
       count: totalCount,
       hasNextPage,
+      page: pagination.page,
     },
     type: "success",
   } satisfies PaginatedResultSuccess<T>;

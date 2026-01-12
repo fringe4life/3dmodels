@@ -1,16 +1,28 @@
 "use client";
-import type { MouseEventHandler } from "react";
-import { startTransition } from "react";
+
+import { useQueryStates } from "nuqs";
+import {
+  addTransitionType,
+  type MouseEventHandler,
+  startTransition,
+  useId,
+  ViewTransition,
+} from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
 import { LIMITS } from "@/features/pagination/constants";
-import type { LimitItem, PaginationProps } from "@/features/pagination/types";
+import {
+  options as PaginationOptions,
+  paginationParser,
+} from "@/features/pagination/pagination-search-params";
+import type { LimitItem } from "@/features/pagination/types";
+import type { PaginationProps } from "../types";
 
-const PaginationView = ({
-  pagination,
-  setPagination,
-  metadata,
-}: PaginationProps) => {
+const Pagination = ({ metadata }: PaginationProps) => {
+  const [pagination, setPagination] = useQueryStates(
+    paginationParser,
+    PaginationOptions,
+  );
+
   const { page, limit } = pagination;
   const startOffset = page * limit + 1;
   const endOffset = startOffset - 1 + limit;
@@ -18,9 +30,12 @@ const PaginationView = ({
 
   const label = `${startOffset} - ${actualEndOffset} of ${metadata.count}`;
 
+  const id = useId();
+
   const handleNextPage: MouseEventHandler<HTMLButtonElement> = () => {
-    startTransition(() => {
-      setPagination({
+    startTransition(async () => {
+      addTransitionType("forwards");
+      await setPagination({
         ...pagination,
         page: page + 1,
       });
@@ -28,8 +43,9 @@ const PaginationView = ({
   };
 
   const handlePreviousPage: MouseEventHandler<HTMLButtonElement> = () => {
-    startTransition(() => {
-      setPagination({
+    startTransition(async () => {
+      addTransitionType("backwards");
+      await setPagination({
         ...pagination,
         page: page - 1,
       });
@@ -37,8 +53,8 @@ const PaginationView = ({
   };
 
   const handleLimitChange = (newLimit: LimitItem) => {
-    startTransition(() => {
-      setPagination({
+    startTransition(async () => {
+      await setPagination({
         ...pagination,
         limit: newLimit,
         page: 0,
@@ -46,30 +62,9 @@ const PaginationView = ({
     });
   };
 
-  const nextButton = (
-    <button
-      className="cursor-pointer text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
-      disabled={!metadata.hasNextPage}
-      onClick={handleNextPage}
-      type="button"
-    >
-      <FaChevronRight />
-    </button>
-  );
-
-  const previousButton = (
-    <button
-      className="cursor-pointer text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
-      disabled={page < 1}
-      onClick={handlePreviousPage}
-      type="button"
-    >
-      <FaChevronLeft />
-    </button>
-  );
-
   const limitDropdown = (
     <select
+      id={id}
       onChange={(event) =>
         handleLimitChange(Number(event.target.value) as LimitItem)
       }
@@ -84,15 +79,31 @@ const PaginationView = ({
   );
 
   return (
-    <div className="flex items-center justify-between">
-      <p className="text-gray-500 text-sm">{label}</p>
-      <div className="flex items-center gap-x-2">
-        {limitDropdown}
-        {previousButton}
-        {nextButton}
+    <ViewTransition name="pagination">
+      <div className="flex items-center justify-between">
+        <p className="text-gray-500 text-sm">{label}</p>
+        <div className="flex items-center gap-x-2">
+          {limitDropdown}
+          <button
+            className="cursor-pointer text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={page < 1}
+            onClick={handlePreviousPage}
+            type="button"
+          >
+            <FaChevronLeft />
+          </button>
+          <button
+            className="cursor-pointer text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={!metadata.hasNextPage}
+            onClick={handleNextPage}
+            type="button"
+          >
+            <FaChevronRight />
+          </button>
+        </div>
       </div>
-    </div>
+    </ViewTransition>
   );
 };
 
-export { PaginationView };
+export { Pagination };

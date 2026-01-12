@@ -97,26 +97,69 @@
 ::view-transition-new(.enter):only-child {
   animation-name: --fade-in;
 }
-/* ANIMATIONS */
-@keyframes --fade-out {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-    translate: 0 0;
-  }
-  to {
-    opacity: 0;
-    translate: 0 -10px;
-  }
+
+::view-transition-old(.exit-left) {
+  --slide-distance: -60px;
+  animation:
+    --fade-out 250ms,
+    --slide-out 250ms;
 }
 
+::view-transition-new(.enter-left) {
+  --slide-distance: -60px;
+  animation:
+    --fade-in 250ms,
+    --slide-in 250ms;
+}
+
+::view-transition-old(.exit-right) {
+  --slide-distance: calc(100vw + 60px);
+  animation:
+    --fade-out 250ms,
+    --slide-out 250ms;
+}
+
+::view-transition-new(.enter-right) {
+  --slide-distance: calc(100vw + 60px);
+  animation:
+    --fade-in 250ms,
+    --slide-in 250ms;
+}
+
+/* ANIMATIONS */
+/* Base composable animations */
 @keyframes --fade-in {
   from {
     opacity: 0;
-    translate: 0 10px;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes --fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes --slide-in {
+  from {
+    translate: var(--slide-distance);
+  }
+  to {
     translate: 0 0;
+  }
+}
+
+@keyframes --slide-out {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: var(--slide-distance);
   }
 }

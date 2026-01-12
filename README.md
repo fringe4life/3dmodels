@@ -32,10 +32,13 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Browse 3D Models**: View a curated collection of 3D models across various categories
 - **Category Filtering**: Filter models by category (3D Printer, Art, Education, Fashion, etc.)
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
 - **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
+
+**Note**: Like/dislike functionality and like count display are temporarily disabled while refactoring the codebase to support View Transitions.
 
 
 ## 📁 Project Structure
@@ -116,12 +119,13 @@ src/
 │   │   ├── actions/              # Server actions
 │   │   │   └── likes.ts
 │   │   ├── components/           # Model-specific components
-│   │   │   ├── heart-button/      # Heart button component group
+│   │   │   ├── heart-button/      # Heart button component group (currently disabled)
 │   │   │   │   ├── heart-button-server.tsx
 │   │   │   │   ├── heart-button-client.tsx
 │   │   │   │   └── heart-button-skeleton.tsx
 │   │   │   ├── model-card.tsx
 │   │   │   ├── model-detail.tsx
+│   │   │   ├── models-content.tsx # Client component with ViewTransition support
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
@@ -140,8 +144,7 @@ src/
 │   │   └── types.ts               # Model type definitions
 │   └── pagination/               # Pagination feature
 │       ├── components/           # Pagination components
-│       │   ├── nuqs-pagination.tsx  # Pagination wrapper with nuqs integration
-│       │   └── pagination.tsx
+│       │   └── pagination.tsx    # Pagination component with nuqs integration and ViewTransition support
 │       ├── dal/                  # Data access layer for pagination
 │       │   └── paginate-items.ts  # Pagination helper function
 │       ├── utils/                # Pagination utilities
@@ -215,6 +218,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Query Builder**: Migrated to Drizzle ORM RQBv2 for simple relational queries (`db.query.tableName.findMany/findFirst`) with object-based `where` clauses; complex queries and mutations remain on SQL builder
 - **Error Recovery**: Error boundaries with `error.tsx` for failed queries (results, category pages, and model detail pages) with built-in `reset()` retry functionality and helpful error guidance
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
+- **View Transitions**: Composable CSS animations using base fade and slide keyframes with CSS variables for slide distance, enabling smooth directional page transitions (enter-left, exit-left, enter-right, exit-right) for pagination
 
 ## 🚀 Getting Started
 
@@ -373,10 +377,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
 - `features/models/components/models-view` - Shared component for displaying search results and category pages (renamed from `ResultsContent`)
-- `features/pagination/components/nuqs-pagination` - Pagination wrapper with nuqs integration
-- `features/pagination/components/pagination` - Reusable pagination component
-- `features/models/components/heart-button/heart-button-server` - Server component for like/unlike (fetches auth & like status)
-- `features/models/components/heart-button/heart-button-client` - Client component for like interactions
+- `features/models/components/models-content` - Client component that unwraps models promise with ViewTransition support
+- `features/pagination/components/pagination` - Reusable pagination component with nuqs integration and ViewTransition support
+- `features/models/components/heart-button/heart-button-server` - Server component for like/unlike (fetches auth & like status) - **Currently disabled**
+- `features/models/components/heart-button/heart-button-client` - Client component for like interactions - **Currently disabled**
 - `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
 - `components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)

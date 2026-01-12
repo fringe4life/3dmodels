@@ -1,5 +1,6 @@
 import type { Model } from "@/db/schema/models";
 import type { List, Maybe, SearchParamsProps } from "@/types";
+import type { PaginatedResult } from "../pagination/types";
 import type { toggleLike } from "./actions/likes";
 import type { getModelBySlug } from "./queries/get-model-by-slug";
 
@@ -34,6 +35,11 @@ export type ModelsViewProps = SearchParamsProps & {
   categoryDisplayName?: string;
   title?: string;
 };
+
+export interface ModelsContentProps {
+  modelsPromise: Promise<PaginatedResult<Model>>;
+  displayTitle: string;
+}
 
 export type ModelDetailProps = NonNullable<
   Awaited<ReturnType<typeof getModelBySlug>>
