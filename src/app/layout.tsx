@@ -69,7 +69,7 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
       className={`${albertSans.className} ${montserratAlternates.variable} grid min-h-dvh grid-rows-[5.35rem_1fr_5.35rem] md:gap-y-10`}
     >
       {navbar}
-      <main>{children}</main>
+      <main className="h-full">{children}</main>
       {footer}
     </body>
   </html>

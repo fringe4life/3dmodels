@@ -23,9 +23,9 @@ const HeartButtonContent = (
 
   // Handle discriminated union: unwrap promise if present, otherwise use boolean
   const hasLiked =
-    "hasLikedPromise" in likeStatus && likeStatus.hasLikedPromise !== undefined
+    "hasLikedPromise" in likeStatus
       ? use(likeStatus.hasLikedPromise).hasLiked
-      : likeStatus.hasLiked;
+      : "hasLiked" in likeStatus && likeStatus.hasLiked;
 
   const [state, formAction] = useActionState(toggleAction, null);
   const [isPending, startTransition] = useTransition();
@@ -51,9 +51,10 @@ const HeartButtonContent = (
       const newLikedState = !optimisticLike;
       setOptimisticLike(newLikedState);
       // Update likes count optimistically: increment if liking, decrement if unliking
-      setOptimisticLikesCount(
-        newLikedState ? optimisticLikesCount + 1 : optimisticLikesCount - 1,
-      );
+      const newLikesCount = newLikedState
+        ? optimisticLikesCount + 1
+        : optimisticLikesCount - 1;
+      setOptimisticLikesCount(newLikesCount);
     });
   };
 

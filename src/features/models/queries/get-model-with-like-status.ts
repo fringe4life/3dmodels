@@ -1,29 +1,7 @@
 import { db } from "@/db";
 import type { HasLiked } from "@/features/models/types";
 import { tryCatch } from "@/utils/try-catch";
-
-/**
- * Fetches the likes count for a model.
- * Uses "use cache: remote" to work in dynamic contexts (after connection() is awaited).
- * Shared across all users.
- * Cache is invalidated on-demand via invalidateModel() when likes change.
- */
-// export const getLikesCount = async (slug: string) => {
-//   const { data, error } = await tryCatch(() =>
-//     db.query.models.findFirst({
-//       where: { slug },
-//       columns: {
-//         likes: true,
-//       },
-//     }),
-//   );
-//   if (!data || error) {
-//     return { slug, likesCount: 0 };
-//   }
-//   const likesCount = data.likes ?? 0;
-
-//   return { slug, likesCount };
-// };
+import { DEFAULT_HAS_LIKED } from "../constants";
 
 /**
  * Fetches whether a user has liked a model.
@@ -45,7 +23,7 @@ export const getHasLikedStatus = async (
   );
 
   if (!data || error) {
-    return { hasLiked: false };
+    return DEFAULT_HAS_LIKED;
   }
   const hasLiked = data !== null;
 

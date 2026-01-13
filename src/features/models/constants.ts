@@ -3,6 +3,7 @@ import type {
   UnsuccessfulStateLink,
   UnsuccessfulStateListItemProps,
 } from "@/types";
+import type { HasLiked } from "./types";
 
 export const MODEL_NOT_FOUND: Metadata = {
   title: "Model Not Found",
@@ -48,3 +49,5 @@ export const MODELS_ERROR_LIST: UnsuccessfulStateListItemProps[] = [
 ];
 
 export const DEFAULT_TITLE = "3D Models";
+
+export const DEFAULT_HAS_LIKED = { hasLiked: false } satisfies HasLiked;

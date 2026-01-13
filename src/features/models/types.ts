@@ -2,12 +2,19 @@ import type { Model } from "@/db/schema/models";
 import type { List, Maybe, SearchParamsProps } from "@/types";
 import type { PaginatedResult } from "../pagination/types";
 import type { toggleLike } from "./actions/likes";
-import type { ModelWithLikeStatus } from "./dal/get-models";
 import type { getModelBySlug } from "./queries/get-model-by-slug";
 
 export interface HasLiked {
   hasLiked: boolean;
 }
+export interface HasLikedPromise {
+  hasLikedPromise: Promise<HasLiked>;
+}
+export interface ModelWithLikeStatus extends Model, HasLikedPromise {}
+
+export interface HeartButtonWrapperProps
+  extends HeartButtonAdditionalProps,
+    HasLikedPromise {}
 
 export interface ModelsGridProps {
   title: string;
@@ -20,8 +27,8 @@ export interface ModelCardProps {
 export type ModelDetail = Maybe<Omit<Model, "hasLiked" | "userId">>;
 
 export type HeartButtonContentProps =
-  | ({ hasLiked: boolean } & { hasLikedPromise?: never })
-  | ({ hasLikedPromise: Promise<HasLiked> } & { hasLiked?: never });
+  | { hasLiked: boolean }
+  | { hasLikedPromise: Promise<HasLiked> };
 
 export interface HeartButtonAdditionalProps {
   slug: string;
@@ -48,7 +55,3 @@ export type ModelDetailProps = NonNullable<
 };
 
 export type ModelSlugs = List<Pick<Model, "slug">>;
-
-export interface HasLikedPromise {
-  hasLikedPromise: Promise<HasLiked>;
-}

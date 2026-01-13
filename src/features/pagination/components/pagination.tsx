@@ -27,7 +27,6 @@ const Pagination = ({ metadata }: PaginationProps) => {
   const startOffset = page * limit + 1;
   const endOffset = startOffset - 1 + limit;
   const actualEndOffset = Math.min(endOffset, metadata.count);
-
   const label = `${startOffset} - ${actualEndOffset} of ${metadata.count}`;
 
   const id = useId();

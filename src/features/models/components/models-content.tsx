@@ -15,7 +15,7 @@ const ModelsContent = ({ modelsPromise, displayTitle }: ModelsContentProps) => {
       return (
         <>
           <ModelsNotFound />
-          <p className="pr-1 text-right text-gray-500 text-sm">
+          <p className="pr-1 text-right text-gray-500 text-italic text-sm">
             No models found
           </p>
         </>

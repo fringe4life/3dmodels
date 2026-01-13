@@ -3,6 +3,7 @@ import { openapi } from "@elysiajs/openapi";
 import { t } from "elysia";
 import { db } from "@/db";
 import { getUser } from "@/features/auth/queries/get-user";
+import { DEFAULT_HAS_LIKED } from "@/features/models/constants";
 import { searchModelsAPI } from "@/features/models/dal/search-models-api";
 import { getModelBySlugApi } from "@/features/models/queries/get-model-by-slug-api";
 import { LIMITS } from "@/features/pagination/constants";
@@ -93,7 +94,7 @@ app
       const user = await getUser();
 
       if (!user) {
-        return { slug, hasLiked: false };
+        return DEFAULT_HAS_LIKED;
       }
 
       const { data, error } = await tryCatch(() =>
@@ -109,7 +110,7 @@ app
         return new Response("Internal Server Error", { status: 500 });
       }
 
-      return { slug, hasLiked: data !== null };
+      return { hasLiked: data !== null };
     },
     {
       params: t.Object({
