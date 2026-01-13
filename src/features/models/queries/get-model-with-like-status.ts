@@ -1,4 +1,3 @@
-import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import type { HasLiked } from "@/features/models/types";
 import { tryCatch } from "@/utils/try-catch";
@@ -9,26 +8,22 @@ import { tryCatch } from "@/utils/try-catch";
  * Shared across all users.
  * Cache is invalidated on-demand via invalidateModel() when likes change.
  */
-export const getLikesCount = async (slug: string) => {
-  "use cache: remote";
-  cacheTag(`model-${slug}`);
-  cacheLife("hours");
+// export const getLikesCount = async (slug: string) => {
+//   const { data, error } = await tryCatch(() =>
+//     db.query.models.findFirst({
+//       where: { slug },
+//       columns: {
+//         likes: true,
+//       },
+//     }),
+//   );
+//   if (!data || error) {
+//     return { slug, likesCount: 0 };
+//   }
+//   const likesCount = data.likes ?? 0;
 
-  const { data, error } = await tryCatch(() =>
-    db.query.models.findFirst({
-      where: { slug },
-      columns: {
-        likes: true,
-      },
-    }),
-  );
-  if (!data || error) {
-    return { slug, likesCount: 0 };
-  }
-  const likesCount = data.likes ?? 0;
-
-  return { slug, likesCount };
-};
+//   return { slug, likesCount };
+// };
 
 /**
  * Fetches whether a user has liked a model.
@@ -40,10 +35,6 @@ export const getHasLikedStatus = async (
   slug: string,
   userId: string,
 ): Promise<HasLiked> => {
-  "use cache: private";
-  cacheTag(`model-${slug}`);
-  cacheLife("hours");
-
   const { data, error } = await tryCatch(() =>
     db.query.likes.findFirst({
       where: {
@@ -54,9 +45,9 @@ export const getHasLikedStatus = async (
   );
 
   if (!data || error) {
-    return { slug, hasLiked: false };
+    return { hasLiked: false };
   }
   const hasLiked = data !== null;
 
-  return { slug, hasLiked };
+  return { hasLiked };
 };

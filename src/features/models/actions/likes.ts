@@ -5,7 +5,7 @@ import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
-import getUser from "@/features/auth/queries/get-user";
+import { getUser } from "@/features/auth/queries/get-user";
 import type { Maybe } from "@/types";
 import { invalidateModel } from "@/utils/cache-invalidation";
 import {
@@ -26,7 +26,7 @@ const likeSchema = object({
 const toggleLike = async (
   _prevState: Maybe<ActionState>,
   formData: FormData,
-): Promise<ActionState> => {
+): Promise<ActionState<{ likesCount: number }>> => {
   try {
     const { slug } = parse(likeSchema, Object.fromEntries(formData.entries()));
     const user = await getUser();
@@ -72,7 +72,22 @@ const toggleLike = async (
             .where(eq(models.slug, slug));
         }
 
-        return toActionState("Like toggled successfully", "SUCCESS");
+        // Fetch the updated likes count
+        const updatedModel = await tx.query.models.findFirst({
+          where: { slug },
+          columns: { likes: true },
+        });
+
+        const newLikesCount = updatedModel?.likes ?? 0;
+
+        return toActionState(
+          "Like toggled successfully",
+          "SUCCESS",
+          undefined,
+          {
+            likesCount: newLikesCount,
+          },
+        );
       });
     });
 

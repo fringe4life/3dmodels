@@ -30,6 +30,7 @@ export const auth = betterAuth({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
       // redirectURI: "http://localhost:3000/api/auth/callback/github",
+      redirectURI: "https://3dmodels-ecru.vercel.app/api/auth/callback/github",
     },
   },
   secret: env.AUTH_SECRET,

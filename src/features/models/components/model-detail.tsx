@@ -9,6 +9,7 @@ const ModelDetail = ({
   categorySlug,
   description,
   dateAdded,
+  children,
 }: ModelDetailProps) => (
   <ViewTransition name={`model-${slug}`}>
     <div className="corner-squircle mx-auto max-w-6xl self-center rounded-lg px-4 py-8">
@@ -25,8 +26,8 @@ const ModelDetail = ({
 
         {/* Content Section - Static with Dynamic Like Status */}
         <section className="grid content-center">
-          {/* Dynamic Like Status */}
-          {/* <HeartButtonServer slug={slug} toggleAction={toggleLike} /> */}
+          {/* Dynamic Like Status - passed as children */}
+          {children}
           <h1 className="mb-6 font-bold text-4xl">{name}</h1>
 
           <Pill className="mb-6 w-fit">{categorySlug}</Pill>

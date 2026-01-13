@@ -12,6 +12,7 @@ export const getModelBySlugApi = async (slug: string): Promise<ModelDetail> => {
         image: true,
         categorySlug: true,
         dateAdded: true,
+        likes: true,
       },
     }),
   );

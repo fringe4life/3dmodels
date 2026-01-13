@@ -1,7 +1,7 @@
+import "server-only";
 import { object, parse, pipe, string, url } from "valibot";
 
 const envSchema = object({
-  NEXT_PUBLIC_SITE_URL: pipe(string(), url()),
   GITHUB_CLIENT_SECRET: string(),
   GITHUB_CLIENT_ID: string(),
   AUTH_SECRET: string(),

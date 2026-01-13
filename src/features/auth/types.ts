@@ -2,17 +2,25 @@ import type { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
 
 export type ServerSession = typeof auth.$Infer.Session;
-export type ServerUser = ServerSession["user"];
+export type User = ServerSession["user"];
 
 export type HasAuthChildren = (
-  user: Maybe<ServerUser>,
+  user: Maybe<User>,
   isAuthenticated: boolean,
 ) => React.ReactNode;
 
 export interface AuthButtonsProps {
-  user: Maybe<Pick<Partial<ServerUser>, "name" | "image">>;
+  user: Maybe<Pick<Partial<User>, "name" | "image">>;
 }
 
 export interface SignUpData {
-  user: Pick<ServerUser, "id" | "email" | "name">;
+  user: Pick<User, "id" | "email" | "name">;
+}
+
+export interface UserVerifiable {
+  userId: string;
+}
+
+export interface IsOwner {
+  isOwner: boolean;
 }

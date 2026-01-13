@@ -9,7 +9,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.10-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.12-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.11-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.0.8-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
@@ -19,7 +19,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript 5.9.3 with React 19.2.3
 - **Styling**: Tailwind CSS v4.1.18
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
-- **Authentication**: Better Auth 1.4.10 with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
+- **Authentication**: Better Auth 1.4.12 with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
 - **Search Params**: nuqs 2.8.6 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.11 with Ultracite 7.0.8 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
@@ -38,7 +38,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
-**Note**: Like/dislike functionality and like count display are temporarily disabled while refactoring the codebase to support View Transitions.
+**Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
 
 
 ## 📁 Project Structure
@@ -119,9 +119,10 @@ src/
 │   │   ├── actions/              # Server actions
 │   │   │   └── likes.ts
 │   │   ├── components/           # Model-specific components
-│   │   │   ├── heart-button/      # Heart button component group (currently disabled)
-│   │   │   │   ├── heart-button-server.tsx
-│   │   │   │   ├── heart-button-client.tsx
+│   │   │   ├── heart-button/      # Heart button component group
+│   │   │   │   ├── heart-button-content.tsx  # Unified client component with form action and optimistic updates
+│   │   │   │   ├── heart-button-server.tsx   # Server component for detail pages
+│   │   │   │   ├── heart-button-wrapper.tsx  # Client wrapper with Suspense for promise-based like status
 │   │   │   │   └── heart-button-skeleton.tsx
 │   │   │   ├── model-card.tsx
 │   │   │   ├── model-detail.tsx
@@ -132,12 +133,14 @@ src/
 │   │   │   ├── models-view.tsx # Shared component for search results and category pages
 │   │   ├── constants.ts           # Model categories, filters, display metadata, and error guidance
 │   │   ├── dal/                   # Data access layer for models
-│   │   │   ├── get-models.ts
-│   │   │   └── search-models.ts   # Unified search function (handles search with optional query, category filtering, and listing)
+│   │   │   ├── get-models.ts      # Server function that adds hasLikedPromise to models
+│   │   │   ├── search-models.ts   # Unified search function (handles search with optional query, category filtering, and listing)
+│   │   │   └── search-models-api.ts  # API-specific search function (avoids cache components)
 │   │   ├── queries/               # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
-│   │   │   ├── get-model-with-like-status.ts  # Split into getLikesCount & getHasLikedStatus
+│   │   │   ├── get-model-by-slug-api.ts  # API-specific query (avoids cache components)
+│   │   │   ├── get-model-with-like-status.ts  # getHasLikedStatus for user-specific like status
 │   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax, optional search/category)
 │   │   │   └── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
 │   │   ├── search-params.ts       # Type-safe search params for models
@@ -179,8 +182,10 @@ src/
 │   ├── drop-tables.ts           # Drop all tables script
 │   └── index.ts                 # Database connection
 ├── lib/                         # Utility libraries
+│   ├── api.ts                   # ElysiaJS app instance
 │   ├── auth.ts                  # Better Auth configuration
 │   ├── auth-client.ts           # Better Auth client instance
+│   ├── client.ts                # ElysiaJS Eden client (treaty)
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
 │   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps, NavLinkProps, GenericComponentProps, FieldErrorProps, UnsuccessfulStateProps, etc.)
@@ -356,10 +361,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output
 - **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), max for static categories (component-level caching)
 - **Query Functions**: Unified `getModels()` function uses `searchModels()` which handles search (with optional query), category filtering, and listing. The function uses helper functions `getModelsList` and `getModelsCount` which support optional search and category parameters
-- **Like Status**: Split into two functions:
-  - `getLikesCount`: Uses `"use cache: remote"` for shared likes count (works after `connection()`)
-  - `getHasLikedStatus`: Uses `"use cache: private"` for user-specific like status (cached on device)
+- **Like Status**: `getHasLikedStatus` uses `"use cache: private"` for user-specific like status (cached on device)
+- **Model Lists**: `get-models.ts` adds `hasLikedPromise` to each model for client-side unwrapping
 - **Invalidation**: Centralized utilities in `utils/cache-invalidation.ts` with on-demand invalidation via `invalidateModel()`
+- **Optimistic Updates**: Heart button uses `useOptimistic` for immediate UI feedback with server state synchronization via form actions
 
 ## 🎨 Styling & Components
 
@@ -379,8 +384,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-view` - Shared component for displaying search results and category pages (renamed from `ResultsContent`)
 - `features/models/components/models-content` - Client component that unwraps models promise with ViewTransition support
 - `features/pagination/components/pagination` - Reusable pagination component with nuqs integration and ViewTransition support
-- `features/models/components/heart-button/heart-button-server` - Server component for like/unlike (fetches auth & like status) - **Currently disabled**
-- `features/models/components/heart-button/heart-button-client` - Client component for like interactions - **Currently disabled**
+- `features/models/components/heart-button/heart-button-content` - Unified client component with form action, optimistic updates, and discriminated union for promise/boolean like status
+- `features/models/components/heart-button/heart-button-server` - Server component for detail pages (resolves like status server-side)
+- `features/models/components/heart-button/heart-button-wrapper` - Client wrapper with Suspense for promise-based like status (used in model cards)
 - `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
 - `components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
