@@ -1,10 +1,13 @@
 import type { LIMITS } from "@/features/pagination/constants";
 import type { List, Maybe } from "@/types";
 
-export interface PaginationMetadata {
+export interface Page {
+  page: number;
+}
+
+export interface PaginationMetadata extends Page {
   count: number;
   hasNextPage: boolean;
-  page: number;
 }
 
 export interface ListObject<T> {
@@ -41,8 +44,7 @@ export interface RawPaginatedResult<T> extends ListObject<T> {
 
 export type LimitItem = (typeof LIMITS)[number];
 
-export interface PaginationType {
-  page: number;
+export interface PaginationType extends Page {
   limit: LimitItem;
 }
 
@@ -51,3 +53,8 @@ interface PaginationMetadataObject {
 }
 
 export interface PaginationProps extends PaginationMetadataObject {}
+
+export interface PaginationOffsetTransitionProps<T extends Page> {
+  children: React.ReactNode;
+  metadata: T;
+}

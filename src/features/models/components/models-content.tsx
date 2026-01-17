@@ -1,7 +1,8 @@
 "use client";
 
-import { use, ViewTransition } from "react";
+import { use } from "react";
 import { Pagination } from "@/features/pagination/components/pagination";
+import { PaginationOffsetTransition } from "@/features/pagination/components/pagination-offset-transition";
 import type { ModelsContentProps } from "../types";
 import { ModelsGrid } from "./models-grid";
 import { ModelsNotFound } from "./models-not-found";
@@ -22,24 +23,12 @@ const ModelsContent = ({ modelsPromise, displayTitle }: ModelsContentProps) => {
       );
     case "success":
       return (
-        <ViewTransition
-          enter={{
-            forwards: "enter-right",
-            backwards: "enter-left",
-            default: "auto",
-          }}
-          exit={{
-            forwards: "exit-left",
-            backwards: "exit-right",
-            default: "auto",
-          }}
-          key={`models-page-${result.metadata.page}`}
-        >
+        <PaginationOffsetTransition metadata={result.metadata}>
           <div className="grid auto-rows-min grid-rows-1 content-between gap-y-4">
             <ModelsGrid models={result.items} title={displayTitle} />
             <Pagination metadata={result.metadata} />
           </div>
-        </ViewTransition>
+        </PaginationOffsetTransition>
       );
     default:
       throw new Error("Should not happen") as never;

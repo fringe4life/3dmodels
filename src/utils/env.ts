@@ -1,5 +1,5 @@
 import "server-only";
-import { object, parse, pipe, string, url } from "valibot";
+import { minLength, object, parse, pipe, string, url } from "valibot";
 
 const envSchema = object({
   GITHUB_CLIENT_SECRET: string(),
@@ -7,6 +7,7 @@ const envSchema = object({
   AUTH_SECRET: string(),
   AUTH_DRIZZLE_URL: pipe(string(), url()),
   DATABASE_URL: pipe(string(), url()),
+  REDIS_API_KEY: pipe(string(), minLength(1, "too short")),
 });
 
 export const env = parse(envSchema, process.env);

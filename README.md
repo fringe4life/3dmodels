@@ -4,24 +4,24 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.1.3-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.12-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.14-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.11-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.0.8-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.0.11-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.1.1 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.1.3 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.3
 - **Styling**: Tailwind CSS v4.1.18
 - **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
-- **Authentication**: Better Auth 1.4.12 with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
+- **Authentication**: Better Auth 1.4.14 with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
 - **Search Params**: nuqs 2.8.6 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.11 with Ultracite 7.0.8 rules
+- **Linting & Formatting**: Biome 2.3.11 with Ultracite 7.0.11 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack with view transitions and MCP server
@@ -147,6 +147,8 @@ src/
 │   │   └── types.ts               # Model type definitions
 │   └── pagination/               # Pagination feature
 │       ├── components/           # Pagination components
+│       │   ├── pagination-offset-transition.tsx # View transition helpers for pagination
+│       │   ├── pagination-skeleton.tsx # Pagination skeleton state
 │       │   └── pagination.tsx    # Pagination component with nuqs integration and ViewTransition support
 │       ├── dal/                  # Data access layer for pagination
 │       │   └── paginate-items.ts  # Pagination helper function
@@ -166,15 +168,18 @@ src/
 │   │   ├── unsuccessful-state-list-item.tsx  # List item component for unsuccessful states
 │   │   └── unsuccessful-state.tsx            # Unified component for not-found and error states
 │   ├── pill.tsx                  # Reusable pill component
+│   ├── search-input-skeleton.tsx # Skeleton loader for search input
 │   ├── search-input.tsx          # Search input component with URL state
-│   └── streamable.tsx            # Streaming utilities
+│   ├── streamable.tsx            # Streaming utilities
+│   ├── suspend.tsx               # Suspense helper
+│   └── transition-link.tsx       # View transition link helper
 ├── db/                          # Database configuration
 │   ├── schema/                  # Database schema definitions
 │   │   ├── auth.ts              # Authentication tables
 │   │   ├── likes.ts             # Likes table
 │   │   ├── models.ts            # Models and categories tables
 │   │   ├── relations.ts         # Table relations (Drizzle ORM v1 beta)
-│   │   └── schema.ts            # Schema export for relations
+│   │   └── index.ts             # Schema exports
 │   ├── seed-data/               # Seed data
 │   │   ├── categories.ts
 │   │   └── models.ts
@@ -194,6 +199,7 @@ src/
 │   ├── env.ts                   # Environment variable validation (Valibot)
 │   ├── to-action-state.ts       # Action state utilities for server actions
 │   └── try-catch.ts             # Error handling utilities
+├── global.d.ts                  # Global TypeScript declarations
 └── proxy.ts                     # Next.js proxy middleware
 ```
 
@@ -259,6 +265,9 @@ The project follows a feature-based architecture where related functionality is 
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
    
+   # Redis (for remote cache handler)
+   REDIS_API_KEY="your-redis-connection-string"
+
    # Database
    DATABASE_URL="your-neon-database-connection-string"
    ```
@@ -442,10 +451,11 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run build` - Build for production
 - `bun run build:debug` - Build with debug prerender information
 - `bun run start` - Start production server
-- `bun run lint` - Run Biome linter
-- `bun run lint:fix` - Fix linting issues automatically
+- `bun run lint` - Run Biome linter on `src`
+- `bun run lint:fix` - Fix linting issues with Biome
 - `bun run lint:unsafe` - Fix linting issues including unsafe fixes
 - `bun run format` - Format code with Biome
+- `bun run type` - Run tsgo type checking
 - `bun run typegen` - Generate Next.js routes and run tsgo type checking
 - `bun run db:generate` - Generate Drizzle migrations
 - `bun run db:migrate` - Run Drizzle migrations
@@ -486,6 +496,7 @@ Ensure these are set in your deployment environment:
 - `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
 - `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret
 - `DATABASE_URL`: Your Neon database connection string
+- `REDIS_API_KEY`: Redis connection string for remote cache handler
 
 All variables are validated at startup using Valibot in `src/utils/env.ts`.
 
@@ -510,7 +521,7 @@ All variables are validated at startup - see `src/utils/env.ts` for validation s
 - Cache tags provide granular control over what gets invalidated
 - Automatic cache invalidation on data mutations (e.g., `toggleLike` invalidates model cache)
 - Session cache uses `"use cache: private"` directive with `cacheTag("session")` for responsive auth state
-- Like status split into separate functions: `getLikesCount` (remote cache) and `getHasLikedStatus` (private cache)
+- Like status uses `getHasLikedStatus` with `"use cache: private"` for user-specific cache
 
 ## 🤝 Contributing
 

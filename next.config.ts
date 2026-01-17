@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
     mcpServer: true,
     typedEnv: true,
   },
+  // TODO, drizzle seems to cause a lot of issues, also am quite new to redis
+  // cacheHandlers: {
+  //   default: require.resolve("./cache-handlers/default-handler.ts"),
+  //   remote: require.resolve("./cache-handlers/remote-handler.ts"),
+  // },
 };
 
 export default nextConfig;

@@ -63,7 +63,7 @@ const HeartButtonContent = (
   const isNotLiked = !(optimisticLike || isPending);
 
   return (
-    <form action={formAction} onSubmit={handleSubmit}>
+    <form action={formAction} data-progess={isPending} onSubmit={handleSubmit}>
       <input name="slug" type="hidden" value={slug} />
       <button
         aria-label={
@@ -75,7 +75,7 @@ const HeartButtonContent = (
       >
         <FaHeart
           aria-hidden="true"
-          className={clsx("aspect-square h-5 transition-colors duration-200", {
+          className={clsx("aspect-square h-6 transition-colors duration-200", {
             "text-red-500": isLiked,
             "cursor-progress text-red-500/75": isPending,
             "text-gray-400 not-group-disabled:hover:text-red-500/50":

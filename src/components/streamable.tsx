@@ -1,5 +1,6 @@
-import { Suspense, use } from "react";
+import { use } from "react";
 import { v4 as uuid } from "uuid";
+import { Suspend } from "./suspend";
 
 export type Streamable<T> = T | Promise<T>;
 
@@ -116,8 +117,8 @@ export default function Stream<T>({
   children: (value: T) => React.ReactNode;
 }) {
   return (
-    <Suspense fallback={fallback}>
+    <Suspend fallback={fallback}>
       <UseStreamable value={value}>{children}</UseStreamable>
-    </Suspense>
+    </Suspend>
   );
 }
