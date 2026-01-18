@@ -1,8 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useTransition, ViewTransition } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { useTransition } from "react";
+import {
+  FaSignInAlt,
+  FaSignOutAlt,
+  FaSpinner,
+  FaUserCircle,
+} from "react-icons/fa";
 import { signOutAction } from "@/features/auth/actions/sign-out-action";
 import type { AuthButtonsProps } from "../types";
 
@@ -31,27 +36,42 @@ const AuthButtons = ({ user }: AuthButtonsProps) => {
             <FaUserCircle className="h-full w-full text-gray-700" />
           )}
         </div>
-        <ViewTransition>
-          <button
-            className="cursor-pointer rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent disabled:cursor-progress disabled:opacity-75 disabled:hover:text-gray-700"
-            disabled={isPending}
-            onClick={handleSignOut}
-            type="button"
-          >
-            {isPending ? "Signing out..." : "Sign Out"}
-          </button>
-        </ViewTransition>
+        <button
+          className="hidden cursor-pointer rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent disabled:cursor-progress disabled:opacity-75 disabled:hover:text-gray-700 sm:block"
+          disabled={isPending}
+          onClick={handleSignOut}
+          type="button"
+        >
+          {isPending ? "Signing out..." : "Sign Out"}
+        </button>
+        <button
+          className="group block cursor-pointer rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent disabled:cursor-progress disabled:opacity-75 disabled:hover:text-gray-700 sm:hidden"
+          disabled={isPending}
+          onClick={handleSignOut}
+          type="button"
+        >
+          <FaSignOutAlt className="aspect-square h-5 group-disabled:hidden" />
+          <FaSpinner className="hidden aspect-square h-5 animate-spin group-disabled:block" />
+        </button>
       </div>
     );
   }
 
   return (
-    <Link
-      className="rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent"
-      href="/signin"
-    >
-      Sign In
-    </Link>
+    <>
+      <Link
+        className="hidden rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent sm:inline-block"
+        href="/signin"
+      >
+        Sign In
+      </Link>
+      <Link
+        className="inline-block rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent sm:hidden"
+        href="/signin"
+      >
+        <FaSignInAlt className="aspect-square h-6" />
+      </Link>
+    </>
   );
 };
 

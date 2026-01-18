@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useTransition } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { FieldError } from "@/components/form/field-errors";
 import { FormError } from "@/components/form/form-error";
 import { signInAction } from "@/features/auth/actions/sign-in-action";
@@ -69,10 +70,11 @@ const SignInPage = () => {
             <FormError actionState={state} isPending={isPending} />
 
             <button
-              className="flex w-full justify-center rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
+              className="group flex w-full justify-center gap-x-2 rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
               disabled={isPending}
               type="submit"
             >
+              <FaSpinner className="hidden aspect-square h-5 animate-spin group-disabled:block" />
               {isPending ? "Signing in..." : "Sign in"}
             </button>
           </form>

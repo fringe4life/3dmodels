@@ -54,7 +54,7 @@ const AboutPage = () => (
     <hr className="border-gray-200" />
 
     <section className="py-12">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6">
         <h2 className="sr-only">Key Features</h2>
         <div className="grid gap-6 md:grid-cols-3 md:gap-0">
           <article className="bg-white p-6">

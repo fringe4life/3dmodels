@@ -1,34 +1,16 @@
 import Link from "next/link";
-import { GenericComponent } from "@/components/generic-component";
 import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
-import type { UnsuccessfulStateLink } from "@/types";
 
 const ModelsNotFound = () => {
-  const links: UnsuccessfulStateLink[] = [
-    {
-      label: "Browse all models",
-      href: "/3d-models",
-    },
-  ];
   return (
     <UnsuccessfulState
       action={
-        <GenericComponent
-          as="div"
-          Component={Link}
-          className="flex flex-col gap-3 sm:flex-row sm:justify-center"
-          items={links}
-          renderKey={(_, index) => index}
-          renderProps={(item: UnsuccessfulStateLink) => ({
-            href: item.href,
-            className: `inline-flex items-center justify-center rounded-md px-6 py-3 font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 ${
-              item.variant === "primary"
-                ? "bg-orange-accent text-white hover:bg-orange-accent/90"
-                : "border border-gray-300 bg-white hover:bg-gray-50 hover:text-orange-accent"
-            }`,
-            children: item.label,
-          })}
-        />
+        <Link
+          className="inline-flex items-center justify-center rounded-md bg-orange-accent px-2 py-3 font-medium text-sm text-white transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 sm:px-6"
+          href="/3d-models"
+        >
+          Browse All Models
+        </Link>
       }
       heading="No models found"
       listItems={[

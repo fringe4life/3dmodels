@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const Home = () => (
-  <section className="mx-auto grid h-full max-w-7xl items-center justify-between gap-8 px-6 py-12 md:grid-flow-col">
+  <section className="mx-auto grid h-full max-w-7xl items-center justify-between gap-8 px-2 py-12 sm:px-6 md:grid-flow-col">
     <div className="grid gap-y-6">
       <p className="hidden text-pretty text-gray-600 text-sm uppercase md:block">
         Your go-to platform for 3D printing files

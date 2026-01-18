@@ -6,7 +6,7 @@ import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 // Main component with HasAuthSuspense boundary
 const Navbar = () => (
   <header className="bg-white">
-    <nav className="flex justify-between px-6 py-4 pr-2">
+    <nav className="flex items-center justify-between px-2 py-4 pr-2 sm:px-6">
       <Link href="/">
         <div className="relative cursor-pointer">
           {/* Desktop Logo */}
@@ -33,10 +33,13 @@ const Navbar = () => (
         <li className="text-sm">
           <HasAuthSuspense
             fallback={
-              <div className="h-8 w-20 animate-pulse rounded bg-gray-200" />
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
+                <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
+              </div>
             }
           >
-            {(user, _) => (
+            {(user) => (
               <AuthButtons user={{ name: user?.name, image: user?.image }} />
             )}
           </HasAuthSuspense>
