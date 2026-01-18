@@ -85,18 +85,26 @@
   @apply grid grid-cols-[repeat(auto-fill,minmax(min(100%,250px),1fr))] gap-6;
 }
 
-/* VIEW TRANSITIONS */
-::view-transition-group(*) {
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+/* Model card progress state */
+.model-card:has([data-progress="true"]),
+.model-card:has([data-progress="true"]) * {
+  @apply cursor-progress;
 }
 
+/* VIEW TRANSITIONS */
+
 ::view-transition-old(.exit):only-child {
-  animation-name: --fade-out;
+  --slide-distance: 20px;
+  animation:
+    --fade-out 250ms,
+    --slide-out 250ms;
 }
 
 ::view-transition-new(.enter):only-child {
-  animation-name: --fade-in;
+  --slide-distance: -20px;
+  animation:
+    --fade-in 250ms,
+    --slide-in 250ms;
 }
 
 ::view-transition-old(.exit-left) {

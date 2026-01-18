@@ -63,7 +63,7 @@ const HeartButtonContent = (
   const isNotLiked = !(optimisticLike || isPending);
 
   return (
-    <form action={formAction} data-progess={isPending} onSubmit={handleSubmit}>
+    <form action={formAction} data-progress={isPending} onSubmit={handleSubmit}>
       <input name="slug" type="hidden" value={slug} />
       <button
         aria-label={
