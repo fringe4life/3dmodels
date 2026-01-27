@@ -4,27 +4,27 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.1.3-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19.2.3-61DAFB?logo=react)
+![Next.js](https://img.shields.io/badge/Next.js-16.1.5-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
-![Drizzle ORM](https://img.shields.io/badge/Drizzle-1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.14-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.3.11-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.0.11-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-beta-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.3.12-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.1.1-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.1.3 with App Router, Cache Components, and PPR (Partial Prerendering)
-- **Language**: TypeScript 5.9.3 with React 19.2.3
+- **Framework**: Next.js 16.1.5 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Language**: TypeScript 5.9.3 with React 19.2.4
 - **Styling**: Tailwind CSS v4.1.18
-- **Database**: Neon (PostgreSQL) with Drizzle ORM v1 (Beta)
-- **Authentication**: Better Auth 1.4.14 with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
+- **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
+- **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
 - **Search Params**: nuqs 2.8.6 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.11 with Ultracite 7.0.11 rules
+- **Linting & Formatting**: Biome 2.3.12 with Ultracite 7.1.1 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
-- **Build Tool**: Turbopack with view transitions and MCP server
+- **Build Tool**: Webpack (Turbopack disabled for Bun compatibility), with view transitions and MCP server
 - **Validation**: Valibot 1.2.0 for schema validation
 
 ## 🚀 Features
@@ -420,6 +420,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/not-found/unsuccessful-state-list-item` - List item component for unsuccessful state suggestions
 - `components/pill` - Small label component
 - `components/streamable` - Streaming utilities for progressive rendering
+- `components/suspend` - Suspense helper component
 - `components/generic-component` - Generic wrapper for collections
 
 #### Authentication & Data Access
@@ -444,12 +445,12 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 ### Available Scripts
 
-- `bun run dev` - Start development server with Turbopack
-- `bun run dev:inspect` - Start development server with Node.js inspector
+- `bun run dev` - Start development server with webpack (Turbopack disabled)
+- `bun run dev:inspect` - Start development server with Node.js inspector and webpack
 - `bun run next:upgrade` - Upgrade Next.js to latest version
 - `bun run next:analyze` - Analyze Next.js bundle
-- `bun run build` - Build for production
-- `bun run build:debug` - Build with debug prerender information
+- `bun run build` - Build for production with webpack
+- `bun run build:debug` - Build with debug prerender information and webpack
 - `bun run start` - Start production server
 - `bun run lint` - Run Biome linter on `src`
 - `bun run lint:fix` - Fix linting issues with Biome
@@ -486,6 +487,7 @@ The project follows a consistent coding style with:
 1. Connect your repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
+4. If you use Bun on Vercel, ensure the runtime is >= 1.3.7 for Cache Components (1.3.6 fails on builds). Otherwise use the Node.js build pipeline.
 
 ### Environment Variables
 

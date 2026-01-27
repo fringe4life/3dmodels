@@ -19,7 +19,10 @@ export const getModels = async (
   const { query } = modelsSearchParamsCache.parse(search);
   const pagination = searchParamsCache.parse(search);
 
-  const result = await searchModels(query ?? undefined, pagination, category);
+  const [result, user] = await Promise.all([
+    searchModels(query ?? undefined, pagination, category),
+    getUser(),
+  ]);
   const paginatedResult = transformToPaginatedResult(result, pagination);
 
   // if no items, or error, return the result
@@ -30,7 +33,6 @@ export const getModels = async (
   // if items, add hasLikedPromise to each model
 
   // Get user for like status
-  const user = await getUser();
   const userId = user?.id;
 
   // Add hasLikedPromise to each model

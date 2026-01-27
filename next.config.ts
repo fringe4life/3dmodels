@@ -5,17 +5,14 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   cacheComponents: true,
   experimental: {
-    turbopackFileSystemCacheForDev: true,
+    // turbopackFileSystemCacheForDev: true,
     browserDebugInfoInTerminal: true,
     viewTransition: true,
     mcpServer: true,
     typedEnv: true,
+    // seems to make the dev server hang
+    // optimizePackageImports: ["valibot"],
   },
-  // TODO, drizzle seems to cause a lot of issues, also am quite new to redis
-  // cacheHandlers: {
-  //   default: require.resolve("./cache-handlers/default-handler.ts"),
-  //   remote: require.resolve("./cache-handlers/remote-handler.ts"),
-  // },
 };
 
 export default nextConfig;
