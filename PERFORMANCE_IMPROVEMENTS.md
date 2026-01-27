@@ -28,29 +28,14 @@ const user = await getUser();
 
 ---
 
-### 2) Better Auth build workaround (applied)
+### 2) Better Auth + Bun build status (beta)
 
-**Context:** `better-auth/react` ESM build can fail during `next build` with React 19/Next.js.  
-**Issue:** React hook imports (e.g., `useRef`, `useSyncExternalStore`) failing to resolve in ESM builds.  
-**Applied fix:** Alias `better-auth/react` to the CJS build.
+**Status:** `better-auth/minimal` v1.5 beta builds successfully when using Bun with webpack.  
+**Configuration:** `bun --bun run next build --webpack` (and `bun --bun run next dev --webpack` for dev).
 
-**File:** `next.config.ts`
-```ts
-webpack: (config) => {
-  config.resolve.alias = {
-    ...(config.resolve.alias ?? {}),
-    "better-auth/react$": path.resolve(
-      process.cwd(),
-      "node_modules/better-auth/dist/client/react/index.cjs",
-    ),
-  };
-  return config;
-},
-```
-
-References:
-- https://github.com/better-auth/better-auth/issues/2310
-- https://github.com/better-auth/better-auth/issues/5458
+**Notes:**
+- This avoids Turbopack issues in Bun and is stable with Cache Components locally.
+- `vercel.json` now sets `bunVersion: "1.x"`. Vercel manages minor/patch releases, but is still on Bun v1.3.6, which is not compatible with Cache Components; builds still fail there until their runtime is >= 1.3.7 (or the build uses Node.js instead of Bun).
 
 ---
 
@@ -91,5 +76,5 @@ References:
 
 ## Optional next steps
 
-- If the CJS alias workaround becomes unnecessary, remove the `better-auth/react` alias once the ESM build is confirmed stable.
+- Re-test Vercel deploys once Bun >= 1.3.7 is available, or switch the Vercel project to the Node.js build pipeline.
 
