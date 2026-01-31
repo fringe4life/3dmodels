@@ -9,15 +9,15 @@
       }
     ],
     "tasks": {
-      "check": "bun x ultracite check",
-      "fix": "bun x ultracite fix",
-      "doctor": "bun x ultracite doctor"
+      "check": "bun run check",
+      "fix": "bun run fix",
+      "doctor": "bun run doctor"
     }
   },
   "hooks": {
     "afterFileEdit": [
       { "command": "bun run test:affected" },
-      { "command": "bun x ultracite fix" }
+      { "command": "bun run fix" }
     ]
   }
 }

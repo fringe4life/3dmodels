@@ -1,11 +1,10 @@
 import { neonConfig, Pool } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-serverless";
-import ws from "ws";
 import { env } from "@/utils/env";
 import { schema as relationsSchema } from "./schema";
 import { relations } from "./schema/relations";
 
-neonConfig.webSocketConstructor = ws;
+neonConfig.webSocketConstructor = globalThis.WebSocket;
 // Create the Pool client (WebSocket-based for transaction support)
 const pool = new Pool({ connectionString: env.DATABASE_URL });
 

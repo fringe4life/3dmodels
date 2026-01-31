@@ -4,7 +4,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.1.5-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
@@ -15,12 +15,12 @@ A modern web application for browsing and discovering 3D models, built with Next
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.1.5 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.1.6 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 5.9.3 with React 19.2.4
 - **Styling**: Tailwind CSS v4.1.18
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
-- **Search Params**: nuqs 2.8.6 for type-safe URL state management
+- **Search Params**: nuqs 2.8.7 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.3.12 with Ultracite 7.1.1 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
@@ -452,10 +452,6 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run build` - Build for production with webpack
 - `bun run build:debug` - Build with debug prerender information and webpack
 - `bun run start` - Start production server
-- `bun run lint` - Run Biome linter on `src`
-- `bun run lint:fix` - Fix linting issues with Biome
-- `bun run lint:unsafe` - Fix linting issues including unsafe fixes
-- `bun run format` - Format code with Biome
 - `bun run type` - Run tsgo type checking
 - `bun run typegen` - Generate Next.js routes and run tsgo type checking
 - `bun run db:generate` - Generate Drizzle migrations
@@ -464,10 +460,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run db:studio` - Open Drizzle Studio
 - `bun run db:seed` - Seed database with initial data
 - `bun run db:drop` - Drop all tables (development reset)
-- `bun run ultracite` - Run Ultracite linter
-- `bun run ultracite:fix` - Fix Ultracite linting issues
-- `bun run ultracite:check` - Check Ultracite linting rules
-- `bun run ultracite:doctor` - Run Ultracite doctor diagnostics
+- `bun run fix` - Fix linting issues with Ultracite/Biome
+- `bun run check` - Check linting rules with Ultracite/Biome
+- `bun run doctor` - Run Ultracite doctor diagnostics
 - `bun run ultracite:upgrade` - Upgrade Ultracite configuration
 
 ### Code Style
