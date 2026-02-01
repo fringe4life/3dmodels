@@ -1,5 +1,4 @@
 /** biome-ignore-all lint/suspicious/noConsole: seed file for dummy data */
-import "dotenv/config";
 import { count, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { likes, type NewLike } from "@/db/schema/likes";

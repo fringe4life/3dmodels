@@ -1,6 +1,5 @@
 /** biome-ignore-all lint/suspicious/noConsole: a command to clear db */
 import { neon } from "@neondatabase/serverless";
-import "dotenv/config";
 import { env } from "@/utils/env";
 
 const sql = neon(env.DATABASE_URL);
