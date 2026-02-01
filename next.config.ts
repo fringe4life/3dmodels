@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     mcpServer: true,
     typedEnv: true,
     // seems to make the dev server hang
-    // optimizePackageImports: ["valibot"],
+    optimizePackageImports: isDev ? undefined : ["valibot"],
   },
 };
 

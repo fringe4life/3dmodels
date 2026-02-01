@@ -259,6 +259,7 @@ The project follows a feature-based architecture where related functionality is 
    
    # Better Auth Configuration
    AUTH_SECRET="your-secret-key-here-change-this-in-production"
+   BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"  # Same as AUTH_SECRET, required for cookie cache
    AUTH_DRIZZLE_URL="http://localhost:3000"  # Better Auth base URL (falls back to NEXT_PUBLIC_SITE_URL)
    
    # GitHub OAuth
@@ -445,7 +446,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 ### Available Scripts
 
-- `bun run dev` - Start development server with webpack (Turbopack disabled)
+- `bun run dev` - Start development server (Turbopack)
 - `bun run dev:inspect` - Start development server with Node.js inspector and webpack
 - `bun run next:upgrade` - Upgrade Next.js to latest version
 - `bun run next:analyze` - Analyze Next.js bundle
@@ -488,7 +489,7 @@ The project follows a consistent coding style with:
 
 Ensure these are set in your deployment environment:
 - `NEXT_PUBLIC_SITE_URL`: Your public application URL (e.g., `https://yourdomain.com`)
-- `AUTH_SECRET`: A strong, random secret key for Better Auth (generate with `openssl rand -base64 32`)
+- `BETTER_AUTH_SECRET`: Same value as `AUTH_SECRET` (required for cookie cache feature)
 - `AUTH_DRIZZLE_URL`: Better Auth base URL (falls back to `NEXT_PUBLIC_SITE_URL` if not set)
 - `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
 - `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret

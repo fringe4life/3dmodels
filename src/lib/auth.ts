@@ -33,6 +33,6 @@ export const auth = betterAuth({
       redirectURI: "https://3dmodels-ecru.vercel.app/api/auth/callback/github",
     },
   },
-  secret: env.AUTH_SECRET,
+  secret: env.BETTER_AUTH_SECRET,
   plugins: [nextCookies()], // Must be last plugin
 });
