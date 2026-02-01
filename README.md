@@ -190,7 +190,6 @@ src/
 │   ├── api.ts                   # ElysiaJS app instance
 │   ├── auth.ts                  # Better Auth configuration
 │   ├── auth-client.ts           # Better Auth client instance
-│   ├── client.ts                # ElysiaJS Eden client (treaty)
 │   └── date.ts                  # Date utilities
 ├── types/                       # Type definitions
 │   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps, NavLinkProps, GenericComponentProps, FieldErrorProps, UnsuccessfulStateProps, etc.)

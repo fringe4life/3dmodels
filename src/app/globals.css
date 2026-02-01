@@ -16,6 +16,8 @@
   --category-width-tablet: 140px;
 
   --category-width-mobile: calc(100vw - 10px);
+
+  --blur-2xs: 2px;
 }
 
 /* BASE STYLES */
@@ -85,6 +87,14 @@
   @apply grid grid-cols-[repeat(auto-fill,minmax(min(100%,250px),1fr))] gap-6;
 }
 
+@utility skeleton-enter {
+  @apply transition-[opacity,filter,transform] duration-250 blur-none opacity-100;
+
+  @starting-style {
+    @apply blur-2xs opacity-0 scale-75;
+  }
+}
+
 /* Model card progress state */
 .model-card:has([data-progress="true"]),
 .model-card:has([data-progress="true"]) * {
@@ -139,23 +149,22 @@
 /* Base composable animations */
 @keyframes --fade-in {
   from {
-    opacity: 0;
-    /* add small blur so users dont get sore eyes tracking movement */
     filter: blur(2px);
+    opacity: 0;
   }
   to {
-    opacity: 1;
     filter: blur(0px);
+    opacity: 1;
   }
 }
 
 @keyframes --fade-out {
   from {
-    opacity: 1;
-    /* add small blur so users dont get sore eyes tracking movement */
     filter: blur(2px);
+    opacity: 1;
   }
   to {
+    filter: blur(0px);
     opacity: 0;
   }
 }

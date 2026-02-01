@@ -1,5 +1,5 @@
 const ModelCardSkeleton = () => (
-  <article className="corner-squircle animate-pulse rounded-lg bg-white shadow-md">
+  <article className="corner-squircle skeleton-enter animate-pulse rounded-lg bg-white shadow-md">
     {/* Image skeleton - aspect-square matching the actual card */}
     <div className="aspect-square rounded-t-lg bg-gray-200" />
 
