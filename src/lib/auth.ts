@@ -10,9 +10,6 @@ export const auth = betterAuth({
     provider: "pg",
     schema,
   }),
-  // experimental: {
-  //   joins: true,
-  // },
   session: {
     cookieCache: {
       enabled: true,

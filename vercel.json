@@ -3,5 +3,6 @@
   "git": {
     "deploymentEnabled": false
   },
-  "bunVersion": "1.x"
+  "bunVersion": "1.x",
+  "buildCommand": "bun --bun run next build"
 }

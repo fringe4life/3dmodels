@@ -88,10 +88,10 @@
 }
 
 @utility skeleton-enter {
-  @apply transition-[opacity,filter,transform] duration-250 blur-none opacity-100;
+  @apply transition-[opacity,filter,transform] duration-250 transition-discrete;
 
   @starting-style {
-    @apply blur-2xs opacity-0 scale-75;
+    @apply blur-2xs scale-20! bg-green-200!;
   }
 }
 

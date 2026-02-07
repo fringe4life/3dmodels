@@ -10,8 +10,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-beta-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.3.12-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.1.1-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+![Biome](https://img.shields.io/badge/Biome-2.3.13-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.1.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
@@ -19,12 +19,12 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript 5.9.3 with React 19.2.4
 - **Styling**: Tailwind CSS v4.1.18
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
-- **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend (experimental joins disabled for Drizzle v1 compatibility)
-- **Search Params**: nuqs 2.8.7 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.12 with Ultracite 7.1.1 rules
+- **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend
+- **Search Params**: nuqs 2.8.8 for type-safe URL state management
+- **Linting & Formatting**: Biome 2.3.13 with Ultracite 7.1.4 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
-- **Build Tool**: Webpack (Turbopack disabled for Bun compatibility), with view transitions and MCP server
+- **Build Tool**: Turbopack for dev and build, with view transitions and MCP server
 - **Validation**: Valibot 1.2.0 for schema validation
 
 ## 🚀 Features
@@ -446,14 +446,14 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ### Available Scripts
 
 - `bun run dev` - Start development server (Turbopack)
-- `bun run dev:inspect` - Start development server with Node.js inspector and webpack
+- `bun run dev:inspect` - Start development server with Node.js inspector
 - `bun run next:upgrade` - Upgrade Next.js to latest version
-- `bun run next:analyze` - Analyze Next.js bundle
-- `bun run build` - Build for production with webpack
-- `bun run build:debug` - Build with debug prerender information and webpack
+- `bun run next:analyze` - Analyze Next.js bundle (experimental-analyze)
+- `bun run build` - Build for production (Turbopack)
+- `bun run build:debug` - Build with debug prerender information
 - `bun run start` - Start production server
 - `bun run type` - Run tsgo type checking
-- `bun run typegen` - Generate Next.js routes and run tsgo type checking
+- `bun run typegen` - Generate Next.js routes and run tsgo (noEmit)
 - `bun run db:generate` - Generate Drizzle migrations
 - `bun run db:migrate` - Run Drizzle migrations
 - `bun run db:push` - Push schema directly to database
@@ -482,7 +482,7 @@ The project follows a consistent coding style with:
 1. Connect your repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
-4. If you use Bun on Vercel, ensure the runtime is >= 1.3.7 for Cache Components (1.3.6 fails on builds). Otherwise use the Node.js build pipeline.
+4. If you use Bun on Vercel, set `bunVersion: "1.x"` and `buildCommand: "bun --bun run next build"` in `vercel.json`. Ensure Bun runtime is >= 1.3.7 for Cache Components.
 
 ### Environment Variables
 

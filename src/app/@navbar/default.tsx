@@ -30,13 +30,16 @@ const Navbar = () => (
       <ul className="flex items-center gap-5">
         <NavLink href="/3d-models">3D Models</NavLink>
         <NavLink href="/about">About</NavLink>
-        <li className="text-sm">
+        <li className="flex items-center justify-center text-sm">
           <HasAuthSuspense
             fallback={
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
-                <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
-              </div>
+              <>
+                <div className="hidden h-8 w-20 animate-pulse rounded bg-gray-200 sm:block" />
+                <div className="flex items-center gap-2 sm:hidden">
+                  <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
+                  <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
+                </div>
+              </>
             }
           >
             {(user) => (
