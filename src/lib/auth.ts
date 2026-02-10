@@ -1,10 +1,10 @@
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
+import { openAPI } from "better-auth/plugins";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
 import { env } from "@/utils/env";
-
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -17,7 +17,7 @@ export const auth = betterAuth({
     },
   },
   baseURL: process.env.NEXT_PUBLIC_SITE_URL,
-  basePath: "/auth",
+  basePath: "/api/auth",
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
@@ -31,5 +31,5 @@ export const auth = betterAuth({
     },
   },
   secret: env.BETTER_AUTH_SECRET,
-  plugins: [nextCookies()], // Must be last plugin
+  plugins: [openAPI(), nextCookies()], // Must be last plugin
 });

@@ -11,7 +11,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-beta-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.3.13-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.1.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.1.5-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
@@ -21,7 +21,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend
 - **Search Params**: nuqs 2.8.8 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.3.13 with Ultracite 7.1.4 rules
+- **Linting & Formatting**: Biome 2.3.13 with Ultracite 7.1.5 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build, with view transitions and MCP server
@@ -83,6 +83,7 @@ src/
 │   │       └── page.tsx
 │   ├── api/                      # API routes
 │   │   └── [[...slugs]]/
+│   │       ├── better-auth-openapi.ts  # Better Auth OpenAPI spec for Elysia docs
 │   │       └── route.ts          # ElysiaJS API handler (Better Auth mounted at /auth)
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
@@ -272,7 +273,7 @@ The project follows a feature-based architecture where related functionality is 
    DATABASE_URL="your-neon-database-connection-string"
    ```
    
-   **Note**: All environment variables are validated at application startup using Valibot in `src/utils/env.ts`. If any required variable is missing or invalid, the application will fail to start with a clear error message. See `AUTH_SETUP.md` for detailed setup instructions.
+   **Note**: All environment variables are validated at application startup using Valibot in `src/utils/env.ts`. If any required variable is missing or invalid, the application will fail to start with a clear error message. See `docs/AUTH_SETUP.md` for detailed setup instructions.
 
 4. **Database Setup**
    ```bash
@@ -352,7 +353,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
 - **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions like `search-models.ts` in the `dal/` directory. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
-- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are now handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler mounted at `/auth` (basePath set to `/auth` since ElysiaJS app has prefix `/api`). To avoid Cache Components interfering with API handlers, Elysia now calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
+- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler mounted at `/auth`; Better Auth routes are included in the OpenAPI documentation via `better-auth-openapi.ts`. To avoid Cache Components interfering with API handlers, Elysia calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:

@@ -1,0 +1,16 @@
+.cursor
+.husky
+.vscode
+
+
+update-readme.md
+git-commit-msg.md
+env.example
+lint-staged.config.ts
+execute-drop.sql
+drop-tables.sql
+docs
+drizzle
+src/db/seed-data
+src/db/drop-tables.ts
+src/db/seed.ts

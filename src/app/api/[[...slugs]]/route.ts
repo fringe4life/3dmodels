@@ -12,9 +12,17 @@ import { transformToPaginatedResult } from "@/features/pagination/utils/to-pagin
 import { app } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { tryCatch } from "@/utils/try-catch";
+import { OpenAPI } from "./better-auth-openapi";
 
 app
-  .use(openapi())
+  .use(
+    openapi({
+      documentation: {
+        components: await OpenAPI.components,
+        paths: await OpenAPI.getPaths(),
+      },
+    }),
+  )
   .use(
     cors({
       origin: process.env.NEXT_PUBLIC_SITE_URL,
@@ -23,7 +31,7 @@ app
       allowedHeaders: ["Content-Type", "Authorization"],
     }),
   )
-  .mount("/auth", auth.handler)
+  .mount(auth.handler)
   .macro({
     auth: {
       async resolve({ status, request: { headers } }) {
