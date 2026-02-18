@@ -1,11 +1,12 @@
 import { ViewTransition } from "react";
 import { GenericComponent } from "@/components/generic-component";
 import { ModelCard } from "@/features/models/components/model-card";
+import { sanitiseName } from "@/utils/sanitise-name";
 import type { ModelsGridProps } from "../types";
 
 const ModelsGrid = ({ title, models }: ModelsGridProps) => (
   <div className="container mx-auto py-8">
-    <ViewTransition name={`title-${title}`}>
+    <ViewTransition name={`title-${sanitiseName(title)}`}>
       <h1 className="mb-8 font-bold text-3xl">{title}</h1>
     </ViewTransition>
     <GenericComponent
