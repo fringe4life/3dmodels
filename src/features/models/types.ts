@@ -17,8 +17,8 @@ export interface HeartButtonWrapperProps
     HasLikedPromise {}
 
 export interface ModelsGridProps {
-  title: string;
   models: ModelWithLikeStatus[];
+  title: string;
 }
 export interface ModelCardProps {
   model: ModelWithLikeStatus;
@@ -31,8 +31,8 @@ export type HeartButtonContentProps =
   | { hasLikedPromise: Promise<HasLiked> };
 
 export interface HeartButtonAdditionalProps {
-  slug: string;
   likes: number;
+  slug: string;
   toggleAction: typeof toggleLike;
 }
 
@@ -43,8 +43,8 @@ export type ModelsViewProps = SearchParamsProps & {
 };
 
 export interface ModelsContentProps {
-  modelsPromise: Promise<PaginatedResult<ModelWithLikeStatus>>;
   displayTitle: string;
+  modelsPromise: Promise<PaginatedResult<ModelWithLikeStatus>>;
 }
 
 export type ModelDetailProps = NonNullable<

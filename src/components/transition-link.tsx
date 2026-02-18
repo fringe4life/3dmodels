@@ -27,7 +27,7 @@ const TransitionLink = ({ type, ...props }: TransitionLinkProps) => {
 
 export { TransitionLink };
 interface TransitionLinkProps {
-  type: "forwards" | "backwards";
-  href: string;
   children: React.ReactNode;
+  href: string;
+  type: "forwards" | "backwards";
 }

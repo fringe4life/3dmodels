@@ -23,11 +23,11 @@ export interface UnsuccessfulStateLink {
 }
 
 export interface UnsuccessfulStateProps {
-  heading: string;
-  subheading: string;
   action?: ReactNode;
-  listItems: UnsuccessfulStateListItemProps[];
+  heading: string;
   isError?: boolean;
+  listItems: UnsuccessfulStateListItemProps[];
+  subheading: string;
 }
 
 export interface UnsuccessfulStateListItemProps {
@@ -35,11 +35,11 @@ export interface UnsuccessfulStateListItemProps {
 }
 
 export interface NavLinkProps {
-  href: Route;
-  children: ReactNode;
-  matchStrategy?: "includes" | "endsWith";
   borderPosition?: "bottom" | "left";
+  children: ReactNode;
+  href: Route;
   liClassName?: string;
+  matchStrategy?: "includes" | "endsWith";
 }
 
 export interface GenericComponentProps<
@@ -47,12 +47,12 @@ export interface GenericComponentProps<
   P,
   E extends React.ElementType = "div",
 > {
-  Component: React.ComponentType<P>;
-  items: T[];
-  renderProps: (item: T, index: number) => P;
-  renderKey: (item: T, index: number) => React.Key;
-  className?: string;
   as?: E;
+  Component: React.ComponentType<P>;
+  className?: string;
+  items: T[];
+  renderKey: (item: T, index: number) => React.Key;
+  renderProps: (item: T, index: number) => P;
   wrapperProps?: React.ComponentPropsWithoutRef<E>;
 }
 

@@ -20,17 +20,17 @@ export type PaginatedResult<T> =
   | PaginatedResultSuccess<T>;
 
 export interface PaginatedResultError {
-  type: "error";
   message: string;
+  type: "error";
 }
 
 export interface PaginatedResultEmpty {
-  type: "empty";
   message: string;
+  type: "empty";
 }
 export interface PaginatedResultSuccess<T> extends PaginationMetadataObject {
-  type: "success";
   items: T[];
+  type: "success";
 }
 
 export interface RawPaginationAccess<T> {
