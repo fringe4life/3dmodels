@@ -12,8 +12,11 @@ execute-drop.sql
 drop-tables.sql
 docs
 drizzle
+tests
 src/db/seed-data
 src/db/drop-tables.ts
 src/db/seed.ts
 node_modules
 tsconfig.tsbuildinfo
+README.md
+playwright.config.ts

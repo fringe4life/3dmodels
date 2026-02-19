@@ -15,9 +15,22 @@
 
   --category-width-tablet: 140px;
 
-  --category-width-mobile: calc(100vw - 10px);
-
   --blur-2xs: 2px;
+}
+@media screen and (width <= 420px) {
+  .model-animation {
+    animation-timeline: view();
+    animation-range: entry;
+    animation-fill-mode: forwards;
+    &:nth-child(n + 3):nth-child(even) {
+      --slide-distance: -100px;
+      animation-name: --slide-in, --fade-in;
+    }
+    &:nth-child(n + 3):nth-child(odd) {
+      --slide-distance: 100px;
+      animation-name: --slide-in, --fade-in;
+    }
+  }
 }
 
 .nav-scroll {
@@ -25,13 +38,49 @@
   animation-timeline: scroll();
   animation-range-start: 100px;
   animation-range-end: 200px;
-  transition: border-radius 250ms;
+  transition:
+    border-radius 750ms,
+    translate 250ms ease-out;
+}
+
+.mobile-categories {
+  animation: --categories-animation linear both;
+  animation-timeline: scroll(self inline);
+  animation-range: 0% 100%;
+}
+
+@keyframes --categories-animation {
+  0%,
+  5% {
+    mask-image: linear-gradient(to right, black 95%, transparent 100%);
+  }
+  5%,
+  95% {
+    mask-image: linear-gradient(
+      to left,
+      transparent 0%,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+  }
+  95%,
+  100% {
+    mask-image: linear-gradient(to right, transparent 0%, black 5%);
+  }
+}
+
+@custom-variant supports-scroll-timeline {
+  @supports (animation-timeline: scroll()) {
+    @slot;
+  }
 }
 
 @keyframes --nav-animation {
   to {
     box-shadow: var(--shadow-model-card);
     border-radius: 100vw;
+    translate: 0 8px;
   }
 }
 

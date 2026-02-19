@@ -7,8 +7,8 @@ const ModelsLayout = ({
 }: LayoutProps<"/3d-models">) => (
   <NuqsAdapter>
     <div className="grid min-h-full grid-rows-[min-content_1fr] md:grid-cols-[var(--category-width-tablet)_1fr] md:grid-rows-1 md:gap-x-25">
-      <aside className="relative max-w-(--category-width-mobile) border-gray-200 border-b bg-white md:col-start-1 md:max-w-(--category-max-tablet) md:border-none">
-        <nav className="no-scrollbar mask-r-from-95% md:mask-r-from-100% sticky overflow-x-auto md:fixed md:top-1/2 md:-translate-y-1/2 md:overflow-visible">
+      <aside className="relative max-w-dvw border-gray-200 border-b bg-white md:col-start-1 md:max-w-(--category-max-tablet) md:border-none">
+        <nav className="mobile-categories no-scrollbar not-supports-scroll-timeline:mask-r-from-95% md:mask-r-from-100% sticky overflow-x-auto md:fixed md:top-1/2 md:-translate-y-1/2 md:overflow-visible">
           {categories}
         </nav>
       </aside>

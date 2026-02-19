@@ -8,7 +8,7 @@ const Navbar = () => (
   <header className="nav-scroll sticky top-0 right-0 left-0 z-20 border-gray-400 border-b bg-white/65 backdrop-blur">
     <nav className="flex items-center justify-between px-2 py-4 pr-2 sm:px-6">
       <Link href="/">
-        <div className="relative cursor-pointer">
+        <div className="relative cursor-pointer ps-4">
           {/* Desktop Logo */}
           <img
             alt="PrintForge Logo"

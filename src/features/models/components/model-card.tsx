@@ -13,7 +13,7 @@ const ModelCard = ({
   model: { slug, name, description, categorySlug, likes, hasLikedPromise },
 }: ModelCardProps) => (
   <ViewTransition enter="enter" exit="exit">
-    <article className="model-card corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:-translate-y-0.5 hover:after:opacity-100">
+    <article className="model-card model-animation corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:-translate-y-0.5 hover:after:opacity-100">
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <div className="relative aspect-square rounded-t-[inherit] contain-strict">
           <img
