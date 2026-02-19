@@ -20,6 +20,21 @@
   --blur-2xs: 2px;
 }
 
+.nav-scroll {
+  animation: --nav-animation linear both;
+  animation-timeline: scroll();
+  animation-range-start: 100px;
+  animation-range-end: 200px;
+  transition: border-radius 250ms;
+}
+
+@keyframes --nav-animation {
+  to {
+    box-shadow: var(--shadow-model-card);
+    border-radius: 100vw;
+  }
+}
+
 /* BASE STYLES */
 @layer base {
   html {

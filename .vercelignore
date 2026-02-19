@@ -2,7 +2,7 @@
 .next
 .husky
 .vscode
-
+.qodo
 
 update-readme.md
 git-commit-msg.md
@@ -15,3 +15,5 @@ drizzle
 src/db/seed-data
 src/db/drop-tables.ts
 src/db/seed.ts
+node_modules
+tsconfig.tsbuildinfo

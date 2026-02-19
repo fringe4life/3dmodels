@@ -6,8 +6,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0_beta-3178C6?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.0-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-beta-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.0-60A5FA?logo=biome)
@@ -16,8 +16,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
 - **Framework**: Next.js 16.1.6 with App Router, Cache Components, and PPR (Partial Prerendering)
-- **Language**: TypeScript 5.9.3 with React 19.2.4
-- **Styling**: Tailwind CSS v4.1.18
+- **Language**: TypeScript 6.0 beta with React 19.2.4
+- **Styling**: Tailwind CSS v4.2.0
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend
 - **Search Params**: nuqs 2.8.8 for type-safe URL state management

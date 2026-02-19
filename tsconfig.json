@@ -3,6 +3,7 @@
     "target": "es2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
+    "rootDir": "./src",
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -33,7 +34,8 @@
     "src/**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "src/global.d.ts"
   ],
   "exclude": ["node_modules", ".next"]
 }
