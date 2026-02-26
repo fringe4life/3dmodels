@@ -2,7 +2,7 @@
 
 import { clsx } from "clsx";
 import {
-  type FormEventHandler,
+  type SubmitEventHandler,
   use,
   useActionState,
   useOptimistic,
@@ -27,7 +27,10 @@ const HeartButtonContent = (
       ? use(likeStatus.hasLikedPromise).hasLiked
       : "hasLiked" in likeStatus && likeStatus.hasLiked;
 
-  const [state, formAction] = useActionState(toggleAction, null);
+  const [state, formAction] = useActionState(
+    toggleAction.bind(null, slug),
+    null,
+  );
   const [isPending, startTransition] = useTransition();
   const [optimisticLike, setOptimisticLike] = useOptimistic(hasLiked);
 
@@ -41,7 +44,7 @@ const HeartButtonContent = (
   const session = authClient.useSession();
   const isAuthenticated = !!session.data?.user?.id;
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
     if (!isAuthenticated) {
       e.preventDefault();
       return;
@@ -64,7 +67,6 @@ const HeartButtonContent = (
 
   return (
     <form action={formAction} data-progress={isPending} onSubmit={handleSubmit}>
-      <input name="slug" type="hidden" value={slug} />
       <button
         aria-label={
           isAuthenticated ? "Like this model" : "Sign in to like this model"

@@ -7,7 +7,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0_beta-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.0-38B2AC?logo=tailwind-css)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.1-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-beta-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.0-60A5FA?logo=biome)
@@ -17,7 +17,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 - **Framework**: Next.js 16.1.6 with App Router, Cache Components, and PPR (Partial Prerendering)
 - **Language**: TypeScript 6.0 beta with React 19.2.4
-- **Styling**: Tailwind CSS v4.2.0
+- **Styling**: Tailwind CSS v4.2.1
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend
 - **Search Params**: nuqs 2.8.8 for type-safe URL state management
@@ -453,6 +453,13 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run build` - Build for production (Turbopack)
 - `bun run build:debug` - Build with debug prerender information
 - `bun run start` - Start production server
+- `bun run test` - Run tests (Bun test runner)
+- `bun run test:watch` - Run tests in watch mode
+- `bun run test:unit` - Run unit tests
+- `bun run test:components` - Run component tests
+- `bun run test:e2e` - Run Playwright E2E tests
+- `bun run e2e:open` - Open Playwright UI
+- `bun run e2e:codegen` - Playwright codegen (localhost:3000)
 - `bun run type` - Run tsgo type checking
 - `bun run typegen` - Generate Next.js routes and run tsgo (noEmit)
 - `bun run db:generate` - Generate Drizzle migrations
