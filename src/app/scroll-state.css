@@ -1,0 +1,48 @@
+/* unused css for reference only. */
+
+.mobile-categories {
+  container-type: scroll-state;
+  /* existing overflow-x: auto stays */
+}
+
+/* Pseudo-elements act as the overlay hints.
+   They are descendants of the container, so they can query its scroll state. */
+.mobile-categories::before,
+.mobile-categories::after {
+  position: sticky; /* sticks within the nav's own scrollport */
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: block;
+  flex-shrink: 0;
+  width: 3rem;
+  pointer-events: none;
+  content: "";
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.mobile-categories::before {
+  left: 0;
+  order: -1;
+  margin-right: -3rem; /* zero out layout footprint */
+  background: linear-gradient(to right, white, transparent);
+}
+
+.mobile-categories::after {
+  right: 0;
+  margin-left: -3rem;
+  background: linear-gradient(to left, white, transparent);
+}
+
+@container scroll-state(scrollable: inline-start) {
+  .mobile-categories::before {
+    opacity: 1;
+  }
+}
+
+@container scroll-state(scrollable: inline-end) {
+  .mobile-categories::after {
+    opacity: 1;
+  }
+}

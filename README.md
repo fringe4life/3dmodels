@@ -6,21 +6,21 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-6.0_beta-3178C6?logo=typescript)
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0.0_dev.20260306-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.1-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-beta-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.4.0-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.2.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.5.4-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.4.5-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.2.5-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.1.6 with App Router, Cache Components, and PPR (Partial Prerendering)
+- **Framework**: Next.js 16.1.6 with App Router and Cache Components
 - **Language**: TypeScript 6.0 beta with React 19.2.4
 - **Styling**: Tailwind CSS v4.2.1
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend
-- **Search Params**: nuqs 2.8.8 for type-safe URL state management
+- **Search Params**: nuqs 2.8.9 for type-safe URL state management
 - **Linting & Formatting**: Biome 2.4.0 with Ultracite 7.2.3 rules
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
@@ -88,11 +88,9 @@ src/
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
-├── assets/                       # Static assets
-│   └── images/                   # Image files
-│       ├── hero-image.png
-│       ├── hero-image-square.png
-│       └── placeholder.png
+├── public/                       # Static assets served by Next.js
+│   ├── printforge-logo.svg
+│   └── printforge-logo-icon.svg
 ├── features/  
 │   ├── auth/                     # Authentication feature
 │   │   ├── actions/              # Server actions
@@ -258,19 +256,18 @@ The project follows a feature-based architecture where related functionality is 
    NEXT_PUBLIC_SITE_URL="http://localhost:3000"  # or your production URL
    
    # Better Auth Configuration
-   AUTH_SECRET="your-secret-key-here-change-this-in-production"
-   BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"  # Same as AUTH_SECRET, required for cookie cache
+   BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"  # Main secret used by Better Auth and cookie cache
    AUTH_DRIZZLE_URL="http://localhost:3000"  # Better Auth base URL (falls back to NEXT_PUBLIC_SITE_URL)
    
    # GitHub OAuth
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
    
-   # Redis (for remote cache handler)
-   REDIS_API_KEY="your-redis-connection-string"
-
    # Database
    DATABASE_URL="your-neon-database-connection-string"
+   
+   # Optional: Redis (for remote cache handler, if enabled)
+   # REDIS_API_KEY="your-redis-connection-string"
    ```
    
    **Note**: All environment variables are validated at application startup using Valibot in `src/utils/env.ts`. If any required variable is missing or invalid, the application will fail to start with a clear error message. See `docs/AUTH_SETUP.md` for detailed setup instructions.
@@ -496,12 +493,12 @@ The project follows a consistent coding style with:
 
 Ensure these are set in your deployment environment:
 - `NEXT_PUBLIC_SITE_URL`: Your public application URL (e.g., `https://yourdomain.com`)
-- `BETTER_AUTH_SECRET`: Same value as `AUTH_SECRET` (required for cookie cache feature)
+- `BETTER_AUTH_SECRET`: Main secret used by Better Auth and cookie cache
 - `AUTH_DRIZZLE_URL`: Better Auth base URL (falls back to `NEXT_PUBLIC_SITE_URL` if not set)
 - `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
 - `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret
 - `DATABASE_URL`: Your Neon database connection string
-- `REDIS_API_KEY`: Redis connection string for remote cache handler
+- `REDIS_API_KEY` (optional): Redis connection string for remote cache handler, if used
 
 All variables are validated at startup using Valibot in `src/utils/env.ts`.
 

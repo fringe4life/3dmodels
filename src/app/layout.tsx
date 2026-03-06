@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css" with { type: "module" };
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
+import { TopLink } from "@/components/top-link";
 
 const albertSans = Albert_Sans({
   subsets: ["latin"],
@@ -65,14 +66,19 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
   <html data-scroll-behavior="smooth" lang="en">
+    <head>
+      <link href="/top-link.css" rel="stylesheet" />
+    </head>
     <body
       className={`${albertSans.className} ${montserratAlternates.variable} min-h-dvh`}
+      id="top"
     >
       {navbar}
       <div className="grid h-full min-h-[calc(100dvh-4.625rem)] grid-rows-[1fr_5.35rem] md:gap-y-10">
         <main className="h-full">{children}</main>
         {footer}
       </div>
+      <TopLink />
     </body>
   </html>
 );

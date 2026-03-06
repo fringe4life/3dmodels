@@ -10,12 +10,6 @@ export interface ActionState<T = unknown> {
   timestamp: number;
 }
 
-export const EMPTY_ACTION_STATE: ActionState = {
-  message: "",
-  fieldErrors: {},
-  timestamp: Date.now(),
-};
-
 const fromErrorToActionState = <T = unknown>(
   err: unknown,
   formData?: FormData,

@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import type {
-  UnsuccessfulStateLink,
-  UnsuccessfulStateListItemProps,
-} from "@/types";
+import type { UnsuccessfulStateListItemProps } from "@/types";
 import type { HasLiked } from "./types";
 
 export const MODEL_NOT_FOUND: Metadata = {
@@ -24,15 +21,6 @@ export const MODEL_LIST_ITEMS: UnsuccessfulStateListItemProps[] = [
     text: "Explore categories to find models in your area of interest",
   },
 ];
-
-export const MODEL_LINKS: UnsuccessfulStateLink[] = [
-  {
-    href: "/3d-models",
-    label: "Browse All Models",
-    variant: "primary",
-  },
-];
-
 export const MODELS_ERROR_LIST: UnsuccessfulStateListItemProps[] = [
   {
     text: "Check your internet connection and ensure you're online",

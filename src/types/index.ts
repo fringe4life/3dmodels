@@ -16,11 +16,11 @@ export interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
-export interface UnsuccessfulStateLink {
-  href: string;
-  label: string;
-  variant?: "primary" | "secondary";
-}
+// export interface UnsuccessfulStateLink {
+//   href: string;
+//   label: string;
+//   variant?: "primary" | "secondary";
+// }
 
 export interface UnsuccessfulStateProps {
   action?: ReactNode;

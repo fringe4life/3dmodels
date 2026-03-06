@@ -3,7 +3,7 @@ import type { Model } from "@/db/schema/models";
 
 // Category mapping function is no longer needed since we use slugs directly
 
-export type SeedModel = Omit<Model, "userId" | "likes">;
+type SeedModel = Omit<Model, "userId" | "likes">;
 
 export const modelsData: SeedModel[] = [
   {

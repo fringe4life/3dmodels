@@ -27,7 +27,7 @@ const Navbar = () => (
           />
         </div>
       </Link>
-      <ul className="flex items-center gap-5">
+      <ul className="flex items-center gap-2 sm:gap-5">
         <NavLink href="/3d-models">3D Models</NavLink>
         <NavLink href="/about">About</NavLink>
         <li className="flex items-center justify-center text-sm">

@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import type {
-  UnsuccessfulStateLink,
-  UnsuccessfulStateListItemProps,
-} from "@/types";
+import type { UnsuccessfulStateListItemProps } from "@/types";
 
 export const CATEGORY_NOT_FOUND: Metadata = {
   title: "Category Not Found",
@@ -18,18 +15,5 @@ export const CATEGORY_LIST_ITEMS: UnsuccessfulStateListItemProps[] = [
   },
   {
     text: "Use the search function to find specific 3D models",
-  },
-];
-
-export const CATEGORY_LINKS: UnsuccessfulStateLink[] = [
-  {
-    href: "/3d-models",
-    label: "Browse All Models",
-    variant: "primary",
-  },
-  {
-    href: "/3d-models",
-    label: "View Categories",
-    variant: "secondary",
   },
 ];

@@ -16,6 +16,7 @@ tests
 src/db/seed-data
 src/db/drop-tables.ts
 src/db/seed.ts
+src/app/scroll-state.css
 node_modules
 tsconfig.tsbuildinfo
 README.md
