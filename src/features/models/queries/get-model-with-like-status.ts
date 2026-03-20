@@ -4,6 +4,36 @@ import { tryCatch } from "@/utils/try-catch";
 import { DEFAULT_HAS_LIKED } from "../constants";
 
 /**
+ * One query: which of `slugs` the user has liked (RQB `findMany` + column filters).
+ */
+export const getLikedSlugsForUser = async (
+  userId: string,
+  slugs: string[],
+): Promise<Set<string>> => {
+  if (slugs.length === 0) {
+    return new Set();
+  }
+
+  const { data, error } = await tryCatch(() =>
+    db.query.likes.findMany({
+      where: {
+        userId: { eq: userId },
+        modelSlug: { in: slugs },
+      },
+      columns: {
+        modelSlug: true,
+      },
+    }),
+  );
+
+  if (error || !data) {
+    return new Set();
+  }
+
+  return new Set(data.map((row) => row.modelSlug));
+};
+
+/**
  * Fetches whether a user has liked a model.
  * Uses "use cache: private" to cache on the user's device.
  * User-specific data.

@@ -12,13 +12,13 @@ const ModelDetail = ({
   dateAdded,
   children,
 }: ModelDetailProps) => (
-  <div className="corner-squircle mx-auto max-w-6xl self-center rounded-lg px-4 py-8">
+  <div className="corner-squircle max-inline-6xl mx-auto self-center rounded-lg px-4 py-8">
     <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <figure className="relative aspect-square rounded-lg shadow-lg contain-content">
           <img
             alt={description}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="inline-full block-full absolute inset-0 object-cover"
             height={300}
             src={placeholderImg.src}
             width={300}
@@ -30,12 +30,12 @@ const ModelDetail = ({
         {/* Dynamic Like Status - passed as children */}
         {children}
         <ViewTransition name={`model-title-${sanitiseName(slug)}`}>
-          <h1 className="mb-6 font-bold text-4xl">{name}</h1>
+          <h1 className="mbe-6 font-bold text-4xl">{name}</h1>
         </ViewTransition>
 
-        <Pill className="mb-6 w-fit">{categorySlug}</Pill>
+        <Pill className="mbe-6 w-fit">{categorySlug}</Pill>
 
-        <div className="prose prose-lg mb-6 max-w-none">
+        <div className="prose prose-lg mbe-6 max-w-none">
           <p className="text-gray-700 leading-relaxed">{description}</p>
         </div>
 

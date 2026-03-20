@@ -6,13 +6,18 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   reactCompiler: !isDev,
   cacheComponents: true,
+  allowedDevOrigins: ["127.0.0.1"],
   experimental: {
-    browserDebugInfoInTerminal: true,
     viewTransition: true,
     mcpServer: true,
     typedEnv: true,
     // seems to make the dev server hang
     optimizePackageImports: isDev ? undefined : ["valibot"],
+    cachedNavigations: true,
+    appNewScrollHandler: true,
+  },
+  logging: {
+    browserToTerminal: true,
   },
 };
 

@@ -4,9 +4,12 @@ import type { Maybe } from "@/types";
 export type ServerSession = typeof auth.$Infer.Session;
 export type User = ServerSession["user"];
 
+/** Whether the current request has a signed-in user (from server session). */
+export type IsAuthenticated = boolean;
+
 export type HasAuthChildren = (
   user: Maybe<User>,
-  isAuthenticated: boolean,
+  isAuthenticated: IsAuthenticated,
 ) => React.ReactNode;
 
 export interface AuthButtonsProps {

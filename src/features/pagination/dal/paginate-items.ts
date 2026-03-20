@@ -14,4 +14,5 @@ const paginateItems = async <T>({
   ]);
   return { items, itemsCount };
 };
+
 export { paginateItems };

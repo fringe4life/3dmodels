@@ -46,7 +46,7 @@ const SearchInput = () => {
     <>
       <input
         autoComplete="off"
-        className="absolute inset-0 w-full rounded-full border border-search-input bg-white py-3 pr-5 pl-5 text-sm placeholder-gray-500 focus:border-search-input focus:outline-none focus:ring-0 md:text-base"
+        className="absolute inset-0 w-full rounded-full border border-search-input bg-white px-5 py-3 text-sm placeholder-gray-500 focus:border-search-input focus:outline-none focus:ring-0 md:text-base"
         name="search"
         onChange={handleSearch}
         onKeyDown={handleKeyPress}
@@ -55,7 +55,7 @@ const SearchInput = () => {
         value={query || ""}
       />
       <Activity mode={isPending ? "visible" : "hidden"}>
-        <div className="loading-dots absolute top-1/2 left-95/100 -translate-y-1/2 text-gray-500 text-sm">
+        <div className="loading-dots absolute inset-bs-1/2 inset-s-95/100 -translate-y-1/2 text-gray-500 text-sm">
           .
         </div>
       </Activity>

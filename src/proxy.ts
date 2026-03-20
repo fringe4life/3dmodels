@@ -4,6 +4,7 @@ import { type NextRequest, NextResponse } from "next/server";
 export const proxy = async (request: NextRequest) => {
   const sessionCookie = await getCookieCache(request);
   // THIS IS NOT SECURE! it simply checks for whether there is a cookie
+  // CURRENTLY ONLY MATCHING THE the (auth) ROUTES. I.E. login, signup
   if (sessionCookie) {
     return NextResponse.redirect(new URL("/", request.url));
   }

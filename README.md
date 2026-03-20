@@ -4,28 +4,28 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-6.0.0_dev.20260306-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.1-38B2AC?logo=tailwind-css)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.0-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19.3%20canary-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0.0-3178C6?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.2-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.5.4-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.4.5-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.2.5-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.5.5-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.4.7-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.3.2-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.1.6 with App Router and Cache Components
-- **Language**: TypeScript 6.0 beta with React 19.2.4
-- **Styling**: Tailwind CSS v4.2.1
+- **Framework**: Next.js 16.2.0 with App Router, Cache Components, and typed routes (`typedRoutes`)
+- **Language**: TypeScript 6.0 dev with React 19.3 canary
+- **Styling**: Tailwind CSS v4.2.2 (Biome CSS parser with `tailwindDirectives`)
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
-- **Authentication**: Better Auth (beta) with email/password and GitHub OAuth, cookie caching enabled, using ElysiaJS as API backend
+- **Authentication**: Better Auth with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.4.0 with Ultracite 7.2.3 rules
+- **Linting & Formatting**: Biome 2.4.7 with Ultracite 7.3.2 presets (`ultracite/biome/core`, `react`, `next`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
-- **Build Tool**: Turbopack for dev and build, with view transitions and MCP server
-- **Validation**: Valibot 1.2.0 for schema validation
+- **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, typed env, and cached navigations (`next.config.ts`)
+- **Validation**: Valibot 1.3.1 for schema validation (including `src/utils/env.ts`)
 
 ## 🚀 Features
 
@@ -35,13 +35,15 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16, TypeScript, and Tailwind CSS
+- **Modern Stack**: Built with Next.js 16.2, TypeScript, and Tailwind CSS v4
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
 
 
 ## 📁 Project Structure
+
+Static assets are served from `public/` at the **repository root** (not under `src/`).
 
 ```
 src/
@@ -84,14 +86,11 @@ src/
 │   ├── api/                      # API routes
 │   │   └── [[...slugs]]/
 │   │       ├── better-auth-openapi.ts  # Better Auth OpenAPI spec for Elysia docs
-│   │       └── route.ts          # ElysiaJS API handler (Better Auth mounted at /auth)
+│   │       └── route.ts          # ElysiaJS API handler (Better Auth `basePath` /api/auth)
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
-├── public/                       # Static assets served by Next.js
-│   ├── printforge-logo.svg
-│   └── printforge-logo-icon.svg
-├── features/  
+├── features/
 │   ├── auth/                     # Authentication feature
 │   │   ├── actions/              # Server actions
 │   │   │   ├── sign-in-action.ts
@@ -119,27 +118,27 @@ src/
 │   │   │   └── likes.ts
 │   │   ├── components/           # Model-specific components
 │   │   │   ├── heart-button/      # Heart button component group
-│   │   │   │   ├── heart-button-content.tsx  # Unified client component with form action and optimistic updates
+│   │   │   │   ├── heart-button-client.tsx  # Client heart control: server `isAuthenticated`, form action, optimistic state
 │   │   │   │   ├── heart-button-server.tsx   # Server component for detail pages
-│   │   │   │   ├── heart-button-wrapper.tsx  # Client wrapper with Suspense for promise-based like status
-│   │   │   │   └── heart-button-skeleton.tsx
+│   │   │   │   ├── heart-button-skeleton.tsx
+│   │   │   │   └── heart-like-optimistic.ts  # Reducer + passthrough for unified `useOptimistic` like state
 │   │   │   ├── model-card.tsx
+│   │   │   ├── model-card-skeleton.tsx
 │   │   │   ├── model-detail.tsx
-│   │   │   ├── models-content.tsx # Client component with ViewTransition support
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
 │   │   │   ├── models-view.tsx # Shared component for search results and category pages
 │   │   ├── constants.ts           # Model categories, filters, display metadata, and error guidance
 │   │   ├── dal/                   # Data access layer for models
-│   │   │   ├── get-models.ts      # Server function that adds hasLikedPromise to models
+│   │   │   ├── get-models.ts      # Returns `{ result, isAuthenticated }`; parallel search + user, batched like slugs
 │   │   │   ├── search-models.ts   # Unified search function (handles search with optional query, category filtering, and listing)
 │   │   │   └── search-models-api.ts  # API-specific search function (avoids cache components)
 │   │   ├── queries/               # Model data queries
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-model-by-slug-api.ts  # API-specific query (avoids cache components)
-│   │   │   ├── get-model-with-like-status.ts  # getHasLikedStatus for user-specific like status
+│   │   │   ├── get-model-with-like-status.ts  # getHasLikedStatus (single) + getLikedSlugsForUser (batch)
 │   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax, optional search/category)
 │   │   │   └── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
 │   │   ├── search-params.ts       # Type-safe search params for models
@@ -162,7 +161,8 @@ src/
 │   │   ├── field-errors.tsx      # Field error display component
 │   │   └── form-error.tsx        # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
-│   ├── nav-link.tsx              # Navigation link with active state
+│   ├── nav-link.tsx              # Navigation link with active state (client)
+│   ├── top-link.tsx              # Top-of-page skip / scroll control for layouts
 │   ├── not-found/                # Unsuccessful state components
 │   │   ├── unsuccessful-state-list-item.tsx  # List item component for unsuccessful states
 │   │   └── unsuccessful-state.tsx            # Unified component for not-found and error states
@@ -170,8 +170,7 @@ src/
 │   ├── search-input-skeleton.tsx # Skeleton loader for search input
 │   ├── search-input.tsx          # Search input component with URL state
 │   ├── streamable.tsx            # Streaming utilities
-│   ├── suspend.tsx               # Suspense helper
-│   └── transition-link.tsx       # View transition link helper
+│   └── suspend.tsx               # Suspense helper; optional React `ViewTransition` wrapper
 ├── db/                          # Database configuration
 │   ├── schema/                  # Database schema definitions
 │   │   ├── auth.ts              # Authentication tables
@@ -257,7 +256,7 @@ The project follows a feature-based architecture where related functionality is 
    
    # Better Auth Configuration
    BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"  # Main secret used by Better Auth and cookie cache
-   AUTH_DRIZZLE_URL="http://localhost:3000"  # Better Auth base URL (falls back to NEXT_PUBLIC_SITE_URL)
+   AUTH_DRIZZLE_URL="http://localhost:3000"  # Required public site URL (validated; use same origin as NEXT_PUBLIC_SITE_URL)
    
    # GitHub OAuth
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
@@ -270,7 +269,7 @@ The project follows a feature-based architecture where related functionality is 
    # REDIS_API_KEY="your-redis-connection-string"
    ```
    
-   **Note**: All environment variables are validated at application startup using Valibot in `src/utils/env.ts`. If any required variable is missing or invalid, the application will fail to start with a clear error message. See `docs/AUTH_SETUP.md` for detailed setup instructions.
+   **Note**: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `BETTER_AUTH_SECRET`, `AUTH_DRIZZLE_URL`, and `DATABASE_URL` are validated at startup in `src/utils/env.ts`. Set `NEXT_PUBLIC_SITE_URL` as well; it is used for Better Auth `baseURL` and API CORS but is not part of that schema. See `docs/AUTH_SETUP.md` for detailed setup instructions.
 
 4. **Database Setup**
    ```bash
@@ -350,7 +349,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
 - **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions like `search-models.ts` in the `dal/` directory. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
-- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler mounted at `/auth`; Better Auth routes are included in the OpenAPI documentation via `better-auth-openapi.ts`. To avoid Cache Components interfering with API handlers, Elysia calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
+- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler at Better Auth `basePath` `/api/auth`; Better Auth routes are included in the OpenAPI documentation via `better-auth-openapi.ts`. To avoid Cache Components interfering with API handlers, Elysia calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:
@@ -369,7 +368,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), max for static categories (component-level caching)
 - **Query Functions**: Unified `getModels()` function uses `searchModels()` which handles search (with optional query), category filtering, and listing. The function uses helper functions `getModelsList` and `getModelsCount` which support optional search and category parameters
 - **Like Status**: `getHasLikedStatus` uses `"use cache: private"` for user-specific like status (cached on device)
-- **Model Lists**: `get-models.ts` adds `hasLikedPromise` to each model for client-side unwrapping
+- **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the page
 - **Invalidation**: Centralized utilities in `utils/cache-invalidation.ts` with on-demand invalidation via `invalidateModel()`
 - **Optimistic Updates**: Heart button uses `useOptimistic` for immediate UI feedback with server state synchronization via form actions
 
@@ -385,15 +384,14 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 #### Feature Components
 - `features/models/components/model-card` - Individual model display card
+- `features/models/components/model-card-skeleton` - Loading skeleton for model cards
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
-- `features/models/components/models-view` - Shared component for displaying search results and category pages (renamed from `ResultsContent`)
-- `features/models/components/models-content` - Client component that unwraps models promise with ViewTransition support
+- `features/models/components/models-view` - Shared server shell: `Suspense` + async inner that awaits `getModels`; pagination uses `PaginationOffsetTransition` for directional View Transitions
 - `features/pagination/components/pagination` - Reusable pagination component with nuqs integration and ViewTransition support
-- `features/models/components/heart-button/heart-button-content` - Unified client component with form action, optimistic updates, and discriminated union for promise/boolean like status
+- `features/models/components/heart-button/heart-button-client` - Client component with form action, unified optimistic like/count state, `hasLiked` and `isAuthenticated` from server
 - `features/models/components/heart-button/heart-button-server` - Server component for detail pages (resolves like status server-side)
-- `features/models/components/heart-button/heart-button-wrapper` - Client wrapper with Suspense for promise-based like status (used in model cards)
 - `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
 - `components/search-input` - Model search functionality with URL state
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
@@ -409,6 +407,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
 - `components/nav-link` - Reusable navigation link component with configurable active state matching (`includes` or `endsWith`), border position (`bottom` or `left`), and list item styling (client component)
+- `components/top-link` - Top-of-page control used in layouts
 - `features/auth/components/auth-buttons` - Authentication buttons component with user avatar (GitHub image priority, icon fallback)
 
 #### Shared Components
@@ -454,6 +453,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run test:watch` - Run tests in watch mode
 - `bun run test:unit` - Run unit tests
 - `bun run test:components` - Run component tests
+- `bun run test:integration` - Run integration tests
+- `bunfig.toml` — test preload (`tests/setup/test-preload.ts`) registers Happy DOM globals and stubs `server-only` for component tests
 - `bun run test:e2e` - Run Playwright E2E tests
 - `bun run e2e:open` - Open Playwright UI
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)
@@ -494,15 +495,13 @@ The project follows a consistent coding style with:
 Ensure these are set in your deployment environment:
 - `NEXT_PUBLIC_SITE_URL`: Your public application URL (e.g., `https://yourdomain.com`)
 - `BETTER_AUTH_SECRET`: Main secret used by Better Auth and cookie cache
-- `AUTH_DRIZZLE_URL`: Better Auth base URL (falls back to `NEXT_PUBLIC_SITE_URL` if not set)
+- `AUTH_DRIZZLE_URL`: Public app URL (required; validated with `DATABASE_URL` and auth secrets in `src/utils/env.ts`)
 - `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
 - `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret
 - `DATABASE_URL`: Your Neon database connection string
 - `REDIS_API_KEY` (optional): Redis connection string for remote cache handler, if used
 
-All variables are validated at startup using Valibot in `src/utils/env.ts`.
-
-All variables are validated at startup - see `src/utils/env.ts` for validation schema.
+Required secrets and URLs in `src/utils/env.ts` are validated at startup with Valibot. Also set `NEXT_PUBLIC_SITE_URL` for Better Auth and CORS (see `src/lib/auth.ts` and `src/app/api/[[...slugs]]/route.ts`).
 
 ## 📝 Data Management
 

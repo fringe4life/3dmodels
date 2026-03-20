@@ -1,15 +1,15 @@
 "use client";
 
+import type { ErrorInfo } from "next/error";
 import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import { MODELS_ERROR_LIST } from "@/features/models/constants";
-import type { ErrorProps } from "@/types";
 
-const ModelDetailError = ({ reset }: ErrorProps) => (
+const ModelDetailError = ({ unstable_retry }: ErrorInfo) => (
   <UnsuccessfulState
     action={
       <button
         className="rounded-md bg-orange-accent px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-orange-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
-        onClick={reset}
+        onClick={() => unstable_retry()}
         type="button"
       >
         Try again

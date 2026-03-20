@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const Home = () => (
-  <section className="mx-auto grid h-full max-w-7xl items-center justify-between gap-8 px-2 py-12 sm:px-6 md:grid-flow-col">
+  <section className="block-full max-inline-7xl mx-auto grid items-center justify-between gap-8 px-2 py-12 sm:px-6 md:grid-flow-col">
     <div className="grid gap-y-6">
       <p className="hidden text-pretty text-gray-600 text-sm uppercase md:block">
         Your go-to platform for 3D printing files
@@ -36,7 +36,7 @@ const Home = () => (
     </div>
     <img
       alt="a 3d printed model of the US Capital Building"
-      className="mask-[url(/mask-1.svg)] mask-cover aspect-square w-[350px] justify-self-center rounded-lg"
+      className="mask-[url(/mask-1.svg)] mask-cover inline-[350px] aspect-square justify-self-center rounded-lg"
       height={350}
       src={HeroImage.src}
       width={350}

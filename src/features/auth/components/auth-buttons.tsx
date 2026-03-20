@@ -23,17 +23,17 @@ const AuthButtons = ({ user }: AuthButtonsProps) => {
   if (user?.name) {
     return (
       <div className="flex items-center gap-2">
-        <div className="relative aspect-square h-8 overflow-hidden rounded-full">
+        <div className="block-8 relative aspect-square overflow-hidden rounded-full">
           {user.image ? (
             <img
               alt={user.name}
-              className="h-full w-full object-cover"
+              className="block-full inline-full object-cover"
               height={32}
               src={user.image}
               width={32}
             />
           ) : (
-            <FaUserCircle className="h-full w-full text-gray-700" />
+            <FaUserCircle className="inline-full block-full text-gray-700" />
           )}
         </div>
         <button
@@ -50,8 +50,8 @@ const AuthButtons = ({ user }: AuthButtonsProps) => {
           onClick={handleSignOut}
           type="button"
         >
-          <FaSignOutAlt className="aspect-square h-5 group-disabled:hidden" />
-          <FaSpinner className="hidden aspect-square h-5 animate-spin group-disabled:block" />
+          <FaSignOutAlt className="block-5 aspect-square group-disabled:hidden" />
+          <FaSpinner className="block-5 hidden aspect-square animate-spin group-disabled:block" />
         </button>
       </div>
     );

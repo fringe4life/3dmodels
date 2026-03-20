@@ -8,7 +8,7 @@ import {
   useId,
   ViewTransition,
 } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { LIMITS } from "@/features/pagination/constants";
 import {
   options as PaginationOptions,

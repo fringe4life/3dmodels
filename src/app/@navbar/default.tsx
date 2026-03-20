@@ -5,14 +5,14 @@ import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 
 // Main component with HasAuthSuspense boundary
 const Navbar = () => (
-  <header className="nav-scroll sticky top-0 right-0 left-0 z-20 border-gray-400 border-b bg-white/65 backdrop-blur">
-    <nav className="flex items-center justify-between px-2 py-4 pr-2 sm:px-6">
+  <header className="nav-scroll sticky inset-bs-0 inset-x-0 z-20 border-gray-400 border-b bg-white/65 backdrop-blur">
+    <nav className="flex items-center justify-between px-2 py-4 pe-2 sm:px-6">
       <Link href="/">
         <div className="relative cursor-pointer ps-4">
           {/* Desktop Logo */}
           <img
             alt="PrintForge Logo"
-            className="hidden w-50 md:block"
+            className="inline-50 hidden md:block"
             height={42}
             src="/printforge-logo.svg"
             width={200}
@@ -34,10 +34,10 @@ const Navbar = () => (
           <HasAuthSuspense
             fallback={
               <>
-                <div className="hidden h-8 w-20 animate-pulse rounded bg-gray-200 sm:block" />
+                <div className="block-8 inline-20 hidden animate-pulse rounded bg-gray-200 sm:block" />
                 <div className="flex items-center gap-2 sm:hidden">
-                  <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
-                  <div className="h-8 w-10 animate-pulse rounded bg-gray-200" />
+                  <div className="block-8 inline-10 animate-pulse rounded bg-gray-200" />
+                  <div className="block-8 inline-10 animate-pulse rounded bg-gray-200" />
                 </div>
               </>
             }

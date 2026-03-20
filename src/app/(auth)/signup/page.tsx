@@ -17,11 +17,11 @@ const SignUpPage = () => {
   return (
     <>
       <div>
-        <h2 className="mt-6 text-center font-bold text-3xl text-gray-900 tracking-tight">
+        <h2 className="mbs-6 text-center font-bold text-3xl text-gray-900 tracking-tight">
           Create your account
         </h2>
       </div>
-      <div className="mt-8 space-y-6">
+      <div className="mbs-8 space-y-6">
         <div className="rounded-md bg-white p-6 shadow-md">
           <form
             action={(formData) => {
@@ -40,7 +40,7 @@ const SignUpPage = () => {
               </label>
               <input
                 autoComplete="name"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
                 defaultValue={nameValue}
                 id="name"
                 name="name"
@@ -59,7 +59,7 @@ const SignUpPage = () => {
               </label>
               <input
                 autoComplete="email"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
                 defaultValue={emailValue}
                 id="email"
                 name="email"
@@ -78,7 +78,7 @@ const SignUpPage = () => {
               </label>
               <input
                 autoComplete="new-password"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
                 id="password"
                 name="password"
                 required
@@ -89,7 +89,7 @@ const SignUpPage = () => {
             </div>
             <FormError actionState={state} isPending={isPending} />
             <button
-              className="flex w-full justify-center rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
+              className="inline-full flex justify-center rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
               disabled={isPending}
               type="submit"
             >
@@ -97,7 +97,7 @@ const SignUpPage = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm">
+          <div className="mbs-6 text-center text-sm">
             <span className="text-gray-600">Already have an account? </span>
             <Link
               className="font-medium text-orange-accent hover:text-orange-accent/80"

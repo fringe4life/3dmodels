@@ -36,8 +36,7 @@
 .nav-scroll {
   animation: --nav-animation linear both;
   animation-timeline: scroll();
-  animation-range-start: 100px;
-  animation-range-end: 200px;
+  animation-range: 100px 200px;
   transition:
     border-radius 750ms,
     translate 250ms ease-out;
@@ -108,23 +107,29 @@
   }
 }
 
+@container scroll-state(scrollable: top) {
+  .to-top-link {
+    translate: 0 0;
+  }
+}
+
 /* UTILITIES */
 @utility nav-link {
   @apply text-sm font-medium text-black hover:text-orange-accent/75 transition-colors duration-200;
 
-  &.active {
+  &[aria-current="page"] {
     @apply text-orange-accent font-semibold border-current;
   }
-  &:not([data-border-bottom]).active {
-    @apply md:border-l-2 md:pl-3;
+  &:not([data-border-bottom])[aria-current="page"] {
+    @apply md:border-s-2 md:ps-3;
   }
 
   &[data-border-bottom] {
     @apply py-2;
   }
 
-  &[data-border-bottom].active {
-    @apply md:border-b-2;
+  &[data-border-bottom][aria-current="page"] {
+    @apply md:border-be-2;
   }
 }
 
@@ -162,7 +167,7 @@
   @apply transition-[opacity,filter,transform] duration-250 transition-discrete;
 
   @starting-style {
-    @apply blur-2xs scale-20! bg-green-200!;
+    @apply blur-2xs bg-green-200!;
   }
 }
 
@@ -256,4 +261,36 @@
   to {
     translate: var(--slide-distance);
   }
+}
+
+/* Block-axis keyframes (Y-axis) */
+@keyframes --slide-in-y {
+  from {
+    translate: 0 var(--slide-distance-y);
+  }
+  to {
+    translate: 0 0;
+  }
+}
+@keyframes --slide-out-y {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 var(--slide-distance-y);
+  }
+}
+
+/* nav-link type */
+::view-transition-old(.exit-block):only-child {
+  --slide-distance-y: 40px;
+  animation:
+    --fade-out 280ms ease-in,
+    --slide-out-y 280ms ease-in;
+}
+::view-transition-new(.enter-block):only-child {
+  --slide-distance-y: -40px;
+  animation:
+    --fade-in 280ms ease-out,
+    --slide-in-y 280ms ease-out;
 }

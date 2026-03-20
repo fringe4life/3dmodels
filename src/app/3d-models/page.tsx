@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 const Page = () => (
-  <div className="relative h-10 w-full px-4 md:max-w-xl">
+  <div className="block-10 inline-full md:max-inline-xl relative px-4">
     <Suspend fallback={<SearchInputSkeleton />}>
       <SearchInput />
     </Suspend>

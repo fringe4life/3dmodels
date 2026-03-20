@@ -21,3 +21,6 @@ node_modules
 tsconfig.tsbuildinfo
 README.md
 playwright.config.ts
+bunfig.toml
+AGENTS.md
+docs

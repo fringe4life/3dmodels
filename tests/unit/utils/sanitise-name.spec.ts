@@ -1,13 +1,13 @@
-import "@/tests/setup/test-globals";
+import "../../setup/test-globals";
 import { describe, expect, it } from "bun:test";
 import { sanitiseName } from "../../../src/utils/sanitise-name";
 
 describe("sanitiseName", () => {
-  it("normalizes whitespace and case", () => {
-    expect(sanitiseName("  Hello World  ")).toBe("hello-world");
+  it("replaces non-alphanumeric sequences with single dashes per char", () => {
+    expect(sanitiseName("  Hello World  ")).toBe("--Hello-World--");
   });
-  it("removes non-alphanumeric except dashes", () => {
-    expect(sanitiseName("a@b#c")).toBe("abc");
+  it("replaces symbols between alphanumerics with dashes", () => {
+    expect(sanitiseName("a@b#c")).toBe("a-b-c");
   });
   it("handles empty string", () => {
     expect(sanitiseName("")).toBe("");

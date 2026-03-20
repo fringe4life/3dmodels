@@ -26,7 +26,7 @@ const SignInButton = () => {
           onClick={handleClick}
           type="button"
         >
-          <FaGithub className="aspect-square h-5" />
+          <FaGithub className="block-5 aspect-square" />
           {isPending ? "Signing in..." : "Sign in with GitHub"}
         </button>
       </ViewTransition>

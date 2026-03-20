@@ -17,11 +17,11 @@ const SignInPage = () => {
   return (
     <>
       <div>
-        <h2 className="mt-6 text-center font-bold text-3xl text-gray-900 tracking-tight">
+        <h2 className="mbs-6 text-center font-bold text-3xl text-gray-900 tracking-tight">
           Sign in to your account
         </h2>
       </div>
-      <div className="mt-8 space-y-6">
+      <div className="mbs-8 space-y-6">
         <div className="rounded-md bg-white p-6 shadow-md">
           <form
             action={(formData) => {
@@ -40,7 +40,7 @@ const SignInPage = () => {
               </label>
               <input
                 autoComplete="email"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
                 defaultValue={emailValue}
                 id="email"
                 name="email"
@@ -58,7 +58,7 @@ const SignInPage = () => {
               </label>
               <input
                 autoComplete="current-password"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
                 id="password"
                 name="password"
                 required
@@ -70,7 +70,7 @@ const SignInPage = () => {
             <FormError actionState={state} isPending={isPending} />
 
             <button
-              className="group flex w-full justify-center gap-x-2 rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
+              className="group inline-full flex justify-center gap-x-2 rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
               disabled={isPending}
               type="submit"
             >
@@ -79,7 +79,7 @@ const SignInPage = () => {
             </button>
           </form>
 
-          <div className="mt-6">
+          <div className="mbs-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-gray-300 border-t" />
@@ -91,12 +91,12 @@ const SignInPage = () => {
               </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mbs-6">
               <SignInButton />
             </div>
           </div>
 
-          <div className="mt-6 text-center text-sm">
+          <div className="mbs-6 text-center text-sm">
             <span className="text-gray-600">Don't have an account? </span>
             <Link
               className="font-medium text-orange-accent hover:text-orange-accent/80"

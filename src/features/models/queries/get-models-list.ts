@@ -3,6 +3,11 @@ import type { Model } from "@/db/schema/models";
 import type { PaginationType } from "@/features/pagination/types";
 import type { List, Maybe } from "@/types";
 
+/** `where` for `db.query.models.findMany` (Drizzle RQB / relational filter shape). */
+type ModelsFindManyWhere = NonNullable<
+  NonNullable<Parameters<typeof db.query.models.findMany>[0]>["where"]
+>;
+
 const getModelsList = ({
   searchPattern,
   category,
@@ -13,9 +18,7 @@ const getModelsList = ({
   pagination: PaginationType;
 }): Promise<List<Model>> => {
   // Build where clause conditionally based on what's present
-  // biome-ignore lint/suspicious/noEvolvingTypes: not sure yet how to type this
-  // biome-ignore lint/suspicious/noImplicitAnyLet: will type it later
-  let where;
+  let where: ModelsFindManyWhere | undefined;
   if (searchPattern && category) {
     // Both searchPattern and category exist: combine with AND
     where = {

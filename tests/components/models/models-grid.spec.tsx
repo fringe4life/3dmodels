@@ -1,22 +1,26 @@
-import "@/tests/setup/test-globals";
+import "../../../tests/setup/test-globals";
 import { describe, expect, it } from "bun:test";
 import { render, screen } from "@testing-library/react";
-import { ModelsGrid } from "@/features/models/components/models-grid";
+// biome-ignore lint/correctness/noUnusedImports: avoid umd issue
+import React from "react";
+import { ModelsGrid } from "../../../src/features/models/components/models-grid";
 
 describe("ModelsGrid", () => {
   it("renders items", () => {
     render(
       <ModelsGrid
+        isAuthenticated={false}
         models={[
           {
             id: "1",
-            name: "Test",
-            slug: "test",
+            name: "Alpha Model",
+            slug: "alpha",
             imageUrl: "/placeholder.png",
           } as any,
         ]}
+        title="Browse"
       />,
     );
-    expect(screen.getByText("Test")).toBeInTheDocument();
+    expect(screen.getByText("Alpha Model")).toBeDefined();
   });
 });

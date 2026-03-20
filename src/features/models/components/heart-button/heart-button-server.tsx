@@ -4,17 +4,18 @@ import { HeartButtonSkeleton } from "@/features/models/components/heart-button/h
 import { getHasLikedStatus } from "@/features/models/queries/get-model-with-like-status";
 import type { HeartButtonAdditionalProps } from "@/features/models/types";
 import { DEFAULT_HAS_LIKED } from "../../constants";
-import { HeartButtonContent } from "./heart-button-content";
+import { HeartButtonClient } from "./heart-button-client";
 
 const HeartButtonServer = (props: HeartButtonAdditionalProps) => (
   <HasAuthSuspense fallback={<HeartButtonSkeleton />}>
-    {async (user, _) => {
+    {async (user, isAuthenticated) => {
       const hasLikedResult = user?.id
         ? await getHasLikedStatus(props.slug, user.id)
         : DEFAULT_HAS_LIKED;
       return (
-        <HeartButtonContent
+        <HeartButtonClient
           hasLiked={hasLikedResult.hasLiked}
+          isAuthenticated={isAuthenticated}
           likes={props.likes}
           slug={props.slug}
           toggleAction={props.toggleAction}

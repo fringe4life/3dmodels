@@ -66,16 +66,14 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
   <html data-scroll-behavior="smooth" lang="en">
-    <head>
-      <link href="/top-link.css" rel="stylesheet" />
-    </head>
     <body
-      className={`${albertSans.className} ${montserratAlternates.variable} min-h-dvh`}
+      className={`${albertSans.className} ${montserratAlternates.variable} min-block-dvh`}
       id="top"
     >
       {navbar}
-      <div className="grid h-full min-h-[calc(100dvh-4.625rem)] grid-rows-[1fr_5.35rem] md:gap-y-10">
-        <main className="h-full">{children}</main>
+      <div className="block-full min-block-[calc(100dvh-4.6875rem)] grid grid-rows-[1fr_5.35rem] md:gap-y-10">
+        <main className="block-full">{children}</main>
+
         {footer}
       </div>
       <TopLink />
