@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import HeroImage from "@/assets/images/hero-image-square.png";
-
 export const metadata: Metadata = {
   title: "Home",
   description:
@@ -34,11 +34,12 @@ const Home = () => (
         Browse Models
       </Link>
     </div>
-    <img
+    <Image
       alt="a 3d printed model of the US Capital Building"
       className="mask-[url(/mask-1.svg)] mask-cover inline-[350px] aspect-square justify-self-center rounded-lg"
       height={350}
-      src={HeroImage.src}
+      priority
+      src={HeroImage}
       width={350}
     />
   </section>

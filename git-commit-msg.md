@@ -131,7 +131,7 @@ refactor:
 ♻️ Converted 35+ components from function declarations to arrow functions
 🔀 Implemented interception routes for auth modals with state preservation
 🎯 Created shared page content components (sign-in, sign-up, forgot-password)
-🎨 Applied 16 canonical CSS class optimizations (data-disabled, data-inset, min-w-32)
+🎨 Applied 16 canonical CSS class optimizations (data-disabled, data-inset, min-inline-32)
 🔧 Configured Biome useArrowFunction linter rule in complexity group
 🗑️ Removed AlertDialog component in favor of Dialog
 📦 Updated project dependencies (bun.lock, package.json)

@@ -1,5 +1,5 @@
 import { GenericComponent } from "@/components/generic-component";
-import { NavLink } from "@/components/nav-link";
+import { NavLinkListItem } from "@/components/nav-link";
 import type { CategoriesNavProps } from "../types";
 
 const CategoriesNav = ({ categories }: CategoriesNavProps) => {
@@ -11,7 +11,7 @@ const CategoriesNav = ({ categories }: CategoriesNavProps) => {
   return (
     <GenericComponent
       as="ul"
-      Component={NavLink}
+      Component={NavLinkListItem}
       className="grid auto-cols-max grid-flow-col gap-5 px-4 py-3 md:grid-flow-row md:p-0"
       items={allCategories}
       renderKey={(item) => item.slug}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
@@ -12,15 +13,16 @@ const ModelCard = ({
   model: { slug, name, description, categorySlug, likes, hasLiked },
 }: ModelCardProps) => (
   <ViewTransition enter="enter" exit="exit">
-    <article className="model-card model-animation corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-300 ease-out after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-model-card hover:-translate-y-0.5 hover:after:opacity-100">
+    <article className="model-card model-animation corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-200 ease-out after:absolute after:inset-0 after:rounded-inherit after:opacity-0 after:shadow-model-card after:transition-opacity after:duration-200 after:ease-glide hover:-translate-y-0.5 hover:after:opacity-100 supports-linear:ease-glide">
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <div className="relative aspect-square rounded-t-[inherit] contain-strict">
-          <img
+          <Image
             alt={description}
-            className="inline-full absolute inset-0 object-cover"
-            height={300}
-            src={placeholderImg.src}
-            width={300}
+            className="object-cover"
+            fill
+            loading="eager"
+            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+            src={placeholderImg}
           />
         </div>
       </ViewTransition>

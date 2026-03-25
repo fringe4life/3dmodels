@@ -1,8 +1,9 @@
 "use client";
 
+import { clsx } from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { NavLinkProps } from "@/types";
+import type { NavLinkListItemProps, NavLinkProps } from "@/types";
 
 /**
  * Client-side nav link that marks the current route with `aria-current="page"` and matching styles.
@@ -18,7 +19,7 @@ const NavLink = ({
   children,
   matchStrategy = "includes",
   borderPosition = "bottom",
-  liClassName = "text-sm uppercase sm:tracking-wide",
+  className,
 }: NavLinkProps) => {
   const pathname = usePathname();
   const isActive =
@@ -27,19 +28,25 @@ const NavLink = ({
       : pathname.includes(href);
 
   return (
-    <li className={liClassName}>
-      <Link
-        aria-current={isActive ? "page" : undefined}
-        className="nav-link"
-        transitionTypes={[isActive ? "enter-block" : "exit-block"]}
-        {...(borderPosition === "bottom" && { "data-border-bottom": true })}
-        href={href}
-        prefetch
-      >
-        {children}
-      </Link>
-    </li>
+    <Link
+      aria-current={isActive ? "page" : undefined}
+      className={clsx("nav-link", className)}
+      {...(borderPosition === "bottom" && { "data-border-bottom": true })}
+      href={href}
+      prefetch
+    >
+      {children}
+    </Link>
   );
 };
 
-export { NavLink };
+const NavLinkListItem = ({
+  liClassName = "text-sm uppercase sm:tracking-wide",
+  ...navLinkProps
+}: NavLinkListItemProps) => (
+  <li className={liClassName}>
+    <NavLink {...navLinkProps} />
+  </li>
+);
+
+export { NavLink, NavLinkListItem };

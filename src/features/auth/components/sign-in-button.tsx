@@ -21,7 +21,7 @@ const SignInButton = () => {
     <div className="space-y-4">
       <ViewTransition>
         <button
-          className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-semibold text-gray-900 text-sm shadow-sm ring-1 ring-gray-300 ring-inset transition-colors hover:bg-gray-50 focus:outline-offset-0 disabled:cursor-progress disabled:opacity-75 disabled:hover:bg-white"
+          className="inline-full flex items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-semibold text-gray-900 text-sm shadow-sm ring-1 ring-gray-300 ring-inset transition-[color,opacity] duration-200 ease-in-out hover:bg-gray-50 focus:outline-offset-0 disabled:cursor-progress disabled:opacity-75 disabled:hover:bg-white"
           disabled={isPending}
           onClick={handleClick}
           type="button"

@@ -63,7 +63,7 @@ const Pagination = ({ metadata }: PaginationProps) => {
 
   const limitDropdown = (
     <select
-      className="h-10"
+      className="block-10"
       id={id}
       onChange={(event) =>
         handleLimitChange(Number(event.target.value) as LimitItem)
@@ -85,20 +85,20 @@ const Pagination = ({ metadata }: PaginationProps) => {
         <div className="flex items-center gap-x-2">
           {limitDropdown}
           <button
-            className="h-10 cursor-pointer text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="block-10 cursor-pointer text-gray-500 transition-[opacity,color,scale] duration-200 ease-in-out hover:scale-105 hover:text-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={page < 1}
             onClick={handlePreviousPage}
             type="button"
           >
-            <FaChevronLeft className="aspect-square h-10" />
+            <FaChevronLeft className="block-10 aspect-square" />
           </button>
           <button
-            className="h-10 cursor-pointer text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="block-10 cursor-pointer text-gray-500 transition-[opacity,color,scale] duration-200 ease-in-out hover:scale-105 hover:text-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={!metadata.hasNextPage}
             onClick={handleNextPage}
             type="button"
           >
-            <FaChevronRight className="aspect-square h-10" />
+            <FaChevronRight className="block-10 aspect-square" />
           </button>
         </div>
       </div>

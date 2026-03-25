@@ -1,17 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useTransition } from "react";
-import {
-  FaSignInAlt,
-  FaSignOutAlt,
-  FaSpinner,
-  FaUserCircle,
-} from "react-icons/fa";
+import { FaSignInAlt, FaSignOutAlt, FaSpinner } from "react-icons/fa";
+import { NavLink } from "@/components/nav-link";
 import { signOutAction } from "@/features/auth/actions/sign-out-action";
 import type { AuthButtonsProps } from "../types";
 
-const AuthButtons = ({ user }: AuthButtonsProps) => {
+const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();
 
   const handleSignOut = () => {
@@ -20,21 +15,11 @@ const AuthButtons = ({ user }: AuthButtonsProps) => {
     });
   };
 
-  if (user?.name) {
+  if (isAuthenticated) {
     return (
       <div className="flex items-center gap-2">
         <div className="block-8 relative aspect-square overflow-hidden rounded-full">
-          {user.image ? (
-            <img
-              alt={user.name}
-              className="block-full inline-full object-cover"
-              height={32}
-              src={user.image}
-              width={32}
-            />
-          ) : (
-            <FaUserCircle className="inline-full block-full text-gray-700" />
-          )}
+          {children}
         </div>
         <button
           className="hidden cursor-pointer rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent disabled:cursor-progress disabled:opacity-75 disabled:hover:text-gray-700 sm:block"
@@ -58,20 +43,15 @@ const AuthButtons = ({ user }: AuthButtonsProps) => {
   }
 
   return (
-    <>
-      <Link
-        className="hidden rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent sm:inline-block"
-        href="/signin"
-      >
-        Sign In
-      </Link>
-      <Link
-        className="inline-block rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-orange-accent sm:hidden"
-        href="/signin"
-      >
-        <FaSignInAlt className="aspect-square h-6" />
-      </Link>
-    </>
+    <NavLink
+      borderPosition="bottom"
+      className="inline-flex items-center justify-center px-4 py-2"
+      href="/signin"
+      matchStrategy="endsWith"
+    >
+      <span className="hidden sm:inline">Sign In</span>
+      <FaSignInAlt aria-hidden className="block-6 aspect-square sm:hidden" />
+    </NavLink>
   );
 };
 

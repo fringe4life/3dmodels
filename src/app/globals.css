@@ -6,6 +6,12 @@
 @custom-variant error (&:where([data-error="true"]));
 @custom-variant progress (&:where([data-progress="true"]));
 
+@custom-variant supports-linear {
+  @supports (animation-timing-function: linear(0, 1)) {
+    @slot;
+  }
+}
+
 @theme {
   --color-orange-accent: oklch(71.85% 0.17 47.43);
   --color-search-input: oklch(48.91% 0 0);
@@ -16,6 +22,65 @@
   --category-width-tablet: 140px;
 
   --blur-2xs: 2px;
+
+  --ease-smooth-in-out: linear(
+    0,
+    -0.01 4.8%,
+    -0.044 9.4%,
+    -0.226 23.1%,
+    -0.271 27.7%,
+    -0.28 30.1%,
+    -0.276 32.4%,
+    -0.227 36.6%,
+    -0.108 40.8%,
+    0.083 44.7%,
+    0.76 53%,
+    1.006 56.9%,
+    1.175 61.2%,
+    1.229 63.5%,
+    1.264 65.9%,
+    1.28 69.3%,
+    1.265 73.1%,
+    1.224 77.1%,
+    1.044 90.6%,
+    1.01 95.2%,
+    1
+  );
+
+  --ease-glide: linear(
+    0,
+    0.012 0.9%,
+    0.05 2%,
+    0.411 9.2%,
+    0.517 11.8%,
+    0.611 14.6%,
+    0.694 17.7%,
+    0.765 21.1%,
+    0.824 24.8%,
+    0.872 28.9%,
+    0.91 33.4%,
+    0.939 38.4%,
+    0.977 50.9%,
+    0.994 68.4%,
+    1
+  );
+
+  --ease-soft: linear(
+    0,
+    0.402 7.4%,
+    0.711 15.3%,
+    0.929 23.7%,
+    1.008 28.2%,
+    1.067 33%,
+    1.099 36.9%,
+    1.12 41%,
+    1.13 45.4%,
+    1.13 50.1%,
+    1.111 58.5%,
+    1.019 83.2%,
+    1.004 91.3%,
+    1
+  );
 }
 @media screen and (width <= 420px) {
   .model-animation {
@@ -38,12 +103,12 @@
   animation-timeline: scroll();
   animation-range: 100px 200px;
   transition:
-    border-radius 750ms,
-    translate 250ms ease-out;
+    border-radius 750ms var(--ease-soft),
+    translate 250ms var(--ease-soft);
 }
 
 .mobile-categories {
-  animation: --categories-animation linear both;
+  animation: --categories-animation auto var(--ease-glide) both;
   animation-timeline: scroll(self inline);
   animation-range: 0% 100%;
 }
@@ -279,6 +344,33 @@
   to {
     translate: 0 var(--slide-distance-y);
   }
+}
+
+/* Likes counter transitions */
+
+::view-transition-new(.likes-update-increase) {
+  --slide-distance-y: -8px;
+  animation:
+    --fade-out 200ms ease-in,
+    --slide-out-y 200ms ease-in;
+}
+::view-transition-old(.likes-update-increase) {
+  --slide-distance-y: 8px;
+  animation:
+    --fade-out 200ms ease-in,
+    --slide-out-y 200ms ease-in;
+}
+::view-transition-new(.likes-update-decrease) {
+  --slide-distance-y: 8px;
+  animation:
+    --fade-in 200ms ease-out,
+    --slide-in-y 200ms ease-out;
+}
+::view-transition-old(.likes-update-decrease) {
+  --slide-distance-y: -8px;
+  animation:
+    --fade-in 200ms ease-out,
+    --slide-in-y 200ms ease-out;
 }
 
 /* nav-link type */

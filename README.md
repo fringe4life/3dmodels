@@ -4,19 +4,19 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.2.0-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19.3%20canary-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-6.0.0-3178C6?logo=typescript)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.1-black?logo=next.js)
+![React](https://img.shields.io/badge/React-canary-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0.2-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.2-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.5.5-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.5.6-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.7-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.3.2-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.2.0 with App Router, Cache Components, and typed routes (`typedRoutes`)
-- **Language**: TypeScript 6.0 dev with React 19.3 canary
+- **Framework**: Next.js 16.2.1 with App Router, Cache Components, and typed routes (`typedRoutes`)
+- **Language**: TypeScript 6.0.2 with React canary
 - **Styling**: Tailwind CSS v4.2.2 (Biome CSS parser with `tailwindDirectives`)
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
@@ -35,7 +35,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16.2, TypeScript, and Tailwind CSS v4
+- **Modern Stack**: Built with Next.js 16.2.1, TypeScript, and Tailwind CSS v4
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
@@ -43,7 +43,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`).
+Static assets are served from `public/` at the **repository root** (not under `src/`). Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`).
 
 ```
 src/
@@ -88,6 +88,7 @@ src/
 │   │       ├── better-auth-openapi.ts  # Better Auth OpenAPI spec for Elysia docs
 │   │       └── route.ts          # ElysiaJS API handler (Better Auth `basePath` /api/auth)
 │   ├── globals.css               # Global styles
+│   ├── scroll-state.css          # Scroll-state container queries (CSS)
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
 ├── features/
@@ -98,6 +99,8 @@ src/
 │   │   │   └── sign-up-action.ts
 │   │   ├── components/           # Auth components
 │   │   │   ├── auth-buttons.tsx  # Authentication buttons component
+│   │   │   ├── auth-buttons-skeleton.tsx
+│   │   │   ├── avatar.tsx        # User avatar (GitHub image, fallback icon)
 │   │   │   ├── has-auth.tsx      # Generic auth component with session provider
 │   │   │   └── sign-in-button.tsx
 │   │   ├── constants.ts         # Auth validation constants
@@ -118,10 +121,12 @@ src/
 │   │   │   └── likes.ts
 │   │   ├── components/           # Model-specific components
 │   │   │   ├── heart-button/      # Heart button component group
-│   │   │   │   ├── heart-button-client.tsx  # Client heart control: server `isAuthenticated`, form action, optimistic state
+│   │   │   │   ├── heart-button-client.tsx  # Client: form action, optimistic like/count, transitions
+│   │   │   │   ├── heart-button-count.tsx   # Like count display
 │   │   │   │   ├── heart-button-server.tsx   # Server component for detail pages
 │   │   │   │   ├── heart-button-skeleton.tsx
-│   │   │   │   └── heart-like-optimistic.ts  # Reducer + passthrough for unified `useOptimistic` like state
+│   │   │   │   ├── heart-like-optimistic.ts  # Reducer for unified `useOptimistic` like state
+│   │   │   │   └── likes-count-transition.tsx # View Transitions for like count updates
 │   │   │   ├── model-card.tsx
 │   │   │   ├── model-card-skeleton.tsx
 │   │   │   ├── model-detail.tsx
@@ -161,7 +166,7 @@ src/
 │   │   ├── field-errors.tsx      # Field error display component
 │   │   └── form-error.tsx        # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
-│   ├── nav-link.tsx              # Navigation link with active state (client)
+│   ├── nav-link.tsx              # NavLink + NavLinkListItem; active route styling (client)
 │   ├── top-link.tsx              # Top-of-page skip / scroll control for layouts
 │   ├── not-found/                # Unsuccessful state components
 │   │   ├── unsuccessful-state-list-item.tsx  # List item component for unsuccessful states
@@ -390,7 +395,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
 - `features/models/components/models-view` - Shared server shell: `Suspense` + async inner that awaits `getModels`; pagination uses `PaginationOffsetTransition` for directional View Transitions
 - `features/pagination/components/pagination` - Reusable pagination component with nuqs integration and ViewTransition support
-- `features/models/components/heart-button/heart-button-client` - Client component with form action, unified optimistic like/count state, `hasLiked` and `isAuthenticated` from server
+- `features/models/components/heart-button/heart-button-client` - Client component with form action, unified optimistic like/count state, View Transition types for count changes
+- `features/models/components/heart-button/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/components/heart-button/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
 - `components/search-input` - Model search functionality with URL state
@@ -406,9 +412,11 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/@navbar/default` - Navbar parallel route with auth integration
 - `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
-- `components/nav-link` - Reusable navigation link component with configurable active state matching (`includes` or `endsWith`), border position (`bottom` or `left`), and list item styling (client component)
+- `components/nav-link` - `NavLink` (link with active state) and `NavLinkListItem` (`li` + `NavLink`); matching (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
 - `components/top-link` - Top-of-page control used in layouts
-- `features/auth/components/auth-buttons` - Authentication buttons component with user avatar (GitHub image priority, icon fallback)
+- `features/auth/components/auth-buttons` - Authentication buttons with user avatar (GitHub image priority, icon fallback)
+- `features/auth/components/auth-buttons-skeleton` - Navbar auth slot loading state
+- `features/auth/components/avatar` - Avatar image with fallback
 
 #### Shared Components
 - `components/form/field-errors` - Field-level error display component with ViewTransition support

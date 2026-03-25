@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import HeroImageSquare from "@/assets/images/hero-image-square.png";
 
 export const metadata: Metadata = {
@@ -19,12 +20,13 @@ const AboutPage = () => (
 
       <div className="mbe-12 grid items-center gap-8 md:grid-cols-2">
         <div className="block-[300px] inline-full relative">
-          {/** biome-ignore lint/correctness/useImageSize: unsure of size */}
-          <img
+          <Image
             alt="PrintForge Community - A group of makers collaborating on 3D printing projects"
-            className="absolute inset-0 h-full w-full rounded-lg object-cover"
-            height={300}
-            src={HeroImageSquare.src}
+            className="rounded-lg object-cover"
+            fill
+            priority
+            sizes="(max-width: 767px) 100vw, 50vw"
+            src={HeroImageSquare}
           />
         </div>
         <div className="grid gap-y-4">
@@ -55,7 +57,7 @@ const AboutPage = () => (
         <h2 className="sr-only">Key Features</h2>
         <div className="grid gap-6 md:grid-cols-3 md:gap-0">
           <article className="bg-white p-6">
-            <h3 className="mb-3 font-montserrat-alternates font-semibold text-xl">
+            <h3 className="mbe-3 font-montserrat-alternates font-semibold text-xl">
               100K+ Models
             </h3>
             <p className="text-gray-600">
@@ -64,7 +66,7 @@ const AboutPage = () => (
             </p>
           </article>
           <article className="border-gray-400 bg-white p-6 md:border-x">
-            <h3 className="mb-3 font-montserrat-alternates font-semibold text-xl">
+            <h3 className="mbe-3 font-montserrat-alternates font-semibold text-xl">
               Active Community
             </h3>
             <p className="text-gray-600">
@@ -73,7 +75,7 @@ const AboutPage = () => (
             </p>
           </article>
           <article className="bg-white p-6">
-            <h3 className="mb-3 font-montserrat-alternates font-semibold text-xl">
+            <h3 className="mbe-3 font-montserrat-alternates font-semibold text-xl">
               Free to Use
             </h3>
             <p className="text-gray-600">

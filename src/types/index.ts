@@ -27,9 +27,13 @@ export interface UnsuccessfulStateListItemProps {
 export interface NavLinkProps {
   borderPosition?: "bottom" | "left";
   children: ReactNode;
+  className?: string;
   href: Route;
-  liClassName?: string;
   matchStrategy?: "includes" | "endsWith";
+}
+
+export interface NavLinkListItemProps extends NavLinkProps {
+  liClassName?: string;
 }
 
 export interface GenericComponentProps<

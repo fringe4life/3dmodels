@@ -51,7 +51,6 @@ app
     },
   })
   .onError(({ error }) => {
-    console.log({ error });
     if (error instanceof Error) {
       return new Response(error.message);
     }

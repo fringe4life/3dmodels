@@ -22,6 +22,9 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
   },
+  // When adding a provider, add a matching `images.remotePatterns` entry in
+  // `next.config.ts` for that provider's avatar host so `next/image` can load
+  // `user.image` (see Avatar component).
   socialProviders: {
     github: {
       clientId: env.GITHUB_CLIENT_ID,

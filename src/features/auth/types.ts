@@ -13,6 +13,11 @@ export type HasAuthChildren = (
 ) => React.ReactNode;
 
 export interface AuthButtonsProps {
+  children: React.ReactNode;
+  isAuthenticated: IsAuthenticated;
+}
+
+export interface AvatarProps {
   user: Maybe<Pick<Partial<User>, "name" | "image">>;
 }
 

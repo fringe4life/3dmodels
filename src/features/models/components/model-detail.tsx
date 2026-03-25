@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
@@ -16,12 +17,13 @@ const ModelDetail = ({
     <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <figure className="relative aspect-square rounded-lg shadow-lg contain-content">
-          <img
+          <Image
             alt={description}
-            className="inline-full block-full absolute inset-0 object-cover"
-            height={300}
-            src={placeholderImg.src}
-            width={300}
+            className="object-cover"
+            fill
+            priority
+            sizes="(max-width: 1023px) 100vw, 50vw"
+            src={placeholderImg}
           />
         </figure>
       </ViewTransition>
@@ -33,9 +35,9 @@ const ModelDetail = ({
           <h1 className="mbe-6 font-bold text-4xl">{name}</h1>
         </ViewTransition>
 
-        <Pill className="mbe-6 w-fit">{categorySlug}</Pill>
+        <Pill className="mbe-6 inline-fit">{categorySlug}</Pill>
 
-        <div className="prose prose-lg mbe-6 max-w-none">
+        <div className="prose prose-lg mbe-6 max-inline-none">
           <p className="text-gray-700 leading-relaxed">{description}</p>
         </div>
 

@@ -40,7 +40,7 @@ const SignInPage = () => {
               </label>
               <input
                 autoComplete="email"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
                 defaultValue={emailValue}
                 id="email"
                 name="email"
@@ -58,7 +58,7 @@ const SignInPage = () => {
               </label>
               <input
                 autoComplete="current-password"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
                 id="password"
                 name="password"
                 required
@@ -74,7 +74,7 @@ const SignInPage = () => {
               disabled={isPending}
               type="submit"
             >
-              <FaSpinner className="hidden aspect-square h-5 animate-spin group-disabled:block" />
+              <FaSpinner className="skeleton-enter block-5 hidden aspect-square animate-spin group-disabled:block" />
               {isPending ? "Signing in..." : "Sign in"}
             </button>
           </form>
@@ -82,7 +82,7 @@ const SignInPage = () => {
           <div className="mbs-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-gray-300 border-t" />
+                <div className="inline-full border-gray-300 border-t" />
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="bg-white px-2 text-gray-500">

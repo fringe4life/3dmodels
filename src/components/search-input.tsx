@@ -46,7 +46,7 @@ const SearchInput = () => {
     <>
       <input
         autoComplete="off"
-        className="absolute inset-0 w-full rounded-full border border-search-input bg-white px-5 py-3 text-sm placeholder-gray-500 focus:border-search-input focus:outline-none focus:ring-0 md:text-base"
+        className="inline-full absolute inset-0 rounded-full border border-search-input/20 bg-white px-5 py-3 text-sm placeholder-gray-500 transition-colors duration-200 focus-within:border-search-input focus:outline-none focus:ring-0 focus-visible:outline-2 focus-visible:outline-search-input md:text-base"
         name="search"
         onChange={handleSearch}
         onKeyDown={handleKeyPress}

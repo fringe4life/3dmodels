@@ -10,8 +10,7 @@
 .mobile-categories::before,
 .mobile-categories::after {
   position: sticky; /* sticks within the nav's own scrollport */
-  top: 0;
-  bottom: 0;
+  inset-block: 0;
   z-index: 1;
   display: block;
   flex-shrink: 0;

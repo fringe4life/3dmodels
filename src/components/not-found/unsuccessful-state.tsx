@@ -10,11 +10,11 @@ const UnsuccessfulState = ({
   isError = false,
 }: UnsuccessfulStateProps) => (
   <div
-    className="mx-4 grid min-h-[60vh] place-items-center p-4"
+    className="min-block-[60vh] mx-4 grid place-items-center p-4"
     data-error={isError}
     data-not-found={!isError}
   >
-    <div className="max-w-2xl space-y-6 text-center">
+    <div className="max-inline-2xl space-y-6 text-center">
       <div className="space-y-2">
         <h1 className="font-bold error:text-red-600 text-4xl tracking-tight sm:text-5xl">
           {heading}

@@ -40,7 +40,7 @@ const SignUpPage = () => {
               </label>
               <input
                 autoComplete="name"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
                 defaultValue={nameValue}
                 id="name"
                 name="name"
@@ -59,7 +59,7 @@ const SignUpPage = () => {
               </label>
               <input
                 autoComplete="email"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
                 defaultValue={emailValue}
                 id="email"
                 name="email"
@@ -78,7 +78,7 @@ const SignUpPage = () => {
               </label>
               <input
                 autoComplete="new-password"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-accent focus:outline-none focus:ring-orange-accent sm:text-sm"
+                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
                 id="password"
                 name="password"
                 required
@@ -89,7 +89,7 @@ const SignUpPage = () => {
             </div>
             <FormError actionState={state} isPending={isPending} />
             <button
-              className="inline-full flex justify-center rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
+              className="inline-full flex justify-center rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-all duration-200 hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 active:scale-95 disabled:opacity-50"
               disabled={isPending}
               type="submit"
             >
