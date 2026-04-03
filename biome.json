@@ -9,10 +9,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
-      "performance": {
-        "noImgElement": "off"
-      }
+      "recommended": true
     }
   },
   "formatter": {
@@ -46,7 +43,8 @@
       "!!**/.vercel",
       "!!**/*.log",
       "!!**/*.lock",
-      "!**/drizzle"
+      "!**/drizzle",
+      "!**/src/env.d.ts"
     ]
   },
   "extends": [

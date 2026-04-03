@@ -4,28 +4,29 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.2.1-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.2-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.2-3178C6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.2-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.5.6-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.4.7-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.3.2-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+![Biome](https://img.shields.io/badge/Biome-2.4.10-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.4.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.2.1 with App Router, Cache Components, and typed routes (`typedRoutes`)
+- **Framework**: Next.js 16.2.2 with App Router, Cache Components, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 6.0.2 with React canary
 - **Styling**: Tailwind CSS v4.2.2 (Biome CSS parser with `tailwindDirectives`)
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
-- **Search Params**: nuqs 2.8.9 for type-safe URL state management
-- **Linting & Formatting**: Biome 2.4.7 with Ultracite 7.3.2 presets (`ultracite/biome/core`, `react`, `next`)
+- **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
+- **Linting & Formatting**: Biome 2.4.10 with Ultracite 7.4.3 presets (`ultracite/biome/core`, `react`, `next`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
-- **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, typed env, and cached navigations (`next.config.ts`)
-- **Validation**: Valibot 1.3.1 for schema validation (including `src/utils/env.ts`)
+- **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
+- **Environment**: [Varlock](https://varlock.dev/) with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Validation**: Varlock for environment; Valibot 1.3.1 for server action and form schemas
 
 ## 🚀 Features
 
@@ -35,7 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16.2.1, TypeScript, and Tailwind CSS v4
+- **Modern Stack**: Built with Next.js 16.2.2, TypeScript, and Tailwind CSS v4
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
@@ -43,7 +44,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`). Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`).
+Static assets are served from `public/` at the **repository root** (not under `src/`). Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`).
 
 ```
 src/
@@ -90,7 +91,10 @@ src/
 │   ├── globals.css               # Global styles
 │   ├── scroll-state.css          # Scroll-state container queries (CSS)
 │   ├── layout.tsx                # Root layout
-│   └── page.tsx                  # Home page
+│   ├── page.tsx                  # Home page
+│   ├── global-error.tsx          # Root error boundary (App Router)
+│   ├── robots.ts                 # robots.txt Route Handler
+│   └── sitemap.ts                # Sitemap generation
 ├── features/
 │   ├── auth/                     # Authentication feature
 │   │   ├── actions/              # Server actions
@@ -146,7 +150,6 @@ src/
 │   │   │   ├── get-model-with-like-status.ts  # getHasLikedStatus (single) + getLikedSlugsForUser (batch)
 │   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax, optional search/category)
 │   │   │   └── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
-│   │   ├── search-params.ts       # Type-safe search params for models
 │   │   └── types.ts               # Model type definitions
 │   └── pagination/               # Pagination feature
 │       ├── components/           # Pagination components
@@ -157,7 +160,8 @@ src/
 │       │   └── paginate-items.ts  # Pagination helper function
 │       ├── utils/                # Pagination utilities
 │       │   └── to-paginated-result.ts
-│       ├── pagination-search-params.ts  # Pagination search params
+│       ├── listing-canonical.ts   # nuqs loaders/serializers for listing canonical URLs (SEO, `generateMetadata`)
+│       ├── pagination-search-params.ts  # Shared nuqs parsers for listings and pagination
 │       ├── constants.ts          # Pagination constants (DEFAULT_PAGE, DEFAULT_LIMIT, LIMITS, SORT_ORDERS)
 │       └── types.ts              # Pagination type definitions (includes PaginationProps, NuqsPaginationProps, PaginationType, etc.)
 ├── constants.ts                 # Shared constants (EMPTY_LIST_LENGTH)
@@ -198,7 +202,7 @@ src/
 │   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps, NavLinkProps, GenericComponentProps, FieldErrorProps, UnsuccessfulStateProps, etc.)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
-│   ├── env.ts                   # Environment variable validation (Valibot)
+│   ├── env.ts                   # Re-exports typed `ENV` from `varlock/env` (see `.env.schema`)
 │   ├── to-action-state.ts       # Action state utilities for server actions
 │   └── try-catch.ts             # Error handling utilities
 ├── global.d.ts                  # Global TypeScript declarations
@@ -210,7 +214,7 @@ src/
 ### Feature-Based Organization
 The project follows a feature-based architecture where related functionality is co-located:
 
-- **`features/models/`**: All model-related components, actions, queries, and search params
+- **`features/models/`**: All model-related components, actions, queries, and DAL
 - **`features/categories/`**: All category-related components and data queries
 - **`features/pagination/`**: Pagination utilities, types, and components shared across features
 - **`features/auth/`**: Authentication actions, components, queries, and types
@@ -237,8 +241,9 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Prerequisites
 
-- Node.js 18+ or Bun
+- [Bun](https://bun.sh/) (recommended) or a current Node.js LTS
 - Neon database account (or any PostgreSQL database)
+- Optional: [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/) machine account token if you use `bitwarden()` resolvers in `.env.schema` (see `docs/VARLOCK.md`)
 
 ### Installation
 
@@ -254,44 +259,42 @@ The project follows a feature-based architecture where related functionality is 
    ```
 
 3. **Environment Setup**
-   Create a `.env` file in the root directory:
+   Configuration is defined in **`.env.schema`** (Varlock). Copy it to **`.env`** and fill in values, or use **literal strings** in place of `bitwarden("…")` UUIDs for local development. Typical variables:
+
    ```env
-   # Site Configuration
-   NEXT_PUBLIC_SITE_URL="http://localhost:3000"  # or your production URL
-   
-   # Better Auth Configuration
-   BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"  # Main secret used by Better Auth and cookie cache
-   AUTH_DRIZZLE_URL="http://localhost:3000"  # Required public site URL (validated; use same origin as NEXT_PUBLIC_SITE_URL)
-   
-   # GitHub OAuth
+   # Bootstrap (Bitwarden resolvers in .env.schema)
+   BITWARDEN_ACCESS_TOKEN="your-machine-account-token"
+
+   NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+
+   BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"
+   AUTH_DRIZZLE_URL="http://localhost:3000"
+
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
-   
-   # Database
+
    DATABASE_URL="your-neon-database-connection-string"
-   
-   # Optional: Redis (for remote cache handler, if enabled)
-   # REDIS_API_KEY="your-redis-connection-string"
    ```
-   
-   **Note**: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `BETTER_AUTH_SECRET`, `AUTH_DRIZZLE_URL`, and `DATABASE_URL` are validated at startup in `src/utils/env.ts`. Set `NEXT_PUBLIC_SITE_URL` as well; it is used for Better Auth `baseURL` and API CORS but is not part of that schema. See `docs/AUTH_SETUP.md` for detailed setup instructions.
+
+   Run **`bun run env:typegen`** after changing `.env.schema` to refresh **`src/env.d.ts`**. Typed access uses **`import { ENV } from "varlock/env"`** (re-exported as `env` from `src/utils/env.ts` where convenient). See **`docs/VARLOCK.md`** and **`docs/AUTH_SETUP.md`** for Bitwarden, Bun, and Vercel notes.
 
 4. **Database Setup**
+   Scripts use **`varlock run --`** so Drizzle and seed commands receive resolved env (see `package.json`):
+
    ```bash
-   # Push schema to Neon database
-   bunx drizzle-kit push
-   
-   # Note: Users must be created manually (via sign-up or Better Auth admin)
-   # Seed the database with initial data (requires existing users)
+   bun run db:push
    bun run db:seed
    ```
-   
-   Alternatively, if you want to generate migrations:
+
+   Alternatively, migrations:
+
    ```bash
-   bunx drizzle-kit generate
-   bunx drizzle-kit migrate
+   bun run db:generate
+   bun run db:migrate
    bun run db:seed
    ```
+
+   For one-off Drizzle CLI use without the `db:*` scripts, use the same pattern as `package.json` (for example `varlock run -- drizzle-kit push`).
 
 5. **Start the development server**
    ```bash
@@ -334,12 +337,12 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Available Scripts
 
-- `bunx drizzle-kit generate` (or `bun run db:generate`) - Generate new migration files
-- `bunx drizzle-kit migrate` (or `bun run db:migrate`) - Run pending migrations
-- `bunx drizzle-kit push` (or `bun run db:push`) - Push schema changes directly to database
-- `bunx drizzle-kit studio` (or `bun run db:studio`) - Open Drizzle Studio for database management
-- `bun run db:seed` - Seed database with initial data
-- `bun run db:drop` - Drop all tables (useful for development reset)
+- `bun run db:generate` — Generate migrations (`varlock run -- drizzle-kit generate`)
+- `bun run db:migrate` — Run migrations (`varlock run -- drizzle-kit migrate`)
+- `bun run db:push` — Push schema (`varlock run -- drizzle-kit push`)
+- `bun run db:studio` — Drizzle Studio (`varlock run -- drizzle-kit studio`)
+- `bun run db:seed` — Seed database (requires existing users for seeded models)
+- `bun run db:drop` — Drop all tables (development reset)
 
 ### Database Relations
 The application uses Drizzle ORM v1 (beta) with `defineRelations` for type-safe relations:
@@ -468,6 +471,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)
 - `bun run type` - Run tsgo type checking
 - `bun run typegen` - Generate Next.js routes and run tsgo (noEmit)
+- `bun run env:typegen` - Regenerate `src/env.d.ts` from `.env.schema` (Varlock)
 - `bun run db:generate` - Generate Drizzle migrations
 - `bun run db:migrate` - Run Drizzle migrations
 - `bun run db:push` - Push schema directly to database
@@ -500,16 +504,7 @@ The project follows a consistent coding style with:
 
 ### Environment Variables
 
-Ensure these are set in your deployment environment:
-- `NEXT_PUBLIC_SITE_URL`: Your public application URL (e.g., `https://yourdomain.com`)
-- `BETTER_AUTH_SECRET`: Main secret used by Better Auth and cookie cache
-- `AUTH_DRIZZLE_URL`: Public app URL (required; validated with `DATABASE_URL` and auth secrets in `src/utils/env.ts`)
-- `GITHUB_CLIENT_ID`: Your GitHub OAuth client ID
-- `GITHUB_CLIENT_SECRET`: Your GitHub OAuth client secret
-- `DATABASE_URL`: Your Neon database connection string
-- `REDIS_API_KEY` (optional): Redis connection string for remote cache handler, if used
-
-Required secrets and URLs in `src/utils/env.ts` are validated at startup with Valibot. Also set `NEXT_PUBLIC_SITE_URL` for Better Auth and CORS (see `src/lib/auth.ts` and `src/app/api/[[...slugs]]/route.ts`).
+Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `AUTH_DRIZZLE_URL`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `DATABASE_URL`, and **`BITWARDEN_ACCESS_TOKEN`** when using **`bitwarden()`** resolvers. Varlock validates at runtime; types live in **`src/env.d.ts`**. See **`docs/VARLOCK.md`** for Vercel and Bitwarden.
 
 ## 📝 Data Management
 

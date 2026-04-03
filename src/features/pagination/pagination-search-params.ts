@@ -4,13 +4,11 @@ import {
   parseAsInteger,
   parseAsNumberLiteral,
   parseAsString,
-  parseAsStringLiteral,
 } from "nuqs/server";
 import {
   DEFAULT_LIMIT,
   DEFAULT_PAGE,
   LIMITS,
-  SORT_ORDERS,
 } from "@/features/pagination/constants";
 
 export const options: Options = {
@@ -18,14 +16,10 @@ export const options: Options = {
   shallow: false,
 };
 
-export const searchParser = parseAsString.withDefault("").withOptions({
+/** URL key `query` — must match `SearchInput` (`useQueryState("query", …)`). */
+export const queryParser = parseAsString.withDefault("").withOptions({
   ...options,
 });
-
-export const sortParser = {
-  sortKey: parseAsString.withDefault("createdAt"),
-  sortValue: parseAsStringLiteral(SORT_ORDERS).withDefault("desc"),
-};
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(DEFAULT_PAGE),
@@ -33,8 +27,7 @@ export const paginationParser = {
 };
 
 export const searchParamsParsers = {
-  search: searchParser,
-  ...sortParser,
+  query: queryParser,
   ...paginationParser,
 };
 

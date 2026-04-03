@@ -1,3 +1,7 @@
+# Let Varlock / Next resolve `.env*`; Bun's auto-loading conflicts with that order.
+# See https://varlock.dev/integrations/bun/
+env = false
+
 [test]
-preload = ["./tests/setup/test-preload.ts"]
+preload = ["varlock/auto-load", "./tests/setup/test-preload.ts"]
 pathIgnorePatterns = ["tests/e2e/**"]

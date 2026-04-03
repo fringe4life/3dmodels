@@ -19,7 +19,7 @@ const AboutPage = () => (
       <h1 className="mb-6 text-center font-bold text-4xl">About PrintForge</h1>
 
       <div className="mbe-12 grid items-center gap-8 md:grid-cols-2">
-        <div className="block-[300px] inline-full relative">
+        <div className="block-75 inline-full relative">
           <Image
             alt="PrintForge Community - A group of makers collaborating on 3D printing projects"
             className="rounded-lg object-cover"

@@ -32,7 +32,7 @@ GITHUB_CLIENT_SECRET="your-github-client-secret"
 DATABASE_URL="your-neon-database-connection-string"
 ```
 
-**Note**: `AUTH_DRIZZLE_URL` will fall back to `NEXT_PUBLIC_SITE_URL` if not set. The client-side auth client uses `NEXT_PUBLIC_APP_URL` (which should match `NEXT_PUBLIC_SITE_URL`).
+**Note**: `AUTH_DRIZZLE_URL` will fall back to `NEXT_PUBLIC_SITE_URL` if not set. The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`.
 
 ## How to Get GitHub OAuth Credentials
 

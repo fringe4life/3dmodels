@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { SearchInput } from "@/components/search-input";
 import { SearchInputSkeleton } from "@/components/search-input-skeleton";
 import { Suspend } from "@/components/suspend";
+import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
 
-export const metadata: Metadata = {
+const listingMetadata: Metadata = {
   title: "3d-Models",
   description:
     "Browse and search 3D printable models with fast server-side results.",
@@ -12,6 +13,20 @@ export const metadata: Metadata = {
     description:
       "Browse and search 3D printable models with fast server-side results.",
   },
+};
+
+export const generateMetadata = async ({
+  searchParams,
+}: PageProps<"/3d-models">): Promise<Metadata> => {
+  const canonical = await canonicalPathForListing("/3d-models", searchParams);
+  return {
+    ...listingMetadata,
+    alternates: { canonical },
+    openGraph: {
+      ...listingMetadata.openGraph,
+      url: canonical,
+    },
+  };
 };
 
 const Page = () => (

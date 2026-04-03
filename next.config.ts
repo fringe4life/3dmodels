@@ -1,3 +1,4 @@
+import { varlockNextConfigPlugin } from "@varlock/nextjs-integration/plugin";
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -19,7 +20,7 @@ const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
     mcpServer: true,
-    typedEnv: true,
+    // Env types: Varlock `.env.schema` + `src/env.d.ts` (not Next typedEnv)
     // seems to make the dev server hang
     optimizePackageImports: isDev ? undefined : ["valibot"],
     cachedNavigations: true,
@@ -30,4 +31,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default varlockNextConfigPlugin()(nextConfig);

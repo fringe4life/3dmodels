@@ -4,11 +4,13 @@ import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import { ModelsView } from "@/features/models/components/models-view";
+import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
 
 export const generateStaticParams = async () => await getAllCategorySlugs();
 
 export const generateMetadata = async ({
   params,
+  searchParams,
 }: PageProps<"/3d-models/categories/[categoryName]">): Promise<Metadata> => {
   const { categoryName } = await params;
 
@@ -17,12 +19,17 @@ export const generateMetadata = async ({
     return CATEGORY_NOT_FOUND;
   }
 
+  const pathname = `/3d-models/categories/${categoryName}`;
+  const canonical = await canonicalPathForListing(pathname, searchParams);
+
   return {
     title: category.displayName,
     description: `Browse ${category.displayName} 3D printing models. Find STL files for your next ${category.displayName.toLowerCase()} project.`,
+    alternates: { canonical },
     openGraph: {
       title: `${category.displayName} 3D Models`,
       description: `Browse ${category.displayName} 3D printing models. Find STL files for your next ${category.displayName.toLowerCase()} project.`,
+      url: canonical,
     },
   };
 };

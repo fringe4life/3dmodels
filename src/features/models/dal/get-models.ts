@@ -4,7 +4,6 @@ import { getUser } from "@/features/auth/queries/get-user";
 import type { IsAuthenticated } from "@/features/auth/types";
 import { searchModels } from "@/features/models/dal/search-models";
 import { getLikedSlugsForUser } from "@/features/models/queries/get-model-with-like-status";
-import { modelsSearchParamsCache } from "@/features/models/search-params";
 import type { ModelWithLikeStatus } from "@/features/models/types";
 import { searchParamsCache } from "@/features/pagination/pagination-search-params";
 import type { PaginatedResult } from "@/features/pagination/types";
@@ -23,8 +22,7 @@ export const getModels = async (
 ): Promise<GetModelsReturn> => {
   await connection();
   const search = await searchParams;
-  const { query } = modelsSearchParamsCache.parse(search);
-  const pagination = searchParamsCache.parse(search);
+  const { query, ...pagination } = searchParamsCache.parse(search);
 
   const [result, user] = await Promise.all([
     searchModels(query ?? undefined, pagination, category),
