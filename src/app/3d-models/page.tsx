@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { SearchInput } from "@/components/search-input";
-import { SearchInputSkeleton } from "@/components/search-input-skeleton";
+import { SearchInput } from "@/components/search-input/search-input";
+import { SearchInputSkeleton } from "@/components/search-input/search-input-skeleton";
 import { Suspend } from "@/components/suspend";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
 

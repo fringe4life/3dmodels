@@ -172,6 +172,38 @@
   }
 }
 
+.nav-scroll-progress-fill {
+  transform: scaleX(0);
+  transform-origin: inline-start;
+}
+
+@supports (animation-timeline: scroll()) {
+  .nav-scroll-progress {
+    opacity: 0;
+    animation: --nav-progress-reveal linear both;
+    animation-timeline: scroll();
+    animation-range: 100px 100%;
+  }
+
+  @keyframes --nav-progress-reveal {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .nav-scroll-progress-fill {
+    animation: --nav-progress-fill linear both;
+    animation-timeline: scroll();
+    animation-range: 0% 100%;
+  }
+
+  @keyframes --nav-progress-fill {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
 /* BASE STYLES */
 @layer base {
   html {
@@ -304,6 +336,20 @@
     --slide-in 250ms;
 }
 
+/* Search input pending spinner (ViewTransition name search-input-spinner) */
+::view-transition-old(.search-spinner-quick) {
+  animation: --fade-out 100ms ease-out;
+}
+::view-transition-new(.search-spinner-quick) {
+  animation: --fade-in 100ms ease-out;
+}
+::view-transition-old(.search-spinner-standard) {
+  animation: --fade-out 200ms ease-out;
+}
+::view-transition-new(.search-spinner-standard) {
+  animation: --fade-in 200ms ease-out;
+}
+
 /* ANIMATIONS */
 /* Base composable animations */
 @keyframes --fade-in {
@@ -394,13 +440,13 @@
 }
 
 /* nav-link type */
-::view-transition-old(.exit-block):only-child {
+::view-transition-old(.exit-block) {
   --slide-distance-y: 40px;
   animation:
     --fade-out 280ms ease-in,
     --slide-out-y 280ms ease-in;
 }
-::view-transition-new(.enter-block):only-child {
+::view-transition-new(.enter-block) {
   --slide-distance-y: -40px;
   animation:
     --fade-in 280ms ease-out,

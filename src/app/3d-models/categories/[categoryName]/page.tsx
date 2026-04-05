@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { CategoriesBlockTransition } from "@/features/categories/components/categories-block-transition";
 import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
@@ -47,11 +48,13 @@ const CategoryPage = async ({
   }
 
   return (
-    <ModelsView
-      category={categoryName}
-      categoryDisplayName={category.displayName}
-      searchParams={searchParams}
-    />
+    <CategoriesBlockTransition categoryName={categoryName}>
+      <ModelsView
+        category={categoryName}
+        categoryDisplayName={category.displayName}
+        searchParams={searchParams}
+      />
+    </CategoriesBlockTransition>
   );
 };
 

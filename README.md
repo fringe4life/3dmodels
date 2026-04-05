@@ -44,7 +44,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`). Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`).
+Static assets are served from `public/` at the **repository root** (not under `src/`), including `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`).
 
 ```
 src/
@@ -90,6 +90,7 @@ src/
 │   │       └── route.ts          # ElysiaJS API handler (Better Auth `basePath` /api/auth)
 │   ├── globals.css               # Global styles
 │   ├── scroll-state.css          # Scroll-state container queries (CSS)
+│   ├── icon.png                  # App icon (metadata)
 │   ├── layout.tsx                # Root layout
 │   ├── page.tsx                  # Home page
 │   ├── global-error.tsx          # Root error boundary (App Router)
@@ -113,6 +114,7 @@ src/
 │   │   └── types.ts              # Auth type definitions (AuthButtonsProps, SignUpData, HasAuthChildren, ServerUser)
 │   ├── categories/               # Categories feature
 │   │   ├── components/           # Category-specific components
+│   │   │   ├── categories-block-transition.tsx  # View transition wrapper for category blocks
 │   │   │   └── categories-nav.tsx
 │   │   ├── constants.ts          # Category metadata and display configuration
 │   │   ├── types.ts               # Category type definitions
@@ -171,15 +173,17 @@ src/
 │   │   └── form-error.tsx        # Form-level error display component
 │   ├── generic-component.tsx     # Generic wrapper component
 │   ├── nav-link.tsx              # NavLink + NavLinkListItem; active route styling (client)
-│   ├── top-link.tsx              # Top-of-page skip / scroll control for layouts
 │   ├── not-found/                # Unsuccessful state components
 │   │   ├── unsuccessful-state-list-item.tsx  # List item component for unsuccessful states
 │   │   └── unsuccessful-state.tsx            # Unified component for not-found and error states
 │   ├── pill.tsx                  # Reusable pill component
-│   ├── search-input-skeleton.tsx # Skeleton loader for search input
-│   ├── search-input.tsx          # Search input component with URL state
-│   ├── streamable.tsx            # Streaming utilities
-│   └── suspend.tsx               # Suspense helper; optional React `ViewTransition` wrapper
+│   ├── scroll-progress.tsx       # Reading progress bar (client)
+│   ├── search-input/             # Search input with nuqs URL state and view transitions
+│   │   ├── search-input.tsx
+│   │   ├── search-input-transition.tsx
+│   │   └── search-input-skeleton.tsx
+│   ├── suspend.tsx               # Suspense helper; optional React `ViewTransition` wrapper
+│   └── top-link.tsx              # Top-of-page skip / scroll control for layouts
 ├── db/                          # Database configuration
 │   ├── schema/                  # Database schema definitions
 │   │   ├── auth.ts              # Authentication tables
@@ -197,7 +201,8 @@ src/
 │   ├── api.ts                   # ElysiaJS app instance
 │   ├── auth.ts                  # Better Auth configuration
 │   ├── auth-client.ts           # Better Auth client instance
-│   └── date.ts                  # Date utilities
+│   ├── date.ts                  # Date utilities
+│   └── hero-image.ts            # Public paths and dimensions for hero imagery
 ├── types/                       # Type definitions
 │   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps, NavLinkProps, GenericComponentProps, FieldErrorProps, UnsuccessfulStateProps, etc.)
 ├── utils/                       # Utility functions
@@ -402,8 +407,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/heart-button/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/components/heart-button/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
-- `components/search-input` - Model search functionality with URL state
+- `components/search-input/search-input` - Model search with nuqs URL state; `search-input-transition` for view transitions
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
+- `features/categories/components/categories-block-transition` - View transition wrapper for category listing blocks
 - `app/3d-models/@categories/error.tsx` - Error boundary for categories with built-in retry functionality
 - `app/3d-models/@results/error.tsx` - Error boundary for search results with retry and error guidance
 - `app/3d-models/@results/loading.tsx` - Loading state for search results
@@ -427,7 +433,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/not-found/unsuccessful-state` - Unified component for not-found and error states with conditional styling based on `isError` prop
 - `components/not-found/unsuccessful-state-list-item` - List item component for unsuccessful state suggestions
 - `components/pill` - Small label component
-- `components/streamable` - Streaming utilities for progressive rendering
+- `components/scroll-progress` - Top-of-page reading progress indicator (client)
 - `components/suspend` - Suspense helper component
 - `components/generic-component` - Generic wrapper for collections
 

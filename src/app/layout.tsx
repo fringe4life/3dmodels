@@ -1,7 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css" with { type: "module" };
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
+import { ScrollProgress } from "@/components/scroll-progress";
 import { TopLink } from "@/components/top-link";
+import {
+  HERO_IMAGE_SQUARE_HEIGHT,
+  HERO_IMAGE_SQUARE_SRC,
+  HERO_IMAGE_SQUARE_WIDTH,
+} from "@/lib/hero-image";
 
 const albertSans = Albert_Sans({
   subsets: ["latin"],
@@ -49,9 +55,9 @@ export const metadata: Metadata = {
     siteName: "PrintForge",
     images: [
       {
-        url: "/hero-image.png",
-        width: 1200,
-        height: 630,
+        url: HERO_IMAGE_SQUARE_SRC,
+        width: HERO_IMAGE_SQUARE_WIDTH,
+        height: HERO_IMAGE_SQUARE_HEIGHT,
         alt: "PrintForge - 3D Printing Community",
       },
     ],
@@ -70,6 +76,7 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
       className={`${albertSans.className} ${montserratAlternates.variable} min-block-dvh`}
       id="top"
     >
+      <ScrollProgress />
       {navbar}
       <div className="block-full min-block-[calc(100dvh-4.6875rem)] grid grid-rows-[1fr_5.35rem] md:gap-y-10">
         <main className="block-full">{children}</main>

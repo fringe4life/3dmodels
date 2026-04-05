@@ -10,3 +10,8 @@ export type CategoryDetail = Maybe<Pick<Category, "displayName">>;
 export interface CategoryName {
   categoryName: string;
 }
+
+export interface CategoriesBlockTransitionProps {
+  categoryName: string;
+  children: React.ReactNode;
+}

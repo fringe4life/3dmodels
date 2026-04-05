@@ -3,10 +3,13 @@
 import { debounce, defaultRateLimit, parseAsString, useQueryState } from "nuqs";
 import {
   Activity,
+  addTransitionType,
   type ChangeEventHandler,
   type KeyboardEventHandler,
   useTransition,
 } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { SearchInputTransition } from "./search-input-transition";
 
 // Constants for debounce timing
 const SEARCH_DEBOUNCE_DELAY = 250; // milliseconds
@@ -26,6 +29,7 @@ const SearchInput = () => {
     const search = e.currentTarget.value;
     // Send immediate update if clearing the input, otherwise debounce
     startTransition(async () => {
+      addTransitionType(search === "" ? "search-clear" : "search-debounce");
       await setQuery(search || null, {
         limitUrlUpdates:
           search === "" ? defaultRateLimit : debounce(SEARCH_DEBOUNCE_DELAY),
@@ -35,8 +39,8 @@ const SearchInput = () => {
 
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
-      // Send immediate update on Enter key press
       startTransition(async () => {
+        addTransitionType("search-submit");
         await setQuery(query || null, { limitUrlUpdates: defaultRateLimit });
       });
     }
@@ -55,9 +59,9 @@ const SearchInput = () => {
         value={query || ""}
       />
       <Activity mode={isPending ? "visible" : "hidden"}>
-        <div className="loading-dots absolute inset-bs-1/2 inset-s-95/100 -translate-y-1/2 text-gray-500 text-sm">
-          .
-        </div>
+        <SearchInputTransition>
+          <AiOutlineLoading3Quarters className="block-5 absolute inset-bs-1/2 inset-e-5 aspect-square -translate-y-1/2 animate-spin text-gray-500 text-sm" />
+        </SearchInputTransition>
       </Activity>
     </>
   );

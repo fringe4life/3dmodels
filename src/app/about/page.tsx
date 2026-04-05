@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import HeroImageSquare from "@/assets/images/hero-image-square.png";
+import { HERO_IMAGE_SQUARE_SRC } from "@/lib/hero-image";
 
 export const metadata: Metadata = {
   title: "About",
@@ -26,7 +26,7 @@ const AboutPage = () => (
             fill
             priority
             sizes="(max-width: 767px) 100vw, 50vw"
-            src={HeroImageSquare}
+            src={HERO_IMAGE_SQUARE_SRC}
           />
         </div>
         <div className="grid gap-y-4">

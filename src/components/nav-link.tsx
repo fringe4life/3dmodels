@@ -20,6 +20,8 @@ const NavLink = ({
   matchStrategy = "includes",
   borderPosition = "bottom",
   className,
+  prefetch = true,
+  ...linkProps
 }: NavLinkProps) => {
   const pathname = usePathname();
   const isActive =
@@ -29,11 +31,12 @@ const NavLink = ({
 
   return (
     <Link
+      {...linkProps}
       aria-current={isActive ? "page" : undefined}
       className={clsx("nav-link", className)}
       {...(borderPosition === "bottom" && { "data-border-bottom": true })}
       href={href}
-      prefetch
+      prefetch={prefetch}
     >
       {children}
     </Link>

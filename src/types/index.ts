@@ -1,6 +1,7 @@
 import type { Route } from "next";
+import type { LinkProps } from "next/link";
 import type { SearchParams } from "nuqs/server";
-import type { ReactNode } from "react";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 import type { ActionState } from "@/utils/to-action-state";
 /**
  * Used to handle potential failures. It can be used to return a value or null or undefined.
@@ -24,13 +25,18 @@ export interface UnsuccessfulStateListItemProps {
   text: string;
 }
 
-export interface NavLinkProps {
+/** Same surface as `next/link` (including `transitionTypes`) plus nav options; `href` uses typed routes. */
+type NextLinkComponentProps = Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  keyof LinkProps
+> &
+  LinkProps;
+
+export type NavLinkProps = NextLinkComponentProps & {
   borderPosition?: "bottom" | "left";
-  children: ReactNode;
-  className?: string;
-  href: Route;
   matchStrategy?: "includes" | "endsWith";
-}
+  href: Route;
+};
 
 export interface NavLinkListItemProps extends NavLinkProps {
   liClassName?: string;
