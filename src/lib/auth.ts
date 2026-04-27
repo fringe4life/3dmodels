@@ -2,9 +2,9 @@ import { drizzleAdapter } from "@better-auth/drizzle-adapter";
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 import { openAPI } from "better-auth/plugins";
+import { ENV } from "varlock/env";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
-import { env } from "@/utils/env";
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -16,7 +16,7 @@ export const auth = betterAuth({
       maxAge: 5 * 60, // 5 minutes
     },
   },
-  baseURL: process.env.NEXT_PUBLIC_SITE_URL,
+  baseURL: ENV.NEXT_PUBLIC_SITE_URL,
   basePath: "/api/auth",
   emailAndPassword: {
     enabled: true,
@@ -27,12 +27,12 @@ export const auth = betterAuth({
   // `user.image` (see Avatar component).
   socialProviders: {
     github: {
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
+      clientId: ENV.GITHUB_CLIENT_ID,
+      clientSecret: ENV.GITHUB_CLIENT_SECRET,
       // redirectURI: "http://localhost:3000/api/auth/callback/github",
       redirectURI: "https://3dmodels-ecru.vercel.app/api/auth/callback/github",
     },
   },
-  secret: env.BETTER_AUTH_SECRET,
+  secret: ENV.BETTER_AUTH_SECRET,
   plugins: [openAPI(), nextCookies()], // Must be last plugin
 });

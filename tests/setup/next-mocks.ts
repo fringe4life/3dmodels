@@ -13,16 +13,12 @@ vi.mock("next/navigation", () => {
   };
 });
 
-vi.mock("next/headers", () => {
-  return { headers: () => new Map() };
-});
+vi.mock("next/headers", () => ({ headers: () => new Map() }));
 
-vi.mock("next/cookies", () => {
-  return {
-    cookies: () => ({
-      get: vi.fn(),
-      set: vi.fn(),
-      delete: vi.fn(),
-    }),
-  };
-});
+vi.mock("next/cookies", () => ({
+  cookies: () => ({
+    get: vi.fn(),
+    set: vi.fn(),
+    delete: vi.fn(),
+  }),
+}));

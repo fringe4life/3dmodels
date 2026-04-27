@@ -4,24 +4,24 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.2.2-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-canary-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-6.0.2-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.2-38B2AC?logo=tailwind-css)
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.4-38B2AC?logo=tailwind-css)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.5.6-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.4.10-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.4.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.9-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.4.12-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.6.1-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.2.2 with App Router, Cache Components, and typed routes (`typedRoutes`)
-- **Language**: TypeScript 6.0.2 with React canary
-- **Styling**: Tailwind CSS v4.2.2 (Biome CSS parser with `tailwindDirectives`)
+- **Framework**: Next.js 16.2.4 with App Router, Cache Components, and typed routes (`typedRoutes`)
+- **Language**: TypeScript 6.0.3 with React canary
+- **Styling**: Tailwind CSS v4.2.4 (Biome CSS parser with `tailwindDirectives`)
 - **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
 - **Authentication**: Better Auth with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
-- **Linting & Formatting**: Biome 2.4.10 with Ultracite 7.4.3 presets (`ultracite/biome/core`, `react`, `next`)
+- **Linting & Formatting**: Biome 2.4.12 with Ultracite 7.6.1 presets (`ultracite/biome/core`, `react`, `next`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
@@ -36,7 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16.2.2, TypeScript, and Tailwind CSS v4
+- **Modern Stack**: Built with Next.js 16.2.4, TypeScript, and Tailwind CSS v4
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
@@ -207,7 +207,7 @@ src/
 │   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps, NavLinkProps, GenericComponentProps, FieldErrorProps, UnsuccessfulStateProps, etc.)
 ├── utils/                       # Utility functions
 │   ├── cache-invalidation.ts    # Cache invalidation utilities
-│   ├── env.ts                   # Re-exports typed `ENV` from `varlock/env` (see `.env.schema`)
+│   ├── sanitise-name.ts         # Normalizes and sanitizes user-provided names for auth flows
 │   ├── to-action-state.ts       # Action state utilities for server actions
 │   └── try-catch.ts             # Error handling utilities
 ├── global.d.ts                  # Global TypeScript declarations
@@ -281,7 +281,7 @@ The project follows a feature-based architecture where related functionality is 
    DATABASE_URL="your-neon-database-connection-string"
    ```
 
-   Run **`bun run env:typegen`** after changing `.env.schema` to refresh **`src/env.d.ts`**. Typed access uses **`import { ENV } from "varlock/env"`** (re-exported as `env` from `src/utils/env.ts` where convenient). See **`docs/VARLOCK.md`** and **`docs/AUTH_SETUP.md`** for Bitwarden, Bun, and Vercel notes.
+   Run **`bun run env:typegen`** after changing `.env.schema` to refresh **`src/env.d.ts`**. Typed access uses **`import { ENV } from "varlock/env"`**. See **`docs/VARLOCK.md`** and **`docs/AUTH_SETUP.md`** for Bitwarden, Bun, and Vercel notes.
 
 4. **Database Setup**
    Scripts use **`varlock run --`** so Drizzle and seed commands receive resolved env (see `package.json`):
@@ -299,7 +299,7 @@ The project follows a feature-based architecture where related functionality is 
    bun run db:seed
    ```
 
-   For one-off Drizzle CLI use without the `db:*` scripts, use the same pattern as `package.json` (for example `varlock run -- drizzle-kit push`).
+   For one-off Drizzle CLI use without the `db:*` scripts, use the same pattern as `package.json` (for example `varlock run -- bunx drizzle-kit push`).
 
 5. **Start the development server**
    ```bash
@@ -344,7 +344,7 @@ The project follows a feature-based architecture where related functionality is 
 
 - `bun run db:generate` — Generate migrations (`varlock run -- drizzle-kit generate`)
 - `bun run db:migrate` — Run migrations (`varlock run -- drizzle-kit migrate`)
-- `bun run db:push` — Push schema (`varlock run -- drizzle-kit push`)
+- `bun run db:push` — Push schema (`varlock run -- drizzle-kit push` or `varlock run -- bunx drizzle-kit push`)
 - `bun run db:studio` — Drizzle Studio (`varlock run -- drizzle-kit studio`)
 - `bun run db:seed` — Seed database (requires existing users for seeded models)
 - `bun run db:drop` — Drop all tables (development reset)

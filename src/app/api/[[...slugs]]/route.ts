@@ -1,6 +1,7 @@
 import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
-import { t } from "elysia";
+import { status, t } from "elysia";
+import { ENV } from "varlock/env";
 import { db } from "@/db";
 import { getUser } from "@/features/auth/queries/get-user";
 import { DEFAULT_HAS_LIKED } from "@/features/models/constants";
@@ -25,7 +26,7 @@ app
   )
   .use(
     cors({
-      origin: process.env.NEXT_PUBLIC_SITE_URL,
+      origin: ENV.NEXT_PUBLIC_SITE_URL,
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
@@ -40,7 +41,7 @@ app
         });
 
         if (!session) {
-          return status(401);
+          return status(401, { message: "Unauthorized" });
         }
 
         return {
@@ -54,14 +55,14 @@ app
     if (error instanceof Error) {
       return new Response(error.message);
     }
-    return new Response("Internal Server Error", { status: 500 });
+    return status(500, { message: "Internal Server Error" });
   })
   .get(
     "/models/:slug",
     async ({ params }) => {
       const model = await getModelBySlugApi(params.slug);
       if (!model) {
-        return new Response("Model not found", { status: 404 });
+        return status(404, { message: "Model not found" });
       }
       return model;
     },
@@ -83,7 +84,7 @@ app
         limit: limitItem,
       });
       if (!models) {
-        return new Response("Models not found", { status: 404 });
+        return status(404, { message: "Models not found" });
       }
       return transformToPaginatedResult(models, { page, limit: limitItem });
     },
@@ -114,7 +115,7 @@ app
       );
 
       if (error) {
-        return new Response("Internal Server Error", { status: 500 });
+        return status(500, { message: "Internal Server Error" });
       }
 
       return { hasLiked: data !== null };

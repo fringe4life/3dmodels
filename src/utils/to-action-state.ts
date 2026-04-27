@@ -1,9 +1,10 @@
 import { APIError } from "better-auth/api";
 import { flatten, ValiError } from "valibot";
+import type { Maybe } from "@/types";
 
 export interface ActionState<T = unknown> {
   data?: T;
-  fieldErrors: Record<string, string[] | undefined>;
+  fieldErrors: Record<string, Maybe<string[]>>;
   message: string;
   payload?: FormData;
   status?: "SUCCESS" | "ERROR";

@@ -1,11 +1,13 @@
-import { defineConfig } from "drizzle-kit";
+/// <reference path="./src/env.d.ts" />
 
+import { defineConfig } from "drizzle-kit";
+import { ENV } from "varlock/env";
 export default defineConfig({
   dialect: "postgresql",
   schema: "./src/db/schema/index.ts",
-  out: "./drizzle",
+  out: "./src/db/migrations",
   dbCredentials: {
-    url: process.env.DATABASE_URL as string,
+    url: ENV.DATABASE_URL,
   },
   verbose: true,
   strict: true,

@@ -14,8 +14,8 @@ const nextConfig: NextConfig = {
     ],
   },
   typedRoutes: true,
-  reactCompiler: !isDev,
   cacheComponents: true,
+  reactCompiler: true,
   allowedDevOrigins: ["127.0.0.1"],
   experimental: {
     viewTransition: true,

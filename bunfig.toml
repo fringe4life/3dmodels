@@ -2,6 +2,9 @@
 # See https://varlock.dev/integrations/bun/
 env = false
 
+[install]
+minimumReleaseAge = 172800
+
 [test]
 preload = ["varlock/auto-load", "./tests/setup/test-preload.ts"]
 pathIgnorePatterns = ["tests/e2e/**"]

@@ -45,14 +45,14 @@ async function seed() {
     const modelsResult = await db.insert(models).values(modelsWithUsers);
     console.log(`✅ Successfully seeded ${modelsData.length} models`);
 
-    // Create random likes (30% probability per user-model pair)
+    // Create random likes (33% probability per user-model pair)
     console.log("❤️ Creating random likes...");
     const likesToInsert: NewLike[] = [];
 
     for (const userItem of existingUsers) {
       for (const model of modelsWithUsers) {
         // 30% chance to create a like
-        if (Math.random() < 0.3) {
+        if (Math.random() < 0.33) {
           likesToInsert.push({
             userId: userItem.id,
             modelSlug: model.slug,

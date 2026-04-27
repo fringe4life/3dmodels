@@ -1,10 +1,9 @@
 import type { MetadataRoute } from "next";
+import { ENV } from "varlock/env";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "";
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const [modelSlugs, categoryRows] = await Promise.all([
     getAllModelSlugs(),
     getAllCategorySlugs(),
@@ -12,19 +11,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/`,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/about`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/3d-models`,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
@@ -33,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const modelEntries: MetadataRoute.Sitemap = (modelSlugs ?? []).map(
     ({ slug }) => ({
-      url: `${baseUrl}/3d-models/${slug}`,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models/${slug}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.8,
@@ -42,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const categoryEntries: MetadataRoute.Sitemap = categoryRows.map(
     ({ categoryName }) => ({
-      url: `${baseUrl}/3d-models/categories/${categoryName}`,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models/categories/${categoryName}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.7,
@@ -50,4 +49,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   return [...staticEntries, ...modelEntries, ...categoryEntries];
-}
+};
+
+export default sitemap;

@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css" with { type: "module" };
+import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
+import { ENV } from "varlock/env";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { TopLink } from "@/components/top-link";
 import {
@@ -23,7 +25,7 @@ const montserratAlternates = Montserrat_Alternates({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL as string),
+  metadataBase: new URL(ENV.NEXT_PUBLIC_SITE_URL),
   title: {
     default: "PrintForge - 3D Printing Community",
     template: "%s | PrintForge",
@@ -79,8 +81,9 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
       <ScrollProgress />
       {navbar}
       <div className="block-full min-block-[calc(100dvh-4.6875rem)] grid grid-rows-[1fr_5.35rem] md:gap-y-10">
-        <main className="block-full">{children}</main>
-
+        <main className="block-full">
+          <RscBoundaryProvider>{children}</RscBoundaryProvider>
+        </main>
         {footer}
       </div>
       <TopLink />
