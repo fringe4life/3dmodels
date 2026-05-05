@@ -17,7 +17,7 @@ export const options: Options = {
 };
 
 /** URL key `query` — must match `SearchInput` (`useQueryState("query", …)`). */
-export const queryParser = parseAsString.withDefault("").withOptions({
+const queryParser = parseAsString.withDefault("").withOptions({
   ...options,
 });
 

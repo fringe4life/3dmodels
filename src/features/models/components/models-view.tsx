@@ -6,6 +6,8 @@ import type { ModelsViewProps } from "@/features/models/types";
 import { Pagination } from "@/features/pagination/components/pagination";
 import { PaginationOffsetTransition } from "@/features/pagination/components/pagination-offset-transition";
 import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
+import { css } from "../../../../styled-system/css";
+import { grid } from "../../../../styled-system/patterns";
 import { ModelsGrid } from "./models-grid";
 import { ModelsNotFound } from "./models-not-found";
 
@@ -26,7 +28,15 @@ const ModelsViewInner = async ({
       return (
         <>
           <ModelsNotFound />
-          <p className="pe-1 text-right text-gray-500 text-italic text-sm">
+          <p
+            className={css({
+              paddingInlineEnd: "1",
+              textAlign: "right",
+              color: "gray.500",
+              fontStyle: "italic",
+              fontSize: "sm",
+            })}
+          >
             No models found
           </p>
         </>
@@ -34,7 +44,13 @@ const ModelsViewInner = async ({
     case "success":
       return (
         <PaginationOffsetTransition metadata={result.metadata}>
-          <div className="grid auto-rows-min grid-rows-1 content-between gap-y-4">
+          <div
+            className={grid({
+              gridAutoRows: "min",
+              alignContent: "space-between",
+              rowGap: 4,
+            })}
+          >
             <ModelsGrid
               isAuthenticated={isAuthenticated}
               models={result.items}

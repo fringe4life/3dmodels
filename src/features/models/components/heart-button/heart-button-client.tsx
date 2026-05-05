@@ -1,6 +1,5 @@
 "use client";
 
-import { clsx } from "clsx";
 import {
   addTransitionType,
   type SubmitEventHandler,
@@ -10,8 +9,11 @@ import {
   useTransition,
 } from "react";
 import { FaHeart } from "react-icons/fa6";
+import { buttonRecipe } from "@/components/button";
 import { FieldError } from "@/components/form/field-errors";
 import type { HeartButtonClientProps } from "@/features/models/types";
+import { css, cx } from "../../../../../styled-system/css";
+import { square } from "../../../../../styled-system/patterns";
 import { HeartButtonCount } from "./heart-button-count";
 import {
   createHeartLikePassthrough,
@@ -70,20 +72,45 @@ const HeartButtonClient = (props: HeartButtonClientProps) => {
         aria-label={
           isAuthenticated ? "Like this model" : "Sign in to like this model"
         }
-        className="group relative z-5 flex cursor-pointer flex-wrap items-center gap-x-1 transition-[scale,opacity] duration-200 ease-in-out not-disabled:hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 supports-linear:ease-smooth-in-out"
+        className={cx(
+          "group",
+          buttonRecipe({ variant: "ghost", size: "bare" }),
+          css({
+            position: "relative",
+            zIndex: "5",
+            flexWrap: "wrap",
+            columnGap: "1",
+            transitionTimingFunction: {
+              _supportsLinear: "ease-smooth-in-out",
+            },
+          }),
+        )}
         disabled={isDisabled}
         type="submit"
       >
         <FaHeart
           aria-hidden="true"
-          className={clsx(
-            "block-6 aspect-square transition-colors duration-200 ease-in-out supports-linear:ease-smooth-in-out",
-            {
-              "text-red-500": isLiked,
-              "cursor-progress text-red-500/75": isPending,
-              "text-gray-400 not-group-disabled:hover:text-red-500/50":
-                isNotLiked,
-            },
+          className={cx(
+            square({ size: 6 }),
+            css({
+              transitionProperty: "color",
+              transitionDuration: "normal",
+              transitionTimingFunction: {
+                base: "ease-in-out",
+                _supportsLinear: "ease-smooth-in-out",
+              },
+            }),
+            isLiked &&
+              css({ color: { base: "red.500", _hover: "red.500/50" } }),
+            isPending && css({ cursor: "progress", color: "red.500/75" }),
+            isNotLiked &&
+              css({
+                color: {
+                  base: "gray.400",
+                  _groupHover: "red.500/50",
+                  _groupDisabled: "gray.400",
+                },
+              }),
           )}
         />
         <HeartButtonCount likesCount={optimistic.likesCount} />

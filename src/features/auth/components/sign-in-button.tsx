@@ -2,8 +2,11 @@
 
 import { type MouseEventHandler, useTransition, ViewTransition } from "react";
 import { FaGithub } from "react-icons/fa6";
+import { Button } from "@/components/button";
 import { authClient } from "@/lib/auth-client";
 import { tryCatch } from "@/utils/try-catch";
+import { css, cx } from "../../../../styled-system/css";
+import { square } from "../../../../styled-system/patterns";
 
 const SignInButton = () => {
   const [isPending, startTransition] = useTransition();
@@ -17,21 +20,30 @@ const SignInButton = () => {
       );
     });
   };
+
   return (
-    <div className="space-y-4">
+    <div className={css({ spaceY: "4" })}>
       <ViewTransition>
-        <button
-          className="inline-full flex items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-semibold text-gray-900 text-sm shadow-sm ring-1 ring-gray-300 ring-inset transition-[color,opacity] duration-200 ease-in-out hover:bg-gray-50 focus:outline-offset-0 disabled:cursor-progress disabled:opacity-75 disabled:hover:bg-white"
+        <Button
+          className={cx(
+            css({
+              inlineSize: "full",
+              fontWeight: "semibold",
+              _disabled: { cursor: "progress", opacity: "0.75" },
+              gap: 1,
+            }),
+          )}
           disabled={isPending}
           onClick={handleClick}
           type="button"
+          variant="outline"
         >
-          <FaGithub className="block-5 aspect-square" />
+          <FaGithub className={square({ size: 5 })} />
           {isPending ? "Signing in..." : "Sign in with GitHub"}
-        </button>
+        </Button>
       </ViewTransition>
-      <div className="text-center">
-        <p className="text-gray-500 text-sm">
+      <div className={css({ textAlign: "center" })}>
+        <p className={css({ color: "gray.500", fontSize: "sm" })}>
           By signing in, you agree to our terms of service and privacy policy.
         </p>
       </div>

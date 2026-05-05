@@ -45,8 +45,6 @@ const signUpFormSchema = object({
   ),
 });
 
-// Type for sign-up action state data
-
 // Server action for sign-up
 const signUpAction = async (
   _: Maybe<ActionState<SignUpData>>,

@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/suspicious/noConsole: seed file for dummy data */
 import { count, eq } from "drizzle-orm";
+import { EMPTY_LIST_LENGTH } from "@/constants";
 import { db } from "@/db";
 import { likes, type NewLike } from "@/db/schema/likes";
 import { categories, models } from "@/db/schema/models";
@@ -19,7 +20,7 @@ async function seed() {
     // Fetch all existing users
     console.log("👥 Fetching existing users...");
     const existingUsers = await db.query.user.findMany();
-    if (existingUsers.length === 0) {
+    if (existingUsers.length === EMPTY_LIST_LENGTH) {
       throw new Error(
         "No users found in database. Please create users manually before running seed.",
       );
@@ -61,7 +62,7 @@ async function seed() {
       }
     }
 
-    if (likesToInsert.length > 0) {
+    if (likesToInsert.length > EMPTY_LIST_LENGTH) {
       await db.insert(likes).values(likesToInsert);
       console.log(`✅ Successfully created ${likesToInsert.length} likes`);
     } else {

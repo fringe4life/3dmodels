@@ -1,10 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState, useTransition } from "react";
 import { FieldError } from "@/components/form/field-errors";
 import { FormError } from "@/components/form/form-error";
+import { Input } from "@/components/form/input";
+import { Label } from "@/components/form/label";
+import { SubmitButton } from "@/components/form/submit-button";
 import { signUpAction } from "@/features/auth/actions/sign-up-action";
+import { AuthCard } from "@/features/auth/components/auth-card";
+import { AuthFooterLink } from "@/features/auth/components/auth-footer-link";
+import { css } from "../../../../styled-system/css";
 
 const SignUpPage = () => {
   const [state, formAction] = useActionState(signUpAction, null);
@@ -15,100 +20,68 @@ const SignUpPage = () => {
   const emailValue = state?.payload?.get("email")?.toString() ?? "";
 
   return (
-    <>
-      <div>
-        <h2 className="mbs-6 text-center font-bold text-3xl text-gray-900 tracking-tight">
-          Create your account
-        </h2>
-      </div>
-      <div className="mbs-8 space-y-6">
-        <div className="rounded-md bg-white p-6 shadow-md">
-          <form
-            action={(formData) => {
-              startTransition(() => {
-                formAction(formData);
-              });
-            }}
-            className="space-y-4"
-          >
-            <div>
-              <label
-                className="block font-medium text-gray-700 text-sm"
-                htmlFor="name"
-              >
-                Name
-              </label>
-              <input
-                autoComplete="name"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
-                defaultValue={nameValue}
-                id="name"
-                name="name"
-                required
-                type="text"
-              />
-
-              <FieldError actionState={state} name="name" />
-            </div>
-            <div>
-              <label
-                className="block font-medium text-gray-700 text-sm"
-                htmlFor="email"
-              >
-                Email address
-              </label>
-              <input
-                autoComplete="email"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
-                defaultValue={emailValue}
-                id="email"
-                name="email"
-                required
-                type="email"
-              />
-
-              <FieldError actionState={state} name="email" />
-            </div>
-            <div>
-              <label
-                className="block font-medium text-gray-700 text-sm"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                autoComplete="new-password"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
-                id="password"
-                name="password"
-                required
-                type="password"
-              />
-
-              <FieldError actionState={state} name="password" />
-            </div>
-            <FormError actionState={state} isPending={isPending} />
-            <button
-              className="inline-full flex justify-center rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-all duration-200 hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 active:scale-95 disabled:opacity-50"
-              disabled={isPending}
-              type="submit"
-            >
-              {isPending ? "Creating account..." : "Sign up"}
-            </button>
-          </form>
-
-          <div className="mbs-6 text-center text-sm">
-            <span className="text-gray-600">Already have an account? </span>
-            <Link
-              className="font-medium text-orange-accent hover:text-orange-accent/80"
-              href="/signin"
-            >
-              Sign in
-            </Link>
-          </div>
+    <AuthCard
+      footer={
+        <AuthFooterLink
+          href="/signin"
+          label="Sign in"
+          prompt="Already have an account?"
+        />
+      }
+      title="Create your account"
+    >
+      <form
+        action={(formData) => {
+          startTransition(() => {
+            formAction(formData);
+          });
+        }}
+        className={css({ spaceY: 4 })}
+      >
+        <div>
+          <Label htmlFor="name">Name</Label>
+          <Input
+            autoComplete="name"
+            defaultValue={nameValue}
+            id="name"
+            name="name"
+            required
+            type="text"
+          />
+          <FieldError actionState={state} name="name" />
         </div>
-      </div>
-    </>
+        <div>
+          <Label htmlFor="email">Email address</Label>
+          <Input
+            autoComplete="email"
+            defaultValue={emailValue}
+            id="email"
+            name="email"
+            required
+            type="email"
+          />
+          <FieldError actionState={state} name="email" />
+        </div>
+        <div>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            autoComplete="new-password"
+            id="password"
+            name="password"
+            required
+            type="password"
+          />
+          <FieldError actionState={state} name="password" />
+        </div>
+        <FormError actionState={state} isPending={isPending} />
+        <SubmitButton isPending={isPending}>
+          {/*"group-disabled:hidden"*/}
+          <span className={css({ _groupDisabled: { display: "hidden" } })}>
+            Sign up
+          </span>
+        </SubmitButton>
+      </form>
+    </AuthCard>
   );
 };
 

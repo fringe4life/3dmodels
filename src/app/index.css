@@ -1,0 +1,100 @@
+@layer reset, base, tokens, recipes, utilities;
+
+/* VIEW TRANSITIONS */
+
+::view-transition-old(.exit):only-child {
+  --slide-distance: 20px;
+  animation:
+    fade-out 250ms,
+    slide-out 250ms;
+}
+
+::view-transition-new(.enter):only-child {
+  --slide-distance: -20px;
+  animation:
+    fade-in 250ms,
+    slide-in 250ms;
+}
+
+::view-transition-old(.exit-left) {
+  --slide-distance: -60px;
+  animation:
+    fade-out 250ms,
+    slide-out 250ms;
+}
+
+::view-transition-new(.enter-left) {
+  --slide-distance: -60px;
+  animation:
+    fade-in 250ms,
+    slide-in 250ms;
+}
+
+::view-transition-old(.exit-right) {
+  --slide-distance: calc(100vw + 60px);
+  animation:
+    fade-out 250ms,
+    slide-out 250ms;
+}
+
+::view-transition-new(.enter-right) {
+  --slide-distance: calc(100vw + 60px);
+  animation:
+    fade-in 250ms,
+    slide-in 250ms;
+}
+
+/* Search input pending spinner (ViewTransition name search-input-spinner) */
+::view-transition-old(.search-spinner-quick) {
+  animation: fade-out 100ms ease-out;
+}
+::view-transition-new(.search-spinner-quick) {
+  animation: fade-in 100ms ease-out;
+}
+::view-transition-old(.search-spinner-standard) {
+  animation: fade-out 200ms ease-out;
+}
+::view-transition-new(.search-spinner-standard) {
+  animation: fade-in 200ms ease-out;
+}
+
+/* Likes counter transitions */
+
+::view-transition-new(.likes-update-increase) {
+  --slide-distance-y: -10px;
+  animation:
+    fade-out 200ms var(--easings-in-dramatic),
+    slide-out-y 200ms var(--easings-in-dramatic);
+}
+::view-transition-old(.likes-update-increase) {
+  --slide-distance-y: 8px;
+  animation:
+    slide-out-y 200ms var(--easings-out-dramatic),
+    fade-out 200ms var(--easings-out-dramatic);
+}
+::view-transition-new(.likes-update-decrease) {
+  --slide-distance-y: 10px;
+  animation:
+    fade-in 200ms var(--easings-in-dramatic),
+    slide-in-y 200ms var(--easings-in-dramatic);
+}
+::view-transition-old(.likes-update-decrease) {
+  --slide-distance-y: -8px;
+  animation:
+    slide-out-y 200ms var(--easings-out-dramatic),
+    fade-out 200ms var(--easings-out-dramatic);
+}
+
+/* nav-link type */
+::view-transition-old(.exit-block) {
+  --slide-distance-y: 20px;
+  animation:
+    fade-out 200ms var(--easings-glide),
+    slide-out-y 200ms var(--easings-glide);
+}
+::view-transition-new(.enter-block) {
+  --slide-distance-y: -20px;
+  animation:
+    fade-in 200ms var(--easings-glide),
+    slide-in-y 200ms var(--easings-glide);
+}

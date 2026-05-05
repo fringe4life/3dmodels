@@ -3,18 +3,29 @@
 import { ViewTransition } from "react";
 import type { Maybe } from "@/types";
 import type { ActionState } from "@/utils/to-action-state";
+import { css } from "../../../styled-system/css";
+
+interface FormErrorProps<T = unknown> {
+  actionState: Maybe<ActionState<T>>;
+  isPending: boolean;
+}
 
 const FormError = <T = unknown>({
   actionState,
   isPending,
-}: {
-  actionState: Maybe<ActionState<T>>;
-  isPending: boolean;
-}) => {
+}: FormErrorProps<T>) => {
   let formErrorElement: React.ReactNode = null;
   if (actionState?.message && actionState?.status === "ERROR" && !isPending) {
     formErrorElement = (
-      <div className="rounded-md bg-red-50 p-3 text-red-800 text-sm">
+      <div
+        className={css({
+          rounded: "md",
+          backgroundColor: "red.50",
+          padding: 3,
+          color: "red.800",
+          fontSize: "sm",
+        })}
+      >
         {actionState.message}
       </div>
     );

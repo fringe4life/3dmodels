@@ -5,7 +5,7 @@ export interface Page {
   page: number;
 }
 
-export interface PaginationMetadata extends Page {
+interface PaginationMetadata extends Page {
   count: number;
   hasNextPage: boolean;
 }

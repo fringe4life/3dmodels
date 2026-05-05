@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import "./globals.css" with { type: "module" };
+// import "./globals.css" with { type: "module" };
+import "./index.css";
 import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
 import { ENV } from "varlock/env";
@@ -10,11 +11,14 @@ import {
   HERO_IMAGE_SQUARE_SRC,
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
+import { css } from "../../styled-system/css";
+import { grid } from "../../styled-system/patterns";
 
 const albertSans = Albert_Sans({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600", "700"],
+  variable: "--font-albert-sans",
 });
 
 const montserratAlternates = Montserrat_Alternates({
@@ -73,15 +77,26 @@ export const viewport: Viewport = {
 };
 
 const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
-  <html data-scroll-behavior="smooth" lang="en">
-    <body
-      className={`${albertSans.className} ${montserratAlternates.variable} min-block-dvh`}
-      id="top"
-    >
+  <html
+    className={`${albertSans.variable} ${montserratAlternates.variable}`}
+    data-scroll-behavior="smooth"
+    lang="en"
+  >
+    <body id="top">
       <ScrollProgress />
       {navbar}
-      <div className="block-full min-block-[calc(100dvh-4.6875rem)] grid grid-rows-[1fr_5.35rem] md:gap-y-10">
-        <main className="block-full">
+      <div
+        className={grid({
+          blockSize: "full",
+          minBlockSize: {
+            base: "calc(100dvh - 4.6875rem)",
+            _supportsScroll: "calc(100dvh - 4.8125rem)",
+          },
+          gridTemplateRows: "1fr 5.35rem",
+          rowGap: { md: 10 },
+        })}
+      >
+        <main className={css({ blockSize: "full" })}>
           <RscBoundaryProvider>{children}</RscBoundaryProvider>
         </main>
         {footer}

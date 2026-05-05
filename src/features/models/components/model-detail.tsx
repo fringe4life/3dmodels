@@ -3,6 +3,9 @@ import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import { sanitiseName } from "@/utils/sanitise-name";
+import { css, cx } from "../../../../styled-system/css";
+import { grid, gridItem } from "../../../../styled-system/patterns";
+import { prose } from "../../../../styled-system/recipes";
 import type { ModelDetailProps } from "../types";
 
 const ModelDetail = ({
@@ -13,13 +16,30 @@ const ModelDetail = ({
   dateAdded,
   children,
 }: ModelDetailProps) => (
-  <div className="corner-squircle max-inline-6xl mx-auto self-center rounded-lg px-4 py-8">
-    <article className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+  <div
+    className={css({
+      maxInlineSize: "6xl",
+      marginInline: "auto",
+      alignSelf: "center",
+      rounded: "lg",
+      paddingInline: 4,
+      paddingBlock: 8,
+    })}
+  >
+    <article className={grid({ columns: { base: 1, lg: 2 }, gap: 8 })}>
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
-        <figure className="relative aspect-square rounded-lg shadow-lg contain-content">
+        <figure
+          className={css({
+            position: "relative",
+            aspectRatio: "square",
+            rounded: "lg",
+            shadow: "lg",
+            contain: "content",
+          })}
+        >
           <Image
             alt={description}
-            className="object-cover"
+            className={css({ objectFit: "cover" })}
             fill
             priority
             sizes="(max-width: 1023px) 100vw, 50vw"
@@ -28,20 +48,42 @@ const ModelDetail = ({
         </figure>
       </ViewTransition>
       {/* Content Section - Static with Dynamic Like Status */}
-      <section className="grid content-center">
+      <section className={grid({ alignContent: "center" })}>
         {/* Dynamic Like Status - passed as children */}
         {children}
         <ViewTransition name={`model-title-${sanitiseName(slug)}`}>
-          <h1 className="mbe-6 font-bold text-4xl">{name}</h1>
+          <h1
+            className={css({
+              marginBlockEnd: 6,
+              fontWeight: "bold",
+              fontSize: "4xl",
+            })}
+          >
+            {name}
+          </h1>
         </ViewTransition>
 
-        <Pill className="mbe-6 inline-fit">{categorySlug}</Pill>
-
-        <div className="prose prose-lg mbe-6 max-inline-none">
-          <p className="text-gray-700 leading-relaxed">{description}</p>
+        <Pill
+          className={gridItem({
+            marginBlockEnd: 6,
+            inlineSize: "fit-content",
+            alignSelf: "center",
+          })}
+        >
+          {categorySlug}
+        </Pill>
+        <div
+          className={cx(
+            css({ maxInlineSize: "none", marginBlockEnd: 6 }),
+            prose({ size: "lg" }),
+          )}
+        >
+          <p className={css({ color: "gray.700", lineHeight: "relaxed" })}>
+            {description}
+          </p>
         </div>
 
-        <footer className="text-gray-500 text-sm">
+        <footer className={css({ color: "gray.500", fontSize: "sm" })}>
           <time dateTime={dateAdded.toISOString()}>
             Added on {dateAdded.toLocaleDateString()}
           </time>

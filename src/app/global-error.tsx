@@ -1,55 +1,81 @@
 "use client";
 
 import type { ErrorInfo } from "next/error";
-import "./globals.css";
+import { ResetButton } from "@/components/form/reset-button";
+import { css } from "../../styled-system/css";
+import { flex, grid } from "../../styled-system/patterns";
 
-const GlobalError = ({ error, unstable_retry }: ErrorInfo) => {
-  const digest =
-    "digest" in error && typeof error.digest === "string"
-      ? error.digest
-      : undefined;
-
-  return (
-    <html lang="en">
-      <head>
-        <title>Something went wrong | PrintForge</title>
-      </head>
-      <body className="min-block-dvh bg-white font-sans text-neutral-900 antialiased">
-        <div className="min-block-dvh grid place-content-center gap-6 px-6 py-12">
-          <div className="max-inline-md text-center">
-            <h1 className="font-semibold text-2xl text-neutral-900">
-              Something went wrong
-            </h1>
-            <p className="mbs-3 text-gray-600 text-sm">
-              We couldn&apos;t load PrintForge. You can try again or return to
-              the home page.
-            </p>
-            {process.env.NODE_ENV === "development" && digest ? (
-              <p className="mbs-4 break-all font-mono text-neutral-500 text-xs">
-                {digest}
-              </p>
-            ) : null}
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <button
-              className="rounded-md bg-orange-accent px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-orange-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
-              onClick={() => unstable_retry()}
-              type="button"
-            >
-              Try again
-            </button>
-            {/* Full document navigation (not next/link): after a global error we want a hard refresh so client state and the broken tree are fully cleared. */}
-            <a
-              className="text-gray-600 text-sm underline decoration-neutral-300 underline-offset-4 transition-colors hover:text-neutral-900"
-              href="/"
-            >
-              Return home
-            </a>
-          </div>
+const GlobalError = ({ unstable_retry }: ErrorInfo) => (
+  <html lang="en">
+    <head>
+      <title>Something went wrong | PrintForge</title>
+    </head>
+    <body
+      className={css({
+        minBlockSize: "100dvh",
+        backgroundColor: "white",
+        fontFamily: "var(--font-albert-sans)",
+        color: "neutral.900",
+      })}
+    >
+      <div
+        className={grid({
+          minBlockSize: "dvh",
+          placeContent: "center",
+          gap: 6,
+          paddingInline: 6,
+          paddingBlock: 12,
+        })}
+      >
+        <div className={css({ maxInlineSize: "md", textAlign: "center" })}>
+          <h1
+            className={css({
+              fontWeight: "semibold",
+              fontSize: "2xl",
+              color: "neutral.900",
+            })}
+          >
+            Something went wrong
+          </h1>
+          <p
+            className={css({
+              marginBlockStart: 3,
+              color: "gray.600",
+              fontSize: "sm",
+            })}
+          >
+            We couldn&apos;t load PrintForge. You can try again or return to the
+            home page.
+          </p>
         </div>
-      </body>
-    </html>
-  );
-};
+        <div
+          className={flex({
+            flexWrap: "wrap",
+            justify: "center",
+            gap: 4,
+            align: "center",
+          })}
+        >
+          <ResetButton onClick={unstable_retry} />
+          {/* Full document navigation (not next/link): after a global error we want a hard refresh so client state and the broken tree are fully cleared. */}
+          <a
+            className={css({
+              color: "gray.600",
+              fontSize: "sm",
+              textDecoration: "underline",
+              textDecorationColor: "neutral.300",
+              textUnderlineOffset: "4",
+              transitionProperty: "colors",
+              _hover: { color: "neutral.900" },
+            })}
+            href="/"
+          >
+            Return home
+          </a>
+        </div>
+      </div>
+    </body>
+  </html>
+);
 
 export default GlobalError;

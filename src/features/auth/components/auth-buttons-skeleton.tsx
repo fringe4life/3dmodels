@@ -1,11 +1,27 @@
+import { css } from "../../../../styled-system/css";
+import { flex } from "../../../../styled-system/patterns";
+
 const AuthButtonsSkeleton = () => (
-  <>
-    <div className="block-8 inline-19 hidden animate-pulse rounded bg-gray-200 sm:block" />
-    <div className="flex items-center gap-2 sm:hidden">
-      <div className="block-8 inline-10 animate-pulse rounded bg-gray-200" />
-      <div className="block-8 inline-10 animate-pulse rounded bg-gray-200" />
-    </div>
-  </>
+  <div className={flex({ align: "center", gap: 2 })}>
+    <div
+      className={css({
+        blockSize: 8,
+        inlineSize: 10,
+        rounded: "sm",
+        backgroundColor: "gray.200",
+        animation: "pulse",
+      })}
+    />
+    <div
+      className={css({
+        blockSize: 8,
+        inlineSize: 10,
+        rounded: "sm",
+        backgroundColor: "gray.200",
+        animation: "pulse",
+      })}
+    />
+  </div>
 );
 
 export { AuthButtonsSkeleton };

@@ -15,7 +15,10 @@ import {
   paginationParser,
 } from "@/features/pagination/pagination-search-params";
 import type { LimitItem } from "@/features/pagination/types";
+import { css } from "../../../../styled-system/css";
+import { flex, square } from "../../../../styled-system/patterns";
 import type { PaginationProps } from "../types";
+import { PaginationButton } from "./pagination-button";
 
 const Pagination = ({ metadata }: PaginationProps) => {
   const [pagination, setPagination] = useQueryStates(
@@ -61,45 +64,34 @@ const Pagination = ({ metadata }: PaginationProps) => {
     });
   };
 
-  const limitDropdown = (
-    <select
-      className="block-10"
-      id={id}
-      onChange={(event) =>
-        handleLimitChange(Number(event.target.value) as LimitItem)
-      }
-      value={limit}
-    >
-      {LIMITS.map((value) => (
-        <option key={value} value={value}>
-          {value}
-        </option>
-      ))}
-    </select>
-  );
-
   return (
     <ViewTransition name="pagination">
-      <div className="flex items-center justify-between">
-        <p className="text-gray-500 text-sm">{label}</p>
-        <div className="flex items-center gap-x-2">
-          {limitDropdown}
-          <button
-            className="block-10 cursor-pointer text-gray-500 transition-[opacity,color,scale] duration-200 ease-in-out hover:scale-105 hover:text-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={page < 1}
-            onClick={handlePreviousPage}
-            type="button"
+      <div className={flex({ align: "center", justify: "space-between" })}>
+        <p className={css({ color: "gray.500", fontSize: "sm" })}>{label}</p>
+        <div className={flex({ align: "center", columnGap: 2 })}>
+          <select
+            className={css({ inlineSize: 10, blockSize: 8 })}
+            id={id}
+            onChange={(event) =>
+              handleLimitChange(Number(event.target.value) as LimitItem)
+            }
+            value={limit}
           >
-            <FaChevronLeft className="block-10 aspect-square" />
-          </button>
-          <button
-            className="block-10 cursor-pointer text-gray-500 transition-[opacity,color,scale] duration-200 ease-in-out hover:scale-105 hover:text-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+            {LIMITS.map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </select>
+          <PaginationButton disabled={page < 1} onClick={handlePreviousPage}>
+            <FaChevronLeft className={square({ size: 6 })} />
+          </PaginationButton>
+          <PaginationButton
             disabled={!metadata.hasNextPage}
             onClick={handleNextPage}
-            type="button"
           >
-            <FaChevronRight className="block-10 aspect-square" />
-          </button>
+            <FaChevronRight className={square({ size: 6 })} />
+          </PaginationButton>
         </div>
       </div>
     </ViewTransition>

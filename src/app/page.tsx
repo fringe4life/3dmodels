@@ -6,6 +6,8 @@ import {
   HERO_IMAGE_SQUARE_SRC,
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
+import { css } from "../../styled-system/css";
+import { grid, gridItem } from "../../styled-system/patterns";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -17,23 +19,64 @@ export const metadata: Metadata = {
       "Join our community of creators and explore a vast library of user-submitted 3D printing models.",
   },
 };
+// }; className="block-full max-inline-7xl mx-auto grid items-center justify-between gap-8 px-2 py-12 sm:px-6 md:grid-flow-col">
 
 const Home = () => (
-  <section className="block-full max-inline-7xl mx-auto grid items-center justify-between gap-8 px-2 py-12 sm:px-6 md:grid-flow-col">
-    <div className="grid gap-y-6">
-      <p className="hidden text-pretty text-gray-600 text-sm uppercase md:block">
+  <section
+    className={grid({
+      blockSize: "full",
+      maxInlineSize: "7xl",
+      marginInline: "auto",
+      gap: 8,
+      paddingInline: { base: 2, sm: 6 },
+      paddingBlock: 12,
+      gridAutoFlow: { md: "column" },
+      justifyContent: "space-between",
+      alignItems: "center",
+    })}
+  >
+    <div className={grid({ rowGap: 6 })}>
+      <p
+        className={css({
+          display: { base: "none", md: "block" },
+          color: "gray.600",
+          fontSize: "sm",
+          textTransform: "uppercase",
+        })}
+      >
         Your go-to platform for 3D printing files
       </p>
-      <h1 className="text-balance font-bold text-4xl md:text-5xl">
+      <h1
+        className={css({
+          textWrap: "balance",
+          fontWeight: "bold",
+          fontSize: { base: "4xl", md: "5xl" },
+          lineHeight: "tight",
+        })}
+      >
         Discover what's possible with 3D Printing
       </h1>
-      <p className="text-pretty text-gray-600 text-lg">
+      <p
+        className={css({
+          color: "gray.600",
+          fontSize: "lg",
+        })}
+      >
         Join our community of creators and explore a vast library of
         user-submitted models.
       </p>
-
       <Link
-        className="justify-self-start border-2 border-black bg-white px-6 py-3 text-black transition-colors duration-200 hover:bg-black hover:text-white"
+        className={gridItem({
+          justifySelf: "start",
+          borderColor: "black",
+          borderWidth: 2,
+          backgroundColor: { base: "white", _hover: "black" },
+          paddingInline: 6,
+          paddingBlock: 3,
+          color: { base: "black", _hover: "white" },
+          transitionProperty: "colors",
+          transitionDuration: "normal",
+        })}
         href="/3d-models"
       >
         Browse Models
@@ -41,7 +84,16 @@ const Home = () => (
     </div>
     <Image
       alt="a 3d printed model of the US Capital Building"
-      className="mask-[url(/mask-1.svg)] mask-cover inline-75 aspect-square justify-self-center rounded-lg contain-strict"
+      className={css({
+        maskImage: "url(/mask-1.svg)",
+        maskSize: "cover",
+        inlineSize: "7xl",
+        justifySelf: "center",
+        aspectRatio: "square",
+        rounded: "lg",
+        contain: "strict",
+      })}
+      // className="mask-[url(/mask-1.svg)] mask-cover inline-75 aspect-square justify-self-center rounded-lg contain-strict"
       height={HERO_IMAGE_SQUARE_HEIGHT}
       priority
       src={HERO_IMAGE_SQUARE_SRC}

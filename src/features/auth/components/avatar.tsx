@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
+import { css } from "../../../../styled-system/css";
 import type { AvatarProps } from "../types";
 
 const Avatar = ({ user }: AvatarProps) => {
@@ -10,7 +11,11 @@ const Avatar = ({ user }: AvatarProps) => {
     return (
       <Image
         alt={user.name ?? "User avatar"}
-        className="block-full inline-full object-cover"
+        className={css({
+          blockSize: "full",
+          inlineSize: "full",
+          objectFit: "cover",
+        })}
         height={32}
         sizes="32px"
         src={user.image}
@@ -18,7 +23,16 @@ const Avatar = ({ user }: AvatarProps) => {
       />
     );
   }
-  return <FaUserCircle className="inline-full block-full text-gray-700" />;
+  // "inline-full block-full text-gray-700"
+  return (
+    <FaUserCircle
+      className={css({
+        inlineSize: "full",
+        blockSize: "full",
+        color: "gray.700",
+      })}
+    />
+  );
 };
 
 export { Avatar };

@@ -1,12 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState, useTransition } from "react";
-import { FaSpinner } from "react-icons/fa";
 import { FieldError } from "@/components/form/field-errors";
 import { FormError } from "@/components/form/form-error";
+import { Input } from "@/components/form/input";
+import { Label } from "@/components/form/label";
+import { SubmitButton } from "@/components/form/submit-button";
 import { signInAction } from "@/features/auth/actions/sign-in-action";
+import { AuthCard } from "@/features/auth/components/auth-card";
+import { AuthFooterLink } from "@/features/auth/components/auth-footer-link";
 import { SignInButton } from "@/features/auth/components/sign-in-button";
+import { css } from "../../../../styled-system/css";
 
 const SignInPage = () => {
   const [state, formAction] = useActionState(signInAction, null);
@@ -14,100 +18,97 @@ const SignInPage = () => {
 
   // Extract email from payload if available (for preserving on error)
   const emailValue = state?.payload?.get("email")?.toString() ?? "";
+
   return (
-    <>
-      <div>
-        <h2 className="mbs-6 text-center font-bold text-3xl text-gray-900 tracking-tight">
-          Sign in to your account
-        </h2>
-      </div>
-      <div className="mbs-8 space-y-6">
-        <div className="rounded-md bg-white p-6 shadow-md">
-          <form
-            action={(formData) => {
-              startTransition(() => {
-                formAction(formData);
-              });
-            }}
-            className="space-y-4"
+    <AuthCard
+      footer={
+        <AuthFooterLink
+          href="/signup"
+          label="Sign up"
+          prompt="Don't have an account?"
+        />
+      }
+      title="Sign in to your account"
+    >
+      <form
+        action={(formData) => {
+          startTransition(() => {
+            formAction(formData);
+          });
+        }}
+        className={css({ spaceY: 4 })}
+      >
+        <fieldset disabled={isPending}>
+          <Label htmlFor="email">Email address</Label>
+          <Input
+            autoComplete="email"
+            defaultValue={emailValue}
+            id="email"
+            name="email"
+            required
+            type="email"
+          />
+          <FieldError actionState={state} name="email" />
+        </fieldset>
+        <fieldset disabled={isPending}>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            autoComplete="current-password"
+            id="password"
+            name="password"
+            required
+            type="password"
+          />
+          <FieldError actionState={state} name="password" />
+        </fieldset>
+        <FormError actionState={state} isPending={isPending} />
+        <SubmitButton isPending={isPending}>
+          <span className={css({ _groupDisabled: { display: "none" } })}>
+            Sign in
+          </span>
+        </SubmitButton>
+      </form>
+
+      <div className={css({ marginBlockStart: 6 })}>
+        <div
+          className={css({
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textAlign: "center",
+          })}
+        >
+          <span
+            className={css({
+              position: "relative",
+              display: "inline-block",
+              backgroundColor: "white",
+              color: "gray.500",
+              "&::after,&::before": {
+                content: "''",
+                blockSize: 0.5,
+                inlineSize: "full",
+                position: "absolute",
+                backgroundColor: "gray.300",
+                insetBlockStart: "50%",
+              },
+              _before: {
+                insetInlineEnd: "100%",
+                marginInlineEnd: 2,
+              },
+              _after: {
+                insetInlineStart: "100%",
+                marginInlineStart: 2,
+              },
+            })}
           >
-            <fieldset disabled={isPending}>
-              <label
-                className="block font-medium text-gray-700 text-sm"
-                htmlFor="email"
-              >
-                Email address
-              </label>
-              <input
-                autoComplete="email"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
-                defaultValue={emailValue}
-                id="email"
-                name="email"
-                required
-                type="email"
-              />
-              <FieldError actionState={state} name="email" />
-            </fieldset>
-            <fieldset disabled={isPending}>
-              <label
-                className="block font-medium text-gray-700 text-sm"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                autoComplete="current-password"
-                className="mbs-1 inline-full block rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-200 focus-within:border-orange-accent focus:outline-none focus-visible:ring-orange-accent sm:text-sm"
-                id="password"
-                name="password"
-                required
-                type="password"
-              />
-
-              <FieldError actionState={state} name="password" />
-            </fieldset>
-            <FormError actionState={state} isPending={isPending} />
-
-            <button
-              className="group inline-full flex justify-center gap-x-2 rounded-md bg-orange-accent px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-orange-accent/90 focus:outline-none focus:ring-2 focus:ring-orange-accent focus:ring-offset-2 disabled:opacity-50"
-              disabled={isPending}
-              type="submit"
-            >
-              <FaSpinner className="skeleton-enter block-5 hidden aspect-square animate-spin group-disabled:block" />
-              {isPending ? "Signing in..." : "Sign in"}
-            </button>
-          </form>
-
-          <div className="mbs-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="inline-full border-gray-300 border-t" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-white px-2 text-gray-500">
-                  Or continue with
-                </span>
-              </div>
-            </div>
-
-            <div className="mbs-6">
-              <SignInButton />
-            </div>
-          </div>
-
-          <div className="mbs-6 text-center text-sm">
-            <span className="text-gray-600">Don't have an account? </span>
-            <Link
-              className="font-medium text-orange-accent hover:text-orange-accent/80"
-              href="/signup"
-            >
-              Sign up
-            </Link>
-          </div>
+            Or continue with
+          </span>
+        </div>
+        <div className={css({ marginBlockStart: 6 })}>
+          <SignInButton />
         </div>
       </div>
-    </>
+    </AuthCard>
   );
 };
 

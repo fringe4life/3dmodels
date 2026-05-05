@@ -3,6 +3,9 @@
 .husky
 .vscode
 .qodo
+.fallow
+.fallowrc.json
+.env.local
 
 update-readme.md
 git-commit-msg.md

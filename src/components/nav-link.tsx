@@ -1,9 +1,10 @@
 "use client";
 
-import { clsx } from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { NavLinkListItemProps, NavLinkProps } from "@/types";
+import { css, cx } from "../../styled-system/css";
+import { navLink } from "../../styled-system/patterns";
 
 /**
  * Client-side nav link that marks the current route with `aria-current="page"` and matching styles.
@@ -33,7 +34,7 @@ const NavLink = ({
     <Link
       {...linkProps}
       aria-current={isActive ? "page" : undefined}
-      className={clsx("nav-link", className)}
+      className={cx(className, navLink())}
       {...(borderPosition === "bottom" && { "data-border-bottom": true })}
       href={href}
       prefetch={prefetch}
@@ -44,7 +45,11 @@ const NavLink = ({
 };
 
 const NavLinkListItem = ({
-  liClassName = "text-sm uppercase sm:tracking-wide",
+  liClassName = css({
+    fontSize: "sm",
+    textTransform: "uppercase",
+    letterSpacing: "wide",
+  }),
   ...navLinkProps
 }: NavLinkListItemProps) => (
   <li className={liClassName}>

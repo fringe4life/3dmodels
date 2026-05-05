@@ -19,10 +19,6 @@ export const signOutAction = async () => {
   if (error || !data) {
     return fromErrorToActionState(error);
   }
-
-  // Invalidate session cache
-  // invalidateSessionCache();
-
   // Redirect to home page
   throw redirect("/", RedirectType.replace);
 };

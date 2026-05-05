@@ -4,6 +4,8 @@ import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import { sanitiseName } from "@/utils/sanitise-name";
+import { css } from "../../../../styled-system/css";
+import { flex } from "../../../../styled-system/patterns";
 import { toggleLike } from "../actions/likes";
 import type { ModelCardProps } from "../types";
 import { HeartButtonClient } from "./heart-button/heart-button-client";
@@ -13,12 +15,64 @@ const ModelCard = ({
   model: { slug, name, description, categorySlug, likes, hasLiked },
 }: ModelCardProps) => (
   <ViewTransition enter="enter" exit="exit">
-    <article className="model-card model-animation corner-squircle relative isolate block rounded-lg bg-white shadow-md transition-transform duration-200 ease-out after:absolute after:inset-0 after:rounded-inherit after:opacity-0 after:shadow-model-card-hover after:transition-opacity after:duration-200 after:ease-glide hover:-translate-y-0.5 hover:shadow-transparent hover:after:opacity-100 supports-linear:ease-glide">
+    <article
+      className={css({
+        position: "relative",
+        isolation: "isolate",
+        rounded: "lg",
+        backgroundColor: "white",
+        shadow: "md",
+        transitionProperty: "translate",
+        transitionDuration: "normal",
+        cursor: "pointer",
+        transitionTimingFunction: {
+          base: "ease-in-out",
+          _supportsLinear: "glide",
+        },
+        _after: {
+          content: "''",
+          position: "absolute",
+          inset: "0",
+          rounded: "lg",
+          opacity: "0",
+          shadow: "xl",
+          transitionProperty: "opacity",
+          transitionDuration: "normal",
+          zIndex: "-1",
+        },
+        _hover: {
+          translate: "0 calc(token(sizes.2) * -1)",
+          _after: {
+            opacity: "1",
+          },
+        },
+        _notSupportsHover: {
+          _supportsScroll: {
+            animationName: "animateModelIn, animateModelOut",
+            animationDuration: "auto",
+            animationTimingFunction: "glide",
+            animationTimeline: "view()",
+            animationFillMode: "forwards",
+            animationRange: "entry, exit 50%",
+          },
+        },
+        "&:has([data-progress='true']) *": {
+          cursor: "progress",
+        },
+      })}
+    >
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
-        <div className="relative aspect-square rounded-t-[inherit] contain-strict">
+        <div
+          className={css({
+            position: "relative",
+            aspectRatio: "square",
+            roundedTop: "inherit",
+            contain: "strict",
+          })}
+        >
           <Image
             alt={description}
-            className="object-cover"
+            className={css({ objectFit: "cover" })}
             fill
             loading="eager"
             sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
@@ -27,24 +81,60 @@ const ModelCard = ({
         </div>
       </ViewTransition>
 
-      <div className="p-4">
-        <div className="mbe-2 min-block-14 flex justify-between">
+      <div className={css({ padding: 4 })}>
+        <div
+          className={flex({
+            justify: "space-between",
+            marginBlockEnd: 2,
+            minBlockSize: 14,
+          })}
+        >
           <ViewTransition name={`model-title-${sanitiseName(slug)}`}>
-            <h2 className="line-clamp-2 font-semibold text-gray-800 text-xl">
+            <h2
+              className={css({
+                lineClamp: 2,
+                fontWeight: "semibold",
+                color: "gray.800",
+                fontSize: "xl",
+              })}
+            >
               <Link href={`/3d-models/${slug}`}>
                 {name}
-                <span className="inline-full block-full absolute inset-0 z-20" />
+                <span
+                  className={css({
+                    position: "absolute",
+                    inset: 0,
+                    z: "20",
+                    inlineSize: "full",
+                    blockSize: "full",
+                  })}
+                />
               </Link>
             </h2>
           </ViewTransition>
         </div>
-        <p className="min-block-10 line-clamp-2 text-gray-800 text-sm leading-5">
+        <p
+          className={css({
+            minBlockSize: "10",
+            lineClamp: 2,
+            color: "gray.800",
+            fontSize: "sm",
+          })}
+        >
           {description}
         </p>
-        <div className="mbs-2">
+        <div className={css({ marginBlockStart: 2 })}>
           <Pill>{categorySlug}</Pill>
         </div>
-        <div className="mbs-2 relative z-50 flex items-center text-gray-600">
+        <div
+          className={flex({
+            marginBlockStart: 2,
+            position: "relative",
+            z: "50",
+            align: "center",
+            color: "gray.600",
+          })}
+        >
           <HeartButtonClient
             hasLiked={hasLiked}
             isAuthenticated={isAuthenticated}

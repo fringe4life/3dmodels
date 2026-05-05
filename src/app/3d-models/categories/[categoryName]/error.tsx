@@ -1,20 +1,13 @@
 "use client";
 
 import type { ErrorInfo } from "next/error";
+import { ResetButton } from "@/components/form/reset-button";
 import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import { MODELS_ERROR_LIST } from "@/features/models/constants";
 
 const CategoryResultError = ({ unstable_retry }: ErrorInfo) => (
   <UnsuccessfulState
-    action={
-      <button
-        className="rounded-md bg-orange-accent px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-orange-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
-        onClick={() => unstable_retry()}
-        type="button"
-      >
-        Try again
-      </button>
-    }
+    action={<ResetButton onClick={unstable_retry} />}
     heading="Failed to load Models for Category"
     isError
     listItems={MODELS_ERROR_LIST}

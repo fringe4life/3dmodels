@@ -1,3 +1,4 @@
+import { EMPTY_LIST_LENGTH } from "@/constants";
 import { db } from "@/db";
 import type { HasLiked } from "@/features/models/types";
 import { tryCatch } from "@/utils/try-catch";
@@ -10,7 +11,7 @@ export const getLikedSlugsForUser = async (
   userId: string,
   slugs: string[],
 ): Promise<Set<string>> => {
-  if (slugs.length === 0) {
+  if (slugs.length === EMPTY_LIST_LENGTH) {
     return new Set();
   }
 

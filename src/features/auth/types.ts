@@ -24,11 +24,3 @@ export interface AvatarProps {
 export interface SignUpData {
   user: Pick<User, "id" | "email" | "name">;
 }
-
-export interface UserVerifiable {
-  userId: string;
-}
-
-export interface IsOwner {
-  isOwner: boolean;
-}

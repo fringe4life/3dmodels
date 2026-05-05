@@ -75,9 +75,6 @@ const signInAction = async (
     if (error || !authResponse) {
       throw error || new Error("Failed to sign in");
     }
-
-    // invalidateSessionCache();
-
     throw redirect("/", RedirectType.replace);
   } catch (error) {
     unstable_rethrow(error);

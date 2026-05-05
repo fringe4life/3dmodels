@@ -1,4 +1,6 @@
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { css } from "../../../styled-system/css";
+import { grid, gridItem } from "../../../styled-system/patterns";
 
 const ModelsLayout = ({
   children,
@@ -6,13 +8,61 @@ const ModelsLayout = ({
   results,
 }: LayoutProps<"/3d-models">) => (
   <NuqsAdapter>
-    <div className="min-block-full grid grid-rows-[min-content_1fr] md:grid-cols-[var(--category-width-tablet)_1fr] md:grid-rows-1 md:gap-x-25">
-      <aside className="max-inline-dvw md:max-inline-(--category-max-tablet) relative border-gray-200 border-b bg-white md:col-start-1 md:border-none">
-        <nav className="mobile-categories no-scrollbar not-supports-scroll-timeline:mask-r-from-95% md:mask-r-from-100% sticky overflow-x-auto md:fixed md:inset-bs-1/2 md:-translate-y-1/2 md:overflow-visible">
+    <div
+      className={grid({
+        minBlockSize: "full",
+        gridTemplateRows: { base: "min-content 1fr", md: "1fr" },
+        gridTemplateColumns: {
+          md: "token(sizes.categoryWidthTablet) 1fr",
+        },
+        columnGap: { md: 20 },
+      })}
+    >
+      <aside
+        className={gridItem({
+          maxInlineSize: { base: "100dvw", md: "categoryWidthTablet" },
+          position: "relative",
+          borderBottomWidth: { base: 2, md: 0 },
+          borderColor: "gray.200",
+          backgroundColor: "white",
+          colStart: { md: 1 },
+        })}
+      >
+        <nav
+          className={css({
+            position: "sticky",
+            overflowX: "auto",
+            md: {
+              insetBlockStart: "50%",
+              translate: "0 -50%",
+              overflow: "visible",
+              position: "fixed",
+            },
+            scrollbar: "hidden",
+            _supportsScroll: {
+              animationName: "categoriesScrollMask",
+              animationDuration: "auto",
+              animationTimingFunction: "glide",
+              animationFillMode: "both",
+              animationTimeline: "scroll(self inline)",
+              animationRange: "0% 100%",
+            },
+            _notSupportsScroll: {
+              maskImage:
+                "linear-gradient(to right, black 95%, transparent 100%)",
+              md: { maskImage: "none" },
+            },
+          })}
+        >
           {categories}
         </nav>
       </aside>
-      <section className="self-center p-4 has-not-found:self-start">
+      <section
+        className={gridItem({
+          alignSelf: "center",
+          padding: 4,
+        })}
+      >
         {children}
         {results}
       </section>

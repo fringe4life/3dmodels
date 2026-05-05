@@ -6,18 +6,58 @@ import { AuthButtons } from "@/features/auth/components/auth-buttons";
 import { AuthButtonsSkeleton } from "@/features/auth/components/auth-buttons-skeleton";
 import { Avatar } from "@/features/auth/components/avatar";
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
+import { css } from "../../../styled-system/css";
+import { flex, stack } from "../../../styled-system/patterns";
 
+// "nav-scroll sticky inset-bs-0 inset-x-0 z-20 flex flex-col border-gray-400/20 border-b bg-white/65 backdrop-blur"
 // Main component with HasAuthSuspense boundary
 const Navbar = () => (
   <ViewTransition name="main-header">
-    <header className="nav-scroll sticky inset-bs-0 inset-x-0 z-20 flex flex-col border-gray-400/20 border-b bg-white/65 backdrop-blur">
-      <nav className="flex items-center justify-between px-2 py-4 pe-2 sm:px-6">
+    <header
+      className={stack({
+        position: "sticky",
+        insetBlockStart: 0,
+        insetInline: 0,
+        zIndex: "20",
+        borderBottomWidth: 2,
+        borderBottomColor: "gray.400/20",
+        borderBottomStyle: "solid",
+        backgroundColor: "white/65",
+        backdropBlur: "sm",
+        transitionProperty: "translate,border-radius",
+        transitionDuration: "normal",
+        transitionTimingFunction: "soft",
+        _supportsScroll: {
+          animationName: "navAnimation",
+          animationTimingFunction: "linear",
+          animationFillMode: "both",
+          animationTimeline: "scroll()",
+          animationRange: "100px 200px",
+        },
+      })}
+    >
+      <nav
+        className={flex({
+          align: "center",
+          justify: "space-between",
+          paddingInline: { base: 2, sm: 6 },
+          paddingBlock: 4,
+        })}
+      >
         <Link href="/">
-          <div className="relative cursor-pointer ps-4">
+          <div
+            className={css({
+              position: "relative",
+              cursor: "pointer",
+              paddingInlineStart: 4,
+            })}
+          >
             {/* Desktop Logo */}
             <Image
               alt="PrintForge Logo"
-              className="inline-50 hidden md:block"
+              className={css({
+                display: { base: "none", md: "block" },
+              })}
               height={42}
               priority
               src="/printforge-logo.svg"
@@ -27,7 +67,9 @@ const Navbar = () => (
             {/* Mobile Logo */}
             <Image
               alt="PrintForge Logo"
-              className="inline-10 block-10.5 block md:hidden"
+              className={css({
+                display: { base: "block", md: "none" },
+              })}
               height={42}
               priority
               src="/printforge-logo-icon.svg"
@@ -36,10 +78,10 @@ const Navbar = () => (
             />
           </div>
         </Link>
-        <ul className="flex items-center gap-2 sm:gap-5">
+        <ul className={flex({ align: "center", gap: { base: 2, sm: 4 } })}>
           <NavLinkListItem href="/3d-models">3D Models</NavLinkListItem>
           <NavLinkListItem href="/about">About</NavLinkListItem>
-          <li className="place-self-center text-sm">
+          <li className={css({ placeSelf: "center", fontSize: "sm" })}>
             <HasAuthSuspense fallback={<AuthButtonsSkeleton />}>
               {(user, isAuthenticated) => (
                 <AuthButtons isAuthenticated={isAuthenticated}>

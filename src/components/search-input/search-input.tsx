@@ -9,6 +9,8 @@ import {
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { css } from "../../../styled-system/css";
+import { square } from "../../../styled-system/patterns";
 import { SearchInputTransition } from "./search-input-transition";
 
 // Constants for debounce timing
@@ -45,12 +47,29 @@ const SearchInput = () => {
       });
     }
   };
-
+  // "inline-full absolute inset-0 rounded-full border border-search-input/20 bg-white px-5 py-3 text-sm placeholder-gray-500 transition-colors duration-200 focus-within:border-search-input focus:outline-none focus:ring-0 focus-visible:outline-2 focus-visible:outline-search-input md:text-base"
   return (
     <>
       <input
         autoComplete="off"
-        className="inline-full absolute inset-0 rounded-full border border-search-input/20 bg-white px-5 py-3 text-sm placeholder-gray-500 transition-colors duration-200 focus-within:border-search-input focus:outline-none focus:ring-0 focus-visible:outline-2 focus-visible:outline-search-input md:text-base"
+        className={css({
+          inlineSize: "full",
+          position: "absolute",
+          inset: "0",
+          rounded: "full",
+          borderColor: { base: "searchInput/20", _focusWithin: "searchInput" },
+          borderWidth: 1,
+          backgroundColor: "white",
+          paddingInline: 5,
+          paddingBlock: 3,
+          fontSize: "sm",
+          color: "gray.500",
+          transitionProperty: "colors",
+          transitionDuration: "normal",
+          _focusWithin: { borderColor: "searchInput" },
+          _focus: { outline: "none", ring: "0" },
+          _focusVisible: { outline: "2", outlineColor: "searchInput" },
+        })}
         name="search"
         onChange={handleSearch}
         onKeyDown={handleKeyPress}
@@ -60,7 +79,18 @@ const SearchInput = () => {
       />
       <Activity mode={isPending ? "visible" : "hidden"}>
         <SearchInputTransition>
-          <AiOutlineLoading3Quarters className="block-5 absolute inset-bs-1/2 inset-e-5 aspect-square -translate-y-1/2 animate-spin text-gray-500 text-sm" />
+          <AiOutlineLoading3Quarters
+            className={square({
+              size: 5,
+              position: "absolute",
+              insetBlockStart: "50%",
+              insetInlineEnd: 5,
+              translate: "0 -50%",
+              animation: "spin",
+              color: "gray.500",
+              fontSize: "sm",
+            })}
+          />
         </SearchInputTransition>
       </Activity>
     </>

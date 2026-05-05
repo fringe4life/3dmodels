@@ -1,40 +1,40 @@
-import { and, eq, ilike, or, type SQL } from "drizzle-orm";
+import { count, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { models } from "@/db/schema/models";
 import type { Maybe } from "@/types";
 
-const getModelsCount = ({
+const modelsCountPrepared = db
+  .select({ count: count() })
+  .from(models)
+  .where(sql`
+    (
+      ${sql.placeholder("hasSearch")} = false
+      or ${models.name} ilike ${sql.placeholder("searchPattern")}
+      or ${models.description} ilike ${sql.placeholder("searchPattern")}
+    )
+    and (
+      ${sql.placeholder("hasCategory")} = false
+      or ${models.categorySlug} = ${sql.placeholder("category")}
+    )
+  `)
+  .prepare("get_models_count");
+
+const getModelsCount = async ({
   searchPattern,
   category,
 }: {
   searchPattern: Exclude<Maybe<string>, null>;
   category: Exclude<Maybe<string>, null>;
 }) => {
-  // Build where condition based on what's present
-  let countWhereCondition: Exclude<Maybe<SQL>, null>;
-  if (searchPattern && category) {
-    // Both exist: combine with AND
-    const searchWhereCondition = or(
-      ilike(models.name, searchPattern),
-      ilike(models.description, searchPattern),
-    );
-    countWhereCondition = and(
-      eq(models.categorySlug, category),
-      searchWhereCondition,
-    );
-  } else if (searchPattern) {
-    // Only searchPattern exists: use OR for search
-    countWhereCondition = or(
-      ilike(models.name, searchPattern),
-      ilike(models.description, searchPattern),
-    );
-  } else if (category) {
-    // Only category exists: filter by category
-    countWhereCondition = eq(models.categorySlug, category);
-  }
-  // If neither exists, countWhereCondition is undefined (no filtering, count all models)
-
-  return db.$count(models, countWhereCondition);
+  const hasSearch = Boolean(searchPattern);
+  const hasCategory = Boolean(category);
+  const [result] = await modelsCountPrepared.execute({
+    hasSearch,
+    searchPattern: searchPattern ?? "%%",
+    hasCategory,
+    category: category ?? "",
+  });
+  return Number(result?.count ?? 0);
 };
 
 export { getModelsCount };

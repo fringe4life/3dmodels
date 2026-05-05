@@ -3,6 +3,7 @@ import { SearchInput } from "@/components/search-input/search-input";
 import { SearchInputSkeleton } from "@/components/search-input/search-input-skeleton";
 import { Suspend } from "@/components/suspend";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
+import { css } from "../../../styled-system/css";
 
 const listingMetadata: Metadata = {
   title: "3d-Models",
@@ -30,7 +31,15 @@ export const generateMetadata = async ({
 };
 
 const Page = () => (
-  <div className="block-10 inline-full md:max-inline-xl relative px-4">
+  <div
+    className={css({
+      blockSize: 10,
+      inlineSize: "full",
+      maxInlineSize: { md: "xl" },
+      position: "relative",
+      paddingInline: 4,
+    })}
+  >
     <Suspend fallback={<SearchInputSkeleton />}>
       <SearchInput />
     </Suspend>

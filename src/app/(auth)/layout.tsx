@@ -1,6 +1,23 @@
+import { css } from "../../../styled-system/css";
+import { grid } from "../../../styled-system/patterns";
+
 const AuthLayout = ({ children }: LayoutProps<"/">) => (
-  <div className="min-block-dvh grid place-content-center px-4 md:-translate-y-20">
-    <div className="inline-full max-inline-md space-y-8">{children}</div>
+  <div
+    className={grid({
+      minBlockSize: "full",
+      placeContent: "center",
+      paddingInline: 4,
+    })}
+  >
+    <div
+      className={css({
+        inlineSize: "full",
+        maxInlineSize: "md",
+        marginBlockStart: 8,
+      })}
+    >
+      {children}
+    </div>
   </div>
 );
 

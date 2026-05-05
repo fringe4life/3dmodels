@@ -3,6 +3,13 @@ node_modules
 !.env.schema
 .next
 .vercel
+.fallow
 
 # TypeScript
 tsconfig.tsbuildinfo
+.fallow/
+
+## Panda
+styled-system
+styled-system-studio
+.fallow/cache.bin

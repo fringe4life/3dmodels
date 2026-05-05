@@ -5,23 +5,23 @@ A modern web application for browsing and discovering 3D models, built with Next
 ## 🛠️ Tech Stack
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black?logo=next.js)
-![React](https://img.shields.io/badge/React-canary-61DAFB?logo=react)
+![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.4-38B2AC?logo=tailwind-css)
-![Drizzle ORM](https://img.shields.io/badge/Drizzle-beta-FFE66D?logo=postgresql)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.0-000000)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.1-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.9-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.4.12-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.6.1-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+![Biome](https://img.shields.io/badge/Biome-2.4.14-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.6.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
 - **Framework**: Next.js 16.2.4 with App Router, Cache Components, and typed routes (`typedRoutes`)
-- **Language**: TypeScript 6.0.3 with React canary
-- **Styling**: Tailwind CSS v4.2.4 (Biome CSS parser with `tailwindDirectives`)
-- **Database**: Neon (PostgreSQL) with Drizzle ORM (beta)
+- **Language**: TypeScript 6.0.3 with React 19.3 canary
+- **Styling**: Panda CSS 1.11 (`@pandacss/dev`, `panda.config.ts`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` for layered CSS
+- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.1
 - **Authentication**: Better Auth with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
-- **Linting & Formatting**: Biome 2.4.12 with Ultracite 7.6.1 presets (`ultracite/biome/core`, `react`, `next`)
+- **Linting & Formatting**: Biome 2.4.14 with Ultracite 7.6.3 presets (`ultracite/biome/core`, `react`, `next`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
@@ -36,7 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16.2.4, TypeScript, and Tailwind CSS v4
+- **Modern Stack**: Built with Next.js 16.2.4, TypeScript, and Panda CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
@@ -44,13 +44,14 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`).
+Static assets are served from `public/` at the **repository root** (not under `src/`), including `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `styled-system/css` resolve.
 
 ```
 src/
 ├── app/                          # Next.js App Router
 │   ├── @navbar/                  # Parallel route for navbar
-│   │   └── default.tsx
+│   │   ├── default.tsx
+│   │   └── error.tsx
 │   ├── @footer/                  # Parallel route for footer
 │   │   └── default.tsx
 │   ├── 3d-models/                # 3D models routes
@@ -87,9 +88,9 @@ src/
 │   ├── api/                      # API routes
 │   │   └── [[...slugs]]/
 │   │       ├── better-auth-openapi.ts  # Better Auth OpenAPI spec for Elysia docs
-│   │       └── route.ts          # ElysiaJS API handler (Better Auth `basePath` /api/auth)
-│   ├── globals.css               # Global styles
-│   ├── scroll-state.css          # Scroll-state container queries (CSS)
+│   │       └── route.ts          # ElysiaJS handler mounting Better Auth (`basePath` /api/auth)
+│   ├── index.css                 # Global @layer stack, view-transition animations
+│   ├── styles.ts                 # Shared Panda `css` / pattern exports for app shells
 │   ├── icon.png                  # App icon (metadata)
 │   ├── layout.tsx                # Root layout
 │   ├── page.tsx                  # Home page
@@ -103,115 +104,121 @@ src/
 │   │   │   ├── sign-out-action.ts
 │   │   │   └── sign-up-action.ts
 │   │   ├── components/           # Auth components
-│   │   │   ├── auth-buttons.tsx  # Authentication buttons component
+│   │   │   ├── auth-buttons.tsx
 │   │   │   ├── auth-buttons-skeleton.tsx
+│   │   │   ├── auth-card.tsx
+│   │   │   ├── auth-footer-link.tsx
 │   │   │   ├── avatar.tsx        # User avatar (GitHub image, fallback icon)
 │   │   │   ├── has-auth.tsx      # Generic auth component with session provider
 │   │   │   └── sign-in-button.tsx
-│   │   ├── constants.ts         # Auth validation constants
-│   │   ├── queries/              # Auth queries
+│   │   ├── constants.ts          # Auth validation constants
+│   │   ├── queries/
 │   │   │   └── get-user.ts
-│   │   └── types.ts              # Auth type definitions (AuthButtonsProps, SignUpData, HasAuthChildren, ServerUser)
+│   │   └── types.ts              # Auth type definitions
 │   ├── categories/               # Categories feature
-│   │   ├── components/           # Category-specific components
-│   │   │   ├── categories-block-transition.tsx  # View transition wrapper for category blocks
+│   │   ├── components/
+│   │   │   ├── categories-block-transition.tsx
 │   │   │   └── categories-nav.tsx
-│   │   ├── constants.ts          # Category metadata and display configuration
-│   │   ├── types.ts               # Category type definitions
-│   │   └── queries/              # Category data queries
+│   │   ├── constants.ts
+│   │   ├── types.ts
+│   │   └── queries/
 │   │       ├── get-all-categories.ts
 │   │       ├── get-all-category-slugs.ts
 │   │       └── get-category-by-slug.ts
 │   ├── models/                   # Models feature
-│   │   ├── actions/              # Server actions
+│   │   ├── actions/
 │   │   │   └── likes.ts
-│   │   ├── components/           # Model-specific components
-│   │   │   ├── heart-button/      # Heart button component group
-│   │   │   │   ├── heart-button-client.tsx  # Client: form action, optimistic like/count, transitions
-│   │   │   │   ├── heart-button-count.tsx   # Like count display
-│   │   │   │   ├── heart-button-server.tsx   # Server component for detail pages
+│   │   ├── components/
+│   │   │   ├── heart-button/
+│   │   │   │   ├── heart-button-client.tsx
+│   │   │   │   ├── heart-button-count.tsx
+│   │   │   │   ├── heart-button-server.tsx
 │   │   │   │   ├── heart-button-skeleton.tsx
-│   │   │   │   ├── heart-like-optimistic.ts  # Reducer for unified `useOptimistic` like state
-│   │   │   │   └── likes-count-transition.tsx # View Transitions for like count updates
+│   │   │   │   ├── heart-like-optimistic.ts
+│   │   │   │   └── likes-count-transition.tsx
 │   │   │   ├── model-card.tsx
 │   │   │   ├── model-card-skeleton.tsx
 │   │   │   ├── model-detail.tsx
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
-│   │   │   ├── models-view.tsx # Shared component for search results and category pages
-│   │   ├── constants.ts           # Model categories, filters, display metadata, and error guidance
-│   │   ├── dal/                   # Data access layer for models
-│   │   │   ├── get-models.ts      # Returns `{ result, isAuthenticated }`; parallel search + user, batched like slugs
-│   │   │   ├── search-models.ts   # Unified search function (handles search with optional query, category filtering, and listing)
-│   │   │   └── search-models-api.ts  # API-specific search function (avoids cache components)
-│   │   ├── queries/               # Model data queries
+│   │   │   └── models-view.tsx
+│   │   ├── constants.ts
+│   │   ├── dal/
+│   │   │   ├── get-models.ts     # `{ result, isAuthenticated }`; search + user, batched likes
+│   │   │   └── search-models.ts  # Unified listing/search (optional query + category)
+│   │   ├── queries/
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
-│   │   │   ├── get-model-by-slug-api.ts  # API-specific query (avoids cache components)
-│   │   │   ├── get-model-with-like-status.ts  # getHasLikedStatus (single) + getLikedSlugsForUser (batch)
-│   │   │   ├── get-models-count.ts  # Count query for pagination (uses SQL builder syntax, optional search/category)
-│   │   │   └── get-models-list.ts   # List query with optional search and category filters (uses RQBv2 object syntax)
-│   │   └── types.ts               # Model type definitions
-│   └── pagination/               # Pagination feature
-│       ├── components/           # Pagination components
-│       │   ├── pagination-offset-transition.tsx # View transition helpers for pagination
-│       │   ├── pagination-skeleton.tsx # Pagination skeleton state
-│       │   └── pagination.tsx    # Pagination component with nuqs integration and ViewTransition support
-│       ├── dal/                  # Data access layer for pagination
-│       │   └── paginate-items.ts  # Pagination helper function
-│       ├── utils/                # Pagination utilities
+│   │   │   ├── get-model-with-like-status.ts
+│   │   │   ├── get-models-count.ts
+│   │   │   └── get-models-list.ts
+│   │   └── types.ts
+│   └── pagination/
+│       ├── components/
+│       │   ├── pagination-button.tsx
+│       │   ├── pagination-offset-transition.tsx
+│       │   ├── pagination-skeleton.tsx
+│       │   └── pagination.tsx
+│       ├── dal/
+│       │   └── paginate-items.ts
+│       ├── utils/
 │       │   └── to-paginated-result.ts
-│       ├── listing-canonical.ts   # nuqs loaders/serializers for listing canonical URLs (SEO, `generateMetadata`)
-│       ├── pagination-search-params.ts  # Shared nuqs parsers for listings and pagination
-│       ├── constants.ts          # Pagination constants (DEFAULT_PAGE, DEFAULT_LIMIT, LIMITS, SORT_ORDERS)
-│       └── types.ts              # Pagination type definitions (includes PaginationProps, NuqsPaginationProps, PaginationType, etc.)
-├── constants.ts                 # Shared constants (EMPTY_LIST_LENGTH)
+│       ├── listing-canonical.ts
+│       ├── pagination-search-params.ts
+│       ├── constants.ts
+│       └── types.ts
+├── constants.ts                  # Shared constants (EMPTY_LIST_LENGTH)
 ├── components/                   # Shared/generic components
-│   ├── form/                     # Form-related components
-│   │   ├── field-errors.tsx      # Field error display component
-│   │   └── form-error.tsx        # Form-level error display component
-│   ├── generic-component.tsx     # Generic wrapper component
-│   ├── nav-link.tsx              # NavLink + NavLinkListItem; active route styling (client)
-│   ├── not-found/                # Unsuccessful state components
-│   │   ├── unsuccessful-state-list-item.tsx  # List item component for unsuccessful states
-│   │   └── unsuccessful-state.tsx            # Unified component for not-found and error states
-│   ├── pill.tsx                  # Reusable pill component
-│   ├── scroll-progress.tsx       # Reading progress bar (client)
-│   ├── search-input/             # Search input with nuqs URL state and view transitions
+│   ├── form/
+│   │   ├── field-errors.tsx
+│   │   ├── form-error.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   ├── reset-button.tsx
+│   │   └── submit-button.tsx
+│   ├── button.tsx
+│   ├── generic-component.tsx
+│   ├── nav-link.tsx
+│   ├── not-found/
+│   │   ├── unsuccessful-state-list-item.tsx
+│   │   └── unsuccessful-state.tsx
+│   ├── pill.tsx
+│   ├── scroll-progress.tsx
+│   ├── search-input/
 │   │   ├── search-input.tsx
 │   │   ├── search-input-transition.tsx
 │   │   └── search-input-skeleton.tsx
-│   ├── suspend.tsx               # Suspense helper; optional React `ViewTransition` wrapper
-│   └── top-link.tsx              # Top-of-page skip / scroll control for layouts
-├── db/                          # Database configuration
-│   ├── schema/                  # Database schema definitions
-│   │   ├── auth.ts              # Authentication tables
-│   │   ├── likes.ts             # Likes table
-│   │   ├── models.ts            # Models and categories tables
-│   │   ├── relations.ts         # Table relations (Drizzle ORM v1 beta)
-│   │   └── index.ts             # Schema exports
-│   ├── seed-data/               # Seed data
+│   ├── suspend.tsx
+│   └── top-link.tsx
+├── db/
+│   ├── schema/
+│   │   ├── auth.ts
+│   │   ├── likes.ts
+│   │   ├── models.ts
+│   │   ├── relations.ts
+│   │   └── index.ts
+│   ├── seed-data/
 │   │   ├── categories.ts
 │   │   └── models.ts
-│   ├── seed.ts                  # Database seeding script
-│   ├── drop-tables.ts           # Drop all tables script
-│   └── index.ts                 # Database connection
-├── lib/                         # Utility libraries
-│   ├── api.ts                   # ElysiaJS app instance
-│   ├── auth.ts                  # Better Auth configuration
-│   ├── auth-client.ts           # Better Auth client instance
-│   ├── date.ts                  # Date utilities
-│   └── hero-image.ts            # Public paths and dimensions for hero imagery
-├── types/                       # Type definitions
-│   └── index.ts                 # Shared types (Maybe<T>, SearchParamsProps, NavLinkProps, GenericComponentProps, FieldErrorProps, UnsuccessfulStateProps, etc.)
-├── utils/                       # Utility functions
-│   ├── cache-invalidation.ts    # Cache invalidation utilities
-│   ├── sanitise-name.ts         # Normalizes and sanitizes user-provided names for auth flows
-│   ├── to-action-state.ts       # Action state utilities for server actions
-│   └── try-catch.ts             # Error handling utilities
-├── global.d.ts                  # Global TypeScript declarations
-└── proxy.ts                     # Next.js proxy middleware
+│   ├── seed.ts
+│   ├── drop-tables.ts
+│   └── index.ts
+├── lib/
+│   ├── api.ts
+│   ├── auth.ts
+│   ├── auth-client.ts
+│   ├── date.ts
+│   └── hero-image.ts
+├── types/
+│   └── index.ts
+├── utils/
+│   ├── cache-invalidation.ts
+│   ├── sanitise-name.ts
+│   ├── to-action-state.ts
+│   └── try-catch.ts
+├── global.d.ts
+└── proxy.ts
 ```
 
 ## 🏗️ Architecture Overview
@@ -262,6 +269,8 @@ The project follows a feature-based architecture where related functionality is 
    ```bash
    bun install
    ```
+
+   This runs the **`prepare`** lifecycle script (`panda codegen` to generate `styled-system/`, plus Husky). If codegen ever needs a manual rerun: `bunx panda codegen`.
 
 3. **Environment Setup**
    Configuration is defined in **`.env.schema`** (Varlock). Copy it to **`.env`** and fill in values, or use **literal strings** in place of `bitwarden("…")` UUIDs for local development. Typical variables:
@@ -350,8 +359,8 @@ The project follows a feature-based architecture where related functionality is 
 - `bun run db:drop` — Drop all tables (development reset)
 
 ### Database Relations
-The application uses Drizzle ORM v1 (beta) with `defineRelations` for type-safe relations:
-- Relations defined using the new v1 beta syntax with `r.one()` and `r.many()` helpers
+The application uses Drizzle ORM 1.0.0-rc.1 with `defineRelations` for type-safe relations:
+- Relations defined using the v1/rc syntax with `r.one()` and `r.many()` helpers
 - Relation names avoid conflicts with column names (e.g., `modelLikes` instead of `likes` to avoid conflict with `models.likes` column)
 - All relations exported from `schema/relations.ts` and included in the database schema
 
@@ -361,8 +370,8 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Count queries**: Count queries use `db.$count()` (RQBv2), with where conditions passed using SQL builder syntax (`and()`, `or()`, `ilike()`, etc.) since `$count` accepts SQL builder conditions
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
-- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions like `search-models.ts` in the `dal/` directory. Both helper functions support optional `searchPattern` and `category` parameters for flexible querying
-- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth API routes are handled via ElysiaJS at `/api/[[...slugs]]/route.ts` with the auth handler at Better Auth `basePath` `/api/auth`; Better Auth routes are included in the OpenAPI documentation via `better-auth-openapi.ts`. To avoid Cache Components interfering with API handlers, Elysia calls dedicated `*-api` query helpers (e.g., `search-models-api.ts`, `get-model-by-slug-api.ts`) instead of using the same functions that back server components.
+- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions (`get-models.ts`, `search-models.ts`). Both helpers support optional `searchPattern` and `category` parameters for flexible querying
+- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth is mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI documentation includes auth routes via `better-auth-openapi.ts`.
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:
@@ -388,10 +397,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ## 🎨 Styling & Components
 
 ### Design System
-- **Colors**: Custom color palette with orange accent (Tailwind CSS classes, no shadcn/ui dependencies)
-- **Typography**: Consistent font hierarchy
-- **Spacing**: Systematic spacing using Tailwind utilities
-- **Responsive**: Mobile-first responsive design
+- **Tokens & utilities**: Panda CSS semantic tokens and preset utilities (`panda.config.ts`, `@pandacss/preset-panda`, typography preset); orange accent and shared patterns (e.g., `navLink`) live in config
+- **Typography**: Albert Sans + Montserrat Alternates via `next/font` in root layout; heading font applied in Panda `globalCss`
+- **Layout & spacing**: Panda `css()` / layout patterns (e.g., `grid` for model grids in `src/app/styles.ts`)
+- **Responsive**: Mobile-first breakpoints via Panda conditions and component styles
 
 ### Key Components
 
@@ -402,7 +411,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
 - `features/models/components/models-view` - Shared server shell: `Suspense` + async inner that awaits `getModels`; pagination uses `PaginationOffsetTransition` for directional View Transitions
-- `features/pagination/components/pagination` - Reusable pagination component with nuqs integration and ViewTransition support
+- `features/pagination/components/pagination` - Reusable pagination with nuqs integration and View Transition support
+- `features/pagination/components/pagination-button` - Page/limit control button used by pagination
 - `features/models/components/heart-button/heart-button-client` - Client component with form action, unified optimistic like/count state, View Transition types for count changes
 - `features/models/components/heart-button/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/components/heart-button/heart-button-server` - Server component for detail pages (resolves like status server-side)
@@ -425,9 +435,16 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/top-link` - Top-of-page control used in layouts
 - `features/auth/components/auth-buttons` - Authentication buttons with user avatar (GitHub image priority, icon fallback)
 - `features/auth/components/auth-buttons-skeleton` - Navbar auth slot loading state
+- `features/auth/components/auth-card` - Card shell for sign-in/sign-up pages
+- `features/auth/components/auth-footer-link` - Footer link between auth screens
 - `features/auth/components/avatar` - Avatar image with fallback
 
 #### Shared Components
+- `components/button` - Shared button styled with Panda variants
+- `components/form/input` - Text input with consistent field styling
+- `components/form/label` - Accessible labels for form fields
+- `components/form/submit-button` - Submit control wired for pending state
+- `components/form/reset-button` - Reset control for forms
 - `components/form/field-errors` - Field-level error display component with ViewTransition support
 - `components/form/form-error` - Form-level error display component with ViewTransition support
 - `components/not-found/unsuccessful-state` - Unified component for not-found and error states with conditional styling based on `isError` prop
@@ -459,6 +476,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 ### Available Scripts
 
+- `prepare` (automatic on `bun install`) — Panda `styled-system/` codegen and Husky setup
 - `bun run dev` - Start development server (Turbopack)
 - `bun run dev:inspect` - Start development server with Node.js inspector
 - `bun run next:upgrade` - Upgrade Next.js to latest version
@@ -494,7 +512,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 The project follows a consistent coding style with:
 - ES modules (import/export syntax)
 - TypeScript for type safety
-- Tailwind CSS for styling
+- Panda CSS for styling (`css` recipes, semantic tokens)
 - Feature-based organization
 - Component-specific type definitions
 - Proper error handling and logging

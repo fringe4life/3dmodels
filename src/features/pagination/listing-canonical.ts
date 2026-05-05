@@ -8,13 +8,11 @@
  * @see node_modules/next/dist/docs/.../generate-metadata.md — `alternates.canonical`
  */
 import { createLoader, createSerializer, type SearchParams } from "nuqs/server";
-import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/features/pagination/constants";
 import { searchParamsParsers } from "@/features/pagination/pagination-search-params";
 
-export const loadListingCanonicalSearchParams =
-  createLoader(searchParamsParsers);
+const loadListingCanonicalSearchParams = createLoader(searchParamsParsers);
 
-export const serializeListingCanonicalSearchParams = createSerializer(
+const serializeListingCanonicalSearchParams = createSerializer(
   searchParamsParsers,
   {
     clearOnDefault: true,
@@ -36,10 +34,3 @@ export const canonicalPathForListing = async (
   const values = await loadListingCanonicalSearchParams(searchParams);
   return serializeListingCanonicalSearchParams(pathname, values);
 };
-
-export const defaultListingCanonicalPath = (pathname: string): string =>
-  serializeListingCanonicalSearchParams(pathname, {
-    query: "",
-    page: DEFAULT_PAGE,
-    limit: DEFAULT_LIMIT,
-  });

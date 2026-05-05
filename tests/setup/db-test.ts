@@ -7,7 +7,7 @@ let _db: TestDb | null = null;
 
 export function createTestDb(): TestDb {
   const sqlite = new Database(":memory:");
-  const db = drizzle({ client: sqlite });
+  const db = drizzle(sqlite);
   _db = db;
   return db;
 }
