@@ -78,12 +78,14 @@ const ModelDetail = ({
             prose({ size: "lg" }),
           )}
         >
-          <p className={css({ color: "gray.700", lineHeight: "relaxed" })}>
+          <p
+            className={css({ color: "text.secondary", lineHeight: "relaxed" })}
+          >
             {description}
           </p>
         </div>
 
-        <footer className={css({ color: "gray.500", fontSize: "sm" })}>
+        <footer className={css({ color: "text.muted", fontSize: "sm" })}>
           <time dateTime={dateAdded.toISOString()}>
             Added on {dateAdded.toLocaleDateString()}
           </time>

@@ -16,7 +16,7 @@ import {
 } from "@/features/pagination/pagination-search-params";
 import type { LimitItem } from "@/features/pagination/types";
 import { css } from "../../../../styled-system/css";
-import { flex, square } from "../../../../styled-system/patterns";
+import { between, hstack, square } from "../../../../styled-system/patterns";
 import type { PaginationProps } from "../types";
 import { PaginationButton } from "./pagination-button";
 
@@ -66,9 +66,9 @@ const Pagination = ({ metadata }: PaginationProps) => {
 
   return (
     <ViewTransition name="pagination">
-      <div className={flex({ align: "center", justify: "space-between" })}>
-        <p className={css({ color: "gray.500", fontSize: "sm" })}>{label}</p>
-        <div className={flex({ align: "center", columnGap: 2 })}>
+      <div className={between()}>
+        <p className={css({ color: "text.muted", fontSize: "sm" })}>{label}</p>
+        <div className={hstack({ columnGap: 2 })}>
           <select
             className={css({ inlineSize: 10, blockSize: 8 })}
             id={id}

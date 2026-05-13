@@ -19,7 +19,7 @@ const AuthFooterLink = ({ prompt, label, href }: AuthFooterLinkProps) => (
     <Link
       className={css({
         fontWeight: "medium",
-        color: { base: "orangeAccent", _hover: "orangeAccent/80" },
+        color: { base: "brand", _hover: "brand.hover" },
         transitionProperty: "colors",
         transitionDuration: "normal",
       })}

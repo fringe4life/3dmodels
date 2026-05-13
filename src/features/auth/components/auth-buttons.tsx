@@ -8,7 +8,7 @@ import { NavLink } from "@/components/nav-link";
 import { signOutAction } from "@/features/auth/actions/sign-out-action";
 import type { AuthButtonsProps } from "@/features/auth/types";
 import { css, cx } from "../../../../styled-system/css";
-import { circle, flex, square } from "../../../../styled-system/patterns";
+import { circle, hstack, square } from "../../../../styled-system/patterns";
 
 const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();
@@ -21,7 +21,7 @@ const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
 
   if (isAuthenticated) {
     return (
-      <div className={flex({ align: "center", gap: 2 })}>
+      <div className={hstack({ gap: 2 })}>
         <div
           className={cx(
             circle({ size: 8 }),
@@ -36,9 +36,9 @@ const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
             "group",
             css({
               color: {
-                base: "gray.400",
-                _hover: "orangeAccent",
-                _disabled: "gray.700",
+                base: "text.placeholder",
+                _hover: "brand",
+                _disabled: "text.secondary",
               },
               transitionProperty: "colors",
               transitionDuration: "normal",

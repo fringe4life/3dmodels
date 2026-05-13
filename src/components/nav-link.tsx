@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { NavLinkListItemProps, NavLinkProps } from "@/types";
 import { css, cx } from "../../styled-system/css";
-import { navLink } from "../../styled-system/patterns";
 
 /**
  * Client-side nav link that marks the current route with `aria-current="page"` and matching styles.
@@ -34,7 +33,41 @@ const NavLink = ({
     <Link
       {...linkProps}
       aria-current={isActive ? "page" : undefined}
-      className={cx(className, navLink())}
+      className={cx(
+        className,
+        css({
+          fontSize: "sm",
+          fontWeight: "medium",
+          color: {
+            base: "black",
+            _hover: "brand.muted !important",
+          },
+          transitionProperty:
+            "color,background-color,border-color,text-decoration-color",
+          transitionDuration: "normal",
+          _currentPage: {
+            color: "brand",
+            fontWeight: "semibold",
+            borderColor: "currentColor",
+          },
+          '&:not([data-border-bottom])[aria-current="page"]': {
+            md: {
+              borderInlineStartWidth: "2px",
+              borderInlineStartStyle: "solid",
+              paddingInlineStart: 3,
+            },
+          },
+          "&[data-border-bottom]": {
+            paddingBlock: "2",
+          },
+          '&[data-border-bottom][aria-current="page"]': {
+            md: {
+              borderBlockEndWidth: "2px",
+              borderBlockEndStyle: "solid",
+            },
+          },
+        }),
+      )}
       {...(borderPosition === "bottom" && { "data-border-bottom": true })}
       href={href}
       prefetch={prefetch}

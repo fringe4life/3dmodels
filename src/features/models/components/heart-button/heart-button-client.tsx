@@ -100,15 +100,14 @@ const HeartButtonClient = (props: HeartButtonClientProps) => {
                 _supportsLinear: "ease-smooth-in-out",
               },
             }),
-            isLiked &&
-              css({ color: { base: "red.500", _hover: "red.500/50" } }),
-            isPending && css({ cursor: "progress", color: "red.500/75" }),
+            isLiked && css({ color: { base: "like", _hover: "like.hover" } }),
+            isPending && css({ cursor: "progress", color: "like.pending" }),
             isNotLiked &&
               css({
                 color: {
-                  base: "gray.400",
-                  _groupHover: "red.500/50",
-                  _groupDisabled: "gray.400",
+                  base: "text.placeholder",
+                  _groupHover: "like.hover",
+                  _groupDisabled: "text.placeholder",
                 },
               }),
           )}

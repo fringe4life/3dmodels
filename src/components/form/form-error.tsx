@@ -20,9 +20,9 @@ const FormError = <T = unknown>({
       <div
         className={css({
           rounded: "md",
-          backgroundColor: "red.50",
+          backgroundColor: "error.bg",
           padding: 3,
-          color: "red.800",
+          color: "error.text",
           fontSize: "sm",
         })}
       >

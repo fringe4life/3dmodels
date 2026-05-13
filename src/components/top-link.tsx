@@ -12,7 +12,7 @@ const TopLink = () => (
       zIndex: 1000,
       translate: "token(sizes.28) 0",
       rounded: "full",
-      backgroundColor: { base: "white", _hover: "gray.200" },
+      backgroundColor: { base: "bg.surface", _hover: "bg.muted" },
       padding: 2,
       shadow: "sm",
       shadowColor: "gray.300/20",

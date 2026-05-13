@@ -1,15 +1,15 @@
 import { skeletonEnter } from "@/app/styles";
+import { Skeleton } from "@/components/skeleton";
 import { css, cx } from "../../../../styled-system/css";
 import { HeartButtonSkeleton } from "./heart-button/heart-button-skeleton";
 
 const ModelCardSkeleton = () => (
-  <article
+  <Skeleton
     className={cx(
       skeletonEnter,
       css({
-        animation: "pulse",
         rounded: "lg",
-        backgroundColor: "white",
+        backgroundColor: "bg.surface",
         shadow: "md",
       }),
     )}
@@ -19,12 +19,12 @@ const ModelCardSkeleton = () => (
       className={css({
         aspectRatio: "square",
         roundedTop: "inherit",
-        backgroundColor: "gray.200",
+        backgroundColor: "bg.muted",
       })}
     />
 
     {/* Content section with same padding as model-card */}
-    <div className={css({ paddingInline: "4", paddingBlock: "4" })}>
+    <div className={css({ paddingInline: 4, paddingBlock: 4 })}>
       {/* Title skeleton - min-block-14 with 2 lines */}
       <div
         className={css({
@@ -38,7 +38,7 @@ const ModelCardSkeleton = () => (
             blockSize: 5,
             inlineSize: "3/4",
             rounded: "sm",
-            backgroundColor: "gray.200",
+            backgroundColor: "bg.muted",
           })}
         />
       </div>
@@ -50,7 +50,7 @@ const ModelCardSkeleton = () => (
             blockSize: 4,
             inlineSize: "full",
             rounded: "sm",
-            backgroundColor: "gray.200",
+            backgroundColor: "bg.muted",
           })}
         />
         <div
@@ -58,7 +58,7 @@ const ModelCardSkeleton = () => (
             blockSize: 4,
             inlineSize: "5/6",
             rounded: "sm",
-            backgroundColor: "gray.200",
+            backgroundColor: "bg.muted",
           })}
         />
       </div>
@@ -70,7 +70,7 @@ const ModelCardSkeleton = () => (
             blockSize: 7,
             inlineSize: 20,
             rounded: "full",
-            backgroundColor: "gray.200",
+            backgroundColor: "bg.muted",
             marginBlockEnd: 2,
           })}
         />
@@ -78,7 +78,7 @@ const ModelCardSkeleton = () => (
         <HeartButtonSkeleton />
       </div>
     </div>
-  </article>
+  </Skeleton>
 );
 
 export { ModelCardSkeleton };

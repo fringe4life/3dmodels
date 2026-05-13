@@ -1,47 +1,6 @@
-import { defineConfig, definePattern } from "@pandacss/dev";
+import { defineConfig } from "@pandacss/dev";
 import pandaPreset from "@pandacss/preset-panda";
 import typographyPreset from "pandacss-preset-typography";
-
-/** Mirrors `@utility nav-link` in `src/app/globals.css` (Tailwind layer). */
-const navLink = definePattern({
-  description:
-    "Navigation link: base, hover, and active styles with optional side vs bottom border indicators.",
-  transform(props) {
-    return {
-      fontSize: "sm",
-      fontWeight: "medium",
-      color: {
-        base: "black",
-        _hover: "token(colors.orangeAccent/75) !important",
-      },
-      transitionProperty:
-        "color,background-color,border-color,text-decoration-color",
-      transitionDuration: "normal",
-      _currentPage: {
-        color: "orangeAccent",
-        fontWeight: "semibold",
-        borderColor: "currentColor",
-      },
-      '&:not([data-border-bottom])[aria-current="page"]': {
-        md: {
-          borderInlineStartWidth: "2px",
-          borderInlineStartStyle: "solid",
-          paddingInlineStart: 3,
-        },
-      },
-      "&[data-border-bottom]": {
-        paddingBlock: "2",
-      },
-      '&[data-border-bottom][aria-current="page"]': {
-        md: {
-          borderBlockEndWidth: "2px",
-          borderBlockEndStyle: "solid",
-        },
-      },
-      ...props,
-    };
-  },
-});
 
 export default defineConfig({
   // Whether to use css reset
@@ -197,12 +156,12 @@ export default defineConfig({
         },
         /** View-timeline enter/exit on narrow viewports (see `ModelCard`) */
         animateModelIn: {
-          "20%": { translate: "0 25%", opacity: 0 },
-          "100%": { translate: "0 0", opacity: 1 },
+          "20%": { translate: "0 25%", opacity: "0" },
+          "100%": { translate: "0 0", opacity: "1" },
         },
         animateModelOut: {
-          from: { translate: "0 0", opacity: 1 },
-          to: { translate: "0 -25%", opacity: 0 },
+          from: { translate: "0 0", opacity: "1" },
+          to: { translate: "0 -25%", opacity: "0" },
         },
       },
       tokens: {
@@ -254,7 +213,46 @@ export default defineConfig({
 
   patterns: {
     extend: {
-      navLink,
+      between: {
+        description:
+          "creates a flex container, aligns items center and justifies between",
+        transform({ properties }) {
+          return {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            ...properties,
+          };
+        },
+      },
+      hoverShadow: {
+        description:
+          "reveals a box shadow via an ::after pseudo-element on hover",
+        properties: {
+          shadow: { type: "token", value: "shadows" },
+        },
+        transform({ shadow }) {
+          return {
+            position: "relative",
+            _after: {
+              content: '""',
+              position: "absolute",
+              inset: "0",
+              rounded: "inherit",
+              opacity: "0",
+              boxShadow: shadow,
+              transitionProperty: "opacity",
+              transitionDuration: "normal",
+              zIndex: -1,
+            },
+            _hover: {
+              _after: {
+                opacity: "1",
+              },
+            },
+          };
+        },
+      },
     },
   },
   presets: [typographyPreset(), pandaPreset],

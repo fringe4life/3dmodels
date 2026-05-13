@@ -4,8 +4,8 @@ import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import { sanitiseName } from "@/utils/sanitise-name";
-import { css } from "../../../../styled-system/css";
-import { flex } from "../../../../styled-system/patterns";
+import { css, cx } from "../../../../styled-system/css";
+import { flex, hoverShadow } from "../../../../styled-system/patterns";
 import { toggleLike } from "../actions/likes";
 import type { ModelCardProps } from "../types";
 import { HeartButtonClient } from "./heart-button/heart-button-client";
@@ -16,50 +16,39 @@ const ModelCard = ({
 }: ModelCardProps) => (
   <ViewTransition enter="enter" exit="exit">
     <article
-      className={css({
-        position: "relative",
-        isolation: "isolate",
-        rounded: "lg",
-        backgroundColor: "white",
-        shadow: "md",
-        transitionProperty: "translate",
-        transitionDuration: "normal",
-        cursor: "pointer",
-        transitionTimingFunction: {
-          base: "ease-in-out",
-          _supportsLinear: "glide",
-        },
-        _after: {
-          content: "''",
-          position: "absolute",
-          inset: "0",
+      className={cx(
+        css({
+          position: "relative",
+          isolation: "isolate",
           rounded: "lg",
-          opacity: "0",
-          shadow: "xl",
-          transitionProperty: "opacity",
+          backgroundColor: "bg.surface",
+          shadow: "md",
+          transitionProperty: "translate",
           transitionDuration: "normal",
-          zIndex: "-1",
-        },
-        _hover: {
-          translate: "0 calc(token(sizes.2) * -1)",
-          _after: {
-            opacity: "1",
+          cursor: "pointer",
+          transitionTimingFunction: {
+            base: "ease-in-out",
+            _supportsLinear: "glide",
           },
-        },
-        _notSupportsHover: {
-          _supportsScroll: {
-            animationName: "animateModelIn, animateModelOut",
-            animationDuration: "auto",
-            animationTimingFunction: "glide",
-            animationTimeline: "view()",
-            animationFillMode: "forwards",
-            animationRange: "entry, exit 50%",
+          _hover: {
+            translate: "0 calc(token(sizes.2) * -1)",
           },
-        },
-        "&:has([data-progress='true']) *": {
-          cursor: "progress",
-        },
-      })}
+          _notSupportsHover: {
+            _supportsScroll: {
+              animationName: "animateModelIn, animateModelOut",
+              animationDuration: "auto",
+              animationTimingFunction: "glide",
+              animationTimeline: "view()",
+              animationFillMode: "forwards",
+              animationRange: "entry, exit 50%",
+            },
+          },
+          "&:has([data-progress='true']) *": {
+            cursor: "progress",
+          },
+        }),
+        hoverShadow({ shadow: "xl" }),
+      )}
     >
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <div

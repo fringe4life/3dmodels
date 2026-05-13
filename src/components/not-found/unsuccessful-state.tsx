@@ -35,7 +35,7 @@ const UnsuccessfulState = ({
             fontWeight: "bold",
             fontSize: { base: "4xl", sm: "5xl" },
             letterSpacing: "tight",
-            color: "red.500",
+            color: "error",
           })}
         >
           {heading}
@@ -49,8 +49,8 @@ const UnsuccessfulState = ({
         className={css({
           spaceY: 4,
           rounded: "lg",
-          borderColor: "gray.200",
-          backgroundColor: "white",
+          borderColor: "border.subtle",
+          backgroundColor: "bg.surface",
           padding: 6,
           textAlign: "left",
         })}

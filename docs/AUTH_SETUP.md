@@ -22,7 +22,6 @@ NEXT_PUBLIC_SITE_URL="http://localhost:3000"  # or your production URL
 
 # Better Auth Configuration
 AUTH_SECRET="your-secret-key-here-change-this-in-production"
-AUTH_DRIZZLE_URL="http://localhost:3000"  # Better Auth base URL (falls back to NEXT_PUBLIC_SITE_URL)
 
 # GitHub OAuth
 GITHUB_CLIENT_ID="your-github-client-id"
@@ -32,7 +31,7 @@ GITHUB_CLIENT_SECRET="your-github-client-secret"
 DATABASE_URL="your-neon-database-connection-string"
 ```
 
-**Note**: `AUTH_DRIZZLE_URL` will fall back to `NEXT_PUBLIC_SITE_URL` if not set. The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`.
+**Note**: The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`.
 
 ## How to Get GitHub OAuth Credentials
 

@@ -11,7 +11,7 @@ const Label = ({
       css({
         display: "block",
         fontWeight: "medium",
-        color: "gray.700",
+        color: "text.secondary",
         fontSize: "sm",
       }),
       className,

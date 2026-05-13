@@ -3,7 +3,7 @@
 import type { ErrorInfo } from "next/error";
 import { ResetButton } from "@/components/form/reset-button";
 import { css } from "../../styled-system/css";
-import { flex, grid } from "../../styled-system/patterns";
+import { center, grid } from "../../styled-system/patterns";
 
 const GlobalError = ({ unstable_retry }: ErrorInfo) => (
   <html lang="en">
@@ -49,11 +49,9 @@ const GlobalError = ({ unstable_retry }: ErrorInfo) => (
           </p>
         </div>
         <div
-          className={flex({
+          className={center({
             flexWrap: "wrap",
-            justify: "center",
             gap: 4,
-            align: "center",
           })}
         >
           <ResetButton onClick={unstable_retry} />

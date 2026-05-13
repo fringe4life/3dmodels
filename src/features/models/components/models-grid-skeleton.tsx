@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/skeleton";
 import { css, cx } from "../../../../styled-system/css";
 import { modelsGrid, skeletonEnter } from "../../../app/styles";
 import { ModelCardSkeleton } from "./model-card-skeleton";
@@ -10,17 +11,17 @@ const ModelsGridSkeleton = () => (
       css({ marginInline: "auto", paddingBlock: 8 }),
     )}
   >
-    <div className={css({ animation: "pulse" })}>
+    <Skeleton>
       <div
         className={css({
           marginBlockEnd: 8,
           inlineSize: "2/3",
           maxInlineSize: 40,
           rounded: "sm",
-          backgroundColor: "gray.200",
+          backgroundColor: "bg.muted",
         })}
       />
-    </div>
+    </Skeleton>
     <div className={modelsGrid}>
       <ModelCardSkeleton />
       <ModelCardSkeleton />

@@ -29,7 +29,7 @@ const Avatar = ({ user }: AvatarProps) => {
       className={css({
         inlineSize: "full",
         blockSize: "full",
-        color: "gray.700",
+        color: "text.secondary",
       })}
     />
   );

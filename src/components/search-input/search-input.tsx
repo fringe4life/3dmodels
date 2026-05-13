@@ -63,7 +63,7 @@ const SearchInput = () => {
           paddingInline: 5,
           paddingBlock: 3,
           fontSize: "sm",
-          color: "gray.500",
+          color: "text.muted",
           transitionProperty: "colors",
           transitionDuration: "normal",
           _focusWithin: { borderColor: "searchInput" },
@@ -87,7 +87,7 @@ const SearchInput = () => {
               insetInlineEnd: 5,
               translate: "0 -50%",
               animation: "spin",
-              color: "gray.500",
+              color: "text.muted",
               fontSize: "sm",
             })}
           />

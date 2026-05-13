@@ -1,49 +1,41 @@
 import { skeletonEnter } from "@/app/styles";
+import { Skeleton } from "@/components/skeleton";
 import { css, cx } from "../../../../styled-system/css";
-import { flex } from "../../../../styled-system/patterns";
+import { between, hstack } from "../../../../styled-system/patterns";
 
 const PaginationSkeleton = () => (
-  <div
-    className={cx(
-      skeletonEnter,
-      flex({ align: "center", justify: "space-between" }),
-    )}
-  >
-    <div
+  <div className={cx(skeletonEnter, between())}>
+    <Skeleton
       className={css({
         blockSize: 6,
         inlineSize: 24,
-        animation: "pulse",
         rounded: "sm",
-        backgroundColor: "gray.200",
+        backgroundColor: "bg.muted",
       })}
     />
-    <div className={flex({ align: "center", columnGap: 2 })}>
-      <div
+    <div className={hstack({ columnGap: 2 })}>
+      <Skeleton
         className={css({
           blockSize: 8,
           inlineSize: 10,
-          animation: "pulse",
           rounded: "sm",
-          backgroundColor: "gray.200",
+          backgroundColor: "bg.muted",
         })}
       />
-      <div
+      <Skeleton
         className={css({
           blockSize: 8,
           inlineSize: 6,
-          animation: "pulse",
           rounded: "sm",
-          backgroundColor: "gray.200",
+          backgroundColor: "bg.muted",
         })}
       />
-      <div
+      <Skeleton
         className={css({
           blockSize: 8,
           inlineSize: 6,
-          animation: "pulse",
           rounded: "sm",
-          backgroundColor: "gray.200",
+          backgroundColor: "bg.muted",
         })}
       />
     </div>

@@ -4,29 +4,29 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.0-000000)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.1-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.9-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.10-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.14-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.6.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.6.5-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.2.4 with App Router, Cache Components, and typed routes (`typedRoutes`)
+- **Framework**: Next.js 16.2.6 with App Router, Cache Components, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
-- **Styling**: Panda CSS 1.11 (`@pandacss/dev`, `panda.config.ts`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` for layered CSS
+- **Styling**: Panda CSS 1.11.1 (`@pandacss/dev`, `panda.config.ts`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.1
-- **Authentication**: Better Auth with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
+- **Authentication**: Better Auth 1.6.10 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
-- **Linting & Formatting**: Biome 2.4.14 with Ultracite 7.6.3 presets (`ultracite/biome/core`, `react`, `next`)
+- **Linting & Formatting**: Biome 2.4.14 with Ultracite 7.6.5 presets (`ultracite/biome/core`, `react`, `next`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
 - **Environment**: [Varlock](https://varlock.dev/) with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
-- **Validation**: Varlock for environment; Valibot 1.3.1 for server action and form schemas
+- **Validation**: Varlock for environment; Valibot 1.4.0 for server action and form schemas
 
 ## 🚀 Features
 
@@ -36,7 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16.2.4, TypeScript, and Panda CSS
+- **Modern Stack**: Built with Next.js 16.2.6, TypeScript, and Panda CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
@@ -185,6 +185,7 @@ src/
 │   │   └── unsuccessful-state.tsx
 │   ├── pill.tsx
 │   ├── scroll-progress.tsx
+│   ├── skeleton.tsx              # Shared loading skeleton primitive
 │   ├── search-input/
 │   │   ├── search-input.tsx
 │   │   ├── search-input-transition.tsx
@@ -282,7 +283,6 @@ The project follows a feature-based architecture where related functionality is 
    NEXT_PUBLIC_SITE_URL="http://localhost:3000"
 
    BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"
-   AUTH_DRIZZLE_URL="http://localhost:3000"
 
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
@@ -300,7 +300,7 @@ The project follows a feature-based architecture where related functionality is 
    bun run db:seed
    ```
 
-   Alternatively, migrations:
+   Alternatively, migrations (SQL and `meta/` snapshots are written to `src/db/migrations/` when you run generate; clones may use `db:push` only until migrations exist):
 
    ```bash
    bun run db:generate
@@ -308,7 +308,7 @@ The project follows a feature-based architecture where related functionality is 
    bun run db:seed
    ```
 
-   For one-off Drizzle CLI use without the `db:*` scripts, use the same pattern as `package.json` (for example `varlock run -- bunx drizzle-kit push`).
+   For one-off Drizzle CLI use without the `db:*` scripts, use the same pattern as `package.json` (for example `varlock run -- bun x drizzle-kit push`).
 
 5. **Start the development server**
    ```bash
@@ -351,10 +351,10 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Available Scripts
 
-- `bun run db:generate` — Generate migrations (`varlock run -- drizzle-kit generate`)
-- `bun run db:migrate` — Run migrations (`varlock run -- drizzle-kit migrate`)
-- `bun run db:push` — Push schema (`varlock run -- drizzle-kit push` or `varlock run -- bunx drizzle-kit push`)
-- `bun run db:studio` — Drizzle Studio (`varlock run -- drizzle-kit studio`)
+- `bun run db:generate` — Generate migrations (`varlock run -- bun x drizzle-kit generate`)
+- `bun run db:migrate` — Run migrations (`varlock run -- bun x drizzle-kit migrate`)
+- `bun run db:push` — Push schema (`varlock run -- bun x drizzle-kit push --force`)
+- `bun run db:studio` — Drizzle Studio (`varlock run -- bun x drizzle-kit studio`)
 - `bun run db:seed` — Seed database (requires existing users for seeded models)
 - `bun run db:drop` — Drop all tables (development reset)
 
@@ -451,6 +451,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/not-found/unsuccessful-state-list-item` - List item component for unsuccessful state suggestions
 - `components/pill` - Small label component
 - `components/scroll-progress` - Top-of-page reading progress indicator (client)
+- `components/skeleton` - Shared skeleton primitive for loading placeholders
 - `components/suspend` - Suspense helper component
 - `components/generic-component` - Generic wrapper for collections
 
@@ -528,7 +529,7 @@ The project follows a consistent coding style with:
 
 ### Environment Variables
 
-Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `AUTH_DRIZZLE_URL`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `DATABASE_URL`, and **`BITWARDEN_ACCESS_TOKEN`** when using **`bitwarden()`** resolvers. Varlock validates at runtime; types live in **`src/env.d.ts`**. See **`docs/VARLOCK.md`** for Vercel and Bitwarden.
+Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `DATABASE_URL`, and **`BITWARDEN_ACCESS_TOKEN`** when using **`bitwarden()`** resolvers. Varlock validates at runtime; types live in **`src/env.d.ts`**. See **`docs/VARLOCK.md`** for Vercel and Bitwarden.
 
 ## 📝 Data Management
 

@@ -27,7 +27,7 @@ const ScrollProgress = () => (
       className={css({
         inlineSize: "full",
         blockSize: "full",
-        backgroundColor: "orangeAccent",
+        backgroundColor: "brand",
         transform: "scaleX(0)",
         transformOrigin: "inline-start",
         _supportsScroll: {

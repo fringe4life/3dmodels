@@ -1,24 +1,23 @@
+import { Skeleton } from "@/components/skeleton";
 import { css } from "../../../../styled-system/css";
-import { flex } from "../../../../styled-system/patterns";
+import { hstack } from "../../../../styled-system/patterns";
 
 const AuthButtonsSkeleton = () => (
-  <div className={flex({ align: "center", gap: 2 })}>
-    <div
+  <div className={hstack({ gap: 2 })}>
+    <Skeleton
       className={css({
         blockSize: 8,
         inlineSize: 10,
         rounded: "sm",
-        backgroundColor: "gray.200",
-        animation: "pulse",
+        backgroundColor: "bg.muted",
       })}
     />
-    <div
+    <Skeleton
       className={css({
         blockSize: 8,
         inlineSize: 10,
         rounded: "sm",
-        backgroundColor: "gray.200",
-        animation: "pulse",
+        backgroundColor: "bg.muted",
       })}
     />
   </div>

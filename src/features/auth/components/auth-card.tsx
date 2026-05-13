@@ -11,7 +11,7 @@ const AuthCard = ({ title, footer, children }: AuthCardProps) => (
   <div
     className={css({
       rounded: "md",
-      backgroundColor: "white",
+      backgroundColor: "bg.surface",
       padding: 6,
       shadow: "md",
     })}
@@ -22,7 +22,7 @@ const AuthCard = ({ title, footer, children }: AuthCardProps) => (
         textAlign: "center",
         fontWeight: "bold",
         fontSize: { base: "xl", sm: "3xl" },
-        color: "gray.900",
+        color: "text.primary",
         lineHeight: "tight",
       })}
     >

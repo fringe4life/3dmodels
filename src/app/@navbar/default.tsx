@@ -7,9 +7,8 @@ import { AuthButtonsSkeleton } from "@/features/auth/components/auth-buttons-ske
 import { Avatar } from "@/features/auth/components/avatar";
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 import { css } from "../../../styled-system/css";
-import { flex, stack } from "../../../styled-system/patterns";
+import { between, hstack, stack } from "../../../styled-system/patterns";
 
-// "nav-scroll sticky inset-bs-0 inset-x-0 z-20 flex flex-col border-gray-400/20 border-b bg-white/65 backdrop-blur"
 // Main component with HasAuthSuspense boundary
 const Navbar = () => (
   <ViewTransition name="main-header">
@@ -34,16 +33,11 @@ const Navbar = () => (
           animationTimeline: "scroll()",
           animationRange: "100px 200px",
         },
+        paddingInline: { base: 2, sm: 6 },
+        paddingBlock: 4,
       })}
     >
-      <nav
-        className={flex({
-          align: "center",
-          justify: "space-between",
-          paddingInline: { base: 2, sm: 6 },
-          paddingBlock: 4,
-        })}
-      >
+      <nav className={between()}>
         <Link href="/">
           <div
             className={css({
@@ -78,7 +72,7 @@ const Navbar = () => (
             />
           </div>
         </Link>
-        <ul className={flex({ align: "center", gap: { base: 2, sm: 4 } })}>
+        <ul className={hstack({ gap: { base: 2, sm: 4 } })}>
           <NavLinkListItem href="/3d-models">3D Models</NavLinkListItem>
           <NavLinkListItem href="/about">About</NavLinkListItem>
           <li className={css({ placeSelf: "center", fontSize: "sm" })}>

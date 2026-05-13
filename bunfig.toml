@@ -3,7 +3,7 @@
 env = false
 
 [install]
-minimumReleaseAge = 172800
+minimumReleaseAge = 259200
 
 [test]
 preload = ["varlock/auto-load", "./tests/setup/test-preload.ts"]

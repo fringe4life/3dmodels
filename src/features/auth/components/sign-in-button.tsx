@@ -43,7 +43,7 @@ const SignInButton = () => {
         </Button>
       </ViewTransition>
       <div className={css({ textAlign: "center" })}>
-        <p className={css({ color: "gray.500", fontSize: "sm" })}>
+        <p className={css({ color: "text.muted", fontSize: "sm" })}>
           By signing in, you agree to our terms of service and privacy policy.
         </p>
       </div>

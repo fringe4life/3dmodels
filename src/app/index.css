@@ -1,7 +1,6 @@
 @layer reset, base, tokens, recipes, utilities;
 
 /* VIEW TRANSITIONS */
-
 ::view-transition-old(.exit):only-child {
   --slide-distance: 20px;
   animation:
@@ -23,18 +22,18 @@
     slide-out 250ms;
 }
 
-::view-transition-new(.enter-left) {
-  --slide-distance: -60px;
-  animation:
-    fade-in 250ms,
-    slide-in 250ms;
-}
-
 ::view-transition-old(.exit-right) {
   --slide-distance: calc(100vw + 60px);
   animation:
     fade-out 250ms,
     slide-out 250ms;
+}
+
+::view-transition-new(.enter-left) {
+  --slide-distance: -60px;
+  animation:
+    fade-in 250ms,
+    slide-in 250ms;
 }
 
 ::view-transition-new(.enter-right) {

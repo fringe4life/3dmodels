@@ -32,7 +32,7 @@ const ModelsViewInner = async ({
             className={css({
               paddingInlineEnd: "1",
               textAlign: "right",
-              color: "gray.500",
+              color: "text.muted",
               fontStyle: "italic",
               fontSize: "sm",
             })}
