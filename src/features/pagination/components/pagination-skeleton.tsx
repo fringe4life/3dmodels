@@ -1,10 +1,9 @@
-import { skeletonEnter } from "@/app/styles";
 import { Skeleton } from "@/components/skeleton";
-import { css, cx } from "../../../../styled-system/css";
+import { css } from "../../../../styled-system/css";
 import { between, hstack } from "../../../../styled-system/patterns";
 
 const PaginationSkeleton = () => (
-  <div className={cx(skeletonEnter, between())}>
+  <div aria-hidden="true" className={between()}>
     <Skeleton
       className={css({
         blockSize: 6,

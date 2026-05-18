@@ -47,7 +47,6 @@ const SearchInput = () => {
       });
     }
   };
-  // "inline-full absolute inset-0 rounded-full border border-search-input/20 bg-white px-5 py-3 text-sm placeholder-gray-500 transition-colors duration-200 focus-within:border-search-input focus:outline-none focus:ring-0 focus-visible:outline-2 focus-visible:outline-search-input md:text-base"
   return (
     <>
       <input
@@ -62,13 +61,13 @@ const SearchInput = () => {
           backgroundColor: "white",
           paddingInline: 5,
           paddingBlock: 3,
-          fontSize: "sm",
+          fontSize: { base: "sm" },
           color: "text.muted",
           transitionProperty: "colors",
           transitionDuration: "normal",
-          _focusWithin: { borderColor: "searchInput" },
           _focus: { outline: "none", ring: "0" },
           _focusVisible: { outline: "2", outlineColor: "searchInput" },
+          _placeholder: { color: "gray.500" },
         })}
         name="search"
         onChange={handleSearch}

@@ -4,7 +4,6 @@ import {
   addTransitionType,
   type SubmitEventHandler,
   useActionState,
-  useMemo,
   useOptimistic,
   useTransition,
 } from "react";
@@ -32,16 +31,7 @@ const HeartButtonClient = (props: HeartButtonClientProps) => {
   const serverLikesCount =
     state?.status === "SUCCESS" && state.data ? state.data.likesCount : likes;
 
-  // Stable passthrough reference: useOptimistic returns this same object when
-  // there is no pending optimistic queue, so a fresh `{ liked, likesCount }`
-  // every render would churn `optimistic`'s identity even when values are
-  // unchanged (effects, memo deps, memoized children). The hook does not rely
-  // on reference equality to reconcile passthrough—this is not a correctness
-  // requirement, only identity stability.
-  const passthrough = useMemo(
-    () => createHeartLikePassthrough(hasLiked, serverLikesCount),
-    [hasLiked, serverLikesCount],
-  );
+  const passthrough = createHeartLikePassthrough(hasLiked, serverLikesCount);
 
   const [optimistic, addOptimistic] = useOptimistic(
     passthrough,
@@ -53,9 +43,9 @@ const HeartButtonClient = (props: HeartButtonClientProps) => {
     if (!isAuthenticated) {
       return;
     }
-
+    const newTransitionType = optimistic.liked ? "decrease" : "increase";
     startTransition(async () => {
-      addTransitionType(optimistic.liked ? "decrease" : "increase");
+      addTransitionType(newTransitionType);
       addOptimistic({ type: "toggle" });
       await formAction(new FormData(e.currentTarget));
     });
@@ -79,7 +69,7 @@ const HeartButtonClient = (props: HeartButtonClientProps) => {
             position: "relative",
             zIndex: "5",
             flexWrap: "wrap",
-            columnGap: "1",
+            columnGap: 1,
             transitionTimingFunction: {
               _supportsLinear: "ease-smooth-in-out",
             },

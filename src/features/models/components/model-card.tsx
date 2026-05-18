@@ -5,7 +5,7 @@ import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import { sanitiseName } from "@/utils/sanitise-name";
 import { css, cx } from "../../../../styled-system/css";
-import { flex, hoverShadow } from "../../../../styled-system/patterns";
+import { hoverShadow, hstack } from "../../../../styled-system/patterns";
 import { toggleLike } from "../actions/likes";
 import type { ModelCardProps } from "../types";
 import { HeartButtonClient } from "./heart-button/heart-button-client";
@@ -72,8 +72,7 @@ const ModelCard = ({
 
       <div className={css({ padding: 4 })}>
         <div
-          className={flex({
-            justify: "space-between",
+          className={css({
             marginBlockEnd: 2,
             minBlockSize: 14,
           })}
@@ -116,11 +115,10 @@ const ModelCard = ({
           <Pill>{categorySlug}</Pill>
         </div>
         <div
-          className={flex({
+          className={hstack({
             marginBlockStart: 2,
             position: "relative",
             z: "50",
-            align: "center",
             color: "gray.600",
           })}
         >

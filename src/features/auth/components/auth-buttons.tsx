@@ -23,10 +23,11 @@ const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
     return (
       <div className={hstack({ gap: 2 })}>
         <div
-          className={cx(
-            circle({ size: 8 }),
-            css({ position: "relative", overflow: "hidden" }),
-          )}
+          className={circle({
+            size: 8,
+            position: "relative",
+            overflow: "hidden",
+          })}
         >
           {children}
         </div>
@@ -51,10 +52,7 @@ const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
           variant="ghost"
         >
           <FaSignOutAlt
-            className={cx(
-              square({ size: 5 }),
-              css({ _groupDisabled: { display: "none" } }),
-            )}
+            className={square({ size: 5, _groupDisabled: { display: "none" } })}
           />
         </SubmitButton>
       </div>

@@ -3,7 +3,7 @@ import { css } from "../../../../styled-system/css";
 import { hstack } from "../../../../styled-system/patterns";
 
 const AuthButtonsSkeleton = () => (
-  <div className={hstack({ gap: 2 })}>
+  <div aria-hidden="true" className={hstack({ gap: 2 })}>
     <Skeleton
       className={css({
         blockSize: 8,

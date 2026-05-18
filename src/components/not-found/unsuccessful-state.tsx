@@ -2,7 +2,7 @@ import { GenericComponent } from "@/components/generic-component";
 import { UnsuccessfulStateListItem } from "@/components/not-found/unsuccessful-state-list-item";
 import type { UnsuccessfulStateProps } from "@/types";
 import { css } from "../../../styled-system/css";
-import { flex, grid } from "../../../styled-system/patterns";
+import { flex, grid, gridItem } from "../../../styled-system/patterns";
 
 const UnsuccessfulState = ({
   heading,
@@ -12,7 +12,6 @@ const UnsuccessfulState = ({
   isError = false,
 }: UnsuccessfulStateProps) => (
   <div
-    // "min-block-[60vh] mx-4 grid place-items-center p-4"
     className={grid({
       minBlockSize: "60vh",
       marginInline: 4,
@@ -23,7 +22,7 @@ const UnsuccessfulState = ({
     data-not-found={!isError}
   >
     <div
-      className={css({
+      className={gridItem({
         maxInlineSize: "2xl",
         spaceY: 6,
         textAlign: "center",

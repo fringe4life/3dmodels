@@ -5,7 +5,6 @@ import { ResetButton } from "@/components/form/reset-button";
 import { css } from "../../../../styled-system/css";
 import { flex } from "../../../../styled-system/patterns";
 
-// "flex items-center gap-4 p-4 md:flex-col md:items-start"
 const CategoriesError = ({ unstable_retry }: ErrorInfo) => (
   <div
     className={flex({

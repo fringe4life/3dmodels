@@ -19,7 +19,6 @@ export const metadata: Metadata = {
       "Join our community of creators and explore a vast library of user-submitted 3D printing models.",
   },
 };
-// }; className="block-full max-inline-7xl mx-auto grid items-center justify-between gap-8 px-2 py-12 sm:px-6 md:grid-flow-col">
 
 const Home = () => (
   <section
@@ -37,7 +36,7 @@ const Home = () => (
   >
     <div className={grid({ rowGap: 6 })}>
       <p
-        className={css({
+        className={gridItem({
           display: { base: "none", md: "block" },
           color: "gray.600",
           fontSize: "sm",
@@ -84,16 +83,15 @@ const Home = () => (
     </div>
     <Image
       alt="a 3d printed model of the US Capital Building"
-      className={css({
+      className={gridItem({
         maskImage: "url(/mask-1.svg)",
         maskSize: "cover",
-        inlineSize: "7xl",
+        inlineSize: "6xl",
         justifySelf: "center",
         aspectRatio: "square",
         rounded: "lg",
         contain: "strict",
       })}
-      // className="mask-[url(/mask-1.svg)] mask-cover inline-75 aspect-square justify-self-center rounded-lg contain-strict"
       height={HERO_IMAGE_SQUARE_HEIGHT}
       priority
       src={HERO_IMAGE_SQUARE_SRC}

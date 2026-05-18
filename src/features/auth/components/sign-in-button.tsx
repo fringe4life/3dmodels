@@ -22,7 +22,7 @@ const SignInButton = () => {
   };
 
   return (
-    <div className={css({ spaceY: "4" })}>
+    <div className={css({ spaceY: 4 })}>
       <ViewTransition>
         <Button
           className={cx(

@@ -4,7 +4,9 @@ import { grid } from "../../styled-system/patterns";
 export const skeletonEnter = css({
   transitionProperty: "filter",
   transitionDuration: "normal",
+  transitionBehavior: "allow-discrete",
   _starting: {
+    filter: "auto",
     blur: "sm",
   },
 });

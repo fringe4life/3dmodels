@@ -1,18 +1,14 @@
-import { skeletonEnter } from "@/app/styles";
 import { Skeleton } from "@/components/skeleton";
-import { css, cx } from "../../../../styled-system/css";
+import { css } from "../../../../styled-system/css";
 import { HeartButtonSkeleton } from "./heart-button/heart-button-skeleton";
 
 const ModelCardSkeleton = () => (
   <Skeleton
-    className={cx(
-      skeletonEnter,
-      css({
-        rounded: "lg",
-        backgroundColor: "bg.surface",
-        shadow: "md",
-      }),
-    )}
+    className={css({
+      rounded: "lg",
+      backgroundColor: "bg.surface",
+      shadow: "md",
+    })}
   >
     {/* Image skeleton - aspect-square matching the actual card */}
     <div

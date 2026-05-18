@@ -2,14 +2,11 @@ import { ViewTransition } from "react";
 import { GenericComponent } from "@/components/generic-component";
 import { NavLinkListItem } from "@/components/nav-link";
 import { grid } from "../../../../styled-system/patterns";
+import { ALL_CATEGORIES } from "../constants";
 import type { CategoriesNavProps } from "../types";
 
 const CategoriesNav = ({ categories }: CategoriesNavProps) => {
-  const allCategories = [
-    { slug: "/3d-models", displayName: "All", id: "all" },
-    ...categories,
-  ];
-  // "grid auto-cols-max grid-flow-col gap-5 px-4 py-3 md:grid-flow-row md:p-0"
+  const allCategories = [ALL_CATEGORIES, ...categories];
   return (
     <ViewTransition name="categories-nav">
       <GenericComponent

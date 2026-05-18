@@ -75,7 +75,6 @@ const SignUpPage = () => {
         </div>
         <FormError actionState={state} isPending={isPending} />
         <SubmitButton isPending={isPending}>
-          {/*"group-disabled:hidden"*/}
           <span className={css({ _groupDisabled: { display: "hidden" } })}>
             Sign up
           </span>

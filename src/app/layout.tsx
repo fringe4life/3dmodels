@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-// import "./globals.css" with { type: "module" };
 import "./index.css";
 import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
@@ -11,8 +10,7 @@ import {
   HERO_IMAGE_SQUARE_SRC,
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
-import { css } from "../../styled-system/css";
-import { grid } from "../../styled-system/patterns";
+import { grid, gridItem } from "../../styled-system/patterns";
 
 const albertSans = Albert_Sans({
   subsets: ["latin"],
@@ -96,7 +94,7 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
           rowGap: { md: 10 },
         })}
       >
-        <main className={css({ blockSize: "full" })}>
+        <main className={gridItem({ blockSize: "full" })}>
           <RscBoundaryProvider>{children}</RscBoundaryProvider>
         </main>
         {footer}

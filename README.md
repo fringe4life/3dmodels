@@ -9,9 +9,9 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.1-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.1-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.10-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.4.14-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.6.5-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.11-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.4.15-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.7.0-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
@@ -19,13 +19,13 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
 - **Styling**: Panda CSS 1.11.1 (`@pandacss/dev`, `panda.config.ts`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.1
-- **Authentication**: Better Auth 1.6.10 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
+- **Authentication**: Better Auth 1.6.11 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
-- **Linting & Formatting**: Biome 2.4.14 with Ultracite 7.6.5 presets (`ultracite/biome/core`, `react`, `next`)
+- **Linting & Formatting**: Biome 2.4.15 with Ultracite 7.7.0 presets (`ultracite/biome/core`, `react`, `next`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.2.0 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.0 for server action and form schemas
 
 ## 🚀 Features
@@ -119,7 +119,7 @@ src/
 │   │   ├── components/
 │   │   │   ├── categories-block-transition.tsx
 │   │   │   └── categories-nav.tsx
-│   │   ├── constants.ts
+│   │   ├── constants.ts          # ALL_CATEGORIES, CATEGORY_LIST_ITEMS, not-found metadata
 │   │   ├── types.ts
 │   │   └── queries/
 │   │       ├── get-all-categories.ts

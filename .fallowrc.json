@@ -10,5 +10,9 @@
     "babel-plugin-react-compiler",
     "next-devtools-mcp",
     "@pandacss/preset-panda"
-  ]
+  ],
+  "duplicates": {
+    "enabled": true,
+    "minOccurrences": 3
+  }
 }

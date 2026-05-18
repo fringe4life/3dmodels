@@ -18,11 +18,11 @@ const buttonRecipe = cva({
     justifyContent: "center",
     gap: 2,
     fontWeight: "medium",
-    cursor: "pointer",
+    cursor: { base: "pointer", _disabled: "not-allowed" },
+    opacity: { _disabled: "0.5" },
     transitionProperty: "colors,scale,opacity",
     transitionDuration: "normal",
     transitionTimingFunction: "ease-in-out",
-    _disabled: { cursor: "not-allowed", opacity: "0.5" },
   },
   variants: {
     variant: {
@@ -33,17 +33,17 @@ const buttonRecipe = cva({
         _hover: { backgroundColor: "brand.hover" },
         _focus: {
           outline: "none",
-          ring: "2",
+          ring: 2,
           ringColor: "brand.ring",
-          ringOffset: "2",
+          ringOffset: 2,
         },
       },
       outline: {
         backgroundColor: "bg.surface",
         color: "text.primary",
-        borderWidth: "1",
+        borderWidth: 1,
         borderColor: "border.strong",
-        ring: "1",
+        ring: 1,
         ringColor: "border",
         ringOffset: "inset",
         shadow: "sm",
@@ -63,32 +63,32 @@ const buttonRecipe = cva({
     },
     size: {
       sm: {
-        paddingInline: "2",
-        paddingBlock: "1",
+        paddingInline: 2,
+        paddingBlock: 1,
         fontSize: "xs",
         rounded: "md",
       },
       md: {
         paddingInline: "4",
-        paddingBlock: "2",
+        paddingBlock: 2,
         fontSize: "sm",
         rounded: "md",
       },
       lg: {
-        paddingInline: "6",
-        paddingBlock: "3",
+        paddingInline: 6,
+        paddingBlock: 3,
         fontSize: "base",
         rounded: "md",
       },
       icon: {
-        inlineSize: "8",
-        blockSize: "8",
+        inlineSize: 8,
+        blockSize: 8,
         rounded: "md",
       },
       /** Content-sized — no padding or fixed dimensions. Use when the button
        *  sizes itself from its children (e.g. icon + count pairs). */
       bare: {
-        padding: "0",
+        padding: 0,
       },
     },
   },

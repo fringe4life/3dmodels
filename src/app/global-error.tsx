@@ -20,7 +20,7 @@ const GlobalError = ({ unstable_retry }: ErrorInfo) => (
     >
       <div
         className={grid({
-          minBlockSize: "dvh",
+          minBlockSize: "100dvh",
           placeContent: "center",
           gap: 6,
           paddingInline: 6,

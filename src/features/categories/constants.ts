@@ -17,3 +17,9 @@ export const CATEGORY_LIST_ITEMS: UnsuccessfulStateListItemProps[] = [
     text: "Use the search function to find specific 3D models",
   },
 ];
+
+export const ALL_CATEGORIES = {
+  slug: "/3d-models",
+  displayName: "All",
+  id: "all",
+};
