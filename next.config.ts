@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   cacheComponents: true,
   reactCompiler: true,
+  // Panda styled-system uses named exports in flat *.mjs files (e.g. patterns/square.mjs).
+  // modularizeImports rewrites to default imports and breaks (gridItem vs grid-item.mjs too).
   allowedDevOrigins: ["127.0.0.1"],
   experimental: {
     viewTransition: true,

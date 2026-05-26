@@ -1,6 +1,6 @@
+import { css } from "@styled-system/css";
+import { between, hstack } from "@styled-system/patterns";
 import { Skeleton } from "@/components/skeleton";
-import { css } from "../../../../styled-system/css";
-import { between, hstack } from "../../../../styled-system/patterns";
 
 const PaginationSkeleton = () => (
   <div aria-hidden="true" className={between()}>

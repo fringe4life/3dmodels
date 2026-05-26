@@ -1,5 +1,5 @@
+import { css } from "@styled-system/css";
 import type { ReactNode } from "react";
-import { css } from "../../../../styled-system/css";
 
 interface AuthCardProps {
   children: ReactNode;

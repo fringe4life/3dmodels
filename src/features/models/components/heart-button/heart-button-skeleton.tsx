@@ -1,5 +1,5 @@
+import { hstack } from "@styled-system/patterns";
 import { Skeleton } from "@/components/skeleton";
-import { hstack } from "../../../../../styled-system/patterns";
 
 const HeartButtonSkeleton = () => (
   <Skeleton

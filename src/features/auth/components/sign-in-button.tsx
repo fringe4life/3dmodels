@@ -1,17 +1,17 @@
 "use client";
 
+import { css, cx } from "@styled-system/css";
+import { square } from "@styled-system/patterns";
 import { type MouseEventHandler, useTransition, ViewTransition } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Button } from "@/components/button";
 import { authClient } from "@/lib/auth-client";
 import { tryCatch } from "@/utils/try-catch";
-import { css, cx } from "../../../../styled-system/css";
-import { square } from "../../../../styled-system/patterns";
 
 const SignInButton = () => {
   const [isPending, startTransition] = useTransition();
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleGithubLogin: MouseEventHandler<HTMLButtonElement> = () => {
     startTransition(async () => {
       await tryCatch(() =>
         authClient.signIn.social({
@@ -34,7 +34,7 @@ const SignInButton = () => {
             }),
           )}
           disabled={isPending}
-          onClick={handleClick}
+          onClick={handleGithubLogin}
           type="button"
           variant="outline"
         >

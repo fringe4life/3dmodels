@@ -1,6 +1,6 @@
+import { grid } from "@styled-system/patterns";
 import { ViewTransition } from "react";
 import { getCurrentYear } from "@/lib/date";
-import { grid } from "../../../styled-system/patterns";
 
 const FooterDefault = async () => {
   const currentYear = await getCurrentYear();

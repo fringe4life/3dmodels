@@ -29,8 +29,8 @@ const toggleLike = async (
   _formData: FormData,
 ): Promise<ActionState<{ likesCount: number }>> => {
   try {
-    const { slug } = parse(likeSchema, { slug: slugToValidate });
     const user = await getUser();
+    const { slug } = parse(likeSchema, { slug: slugToValidate });
 
     if (!user?.id) {
       throw new Error("Authentication required");

@@ -8,7 +8,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.1-000000)
-![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.1-FFE66D?logo=postgresql)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.2-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.11-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.15-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.7.0-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
@@ -17,11 +17,11 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 - **Framework**: Next.js 16.2.6 with App Router, Cache Components, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
-- **Styling**: Panda CSS 1.11.1 (`@pandacss/dev`, `panda.config.ts`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
-- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.1
+- **Styling**: Panda CSS 1.11.1 (`@pandacss/dev`, `panda.config.ts`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
+- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.2
 - **Authentication**: Better Auth 1.6.11 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
-- **Linting & Formatting**: Biome 2.4.15 with Ultracite 7.7.0 presets (`ultracite/biome/core`, `react`, `next`)
+- **Linting & Formatting**: Biome 2.4.15 with Ultracite 7.7.0 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `react-doctor.config.json`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
@@ -44,7 +44,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `styled-system/css` resolve.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `@styled-system/css` resolve. Root tooling includes `react-doctor.config.json` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -359,7 +359,7 @@ The project follows a feature-based architecture where related functionality is 
 - `bun run db:drop` — Drop all tables (development reset)
 
 ### Database Relations
-The application uses Drizzle ORM 1.0.0-rc.1 with `defineRelations` for type-safe relations:
+The application uses Drizzle ORM 1.0.0-rc.2 with `defineRelations` for type-safe relations:
 - Relations defined using the v1/rc syntax with `r.one()` and `r.many()` helpers
 - Relation names avoid conflicts with column names (e.g., `modelLikes` instead of `likes` to avoid conflict with `models.likes` column)
 - All relations exported from `schema/relations.ts` and included in the database schema
@@ -471,7 +471,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 ### Code Quality Tools
 
-- **Biome**: Linting and formatting
+- **Biome / Ultracite**: Linting and formatting (see `.cursor/rules/ultracite.mdc`)
+- **React Doctor**: React/Next.js diagnostics on pull requests; run locally with `bun run react-doctor`
 - **tsgo**: TypeScript type checking
 - **TypeScript**: Static type checking
 
@@ -507,6 +508,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run check` - Check linting rules with Ultracite/Biome
 - `bun run doctor` - Run Ultracite doctor diagnostics
 - `bun run ultracite:upgrade` - Upgrade Ultracite configuration
+- `bun run react-doctor` - Run React Doctor locally (`react-doctor.config.json`)
 
 ### Code Style
 

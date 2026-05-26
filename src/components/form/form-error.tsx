@@ -1,9 +1,9 @@
 "use client";
 
+import { css } from "@styled-system/css";
 import { ViewTransition } from "react";
 import type { Maybe } from "@/types";
 import type { ActionState } from "@/utils/to-action-state";
-import { css } from "../../../styled-system/css";
 
 interface FormErrorProps<T = unknown> {
   actionState: Maybe<ActionState<T>>;

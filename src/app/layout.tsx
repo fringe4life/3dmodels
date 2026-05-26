@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./index.css";
 import { RscBoundaryProvider } from "@rsc-boundary/next";
+import { grid, gridItem } from "@styled-system/patterns";
 import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
 import { ENV } from "varlock/env";
 import { ScrollProgress } from "@/components/scroll-progress";
@@ -10,7 +11,6 @@ import {
   HERO_IMAGE_SQUARE_SRC,
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
-import { grid, gridItem } from "../../styled-system/patterns";
 
 const albertSans = Albert_Sans({
   subsets: ["latin"],

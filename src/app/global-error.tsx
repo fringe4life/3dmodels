@@ -1,9 +1,9 @@
 "use client";
 
+import { css } from "@styled-system/css";
+import { center, grid } from "@styled-system/patterns";
 import type { ErrorInfo } from "next/error";
 import { ResetButton } from "@/components/form/reset-button";
-import { css } from "../../styled-system/css";
-import { center, grid } from "../../styled-system/patterns";
 
 const GlobalError = ({ unstable_retry }: ErrorInfo) => (
   <html lang="en">

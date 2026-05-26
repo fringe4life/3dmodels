@@ -1,8 +1,8 @@
+import { css } from "@styled-system/css";
 import { ViewTransition } from "react";
 import { GenericComponent } from "@/components/generic-component";
 import { ModelCard } from "@/features/models/components/model-card";
 import { sanitiseName } from "@/utils/sanitise-name";
-import { css } from "../../../../styled-system/css";
 import { modelsGrid } from "../../../app/styles";
 import type { ModelsGridProps } from "../types";
 

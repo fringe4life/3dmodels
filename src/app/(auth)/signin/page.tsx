@@ -1,5 +1,6 @@
 "use client";
 
+import { css } from "@styled-system/css";
 import { useActionState, useTransition } from "react";
 import { FieldError } from "@/components/form/field-errors";
 import { FormError } from "@/components/form/form-error";
@@ -10,7 +11,6 @@ import { signInAction } from "@/features/auth/actions/sign-in-action";
 import { AuthCard } from "@/features/auth/components/auth-card";
 import { AuthFooterLink } from "@/features/auth/components/auth-footer-link";
 import { SignInButton } from "@/features/auth/components/sign-in-button";
-import { css } from "../../../../styled-system/css";
 
 const SignInPage = () => {
   const [state, formAction] = useActionState(signInAction, null);

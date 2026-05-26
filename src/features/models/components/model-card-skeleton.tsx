@@ -1,5 +1,5 @@
+import { css } from "@styled-system/css";
 import { Skeleton } from "@/components/skeleton";
-import { css } from "../../../../styled-system/css";
 import { HeartButtonSkeleton } from "./heart-button/heart-button-skeleton";
 
 const ModelCardSkeleton = () => (

@@ -1,3 +1,5 @@
+import { css } from "@styled-system/css";
+import { grid, gridItem } from "@styled-system/patterns";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,8 +8,6 @@ import {
   HERO_IMAGE_SQUARE_SRC,
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
-import { css } from "../../styled-system/css";
-import { grid, gridItem } from "../../styled-system/patterns";
 
 export const metadata: Metadata = {
   title: "Home",

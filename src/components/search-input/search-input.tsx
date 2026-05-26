@@ -1,5 +1,7 @@
 "use client";
 
+import { css } from "@styled-system/css";
+import { square } from "@styled-system/patterns";
 import { debounce, defaultRateLimit, parseAsString, useQueryState } from "nuqs";
 import {
   Activity,
@@ -9,8 +11,6 @@ import {
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { css } from "../../../styled-system/css";
-import { square } from "../../../styled-system/patterns";
 import { SearchInputTransition } from "./search-input-transition";
 
 // Constants for debounce timing

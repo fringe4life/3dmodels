@@ -1,5 +1,7 @@
 "use client";
 
+import { css, cx } from "@styled-system/css";
+import { circle, hstack, square } from "@styled-system/patterns";
 import { useTransition } from "react";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { buttonRecipe } from "@/components/button";
@@ -7,8 +9,6 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { NavLink } from "@/components/nav-link";
 import { signOutAction } from "@/features/auth/actions/sign-out-action";
 import type { AuthButtonsProps } from "@/features/auth/types";
-import { css, cx } from "../../../../styled-system/css";
-import { circle, hstack, square } from "../../../../styled-system/patterns";
 
 const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();

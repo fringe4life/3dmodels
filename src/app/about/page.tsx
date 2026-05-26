@@ -1,9 +1,9 @@
+import { css, cx } from "@styled-system/css";
+import { grid } from "@styled-system/patterns";
+import { prose } from "@styled-system/recipes";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { HERO_IMAGE_SQUARE_SRC } from "@/lib/hero-image";
-import { css, cx } from "../../../styled-system/css";
-import { grid } from "../../../styled-system/patterns";
-import { prose } from "../../../styled-system/recipes";
 
 export const metadata: Metadata = {
   title: "About",

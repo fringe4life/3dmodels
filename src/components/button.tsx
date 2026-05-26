@@ -1,5 +1,5 @@
+import { cva, cx, type RecipeVariantProps } from "@styled-system/css";
 import type { Ref } from "react";
-import { cva, cx, type RecipeVariantProps } from "../../styled-system/css";
 
 /**
  * PandaCSS CVA recipe for button variants.

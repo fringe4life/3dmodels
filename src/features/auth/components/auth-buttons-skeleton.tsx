@@ -1,6 +1,6 @@
+import { css } from "@styled-system/css";
+import { hstack } from "@styled-system/patterns";
 import { Skeleton } from "@/components/skeleton";
-import { css } from "../../../../styled-system/css";
-import { hstack } from "../../../../styled-system/patterns";
 
 const AuthButtonsSkeleton = () => (
   <div aria-hidden="true" className={hstack({ gap: 2 })}>

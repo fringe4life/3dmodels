@@ -1,8 +1,8 @@
+import { css, cx } from "@styled-system/css";
+import { square } from "@styled-system/patterns";
 import { FaSpinner } from "react-icons/fa";
 import { skeletonEnter } from "@/app/styles";
 import { Button, type ButtonVariantProps } from "@/components/button";
-import { css, cx } from "../../../styled-system/css";
-import { square } from "../../../styled-system/patterns";
 
 interface SubmitButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

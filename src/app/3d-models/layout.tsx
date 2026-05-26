@@ -1,6 +1,6 @@
+import { css } from "@styled-system/css";
+import { grid, gridItem } from "@styled-system/patterns";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { css } from "../../../styled-system/css";
-import { grid, gridItem } from "../../../styled-system/patterns";
 
 const ModelsLayout = ({
   children,

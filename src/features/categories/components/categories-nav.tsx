@@ -1,7 +1,7 @@
+import { grid } from "@styled-system/patterns";
 import { ViewTransition } from "react";
 import { GenericComponent } from "@/components/generic-component";
 import { NavLinkListItem } from "@/components/nav-link";
-import { grid } from "../../../../styled-system/patterns";
 import { ALL_CATEGORIES } from "../constants";
 import type { CategoriesNavProps } from "../types";
 

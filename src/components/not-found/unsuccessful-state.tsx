@@ -1,8 +1,8 @@
+import { css } from "@styled-system/css";
+import { flex, grid, gridItem } from "@styled-system/patterns";
 import { GenericComponent } from "@/components/generic-component";
 import { UnsuccessfulStateListItem } from "@/components/not-found/unsuccessful-state-list-item";
 import type { UnsuccessfulStateProps } from "@/types";
-import { css } from "../../../styled-system/css";
-import { flex, grid, gridItem } from "../../../styled-system/patterns";
 
 const UnsuccessfulState = ({
   heading,

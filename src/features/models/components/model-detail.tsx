@@ -1,11 +1,11 @@
+import { css, cx } from "@styled-system/css";
+import { grid, gridItem } from "@styled-system/patterns";
+import { prose } from "@styled-system/recipes";
 import Image from "next/image";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import { sanitiseName } from "@/utils/sanitise-name";
-import { css, cx } from "../../../../styled-system/css";
-import { grid, gridItem } from "../../../../styled-system/patterns";
-import { prose } from "../../../../styled-system/recipes";
 import type { ModelDetailProps } from "../types";
 
 const ModelDetail = ({

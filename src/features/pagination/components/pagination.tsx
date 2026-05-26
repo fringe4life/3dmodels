@@ -1,5 +1,7 @@
 "use client";
 
+import { css } from "@styled-system/css";
+import { between, hstack, square } from "@styled-system/patterns";
 import { useQueryStates } from "nuqs";
 import {
   addTransitionType,
@@ -15,8 +17,6 @@ import {
   paginationParser,
 } from "@/features/pagination/pagination-search-params";
 import type { LimitItem } from "@/features/pagination/types";
-import { css } from "../../../../styled-system/css";
-import { between, hstack, square } from "../../../../styled-system/patterns";
 import type { PaginationProps } from "../types";
 import { PaginationButton } from "./pagination-button";
 

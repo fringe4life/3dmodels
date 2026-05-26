@@ -1,5 +1,6 @@
 "use client";
 
+import { css } from "@styled-system/css";
 import { useActionState, useTransition } from "react";
 import { FieldError } from "@/components/form/field-errors";
 import { FormError } from "@/components/form/form-error";
@@ -9,7 +10,6 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { signUpAction } from "@/features/auth/actions/sign-up-action";
 import { AuthCard } from "@/features/auth/components/auth-card";
 import { AuthFooterLink } from "@/features/auth/components/auth-footer-link";
-import { css } from "../../../../styled-system/css";
 
 const SignUpPage = () => {
   const [state, formAction] = useActionState(signUpAction, null);

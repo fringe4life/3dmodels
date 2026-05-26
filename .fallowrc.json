@@ -9,7 +9,8 @@
     "@varlock/bitwarden-plugin",
     "babel-plugin-react-compiler",
     "next-devtools-mcp",
-    "@pandacss/preset-panda"
+    "@pandacss/preset-panda",
+    "react-doctor"
   ],
   "duplicates": {
     "enabled": true,

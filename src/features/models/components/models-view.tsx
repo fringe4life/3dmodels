@@ -1,3 +1,5 @@
+import { css } from "@styled-system/css";
+import { grid } from "@styled-system/patterns";
 import { Suspense } from "react";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import { DEFAULT_TITLE } from "@/features/models/constants";
@@ -6,8 +8,6 @@ import type { ModelsViewProps } from "@/features/models/types";
 import { Pagination } from "@/features/pagination/components/pagination";
 import { PaginationOffsetTransition } from "@/features/pagination/components/pagination-offset-transition";
 import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
-import { css } from "../../../../styled-system/css";
-import { grid } from "../../../../styled-system/patterns";
 import { ModelsGrid } from "./models-grid";
 import { ModelsNotFound } from "./models-not-found";
 

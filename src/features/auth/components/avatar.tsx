@@ -1,6 +1,6 @@
+import { css } from "@styled-system/css";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
-import { css } from "../../../../styled-system/css";
 import type { AvatarProps } from "../types";
 
 const Avatar = ({ user }: AvatarProps) => {

@@ -1,5 +1,5 @@
-import { css } from "../../styled-system/css";
-import { grid } from "../../styled-system/patterns";
+import { css } from "@styled-system/css";
+import { grid } from "@styled-system/patterns";
 
 export const skeletonEnter = css({
   transitionProperty: "filter",

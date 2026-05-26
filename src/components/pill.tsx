@@ -1,4 +1,4 @@
-import { css, cx } from "../../styled-system/css";
+import { css, cx } from "@styled-system/css";
 
 const Pill = ({ children, className = "" }: React.ComponentProps<"span">) => (
   <span

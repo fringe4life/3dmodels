@@ -1,5 +1,5 @@
+import { css } from "@styled-system/css";
 import { Skeleton } from "@/components/skeleton";
-import { css } from "../../../../styled-system/css";
 import { modelsGrid } from "../../../app/styles";
 import { ModelCardSkeleton } from "./model-card-skeleton";
 

@@ -1,9 +1,9 @@
+import { css } from "@styled-system/css";
 import type { Metadata } from "next";
 import { SearchInput } from "@/components/search-input/search-input";
 import { SearchInputSkeleton } from "@/components/search-input/search-input-skeleton";
 import { Suspend } from "@/components/suspend";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
-import { css } from "../../../styled-system/css";
 
 const listingMetadata: Metadata = {
   title: "3d-Models",

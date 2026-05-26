@@ -1,9 +1,9 @@
 "use client";
 
+import { css, cx } from "@styled-system/css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { NavLinkListItemProps, NavLinkProps } from "@/types";
-import { css, cx } from "../../styled-system/css";
 
 /**
  * Client-side nav link that marks the current route with `aria-current="page"` and matching styles.

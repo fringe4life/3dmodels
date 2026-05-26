@@ -1,6 +1,6 @@
+import { css } from "@styled-system/css";
+import { circle } from "@styled-system/patterns";
 import { FaArrowUp } from "react-icons/fa";
-import { css } from "../../styled-system/css";
-import { circle } from "../../styled-system/patterns";
 
 const TopLink = () => (
   <a

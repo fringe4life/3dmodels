@@ -27,3 +27,4 @@ playwright.config.ts
 bunfig.toml
 AGENTS.md
 docs
+react-doctor.config.json

@@ -1,3 +1,5 @@
+import { css } from "@styled-system/css";
+import { between, hstack, stack } from "@styled-system/patterns";
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
@@ -6,8 +8,6 @@ import { AuthButtons } from "@/features/auth/components/auth-buttons";
 import { AuthButtonsSkeleton } from "@/features/auth/components/auth-buttons-skeleton";
 import { Avatar } from "@/features/auth/components/avatar";
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
-import { css } from "../../../styled-system/css";
-import { between, hstack, stack } from "../../../styled-system/patterns";
 
 // Main component with HasAuthSuspense boundary
 const Navbar = () => (

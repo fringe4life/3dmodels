@@ -1,5 +1,5 @@
+import { css, cx } from "@styled-system/css";
 import { skeletonEnter } from "@/app/styles";
-import { css, cx } from "../../styled-system/css";
 
 interface SkeletonProps {
   children?: React.ReactNode;

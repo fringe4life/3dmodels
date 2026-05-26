@@ -1,11 +1,11 @@
+import { css, cx } from "@styled-system/css";
+import { hoverShadow, hstack } from "@styled-system/patterns";
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import { sanitiseName } from "@/utils/sanitise-name";
-import { css, cx } from "../../../../styled-system/css";
-import { hoverShadow, hstack } from "../../../../styled-system/patterns";
 import { toggleLike } from "../actions/likes";
 import type { ModelCardProps } from "../types";
 import { HeartButtonClient } from "./heart-button/heart-button-client";

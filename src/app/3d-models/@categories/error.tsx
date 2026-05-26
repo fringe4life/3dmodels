@@ -1,9 +1,9 @@
 "use client";
 
+import { css } from "@styled-system/css";
+import { flex } from "@styled-system/patterns";
 import type { ErrorInfo } from "next/error";
 import { ResetButton } from "@/components/form/reset-button";
-import { css } from "../../../../styled-system/css";
-import { flex } from "../../../../styled-system/patterns";
 
 const CategoriesError = ({ unstable_retry }: ErrorInfo) => (
   <div
