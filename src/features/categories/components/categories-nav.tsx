@@ -20,7 +20,6 @@ const CategoriesNav = ({ categories }: CategoriesNavProps) => {
           paddingBlock: { base: 2, md: 0 },
         })}
         items={allCategories}
-        renderKey={(item) => item.slug}
         renderProps={(item) => ({
           matchStrategy: "endsWith" as const,
           href:

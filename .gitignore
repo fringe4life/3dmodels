@@ -4,6 +4,7 @@ node_modules
 .next
 .vercel
 .fallow
+.agents
 
 # TypeScript
 tsconfig.tsbuildinfo

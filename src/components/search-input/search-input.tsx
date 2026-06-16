@@ -50,6 +50,7 @@ const SearchInput = () => {
   return (
     <>
       <input
+        aria-label="Search models"
         autoComplete="off"
         className={css({
           inlineSize: "full",

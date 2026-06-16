@@ -13,6 +13,12 @@ export interface SearchParamsProps {
   searchParams: Promise<SearchParams>;
 }
 
+/** Optional stable keys for `GenericComponent`; falls back to list index when neither is set. */
+export interface GenericListItemKey {
+  id?: string | number;
+  slug?: string;
+}
+
 export interface UnsuccessfulStateProps {
   action?: ReactNode;
   heading: string;
@@ -21,7 +27,7 @@ export interface UnsuccessfulStateProps {
   subheading: string;
 }
 
-export interface UnsuccessfulStateListItemProps {
+export interface UnsuccessfulStateListItemProps extends GenericListItemKey {
   text: string;
 }
 
@@ -43,7 +49,7 @@ export interface NavLinkListItemProps extends NavLinkProps {
 }
 
 export interface GenericComponentProps<
-  T,
+  T extends GenericListItemKey,
   P,
   E extends React.ElementType = "div",
 > {
@@ -51,7 +57,6 @@ export interface GenericComponentProps<
   Component: React.ComponentType<P>;
   className?: string;
   items: T[];
-  renderKey: (item: T, index: number) => React.Key;
   renderProps: (item: T, index: number) => P;
   wrapperProps?: React.ComponentPropsWithoutRef<E>;
 }

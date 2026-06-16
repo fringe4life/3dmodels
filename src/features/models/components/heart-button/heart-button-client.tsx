@@ -19,9 +19,13 @@ import {
   reduceHeartLikeOptimistic,
 } from "./heart-like-optimistic";
 
-const HeartButtonClient = (props: HeartButtonClientProps) => {
-  const { hasLiked, isAuthenticated, likes, slug, toggleAction } = props;
-
+const HeartButtonClient = ({
+  hasLiked,
+  isAuthenticated,
+  likes,
+  slug,
+  toggleAction,
+}: HeartButtonClientProps) => {
   const [isPending, startTransition] = useTransition();
   const [state, formAction] = useActionState(
     toggleAction.bind(null, slug),

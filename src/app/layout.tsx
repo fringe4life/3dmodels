@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./index.css";
 import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { grid, gridItem } from "@styled-system/patterns";
-import { Albert_Sans, Montserrat_Alternates } from "next/font/google";
+import { Albert_Sans, Montserrat } from "next/font/google";
 import { ENV } from "varlock/env";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { TopLink } from "@/components/top-link";
@@ -15,15 +15,13 @@ import {
 const albertSans = Albert_Sans({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
   variable: "--font-albert-sans",
 });
 
-const montserratAlternates = Montserrat_Alternates({
+const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "600", "700"],
-  variable: "--font-montserrat-alternates",
+  variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {
@@ -76,7 +74,7 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
   <html
-    className={`${albertSans.variable} ${montserratAlternates.variable}`}
+    className={`${albertSans.variable} ${montserrat.variable}`}
     data-scroll-behavior="smooth"
     lang="en"
   >

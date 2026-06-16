@@ -56,6 +56,7 @@ const GlobalError = ({ unstable_retry }: ErrorInfo) => (
         >
           <ResetButton onClick={unstable_retry} />
           {/* Full document navigation (not next/link): after a global error we want a hard refresh so client state and the broken tree are fully cleared. */}
+          {/* react-doctor-disable-next-line */}
           <a
             className={css({
               color: "gray.600",

@@ -62,7 +62,6 @@ const UnsuccessfulState = ({
           Component={UnsuccessfulStateListItem}
           className={css({ spaceY: 2, color: "gray.600" })}
           items={listItems}
-          renderKey={(_item, index) => index}
           renderProps={(item) => ({ text: item.text })}
         />
       </div>

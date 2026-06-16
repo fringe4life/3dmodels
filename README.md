@@ -4,29 +4,29 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.2.6-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.7-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.1-000000)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.3-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.2-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.11-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.4.15-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.7.0-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.18-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.4.16-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.8.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.2.6 with App Router, Cache Components, and typed routes (`typedRoutes`)
+- **Framework**: Next.js 16.2.7 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
-- **Styling**: Panda CSS 1.11.1 (`@pandacss/dev`, `panda.config.ts`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
+- **Styling**: Panda CSS 1.11.3 (`@pandacss/dev`, `panda.config.ts`, `pandacss-preset-typography`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.2
-- **Authentication**: Better Auth 1.6.11 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
+- **Authentication**: Better Auth 1.6.18 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
-- **Linting & Formatting**: Biome 2.4.15 with Ultracite 7.7.0 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `react-doctor.config.json`)
+- **Linting & Formatting**: Biome 2.4.16 with Ultracite 7.8.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.2.0 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
-- **Validation**: Varlock for environment; Valibot 1.4.0 for server action and form schemas
+- **Environment**: [Varlock](https://varlock.dev/) 1.6.1 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Validation**: Varlock for environment; Valibot 1.4.1 for server action and form schemas
 
 ## 🚀 Features
 
@@ -36,7 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16.2.6, TypeScript, and Panda CSS
+- **Modern Stack**: Built with Next.js 16.2.7, TypeScript, and Panda CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
@@ -44,7 +44,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `@styled-system/css` resolve. Root tooling includes `react-doctor.config.json` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos and `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -111,10 +111,11 @@ src/
 │   │   │   ├── avatar.tsx        # User avatar (GitHub image, fallback icon)
 │   │   │   ├── has-auth.tsx      # Generic auth component with session provider
 │   │   │   └── sign-in-button.tsx
+│   │   ├── auth-types.ts         # Shared auth type definitions
 │   │   ├── constants.ts          # Auth validation constants
 │   │   ├── queries/
 │   │   │   └── get-user.ts
-│   │   └── types.ts              # Auth type definitions
+│   │   └── types.ts              # Auth exports and re-exports
 │   ├── categories/               # Categories feature
 │   │   ├── components/
 │   │   │   ├── categories-block-transition.tsx
@@ -508,7 +509,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run check` - Check linting rules with Ultracite/Biome
 - `bun run doctor` - Run Ultracite doctor diagnostics
 - `bun run ultracite:upgrade` - Upgrade Ultracite configuration
-- `bun run react-doctor` - Run React Doctor locally (`react-doctor.config.json`)
+- `bun run react-doctor` - Run React Doctor locally (`doctor.config.ts`)
 
 ### Code Style
 

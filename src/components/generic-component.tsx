@@ -1,10 +1,23 @@
-import type { GenericComponentProps } from "@/types";
+import type { GenericComponentProps, GenericListItemKey } from "@/types";
 
-const GenericComponent = <T, P, E extends React.ElementType = "div">({
+const getItemKey = (item: GenericListItemKey, index: number): React.Key => {
+  if (item.id != null) {
+    return item.id;
+  }
+  if (item.slug != null && item.slug !== "") {
+    return item.slug;
+  }
+  return index;
+};
+
+const GenericComponent = <
+  T extends GenericListItemKey,
+  P,
+  E extends React.ElementType = "div",
+>({
   Component,
   items,
   renderProps,
-  renderKey,
   className = "",
   as,
   wrapperProps,
@@ -13,7 +26,10 @@ const GenericComponent = <T, P, E extends React.ElementType = "div">({
   return (
     <Wrapper className={className} {...wrapperProps}>
       {items.map((item, index) => (
-        <Component key={renderKey(item, index)} {...renderProps(item, index)} />
+        <Component
+          key={getItemKey(item, index)}
+          {...renderProps(item, index)}
+        />
       ))}
     </Wrapper>
   );

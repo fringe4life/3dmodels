@@ -111,11 +111,13 @@ const Button = ({
   className,
   children,
   ref,
+  type = "button",
   ...props
 }: ButtonProps) => (
   <button
     className={cx(buttonRecipe({ variant, size }), className)}
     ref={ref}
+    type={type}
     {...props}
   >
     {children}

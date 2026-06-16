@@ -1,8 +1,5 @@
-import type { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
-
-export type ServerSession = typeof auth.$Infer.Session;
-export type User = ServerSession["user"];
+import type { User } from "./auth-types";
 
 /** Whether the current request has a signed-in user (from server session). */
 export type IsAuthenticated = boolean;

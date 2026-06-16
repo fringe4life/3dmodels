@@ -23,7 +23,6 @@ const ModelsGrid = ({ isAuthenticated, title, models }: ModelsGridProps) => (
       Component={ModelCard}
       className={modelsGrid}
       items={models}
-      renderKey={(item) => item.slug}
       renderProps={(model) => ({ isAuthenticated, model })}
     />
   </div>

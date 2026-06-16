@@ -3,7 +3,7 @@ import { cache } from "react";
 import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
-import type { User } from "../types";
+import type { User } from "../auth-types";
 
 const getUser = cache(async (): Promise<Maybe<User>> => {
   const { data: session, error } = await tryCatch(

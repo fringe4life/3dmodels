@@ -1,10 +1,20 @@
 {
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
-  "entry": ["src/index.{ts,tsx,js,jsx}", "src/main.{ts,tsx,js,jsx}"],
+  "entry": [
+    "src/index.{ts,tsx,js,jsx}",
+    "src/main.{ts,tsx,js,jsx}",
+    "panda.config.ts"
+  ],
   "rules": {
     "unused-dependencies": "warn"
   },
-  "ignorePatterns": ["*.spec.ts", "*.spec.tsx", "*.test.ts", "*.test.tsx"],
+  "ignorePatterns": [
+    "*.spec.ts",
+    "*.spec.tsx",
+    "*.test.ts",
+    "*.test.tsx",
+    "doctor.config.ts"
+  ],
   "ignoreDependencies": [
     "@varlock/bitwarden-plugin",
     "babel-plugin-react-compiler",
