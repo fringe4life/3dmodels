@@ -57,5 +57,6 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "js/ts.tsdk.path": "node_modules/typescript/lib",
-  "js/ts.tsdk.promptToUseWorkspaceVersion": true
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+  "typescript.native-preview.tsdk": "node_modules/@typescript/native-preview"
 }

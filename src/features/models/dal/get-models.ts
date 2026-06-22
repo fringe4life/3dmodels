@@ -3,13 +3,13 @@ import type { SearchParams } from "nuqs/server";
 import { getUser } from "@/features/auth/queries/get-user";
 import type { IsAuthenticated } from "@/features/auth/types";
 import { searchModels } from "@/features/models/dal/search-models";
-import { getLikedSlugsForUser } from "@/features/models/queries/get-model-with-like-status";
+import { DEFAULT_HAS_LIKED } from "@/features/models/likes/constants";
+import { getLikedSlugsForUser } from "@/features/models/likes/queries/like-status";
 import type { ModelWithLikeStatus } from "@/features/models/types";
 import { searchParamsCache } from "@/features/pagination/pagination-search-params";
 import type { PaginatedResult } from "@/features/pagination/types";
 import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
 import type { Maybe } from "@/types";
-import { DEFAULT_HAS_LIKED } from "../constants";
 
 export interface GetModelsReturn {
   isAuthenticated: IsAuthenticated;

@@ -8,8 +8,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.3-000000)
-![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.2-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.18-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.3-FFE66D?logo=postgresql)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.19-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.16-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.8.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
@@ -18,14 +18,14 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Framework**: Next.js 16.2.7 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
 - **Styling**: Panda CSS 1.11.3 (`@pandacss/dev`, `panda.config.ts`, `pandacss-preset-typography`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
-- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.2
-- **Authentication**: Better Auth 1.6.18 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
+- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.3
+- **Authentication**: Better Auth 1.6.19 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
 - **Linting & Formatting**: Biome 2.4.16 with Ultracite 7.8.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.6.1 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.7.2 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.1 for server action and form schemas
 
 ## 🚀 Features
@@ -44,7 +44,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos and `hero-image-square.png` referenced by `src/lib/hero-image.ts`. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -127,16 +127,7 @@ src/
 │   │       ├── get-all-category-slugs.ts
 │   │       └── get-category-by-slug.ts
 │   ├── models/                   # Models feature
-│   │   ├── actions/
-│   │   │   └── likes.ts
 │   │   ├── components/
-│   │   │   ├── heart-button/
-│   │   │   │   ├── heart-button-client.tsx
-│   │   │   │   ├── heart-button-count.tsx
-│   │   │   │   ├── heart-button-server.tsx
-│   │   │   │   ├── heart-button-skeleton.tsx
-│   │   │   │   ├── heart-like-optimistic.ts
-│   │   │   │   └── likes-count-transition.tsx
 │   │   │   ├── model-card.tsx
 │   │   │   ├── model-card-skeleton.tsx
 │   │   │   ├── model-detail.tsx
@@ -148,10 +139,28 @@ src/
 │   │   ├── dal/
 │   │   │   ├── get-models.ts     # `{ result, isAuthenticated }`; search + user, batched likes
 │   │   │   └── search-models.ts  # Unified listing/search (optional query + category)
+│   │   ├── likes/                # Likes sub-feature (toggle, status, heart UI)
+│   │   │   ├── actions/
+│   │   │   │   └── toggle-like.ts
+│   │   │   ├── components/
+│   │   │   │   ├── heart-button-client.tsx
+│   │   │   │   ├── heart-button-count.tsx
+│   │   │   │   ├── heart-button-server.tsx
+│   │   │   │   ├── heart-button-skeleton.tsx
+│   │   │   │   ├── heart-icon.tsx
+│   │   │   │   └── likes-count-transition.tsx
+│   │   │   ├── dal/
+│   │   │   │   └── toggle-like.ts
+│   │   │   ├── hooks/
+│   │   │   │   ├── heart-like-optimistic.ts
+│   │   │   │   └── use-heart-like.ts
+│   │   │   ├── queries/
+│   │   │   │   └── like-status.ts
+│   │   │   ├── constants.ts
+│   │   │   └── types.ts
 │   │   ├── queries/
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
-│   │   │   ├── get-model-with-like-status.ts
 │   │   │   ├── get-models-count.ts
 │   │   │   └── get-models-list.ts
 │   │   └── types.ts
@@ -228,7 +237,8 @@ src/
 ### Feature-Based Organization
 The project follows a feature-based architecture where related functionality is co-located:
 
-- **`features/models/`**: All model-related components, actions, queries, and DAL
+- **`features/models/`**: Model listing, detail, and search components, queries, and DAL
+- **`features/models/likes/`**: Like toggle action, DAL, queries, hooks, and heart-button UI
 - **`features/categories/`**: All category-related components and data queries
 - **`features/pagination/`**: Pagination utilities, types, and components shared across features
 - **`features/auth/`**: Authentication actions, components, queries, and types
@@ -360,7 +370,7 @@ The project follows a feature-based architecture where related functionality is 
 - `bun run db:drop` — Drop all tables (development reset)
 
 ### Database Relations
-The application uses Drizzle ORM 1.0.0-rc.2 with `defineRelations` for type-safe relations:
+The application uses Drizzle ORM 1.0.0-rc.3 with `defineRelations` for type-safe relations:
 - Relations defined using the v1/rc syntax with `r.one()` and `r.many()` helpers
 - Relation names avoid conflicts with column names (e.g., `modelLikes` instead of `likes` to avoid conflict with `models.likes` column)
 - All relations exported from `schema/relations.ts` and included in the database schema
@@ -390,7 +400,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output
 - **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), max for static categories (component-level caching)
 - **Query Functions**: Unified `getModels()` function uses `searchModels()` which handles search (with optional query), category filtering, and listing. The function uses helper functions `getModelsList` and `getModelsCount` which support optional search and category parameters
-- **Like Status**: `getHasLikedStatus` uses `"use cache: private"` for user-specific like status (cached on device)
+- **Like Status**: `like-status.ts` queries use `"use cache: private"` for user-specific like status (cached on device)
 - **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the page
 - **Invalidation**: Centralized utilities in `utils/cache-invalidation.ts` with on-demand invalidation via `invalidateModel()`
 - **Optimistic Updates**: Heart button uses `useOptimistic` for immediate UI feedback with server state synchronization via form actions
@@ -414,10 +424,11 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-view` - Shared server shell: `Suspense` + async inner that awaits `getModels`; pagination uses `PaginationOffsetTransition` for directional View Transitions
 - `features/pagination/components/pagination` - Reusable pagination with nuqs integration and View Transition support
 - `features/pagination/components/pagination-button` - Page/limit control button used by pagination
-- `features/models/components/heart-button/heart-button-client` - Client component with form action, unified optimistic like/count state, View Transition types for count changes
-- `features/models/components/heart-button/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
-- `features/models/components/heart-button/heart-button-server` - Server component for detail pages (resolves like status server-side)
-- `features/models/components/heart-button/heart-button-skeleton` - Loading skeleton for heart button
+- `features/models/likes/components/heart-button-client` - Client component with `useHeartLike` hook, optimistic like/count state, View Transition types for count changes
+- `features/models/likes/components/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
+- `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
+- `features/models/likes/components/heart-button-skeleton` - Loading skeleton for heart button
+- `features/models/likes/hooks/use-heart-like` - Client hook for toggle action and optimistic state
 - `components/search-input/search-input` - Model search with nuqs URL state; `search-input-transition` for view transitions
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `features/categories/components/categories-block-transition` - View transition wrapper for category listing blocks
@@ -553,7 +564,7 @@ Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_
 - Cache tags provide granular control over what gets invalidated
 - Automatic cache invalidation on data mutations (e.g., `toggleLike` invalidates model cache)
 - Session cache uses `"use cache: private"` directive with `cacheTag("session")` for responsive auth state
-- Like status uses `getHasLikedStatus` with `"use cache: private"` for user-specific cache
+- Like status uses `features/models/likes/queries/like-status.ts` with `"use cache: private"` for user-specific cache
 
 ## 🤝 Contributing
 

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import type { UnsuccessfulStateListItemProps } from "@/types";
-import type { HasLiked } from "./types";
+import type { UnsuccessfulStateListItemProps } from "@/components/not-found/unsuccessful-state-list-item";
 
 export const MODEL_NOT_FOUND: Metadata = {
   title: "Model Not Found",
@@ -37,5 +36,3 @@ export const MODELS_ERROR_LIST: UnsuccessfulStateListItemProps[] = [
 ];
 
 export const DEFAULT_TITLE = "3D Models";
-
-export const DEFAULT_HAS_LIKED = { hasLiked: false } satisfies HasLiked;

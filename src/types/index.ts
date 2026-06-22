@@ -1,8 +1,4 @@
-import type { Route } from "next";
-import type { LinkProps } from "next/link";
 import type { SearchParams } from "nuqs/server";
-import type { AnchorHTMLAttributes, ReactNode } from "react";
-import type { ActionState } from "@/utils/to-action-state";
 /**
  * Used to handle potential failures. It can be used to return a value or null or undefined.
  */
@@ -11,57 +7,4 @@ export type List<T> = Maybe<T[]>;
 
 export interface SearchParamsProps {
   searchParams: Promise<SearchParams>;
-}
-
-/** Optional stable keys for `GenericComponent`; falls back to list index when neither is set. */
-export interface GenericListItemKey {
-  id?: string | number;
-  slug?: string;
-}
-
-export interface UnsuccessfulStateProps {
-  action?: ReactNode;
-  heading: string;
-  isError?: boolean;
-  listItems: UnsuccessfulStateListItemProps[];
-  subheading: string;
-}
-
-export interface UnsuccessfulStateListItemProps extends GenericListItemKey {
-  text: string;
-}
-
-/** Same surface as `next/link` (including `transitionTypes`) plus nav options; `href` uses typed routes. */
-type NextLinkComponentProps = Omit<
-  AnchorHTMLAttributes<HTMLAnchorElement>,
-  keyof LinkProps
-> &
-  LinkProps;
-
-export type NavLinkProps = NextLinkComponentProps & {
-  borderPosition?: "bottom" | "left";
-  matchStrategy?: "includes" | "endsWith";
-  href: Route;
-};
-
-export interface NavLinkListItemProps extends NavLinkProps {
-  liClassName?: string;
-}
-
-export interface GenericComponentProps<
-  T extends GenericListItemKey,
-  P,
-  E extends React.ElementType = "div",
-> {
-  as?: E;
-  Component: React.ComponentType<P>;
-  className?: string;
-  items: T[];
-  renderProps: (item: T, index: number) => P;
-  wrapperProps?: React.ComponentPropsWithoutRef<E>;
-}
-
-export interface FieldErrorProps {
-  actionState: Maybe<ActionState>;
-  name: string;
 }

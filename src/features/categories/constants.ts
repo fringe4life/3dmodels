@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { UnsuccessfulStateListItemProps } from "@/types";
+import type { UnsuccessfulStateListItemProps } from "@/components/not-found/unsuccessful-state-list-item";
 
 export const CATEGORY_NOT_FOUND: Metadata = {
   title: "Category Not Found",

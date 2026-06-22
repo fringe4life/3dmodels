@@ -1,7 +1,13 @@
 import { css } from "@styled-system/css";
 import { ViewTransition } from "react";
 import { EMPTY_LIST_LENGTH } from "@/constants";
-import type { FieldErrorProps } from "@/types";
+import type { Maybe } from "@/types";
+import type { ActionState } from "@/utils/to-action-state";
+
+export interface FieldErrorProps {
+  actionState: Maybe<ActionState>;
+  name: string;
+}
 
 const FieldError = ({ actionState, name }: FieldErrorProps) => {
   const fieldError = actionState?.fieldErrors[name];

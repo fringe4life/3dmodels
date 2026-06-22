@@ -1,8 +1,8 @@
 import { EMPTY_LIST_LENGTH } from "@/constants";
 import { db } from "@/db";
-import type { HasLiked } from "@/features/models/types";
 import { tryCatch } from "@/utils/try-catch";
 import { DEFAULT_HAS_LIKED } from "../constants";
+import type { HasLiked } from "../types";
 
 /**
  * One query: which of `slugs` the user has liked (RQB `findMany` + column filters).

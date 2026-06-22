@@ -5,14 +5,14 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
+import { toggleLike } from "@/features/models/likes/actions/toggle-like";
+import { HeartButtonClient } from "@/features/models/likes/components/heart-button-client";
 import { sanitiseName } from "@/utils/sanitise-name";
-import { toggleLike } from "../actions/likes";
 import type { ModelCardProps } from "../types";
-import { HeartButtonClient } from "./heart-button/heart-button-client";
 
 const ModelCard = ({
   isAuthenticated,
-  model: { slug, name, description, categorySlug, likes, hasLiked },
+  model: { slug, name, description, image, categorySlug, likes, hasLiked },
 }: ModelCardProps) => (
   <ViewTransition enter="enter" exit="exit">
     <article
@@ -63,9 +63,8 @@ const ModelCard = ({
             alt={description}
             className={css({ objectFit: "cover" })}
             fill
-            loading="eager"
-            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
-            src={placeholderImg}
+            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 250px"
+            src={image || placeholderImg}
           />
         </div>
       </ViewTransition>

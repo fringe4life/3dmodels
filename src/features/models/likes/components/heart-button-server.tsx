@@ -1,10 +1,10 @@
 import "server-only";
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
-import { HeartButtonSkeleton } from "@/features/models/components/heart-button/heart-button-skeleton";
-import { getHasLikedStatus } from "@/features/models/queries/get-model-with-like-status";
-import type { HeartButtonAdditionalProps } from "@/features/models/types";
-import { DEFAULT_HAS_LIKED } from "../../constants";
+import { DEFAULT_HAS_LIKED } from "../constants";
+import { getHasLikedStatus } from "../queries/like-status";
+import type { HeartButtonAdditionalProps } from "../types";
 import { HeartButtonClient } from "./heart-button-client";
+import { HeartButtonSkeleton } from "./heart-button-skeleton";
 
 const HeartButtonServer = ({
   slug,

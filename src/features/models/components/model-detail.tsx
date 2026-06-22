@@ -11,6 +11,7 @@ import type { ModelDetailProps } from "../types";
 const ModelDetail = ({
   slug,
   name,
+  image,
   categorySlug,
   description,
   dateAdded,
@@ -43,7 +44,7 @@ const ModelDetail = ({
             fill
             priority
             sizes="(max-width: 1023px) 100vw, 50vw"
-            src={placeholderImg}
+            src={image || placeholderImg}
           />
         </figure>
       </ViewTransition>

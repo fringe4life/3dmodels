@@ -1,6 +1,6 @@
 import { css } from "@styled-system/css";
 import { Skeleton } from "@/components/skeleton";
-import { HeartButtonSkeleton } from "./heart-button/heart-button-skeleton";
+import { HeartButtonSkeleton } from "@/features/models/likes/components/heart-button-skeleton";
 
 const ModelCardSkeleton = () => (
   <Skeleton

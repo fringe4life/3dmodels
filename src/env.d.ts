@@ -8,40 +8,58 @@
 export type CoercedEnvSchema = {
   /**
    * **BITWARDEN_ACCESS_TOKEN** 🔐 _sensitive_  
-   * Bitwarden Secrets Manager — set `BITWARDEN_ACCESS_TOKEN` in `.env.local` (local) or Vercel env when using `bitwarden()` resolvers.  
+   * Bitwarden Secrets Manager machine-account token — resolves `bitwarden()` values in this schema. Set in `.env.local` (local) or Vercel env (deploy); never commit.  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M21.722.296A.96.96%200%200%200%2021.018%200H2.982a.96.96%200%200%200-.703.296a.96.96%200%200%200-.297.702v12q0%201.342.523%202.665q.524%201.319%201.3%202.345q.775%201.021%201.848%201.993a22%2022%200%200%200%201.98%201.609q.907.64%201.893%201.212q.986.571%201.4.772c.276.134.5.241.664.311a.92.92%200%200%200%20.814%200q.251-.11.667-.311c.275-.134.743-.394%201.401-.772a25%2025%200%200%200%201.894-1.212A22%2022%200%200%200%2018.348%2020q1.073-.97%201.847-1.993c.774-1.023.949-1.463%201.3-2.345q.524-1.318.524-2.665V1.001a.95.95%200%200%200-.297-.705m-2.325%2012.815c0%204.344-7.397%208.087-7.397%208.087V2.57h7.397v10.54z%22%2F%3E%3C%2Fsvg%3E)   
    *   
    * 📚 {@link https://bitwarden.com/help/secrets-manager-machine-accounts/ | Bitwarden Machine Accounts}  
+   * 📚 {@link https://bitwarden.com/help/secrets-manager-machine-accounts/}  
+   * 📚 {@link https://varlock.dev/plugins/bitwarden/ | Varlock Bitwarden plugin}  
    */
   BITWARDEN_ACCESS_TOKEN: string;
   
   /**
-   * **GITHUB_CLIENT_ID**  
+   * **GITHUB_CLIENT_ID** 🔐 _sensitive_  
+   * GitHub OAuth App client ID — Better Auth `socialProviders.github` (`src/lib/auth.ts`). Create app at GitHub Developer Settings; callback URL is `{NEXT_PUBLIC_SITE_URL}/api/auth/callback/github`.  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M29%2022h-5a2.003%202.003%200%200%201-2-2v-6a2%202%200%200%201%202-2h5v2h-5v6h5ZM18%2012h-4V8h-2v14h6a2.003%202.003%200%200%200%202-2v-6a2%202%200%200%200-2-2m-4%208v-6h4v6Zm-6-8H3v2h5v2H4a2%202%200%200%200-2%202v2a2%202%200%200%200%202%202h6v-8a2%202%200%200%200-2-2m0%208H4v-2h4Z%22%2F%3E%3C%2Fsvg%3E)   
+   *   
+   * 📚 {@link https://github.com/settings/developers}  
+   * 📚 {@link https://www.better-auth.com/docs/authentication/github | Better Auth GitHub provider}  
    */
   GITHUB_CLIENT_ID: string;
   
   /**
    * **GITHUB_CLIENT_SECRET** 🔐 _sensitive_  
+   * GitHub OAuth App client secret — pair with `GITHUB_CLIENT_ID`. Keep server-only; never expose to the client.  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M29%2022h-5a2.003%202.003%200%200%201-2-2v-6a2%202%200%200%201%202-2h5v2h-5v6h5ZM18%2012h-4V8h-2v14h6a2.003%202.003%200%200%200%202-2v-6a2%202%200%200%200-2-2m-4%208v-6h4v6Zm-6-8H3v2h5v2H4a2%202%200%200%200-2%202v2a2%202%200%200%200%202%202h6v-8a2%202%200%200%200-2-2m0%208H4v-2h4Z%22%2F%3E%3C%2Fsvg%3E)   
+   *   
+   * 📚 {@link https://github.com/settings/developers}  
    */
   GITHUB_CLIENT_SECRET: string;
   
   /**
    * **BETTER_AUTH_SECRET** 🔐 _sensitive_  
+   * Better Auth signing secret — encrypts sessions and cookies. Use a long random string in production; rotate invalidates existing sessions.  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M29%2022h-5a2.003%202.003%200%200%201-2-2v-6a2%202%200%200%201%202-2h5v2h-5v6h5ZM18%2012h-4V8h-2v14h6a2.003%202.003%200%200%200%202-2v-6a2%202%200%200%200-2-2m-4%208v-6h4v6Zm-6-8H3v2h5v2H4a2%202%200%200%200-2%202v2a2%202%200%200%200%202%202h6v-8a2%202%200%200%200-2-2m0%208H4v-2h4Z%22%2F%3E%3C%2Fsvg%3E)   
+   *   
+   * 📚 {@link https://www.better-auth.com/docs/installation}  
    */
   BETTER_AUTH_SECRET: string;
   
   /**
    * **DATABASE_URL** 🔐 _sensitive_  
+   * PostgreSQL connection string (Neon) — Drizzle ORM, Better Auth adapter, and `db:*` scripts via `varlock run`.  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M29%2022h-5a2.003%202.003%200%200%201-2-2v-6a2%202%200%200%201%202-2h5v2h-5v6h5ZM18%2012h-4V8h-2v14h6a2.003%202.003%200%200%200%202-2v-6a2%202%200%200%200-2-2m-4%208v-6h4v6Zm-6-8H3v2h5v2H4a2%202%200%200%200-2%202v2a2%202%200%200%200%202%202h6v-8a2%202%200%200%200-2-2m0%208H4v-2h4Z%22%2F%3E%3C%2Fsvg%3E)   
+   *   
+   * 📚 {@link https://neon.tech/docs/connect/connect-from-any-app}  
    */
   DATABASE_URL: string;
   
   /**
    * **NEXT_PUBLIC_SITE_URL**  
+   * Canonical public site URL — `metadataBase`, sitemap, robots, auth `baseURL`, and API CORS. No trailing slash; use production domain on Vercel.  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M24%2021V9h-2v14h8v-2zm-4-6v-4c0-1.103-.897-2-2-2h-6v14h2v-6h1.48l2.335%206h2.145l-2.333-6H18c1.103%200%202-.897%202-2m-6-4h4v4h-4zM8%2023H4c-1.103%200-2-.897-2-2V9h2v12h4V9h2v12c0%201.103-.897%202-2%202%22%2F%3E%3C%2Fsvg%3E)   
+   *   
+   * 📚 {@link https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase | Next.js metadataBase}  
    */
   NEXT_PUBLIC_SITE_URL: string;
   
@@ -51,7 +69,7 @@ type _CoercedEnvSchema_7f9fbd2a = CoercedEnvSchema;
 
 declare module 'varlock/env' {
   export interface TypedEnvSchema extends Readonly<_CoercedEnvSchema_7f9fbd2a> {}
-  export interface PublicTypedEnvSchema extends Readonly<Pick<_CoercedEnvSchema_7f9fbd2a, 'GITHUB_CLIENT_ID' | 'NEXT_PUBLIC_SITE_URL'>> {}
+  export interface PublicTypedEnvSchema extends Readonly<Pick<_CoercedEnvSchema_7f9fbd2a, 'NEXT_PUBLIC_SITE_URL'>> {}
 }
 
 

@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next/types";
-import { toggleLike } from "@/features/models/actions/likes";
-import { HeartButtonServer } from "@/features/models/components/heart-button/heart-button-server";
 import { ModelDetail } from "@/features/models/components/model-detail";
 import { MODEL_NOT_FOUND } from "@/features/models/constants";
+import { toggleLike } from "@/features/models/likes/actions/toggle-like";
+import { HeartButtonServer } from "@/features/models/likes/components/heart-button-server";
 import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
 import { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
 
@@ -18,7 +18,7 @@ export const generateMetadata = async ({
   if (!model) {
     return MODEL_NOT_FOUND;
   }
-  const { name: title, description } = model;
+  const { name: title, description, image } = model;
 
   return {
     title,
@@ -29,7 +29,7 @@ export const generateMetadata = async ({
       type: "article",
       images: [
         {
-          url: "/placeholder.png",
+          url: image || "/img/placeholder.png",
           width: 1200,
           height: 630,
           alt: `3D model of ${title}`,

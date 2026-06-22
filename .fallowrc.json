@@ -1,9 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
   "entry": [
-    "src/index.{ts,tsx,js,jsx}",
-    "src/main.{ts,tsx,js,jsx}",
-    "panda.config.ts"
+    "src/app/index.{ts,tsx,js,jsx}",
+    "src/app/main.{ts,tsx,js,jsx}",
+    "panda.config.ts",
+    "next.config.ts"
   ],
   "rules": {
     "unused-dependencies": "warn"
@@ -20,7 +21,10 @@
     "babel-plugin-react-compiler",
     "next-devtools-mcp",
     "@pandacss/preset-panda",
-    "react-doctor"
+    "react-doctor",
+    "@styled-system/css",
+    "@styled-system/patterns",
+    "@styled-system/recipes"
   ],
   "duplicates": {
     "enabled": true,

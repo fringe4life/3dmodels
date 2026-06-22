@@ -34,5 +34,5 @@ export const auth = betterAuth({
     },
   },
   secret: ENV.BETTER_AUTH_SECRET,
-  plugins: [openAPI(), nextCookies()], // Must be last plugin
+  plugins: [openAPI(), nextCookies()], // cookies must be last plugin to avoid issues with cache invalidation
 });

@@ -1,6 +1,10 @@
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
-import type { UnsuccessfulStateListItemProps } from "@/types";
+import type { GenericListItemKey } from "@/components/generic-component";
+
+export interface UnsuccessfulStateListItemProps extends GenericListItemKey {
+  text: string;
+}
 
 const UnsuccessfulStateListItem = ({
   text,

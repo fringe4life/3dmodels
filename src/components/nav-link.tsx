@@ -1,9 +1,28 @@
 "use client";
 
 import { css, cx } from "@styled-system/css";
+import type { Route } from "next";
+import type { LinkProps } from "next/link";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { NavLinkListItemProps, NavLinkProps } from "@/types";
+import type { AnchorHTMLAttributes } from "react";
+
+/** Same surface as `next/link` (including `transitionTypes`) plus nav options; `href` uses typed routes. */
+type NextLinkComponentProps = Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  keyof LinkProps
+> &
+  LinkProps;
+
+export type NavLinkProps = NextLinkComponentProps & {
+  borderPosition?: "bottom" | "left";
+  matchStrategy?: "includes" | "endsWith";
+  href: Route;
+};
+
+export interface NavLinkListItemProps extends NavLinkProps {
+  liClassName?: string;
+}
 
 /**
  * Client-side nav link that marks the current route with `aria-current="page"` and matching styles.

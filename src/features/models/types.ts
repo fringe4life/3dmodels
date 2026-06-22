@@ -1,12 +1,8 @@
 import type { Model } from "@/db/schema/models";
 import type { IsAuthenticated } from "@/features/auth/types";
+import type { HasLiked } from "@/features/models/likes/types";
 import type { List, Maybe, SearchParamsProps } from "@/types";
-import type { toggleLike } from "./actions/likes";
 import type { getModelBySlug } from "./queries/get-model-by-slug";
-
-export interface HasLiked {
-  hasLiked: boolean;
-}
 
 export interface ModelWithLikeStatus extends Model, HasLiked {}
 
@@ -21,17 +17,6 @@ export interface ModelCardProps {
 }
 
 export type ModelDetail = Maybe<Omit<Model, "hasLiked" | "userId">>;
-
-export interface HeartButtonAdditionalProps {
-  likes: number;
-  slug: string;
-  toggleAction: typeof toggleLike;
-}
-
-export type HeartButtonClientProps = HeartButtonAdditionalProps &
-  HasLiked & {
-    isAuthenticated: IsAuthenticated;
-  };
 
 export type ModelsViewProps = SearchParamsProps & {
   category?: string;

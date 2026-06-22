@@ -1,9 +1,7 @@
-import type { HeartLikeOptimisticState } from "./heart-like-optimistic";
+import type { LikesCount } from "../types";
 import { LikesCountTransition } from "./likes-count-transition";
 
-const HeartButtonCount = ({
-  likesCount,
-}: Pick<HeartLikeOptimisticState, "likesCount">) => (
+const HeartButtonCount = ({ likesCount }: LikesCount) => (
   <LikesCountTransition count={likesCount}>
     <span>{likesCount}</span>
   </LikesCountTransition>

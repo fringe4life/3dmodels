@@ -9,7 +9,7 @@ export const getModelBySlug = cache(
     "use cache";
 
     cacheTag("models", `model-${slug}`);
-    cacheLife("hours");
+    cacheLife("max");
 
     const { data, error } = await tryCatch(() =>
       db.query.models.findFirst({

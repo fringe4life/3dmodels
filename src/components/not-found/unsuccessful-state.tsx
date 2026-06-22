@@ -1,8 +1,19 @@
 import { css } from "@styled-system/css";
 import { flex, grid, gridItem } from "@styled-system/patterns";
+import type { ReactNode } from "react";
 import { GenericComponent } from "@/components/generic-component";
-import { UnsuccessfulStateListItem } from "@/components/not-found/unsuccessful-state-list-item";
-import type { UnsuccessfulStateProps } from "@/types";
+import {
+  UnsuccessfulStateListItem,
+  type UnsuccessfulStateListItemProps,
+} from "@/components/not-found/unsuccessful-state-list-item";
+
+export interface UnsuccessfulStateProps {
+  action?: ReactNode;
+  heading: string;
+  isError?: boolean;
+  listItems: UnsuccessfulStateListItemProps[];
+  subheading: string;
+}
 
 const UnsuccessfulState = ({
   heading,

@@ -1,4 +1,21 @@
-import type { GenericComponentProps, GenericListItemKey } from "@/types";
+/** Optional stable keys; falls back to list index when neither is set. */
+export interface GenericListItemKey {
+  id?: string | number;
+  slug?: string;
+}
+
+export interface GenericComponentProps<
+  T extends GenericListItemKey,
+  P,
+  E extends React.ElementType = "div",
+> {
+  as?: E;
+  Component: React.ComponentType<P>;
+  className?: string;
+  items: T[];
+  renderProps: (item: T, index: number) => P;
+  wrapperProps?: React.ComponentPropsWithoutRef<E>;
+}
 
 const getItemKey = (item: GenericListItemKey, index: number): React.Key => {
   if (item.id != null) {
