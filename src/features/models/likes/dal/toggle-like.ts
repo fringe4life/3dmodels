@@ -4,7 +4,7 @@ import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
 import type { HasLiked, LikesCount } from "../types";
 
-export interface ToggleLikeResult extends LikesCount, HasLiked {}
+interface ToggleLikeResult extends LikesCount, HasLiked {}
 
 export const toggleLikeForModel = async (
   userId: string,

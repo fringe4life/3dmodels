@@ -15,6 +15,7 @@ const ModelsGridSkeleton = () => (
         maxInlineSize: 40,
         rounded: "sm",
         backgroundColor: "bg.muted",
+        blockSize: 11,
       })}
     />
     <div className={modelsGrid}>

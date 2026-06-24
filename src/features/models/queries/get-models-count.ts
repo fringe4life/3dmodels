@@ -1,7 +1,7 @@
 import { count, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { models } from "@/db/schema/models";
-import type { Maybe } from "@/types";
+import type { Category, SearchPattern } from "../types";
 
 const modelsCountPrepared = db
   .select({ count: count() })
@@ -19,13 +19,12 @@ const modelsCountPrepared = db
   `)
   .prepare("get_models_count");
 
+interface GetModelsCountParams extends SearchPattern, Category {}
+
 const getModelsCount = async ({
   searchPattern,
   category,
-}: {
-  searchPattern: Exclude<Maybe<string>, null>;
-  category: Exclude<Maybe<string>, null>;
-}) => {
+}: GetModelsCountParams): Promise<number> => {
   const hasSearch = Boolean(searchPattern);
   const hasCategory = Boolean(category);
   const [result] = await modelsCountPrepared.execute({

@@ -2,7 +2,8 @@ import { asc, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { type Model, models } from "@/db/schema/models";
 import type { PaginationType } from "@/features/pagination/types";
-import type { List, Maybe } from "@/types";
+import type { List } from "@/types";
+import type { Category, SearchPattern } from "../types";
 
 const modelsListPrepared = db
   .select()
@@ -23,15 +24,15 @@ const modelsListPrepared = db
   .offset(sql.placeholder("offset"))
   .prepare("get_models_list");
 
+interface GetModelsListParams extends SearchPattern, Category {
+  pagination: PaginationType;
+}
+
 const getModelsList = ({
   searchPattern,
   category,
   pagination: { limit, page },
-}: {
-  searchPattern: Exclude<Maybe<string>, null>;
-  category: Exclude<Maybe<string>, null>;
-  pagination: PaginationType;
-}): Promise<List<Model>> => {
+}: GetModelsListParams): Promise<List<Model>> => {
   const hasSearch = Boolean(searchPattern);
   const hasCategory = Boolean(category);
   return modelsListPrepared.execute({

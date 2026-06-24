@@ -9,16 +9,18 @@ export interface LikesCount {
   likesCount: number;
 }
 
-export interface HeartButtonAdditionalProps {
+export interface Likes {
   likes: number;
+}
+
+export interface HeartButtonAdditionalProps extends Likes {
   slug: string;
   toggleAction: typeof toggleLike;
 }
 
 export type HeartButtonClientProps = HeartButtonAdditionalProps &
-  HasLiked & {
-    isAuthenticated: IsAuthenticated;
-  };
+  HasLiked &
+  IsAuthenticated;
 
 export interface HeartVisualState {
   isLiked: boolean;

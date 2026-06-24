@@ -9,13 +9,7 @@
   "rules": {
     "unused-dependencies": "warn"
   },
-  "ignorePatterns": [
-    "*.spec.ts",
-    "*.spec.tsx",
-    "*.test.ts",
-    "*.test.tsx",
-    "doctor.config.ts"
-  ],
+  "ignorePatterns": ["doctor.config.ts"],
   "ignoreDependencies": [
     "@varlock/bitwarden-plugin",
     "babel-plugin-react-compiler",
@@ -29,5 +23,11 @@
   "duplicates": {
     "enabled": true,
     "minOccurrences": 3
+  },
+  "health": {
+    "maxCyclomatic": 25,
+    "maxCognitive": 20,
+    "maxCrap": 50,
+    "thresholdOverrides": [{ "files": ["src/db/**"], "maxCrap": 80 }]
   }
 }

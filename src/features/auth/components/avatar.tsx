@@ -1,7 +1,12 @@
 import { css } from "@styled-system/css";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
-import type { AvatarProps } from "../types";
+import type { Maybe } from "@/types";
+import type { User } from "../auth-types";
+
+interface AvatarProps {
+  user: Maybe<Pick<Partial<User>, "name" | "image">>;
+}
 
 const Avatar = ({ user }: AvatarProps) => {
   if (!user) {

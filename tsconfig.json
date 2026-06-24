@@ -39,7 +39,6 @@
     ".next/dev/types/**/*.ts",
     "src/global.d.ts",
     "src"
-    // "styled-system"
   ],
   "exclude": ["node_modules", ".next"]
 }

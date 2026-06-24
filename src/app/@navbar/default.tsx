@@ -1,5 +1,5 @@
 import { css } from "@styled-system/css";
-import { between, hstack, stack } from "@styled-system/patterns";
+import { between, hstack, square, stack } from "@styled-system/patterns";
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
@@ -51,24 +51,27 @@ const Navbar = () => (
               alt="PrintForge Logo"
               className={css({
                 display: { base: "none", md: "block" },
+                blockSize: 10,
+                inlineSize: 200,
               })}
-              height={42}
+              height={520}
               priority
               src="/printforge-logo.svg"
               unoptimized
-              width={200}
+              width={2470}
             />
             {/* Mobile Logo */}
             <Image
               alt="PrintForge Logo"
-              className={css({
+              className={square({
                 display: { base: "block", md: "none" },
+                size: 10,
               })}
-              height={42}
+              height={172}
               priority
               src="/printforge-logo-icon.svg"
               unoptimized
-              width={40}
+              width={199}
             />
           </div>
         </Link>
@@ -77,9 +80,15 @@ const Navbar = () => (
           <NavLinkListItem href="/about">About</NavLinkListItem>
           <li className={css({ placeSelf: "center", fontSize: "sm" })}>
             <HasAuthSuspense fallback={<AuthButtonsSkeleton />}>
-              {(user, isAuthenticated) => (
-                <AuthButtons isAuthenticated={isAuthenticated}>
-                  <Avatar user={{ name: user?.name, image: user?.image }} />
+              {(auth) => (
+                <AuthButtons isAuthenticated={auth.isAuthenticated}>
+                  <Avatar
+                    user={
+                      auth.isAuthenticated
+                        ? { name: auth.user.name, image: auth.user.image }
+                        : {}
+                    }
+                  />
                 </AuthButtons>
               )}
             </HasAuthSuspense>

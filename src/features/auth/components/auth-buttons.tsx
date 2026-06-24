@@ -8,7 +8,11 @@ import { buttonRecipe } from "@/components/button";
 import { SubmitButton } from "@/components/form/submit-button";
 import { NavLink } from "@/components/nav-link";
 import { signOutAction } from "@/features/auth/actions/sign-out-action";
-import type { AuthButtonsProps } from "@/features/auth/types";
+import type { IsAuthenticated } from "../types";
+
+interface AuthButtonsProps extends IsAuthenticated {
+  children: React.ReactNode;
+}
 
 const AuthButtons = ({ isAuthenticated, children }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();

@@ -9,17 +9,14 @@
 
 update-readme.md
 git-commit-msg.md
-env.example
 lint-staged.config.ts
 execute-drop.sql
 drop-tables.sql
-docs
 drizzle
 tests
 src/db/seed-data
 src/db/drop-tables.ts
 src/db/seed.ts
-src/app/scroll-state.css
 node_modules
 tsconfig.tsbuildinfo
 README.md
@@ -27,4 +24,4 @@ playwright.config.ts
 bunfig.toml
 AGENTS.md
 docs
-react-doctor.config.json
+doctor.config.ts

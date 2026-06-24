@@ -16,9 +16,13 @@ import {
   options as PaginationOptions,
   paginationParser,
 } from "@/features/pagination/pagination-search-params";
-import type { LimitItem } from "@/features/pagination/types";
-import type { PaginationProps } from "../types";
+import type {
+  LimitItem,
+  PaginationMetadataObject,
+} from "@/features/pagination/types";
 import { PaginationButton } from "./pagination-button";
+
+interface PaginationProps extends PaginationMetadataObject {}
 
 const Pagination = ({ metadata }: PaginationProps) => {
   const [pagination, setPagination] = useQueryStates(
@@ -31,6 +35,7 @@ const Pagination = ({ metadata }: PaginationProps) => {
   const endOffset = startOffset - 1 + limit;
   const actualEndOffset = Math.min(endOffset, metadata.count);
   const label = `${startOffset} - ${actualEndOffset} of ${metadata.count}`;
+  const hasPreviousPage = page < 1;
 
   const id = useId();
 
@@ -83,7 +88,10 @@ const Pagination = ({ metadata }: PaginationProps) => {
               </option>
             ))}
           </select>
-          <PaginationButton disabled={page < 1} onClick={handlePreviousPage}>
+          <PaginationButton
+            disabled={hasPreviousPage}
+            onClick={handlePreviousPage}
+          >
             <FaChevronLeft className={square({ size: 6 })} />
           </PaginationButton>
           <PaginationButton

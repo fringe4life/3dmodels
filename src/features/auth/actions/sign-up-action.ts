@@ -9,7 +9,7 @@ import {
   type ActionState,
   fromErrorToActionState,
 } from "@/utils/to-action-state";
-import { tryCatch } from "@/utils/try-catch";
+import type { User } from "../auth-types";
 import {
   MAX_EMAIL_LENGTH,
   MAX_NAME_LENGTH,
@@ -17,7 +17,6 @@ import {
   MIN_NAME_LENGTH,
   MIN_PASSWORD_LENGTH,
 } from "../constants";
-import type { SignUpData } from "../types";
 
 // Valibot schema for sign-up form
 const signUpFormSchema = object({
@@ -45,6 +44,10 @@ const signUpFormSchema = object({
   ),
 });
 
+export interface SignUpData {
+  user: Pick<User, "id" | "email" | "name">;
+}
+
 // Server action for sign-up
 const signUpAction = async (
   _: Maybe<ActionState<SignUpData>>,
@@ -58,24 +61,18 @@ const signUpAction = async (
     );
 
     // Call Better Auth sign-up API
-    const { data, error } = await tryCatch(
-      async () =>
-        await auth.api.signUpEmail({
-          body: {
-            email,
-            password,
-            name,
-          },
-          headers: await headers(),
-        }),
-    );
+    const session = await auth.api.signUpEmail({
+      body: {
+        email,
+        password,
+        name,
+      },
+      headers: await headers(),
+    });
 
-    if (error || !data) {
-      throw error || new Error("Failed to sign up");
+    if (!session) {
+      throw new Error("Failed to sign up");
     }
-
-    // Invalidate session cache
-    // invalidateSessionCache();
 
     // Redirect on success
     throw redirect("/", RedirectType.replace);

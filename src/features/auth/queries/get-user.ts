@@ -1,11 +1,10 @@
 import { headers } from "next/headers";
 import { cache } from "react";
 import { auth } from "@/lib/auth";
-import type { Maybe } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
-import type { User } from "../auth-types";
+import type { UserAuthState } from "../types";
 
-const getUser = cache(async (): Promise<Maybe<User>> => {
+const getUser = cache(async (): Promise<UserAuthState> => {
   const { data: session, error } = await tryCatch(
     async () =>
       await auth.api.getSession({
@@ -13,11 +12,11 @@ const getUser = cache(async (): Promise<Maybe<User>> => {
       }),
   );
 
-  if (error || !session) {
-    return null;
+  if (error || !session?.user?.id) {
+    return { isAuthenticated: false };
   }
 
-  return session.user;
+  return { isAuthenticated: true, user: session.user };
 });
 
 export { getUser };

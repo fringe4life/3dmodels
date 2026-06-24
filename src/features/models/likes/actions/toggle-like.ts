@@ -1,5 +1,4 @@
 "use server";
-
 import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { getUser } from "@/features/auth/queries/get-user";
 import { toggleLikeForModel } from "@/features/models/likes/dal/toggle-like";
@@ -10,7 +9,6 @@ import {
   fromErrorToActionState,
   toActionState,
 } from "@/utils/to-action-state";
-import { tryCatch } from "@/utils/try-catch";
 import type { LikesCount } from "../types";
 
 const likeSchema = object({
@@ -26,32 +24,20 @@ const toggleLike = async (
   _prevState: Maybe<ActionState>,
   _formData: FormData,
 ): Promise<ActionState<LikesCount>> => {
+  const auth = await getUser();
+  if (!auth.isAuthenticated) {
+    return fromErrorToActionState(new Error("Authentication required"));
+  }
+
   try {
-    const user = await getUser();
-    if (!user?.id) {
-      throw new Error("Authentication required");
-    }
     const { slug } = parse(likeSchema, { slug: slugToValidate });
 
-    const userId = user.id;
-
-    const { data, error } = await tryCatch(async () => {
-      const { likesCount } = await toggleLikeForModel(userId, slug);
-
-      return toActionState("Like toggled successfully", "SUCCESS", undefined, {
-        likesCount,
-      });
-    });
-
-    if (error || !data) {
-      return fromErrorToActionState(
-        error || new Error("Failed to toggle like"),
-      );
-    }
+    const { likesCount } = await toggleLikeForModel(auth.user.id, slug);
 
     invalidateModel(slug);
-
-    return data;
+    return toActionState("Like toggled successfully", "SUCCESS", undefined, {
+      likesCount,
+    });
   } catch (error) {
     return fromErrorToActionState(error);
   }

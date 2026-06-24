@@ -17,7 +17,6 @@ import {
   type ActionState,
   fromErrorToActionState,
 } from "@/utils/to-action-state";
-import { tryCatch } from "@/utils/try-catch";
 import {
   MAX_EMAIL_LENGTH,
   MAX_PASSWORD_LENGTH,
@@ -61,20 +60,18 @@ const signInAction = async (
       Object.fromEntries(formData.entries()),
     );
 
-    const { data: authResponse, error } = await tryCatch(
-      async () =>
-        await auth.api.signInEmail({
-          body: {
-            email,
-            password,
-          },
-          headers: await headers(),
-        }),
-    );
+    const session = await auth.api.signInEmail({
+      body: {
+        email,
+        password,
+      },
+      headers: await headers(),
+    });
 
-    if (error || !authResponse) {
-      throw error || new Error("Failed to sign in");
+    if (!session) {
+      throw new Error("Failed to sign in");
     }
+
     throw redirect("/", RedirectType.replace);
   } catch (error) {
     unstable_rethrow(error);

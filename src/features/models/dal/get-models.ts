@@ -9,10 +9,8 @@ import type { ModelWithLikeStatus } from "@/features/models/types";
 import { searchParamsCache } from "@/features/pagination/pagination-search-params";
 import type { PaginatedResult } from "@/features/pagination/types";
 import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
-import type { Maybe } from "@/types";
 
-export interface GetModelsReturn {
-  isAuthenticated: IsAuthenticated;
+interface GetModelsReturn extends IsAuthenticated {
   result: PaginatedResult<ModelWithLikeStatus>;
 }
 
@@ -24,26 +22,23 @@ export const getModels = async (
   const search = await searchParams;
   const { query, ...pagination } = searchParamsCache.parse(search);
 
-  const [result, user] = await Promise.all([
+  const [result, auth] = await Promise.all([
     searchModels(query ?? undefined, pagination, category),
     getUser(),
   ]);
   // paginate the items
   const paginatedResult = transformToPaginatedResult(result, pagination);
-  // used to determine if heart button can be clicked
-  const isAuthenticated = !!user?.id;
 
-  // if no items, or error, return the result
-  if (paginatedResult.type === "error" || paginatedResult.type === "empty") {
-    return { result: paginatedResult, isAuthenticated };
+  // if error or empty, return the result
+  if (paginatedResult.type !== "success") {
+    return { result: paginatedResult, isAuthenticated: auth.isAuthenticated };
   }
 
-  const userId = user?.id;
-  let likedSlugs: Maybe<Set<string>> = null;
+  let likedSlugs: Set<string> | null = null;
   // only map over the items or do the query if the user is authenticated
-  if (userId) {
+  if (auth.isAuthenticated) {
     const slugs = paginatedResult.items.map((m) => m.slug);
-    likedSlugs = await getLikedSlugsForUser(userId, slugs);
+    likedSlugs = await getLikedSlugsForUser(auth.user.id, slugs);
   }
 
   // apply the liked slugs to the items do this even
@@ -60,6 +55,6 @@ export const getModels = async (
       ...paginatedResult,
       items: itemsWithLikeStatus,
     },
-    isAuthenticated,
+    isAuthenticated: auth.isAuthenticated,
   };
 };

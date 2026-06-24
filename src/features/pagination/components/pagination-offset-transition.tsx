@@ -1,5 +1,10 @@
 import { ViewTransition } from "react";
-import type { Page, PaginationOffsetTransitionProps } from "../types";
+import type { Page } from "../types";
+
+interface PaginationOffsetTransitionProps<T extends Page> {
+  children: React.ReactNode;
+  metadata: T;
+}
 
 const PaginationOffsetTransition = <T extends Page>({
   children,

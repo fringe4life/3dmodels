@@ -9,7 +9,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.3-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.3-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.19-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.20-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.16-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.8.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
@@ -19,7 +19,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
 - **Styling**: Panda CSS 1.11.3 (`@pandacss/dev`, `panda.config.ts`, `pandacss-preset-typography`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.3
-- **Authentication**: Better Auth 1.6.19 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
+- **Authentication**: Better Auth 1.6.20 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
 - **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
 - **Linting & Formatting**: Biome 2.4.16 with Ultracite 7.8.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
@@ -102,7 +102,7 @@ src/
 │   │   ├── actions/              # Server actions
 │   │   │   ├── sign-in-action.ts
 │   │   │   ├── sign-out-action.ts
-│   │   │   └── sign-up-action.ts
+│   │   │   └── sign-up-action.ts  # SignUpData type co-located here
 │   │   ├── components/           # Auth components
 │   │   │   ├── auth-buttons.tsx
 │   │   │   ├── auth-buttons-skeleton.tsx
@@ -115,7 +115,7 @@ src/
 │   │   ├── constants.ts          # Auth validation constants
 │   │   ├── queries/
 │   │   │   └── get-user.ts
-│   │   └── types.ts              # Auth exports and re-exports
+│   │   └── types.ts              # IsAuthenticated, UserAuthState discriminated union
 │   ├── categories/               # Categories feature
 │   │   ├── components/
 │   │   │   ├── categories-block-transition.tsx
@@ -163,7 +163,7 @@ src/
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-models-count.ts
 │   │   │   └── get-models-list.ts
-│   │   └── types.ts
+│   │   └── types.ts              # ModelWithLikeStatus, SearchPattern, Category; component props extend IsAuthenticated
 │   └── pagination/
 │       ├── components/
 │       │   ├── pagination-button.tsx
@@ -177,7 +177,7 @@ src/
 │       ├── listing-canonical.ts
 │       ├── pagination-search-params.ts
 │       ├── constants.ts
-│       └── types.ts
+│       └── types.ts              # PaginatedResult, PaginationMetadataObject; component props co-located in components/
 ├── constants.ts                  # Shared constants (EMPTY_LIST_LENGTH)
 ├── components/                   # Shared/generic components
 │   ├── form/
@@ -255,7 +255,7 @@ The project follows a feature-based architecture where related functionality is 
 - **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
-- **Type Safety**: `Maybe<T>` type helper used consistently across all query functions for nullable return types; centralized type definitions in `src/types/index.ts` and feature-specific `types.ts` files for better organization and reusability
+- **Type Safety**: `Maybe<T>` for nullable query results; `UserAuthState` discriminated union (`{ isAuthenticated: true, user }` | `{ isAuthenticated: false }`) from `getUser()` and `HasAuth`; shared `IsAuthenticated` interface extended by models/pagination props; component-specific props co-located next to components where not reused
 - **Query Builder**: Migrated to Drizzle ORM RQBv2 for simple relational queries (`db.query.tableName.findMany/findFirst`) with object-based `where` clauses; complex queries and mutations remain on SQL builder
 - **Error Recovery**: Error boundaries with `error.tsx` for failed queries (results, category pages, and model detail pages) with built-in `reset()` retry functionality and helpful error guidance
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
@@ -440,7 +440,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/3d-models/[slug]/error.tsx` - Error boundary for model detail pages with retry and error guidance
 
 #### Navigation Components
-- `app/@navbar/default` - Navbar parallel route with auth integration
+- `app/@navbar/default` - Navbar parallel route with auth integration; logo uses intrinsic SVG dimensions with Panda `blockSize`/`square` sizing
 - `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
 - `components/nav-link` - `NavLink` (link with active state) and `NavLinkListItem` (`li` + `NavLink`); matching (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
@@ -471,9 +471,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `lib/auth` - Better Auth configuration with email/password and GitHub OAuth
 - `lib/auth-client` - Better Auth client instance for client-side usage
 - `features/auth/actions` - Sign-in, sign-up, and sign-out server actions with Valibot validation
-- `features/auth/components/has-auth` - Generic auth component with session provider and Suspense wrapper
+- `features/auth/components/has-auth` - Renders `children(auth)` with `UserAuthState`; `HasAuthSuspense` wraps in `Suspend`
 - `features/auth/constants` - Validation constants (password length, email length, name length limits)
-- `features/auth/queries/get-user` - User query with cache directives (returns user from session)
+- `features/auth/queries/get-user` - User query with `React.cache()` (returns `UserAuthState` from session)
 - `features/auth/components/sign-in-button` - GitHub OAuth sign-in button
 - `utils/to-action-state` - Action state utilities for consistent server action responses
 - `components/form/field-errors` - Reusable field error component used in auth forms

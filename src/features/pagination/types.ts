@@ -10,7 +10,7 @@ interface PaginationMetadata extends Page {
   hasNextPage: boolean;
 }
 
-export interface ListObject<T> {
+interface ListObject<T> {
   items: List<T>;
 }
 
@@ -33,11 +33,6 @@ export interface PaginatedResultSuccess<T> extends PaginationMetadataObject {
   type: "success";
 }
 
-export interface RawPaginationAccess<T> {
-  getItems: () => Promise<List<T>>;
-  getItemsCount: () => Promise<Maybe<number>>;
-}
-
 export interface RawPaginatedResult<T> extends ListObject<T> {
   itemsCount: Maybe<number>;
 }
@@ -48,13 +43,6 @@ export interface PaginationType extends Page {
   limit: LimitItem;
 }
 
-interface PaginationMetadataObject {
+export interface PaginationMetadataObject {
   metadata: PaginationMetadata;
-}
-
-export interface PaginationProps extends PaginationMetadataObject {}
-
-export interface PaginationOffsetTransitionProps<T extends Page> {
-  children: React.ReactNode;
-  metadata: T;
 }
