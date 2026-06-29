@@ -1,6 +1,7 @@
 import { ViewTransition } from "react";
+import type { Children } from "@/types";
 
-const SearchInputTransition = ({ children }: { children: React.ReactNode }) => (
+const SearchInputTransition = ({ children }: Children) => (
   <ViewTransition
     enter={{
       "search-clear": "search-spinner-quick",

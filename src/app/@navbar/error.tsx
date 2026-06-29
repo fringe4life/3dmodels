@@ -5,7 +5,7 @@ import { flex } from "@styled-system/patterns";
 import type { ErrorInfo } from "next/error";
 import { ResetButton } from "@/components/form/reset-button";
 
-const NavbarError = ({ unstable_retry }: ErrorInfo) => (
+const NavbarError = ({ retry }: ErrorInfo) => (
   <div
     className={flex({
       direction: { md: "column" },
@@ -17,7 +17,7 @@ const NavbarError = ({ unstable_retry }: ErrorInfo) => (
     <p className={css({ color: "gray.600", fontSize: "sm" })}>
       Failed to load User
     </p>
-    <ResetButton onClick={unstable_retry} />
+    <ResetButton onClick={retry} />
   </div>
 );
 

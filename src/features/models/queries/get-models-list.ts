@@ -1,30 +1,12 @@
-import { asc, sql } from "drizzle-orm";
+import { asc } from "drizzle-orm";
 import { db } from "@/db";
 import { type Model, models } from "@/db/schema/models";
 import type { PaginationType } from "@/features/pagination/types";
 import type { List } from "@/types";
-import type { Category, SearchPattern } from "../types";
+import type { CategoryFilter, SearchPattern } from "../types";
+import { buildModelsWhere } from "./build-models-where";
 
-const modelsListPrepared = db
-  .select()
-  .from(models)
-  .where(sql`
-    (
-      ${sql.placeholder("hasSearch")} = false
-      or ${models.name} ilike ${sql.placeholder("searchPattern")}
-      or ${models.description} ilike ${sql.placeholder("searchPattern")}
-    )
-    and (
-      ${sql.placeholder("hasCategory")} = false
-      or ${models.categorySlug} = ${sql.placeholder("category")}
-    )
-  `)
-  .orderBy(asc(models.name))
-  .limit(sql.placeholder("limit"))
-  .offset(sql.placeholder("offset"))
-  .prepare("get_models_list");
-
-interface GetModelsListParams extends SearchPattern, Category {
+interface GetModelsListParams extends SearchPattern, CategoryFilter {
   pagination: PaginationType;
 }
 
@@ -32,17 +14,13 @@ const getModelsList = ({
   searchPattern,
   category,
   pagination: { limit, page },
-}: GetModelsListParams): Promise<List<Model>> => {
-  const hasSearch = Boolean(searchPattern);
-  const hasCategory = Boolean(category);
-  return modelsListPrepared.execute({
-    hasSearch,
-    searchPattern: searchPattern ?? "%%",
-    hasCategory,
-    category: category ?? "",
-    limit,
-    offset: page * limit,
-  });
-};
+}: GetModelsListParams): Promise<List<Model>> =>
+  db
+    .select()
+    .from(models)
+    .where(buildModelsWhere(searchPattern, category))
+    .orderBy(asc(models.name))
+    .limit(limit)
+    .offset(page * limit);
 
 export { getModelsList };

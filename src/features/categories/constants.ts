@@ -22,4 +22,4 @@ export const ALL_CATEGORIES = {
   slug: "/3d-models",
   displayName: "All",
   id: "all",
-};
+} as const;

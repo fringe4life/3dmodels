@@ -4,6 +4,19 @@ env = false
 
 [install]
 minimumReleaseAge = 259200
+# better-auth 1.7 RC ships as many @better-auth/* packages at the same version
+minimumReleaseAgeExcludes = [
+  "better-auth",
+  "@better-auth/core",
+  "@better-auth/drizzle-adapter",
+  "@better-auth/kysely-adapter",
+  "@better-auth/memory-adapter",
+  "@better-auth/mongo-adapter",
+  "@better-auth/prisma-adapter",
+  "@better-auth/telemetry",
+]
+
+
 
 [test]
 preload = ["varlock/auto-load", "./tests/setup/test-preload.ts"]

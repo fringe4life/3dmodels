@@ -1,5 +1,8 @@
 import { ViewTransition } from "react";
-import type { CategoriesBlockTransitionProps } from "../types";
+import type { Children } from "@/types";
+import type { CategoryName } from "../types";
+
+interface CategoriesBlockTransitionProps extends CategoryName, Children {}
 
 const CategoriesBlockTransition = ({
   children,

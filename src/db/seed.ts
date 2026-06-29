@@ -2,9 +2,10 @@
 import { count, eq } from "drizzle-orm";
 import { EMPTY_LIST_LENGTH } from "@/constants";
 import { db } from "@/db";
+import { toCategorySlug } from "@/db/brands";
+import { CATEGORIES } from "@/db/categories";
 import { likes, type NewLike } from "@/db/schema/likes";
 import { categories, models } from "@/db/schema/models";
-import { categoriesData } from "@/db/seed-data/categories";
 import { modelsData } from "@/db/seed-data/models";
 
 async function seed() {
@@ -29,8 +30,14 @@ async function seed() {
 
     // Insert categories first
     console.log("📂 Seeding categories...");
-    const categoriesResult = await db.insert(categories).values(categoriesData);
-    console.log(`✅ Successfully seeded ${categoriesData.length} categories`);
+    const categoriesResult = await db.insert(categories).values(
+      CATEGORIES.map((category) => ({
+        id: category.id,
+        displayName: category.displayName,
+        slug: toCategorySlug(category.slug),
+      })),
+    );
+    console.log(`✅ Successfully seeded ${CATEGORIES.length} categories`);
 
     // Randomly assign each model to a user
     console.log("🎨 Seeding models with random user assignments...");
@@ -39,6 +46,7 @@ async function seed() {
         existingUsers[Math.floor(Math.random() * existingUsers.length)];
       return {
         ...model,
+        categorySlug: toCategorySlug(model.categorySlug),
         userId: randomUser.id,
       };
     });

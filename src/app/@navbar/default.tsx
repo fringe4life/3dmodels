@@ -3,7 +3,7 @@ import { between, hstack, square, stack } from "@styled-system/patterns";
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
-import { NavLinkListItem } from "@/components/nav-link";
+import { NavLinkListItem } from "@/components/nav-link/nav-link-list-item";
 import { AuthButtons } from "@/features/auth/components/auth-buttons";
 import { AuthButtonsSkeleton } from "@/features/auth/components/auth-buttons-skeleton";
 import { Avatar } from "@/features/auth/components/avatar";
@@ -86,7 +86,7 @@ const Navbar = () => (
                     user={
                       auth.isAuthenticated
                         ? { name: auth.user.name, image: auth.user.image }
-                        : {}
+                        : null
                     }
                   />
                 </AuthButtons>

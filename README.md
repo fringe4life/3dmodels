@@ -4,28 +4,28 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.2.7-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.3.0--preview.5-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-1.11.3-000000)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.5-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.3-FFE66D?logo=postgresql)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.6.20-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.0-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.16-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.8.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.2.7 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
+- **Framework**: Next.js 16.3.0-preview.5 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
-- **Styling**: Panda CSS 1.11.3 (`@pandacss/dev`, `panda.config.ts`, `pandacss-preset-typography`); generated `styled-system/` from `panda codegen` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`; Biome CSS parser with `tailwindDirectives` (Tailwind v4 directive syntax) for layered CSS
+- **Styling**: Panda CSS 2.0.0-beta.5 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `panda.config.ts`, vendored typography preset in `panda-presets/typography.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`;
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.3
-- **Authentication**: Better Auth 1.6.20 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend
-- **Search Params**: nuqs 2.8.9 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
+- **Authentication**: Better Auth 1.7.0-rc.0 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins
+- **Search Params**: nuqs 2.9.0-beta.3 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
 - **Linting & Formatting**: Biome 2.4.16 with Ultracite 7.8.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
 - **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.7.2 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.9.0 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.1 for server action and form schemas
 
 ## 🚀 Features
@@ -36,7 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data
-- **Modern Stack**: Built with Next.js 16.2.7, TypeScript, and Panda CSS
+- **Modern Stack**: Built with Next.js 16.3, TypeScript, and Panda CSS
 - **Feature-Based Architecture**: Well-organized codebase with clear separation of concerns
 
 **Note**: Like/dislike functionality with optimistic updates and real-time like count synchronization is fully implemented.
@@ -44,7 +44,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda codegen`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `panda-presets/` (vendored typography preset), `doctor.config.ts`, and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -97,6 +97,8 @@ src/
 │   ├── global-error.tsx          # Root error boundary (App Router)
 │   ├── robots.ts                 # robots.txt Route Handler
 │   └── sitemap.ts                # Sitemap generation
+├── assets/
+│   └── images/                   # App-local image assets
 ├── features/
 │   ├── auth/                     # Authentication feature
 │   │   ├── actions/              # Server actions
@@ -121,7 +123,7 @@ src/
 │   │   │   ├── categories-block-transition.tsx
 │   │   │   └── categories-nav.tsx
 │   │   ├── constants.ts          # ALL_CATEGORIES, CATEGORY_LIST_ITEMS, not-found metadata
-│   │   ├── types.ts
+│   │   ├── types.ts              # CategoryName (CategorySlug route param)
 │   │   └── queries/
 │   │       ├── get-all-categories.ts
 │   │       ├── get-all-category-slugs.ts
@@ -159,6 +161,7 @@ src/
 │   │   │   ├── constants.ts
 │   │   │   └── types.ts
 │   │   ├── queries/
+│   │   │   ├── build-models-where.ts  # Shared SQL where builder for list/count
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
 │   │   │   ├── get-models-count.ts
@@ -167,11 +170,16 @@ src/
 │   └── pagination/
 │       ├── components/
 │       │   ├── pagination-button.tsx
+│       │   ├── pagination-limit-control.tsx
 │       │   ├── pagination-offset-transition.tsx
+│       │   ├── pagination-page-control.tsx
 │       │   ├── pagination-skeleton.tsx
+│       │   ├── pagination-summary.tsx
 │       │   └── pagination.tsx
 │       ├── dal/
 │       │   └── paginate-items.ts
+│       ├── hooks/
+│       │   └── use-pagination-query.ts
 │       ├── utils/
 │       │   └── to-paginated-result.ts
 │       ├── listing-canonical.ts
@@ -187,9 +195,11 @@ src/
 │   │   ├── label.tsx
 │   │   ├── reset-button.tsx
 │   │   └── submit-button.tsx
+│   ├── nav-link/
+│   │   ├── nav-link-list-item.tsx
+│   │   └── nav-link.tsx
 │   ├── button.tsx
 │   ├── generic-component.tsx
-│   ├── nav-link.tsx
 │   ├── not-found/
 │   │   ├── unsuccessful-state-list-item.tsx
 │   │   └── unsuccessful-state.tsx
@@ -206,12 +216,14 @@ src/
 │   ├── schema/
 │   │   ├── auth.ts
 │   │   ├── likes.ts
-│   │   ├── models.ts
+│   │   ├── models.ts             # categories + models tables; category_slug pgEnum
 │   │   ├── relations.ts
 │   │   └── index.ts
+│   ├── migrations/               # Drizzle SQL migrations (drizzle-kit generate)
 │   ├── seed-data/
-│   │   ├── categories.ts
 │   │   └── models.ts
+│   ├── brands.ts                 # CategorySlug / User branded Valibot types
+│   ├── categories.ts             # CATEGORIES constant (source of truth for enum values)
 │   ├── seed.ts
 │   ├── drop-tables.ts
 │   └── index.ts
@@ -248,7 +260,8 @@ The project follows a feature-based architecture where related functionality is 
 - **`_` prefix**: Private folders that are not part of Next.js routing
 - **`features/`**: Feature-based modules with their own components and queries
 - **`components/`**: Shared/generic components used across features
-- **`db/seed-data/`**: Explicitly named seed data files
+- **`db/categories.ts`**: Source-of-truth category list; drives PostgreSQL `category_slug` enum and Valibot branded slugs in `db/brands.ts`
+- **`db/seed-data/`**: Model seed data only (`models.ts`)
 
 ### Performance Optimizations
 - **NuqsAdapter**: Scoped to `/3d-models` layout only (not root layout) for reduced overhead on routes that don't use URL state management
@@ -282,7 +295,7 @@ The project follows a feature-based architecture where related functionality is 
    bun install
    ```
 
-   This runs the **`prepare`** lifecycle script (`panda codegen` to generate `styled-system/`, plus Husky). If codegen ever needs a manual rerun: `bunx panda codegen`.
+   This runs the **`prepare`** lifecycle script (`panda build` to generate `styled-system/`, plus Husky). If codegen ever needs a manual rerun: `bunx panda build`.
 
 3. **Environment Setup**
    Configuration is defined in **`.env.schema`** (Varlock). Copy it to **`.env`** and fill in values, or use **literal strings** in place of `bitwarden("…")` UUIDs for local development. Typical variables:
@@ -333,7 +346,7 @@ The project follows a feature-based architecture where related functionality is 
 ### Categories Table
 - `id`: Primary key (auto-increment)
 - `displayName`: Human-readable category name
-- `slug`: URL-friendly identifier (unique)
+- `slug`: PostgreSQL `category_slug` enum (unique); values defined in `src/db/categories.ts`
 
 ### Models Table
 - `slug`: Primary key (text, auto-generated from name)
@@ -381,8 +394,8 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Count queries**: Count queries use `db.$count()` (RQBv2), with where conditions passed using SQL builder syntax (`and()`, `or()`, `ilike()`, etc.) since `$count` accepts SQL builder conditions
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
-- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder) and composed in higher-level DAL functions (`get-models.ts`, `search-models.ts`). Both helpers support optional `searchPattern` and `category` parameters for flexible querying
-- **Note**: Better Auth's `drizzleAdapter` currently has compatibility issues with RQBv2, showing errors about unknown relational filter fields (e.g., "decoder"). Experimental joins have been disabled for Drizzle v1 compatibility. Both email/password and GitHub OAuth authentication are fully functional. The application will continue using RQBv2 for queries as Better Auth is expected to update their adapter soon. Better Auth is mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI documentation includes auth routes via `better-auth-openapi.ts`.
+- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder, `build-models-where.ts` for shared filter conditions) and composed in higher-level DAL functions (`get-models.ts`, `search-models.ts`). Both helpers support optional `searchPattern` and `category` parameters for flexible querying
+- **Better Auth adapter**: Uses `@better-auth/drizzle-adapter/relations-v2` with experimental joins enabled (`lib/auth.ts`); mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI documentation includes auth routes via `better-auth-openapi.ts`
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:
@@ -408,7 +421,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ## 🎨 Styling & Components
 
 ### Design System
-- **Tokens & utilities**: Panda CSS semantic tokens and preset utilities (`panda.config.ts`, `@pandacss/preset-panda`, typography preset); orange accent and shared patterns (e.g., `navLink`) live in config
+- **Tokens & utilities**: Panda CSS 2 semantic tokens and preset utilities (`panda.config.ts`, `@pandacss/preset-base`, `@pandacss/preset-panda`, typography preset in `panda-presets/typography.ts`); orange accent and shared patterns (e.g., `navLink`) live in config
 - **Typography**: Albert Sans + Montserrat Alternates via `next/font` in root layout; heading font applied in Panda `globalCss`
 - **Layout & spacing**: Panda `css()` / layout patterns (e.g., `grid` for model grids in `src/app/styles.ts`)
 - **Responsive**: Mobile-first breakpoints via Panda conditions and component styles
@@ -424,6 +437,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-view` - Shared server shell: `Suspense` + async inner that awaits `getModels`; pagination uses `PaginationOffsetTransition` for directional View Transitions
 - `features/pagination/components/pagination` - Reusable pagination with nuqs integration and View Transition support
 - `features/pagination/components/pagination-button` - Page/limit control button used by pagination
+- `features/pagination/components/pagination-limit-control` - Per-page limit selector
+- `features/pagination/components/pagination-page-control` - Page number navigation
+- `features/pagination/components/pagination-summary` - Result count / range summary
+- `features/pagination/hooks/use-pagination-query` - nuqs + View Transition hook for page/limit changes
 - `features/models/likes/components/heart-button-client` - Client component with `useHeartLike` hook, optimistic like/count state, View Transition types for count changes
 - `features/models/likes/components/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
@@ -443,7 +460,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/@navbar/default` - Navbar parallel route with auth integration; logo uses intrinsic SVG dimensions with Panda `blockSize`/`square` sizing
 - `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
-- `components/nav-link` - `NavLink` (link with active state) and `NavLinkListItem` (`li` + `NavLink`); matching (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
+- `components/nav-link/nav-link` - `NavLink` (link with active state); matching (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
+- `components/nav-link/nav-link-list-item` - `li` + `NavLink` wrapper
 - `components/top-link` - Top-of-page control used in layouts
 - `features/auth/components/auth-buttons` - Authentication buttons with user avatar (GitHub image priority, icon fallback)
 - `features/auth/components/auth-buttons-skeleton` - Navbar auth slot loading state
@@ -490,7 +508,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 ### Available Scripts
 
-- `prepare` (automatic on `bun install`) — Panda `styled-system/` codegen and Husky setup
+- `prepare` (automatic on `bun install`) — Panda `styled-system/` build and Husky setup
 - `bun run dev` - Start development server (Turbopack)
 - `bun run dev:inspect` - Start development server with Node.js inspector
 - `bun run next:upgrade` - Upgrade Next.js to latest version
@@ -554,8 +572,9 @@ Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_
 
 ### Adding New Categories
 
-1. Update `src/db/seed-data/categories.ts` with new category data
-2. Run `bun run db:seed` to update the database
+1. Add the category to `src/db/categories.ts` (updates the PostgreSQL enum source of truth)
+2. Run `bun run db:generate` then `bun run db:migrate` (or `bun run db:push` in development)
+3. Run `bun run db:seed` to update the database
 
 ### Cache Management
 

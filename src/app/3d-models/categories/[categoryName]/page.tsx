@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { isCategorySlug } from "@/db/brands";
 import { CategoriesBlockTransition } from "@/features/categories/components/categories-block-transition";
 import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
@@ -14,6 +15,10 @@ export const generateMetadata = async ({
   searchParams,
 }: PageProps<"/3d-models/categories/[categoryName]">): Promise<Metadata> => {
   const { categoryName } = await params;
+
+  if (!isCategorySlug(categoryName)) {
+    return CATEGORY_NOT_FOUND;
+  }
 
   const category = await getCategoryBySlug(categoryName);
   if (!category) {
@@ -41,10 +46,14 @@ const CategoryPage = async ({
 }: PageProps<"/3d-models/categories/[categoryName]">) => {
   const { categoryName } = await params;
 
+  if (!isCategorySlug(categoryName)) {
+    notFound();
+  }
+
   const category = await getCategoryBySlug(categoryName);
 
   if (!category) {
-    throw notFound();
+    notFound();
   }
 
   return (

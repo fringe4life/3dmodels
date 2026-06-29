@@ -1,10 +1,26 @@
-import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgEnum,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
+import { CATEGORIES, type Category } from "../categories";
 import { user } from "./auth";
+
+export const categorySlugEnum = pgEnum(
+  "category_slug",
+  CATEGORIES.map((category) => category.slug) as [
+    Category["slug"],
+    ...Category["slug"][],
+  ],
+);
 
 export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
   displayName: text("display_name").notNull(),
-  slug: text("slug").notNull().unique(),
+  slug: categorySlugEnum("slug").notNull().unique(),
 });
 
 export const models = pgTable("models", {
@@ -13,7 +29,7 @@ export const models = pgTable("models", {
   description: text("description").notNull(),
   likes: integer("likes").notNull().default(0),
   image: text("image").notNull(),
-  categorySlug: text("category_slug")
+  categorySlug: categorySlugEnum("category_slug")
     .notNull()
     .references(() => categories.slug),
   userId: text("user_id")
@@ -24,5 +40,5 @@ export const models = pgTable("models", {
     .defaultNow(),
 });
 
-export type Category = typeof categories.$inferSelect;
+export type DbCategory = typeof categories.$inferSelect;
 export type Model = typeof models.$inferSelect;

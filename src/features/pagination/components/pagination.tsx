@@ -1,105 +1,39 @@
 "use client";
 
-import { css } from "@styled-system/css";
-import { between, hstack, square } from "@styled-system/patterns";
-import { useQueryStates } from "nuqs";
-import {
-  addTransitionType,
-  type MouseEventHandler,
-  startTransition,
-  useId,
-  ViewTransition,
-} from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import { LIMITS } from "@/features/pagination/constants";
-import {
-  options as PaginationOptions,
-  paginationParser,
-} from "@/features/pagination/pagination-search-params";
-import type {
-  LimitItem,
-  PaginationMetadataObject,
-} from "@/features/pagination/types";
-import { PaginationButton } from "./pagination-button";
+import { between, hstack } from "@styled-system/patterns";
+import { ViewTransition } from "react";
+import { usePaginationQuery } from "@/features/pagination/hooks/use-pagination-query";
+import type { PaginationMetadataObject } from "@/features/pagination/types";
+import { PaginationLimitControl } from "./pagination-limit-control";
+import { PaginationPageControl } from "./pagination-page-control";
+import { PaginationSummary } from "./pagination-summary";
 
 interface PaginationProps extends PaginationMetadataObject {}
 
 const Pagination = ({ metadata }: PaginationProps) => {
-  const [pagination, setPagination] = useQueryStates(
-    paginationParser,
-    PaginationOptions,
-  );
-
-  const { page, limit } = pagination;
-  const startOffset = page * limit + 1;
-  const endOffset = startOffset - 1 + limit;
-  const actualEndOffset = Math.min(endOffset, metadata.count);
-  const label = `${startOffset} - ${actualEndOffset} of ${metadata.count}`;
-  const hasPreviousPage = page < 1;
-
-  const id = useId();
-
-  const handleNextPage: MouseEventHandler<HTMLButtonElement> = () => {
-    startTransition(async () => {
-      addTransitionType("forwards");
-      await setPagination({
-        ...pagination,
-        page: page + 1,
-      });
-    });
-  };
-
-  const handlePreviousPage: MouseEventHandler<HTMLButtonElement> = () => {
-    startTransition(async () => {
-      addTransitionType("backwards");
-      await setPagination({
-        ...pagination,
-        page: page - 1,
-      });
-    });
-  };
-
-  const handleLimitChange = (newLimit: LimitItem) => {
-    startTransition(async () => {
-      await setPagination({
-        ...pagination,
-        limit: newLimit,
-        page: 0,
-      });
-    });
-  };
+  const { pagination, handleNextPage, handlePreviousPage, handleLimitChange } =
+    usePaginationQuery();
+  const hasPreviousPage = pagination.page < 1;
 
   return (
     <ViewTransition name="pagination">
       <div className={between()}>
-        <p className={css({ color: "text.muted", fontSize: "sm" })}>{label}</p>
+        <PaginationSummary
+          count={metadata.count}
+          limit={pagination.limit}
+          page={pagination.page}
+        />
         <div className={hstack({ columnGap: 2 })}>
-          <select
-            className={css({ inlineSize: 10, blockSize: 8 })}
-            id={id}
-            onChange={(event) =>
-              handleLimitChange(Number(event.target.value) as LimitItem)
-            }
-            value={limit}
-          >
-            {LIMITS.map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
-          <PaginationButton
-            disabled={hasPreviousPage}
-            onClick={handlePreviousPage}
-          >
-            <FaChevronLeft className={square({ size: 6 })} />
-          </PaginationButton>
-          <PaginationButton
-            disabled={!metadata.hasNextPage}
-            onClick={handleNextPage}
-          >
-            <FaChevronRight className={square({ size: 6 })} />
-          </PaginationButton>
+          <PaginationLimitControl
+            limit={pagination.limit}
+            onLimitChange={handleLimitChange}
+          />
+          <PaginationPageControl
+            hasNextPage={metadata.hasNextPage}
+            hasPreviousPage={hasPreviousPage}
+            onNextPage={handleNextPage}
+            onPreviousPage={handlePreviousPage}
+          />
         </div>
       </div>
     </ViewTransition>

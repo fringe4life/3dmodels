@@ -1,8 +1,8 @@
 import { css } from "@styled-system/css";
 import type { ReactNode } from "react";
+import type { Children } from "@/types";
 
-interface AuthCardProps {
-  children: ReactNode;
+interface AuthCardProps extends Children {
   footer?: ReactNode;
   title: string;
 }

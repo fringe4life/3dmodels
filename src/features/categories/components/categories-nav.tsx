@@ -1,9 +1,13 @@
 import { grid } from "@styled-system/patterns";
 import { ViewTransition } from "react";
 import { GenericComponent } from "@/components/generic-component";
-import { NavLinkListItem } from "@/components/nav-link";
+import { NavLinkListItem } from "@/components/nav-link/nav-link-list-item";
+import type { DbCategory } from "@/db/schema/models";
 import { ALL_CATEGORIES } from "../constants";
-import type { CategoriesNavProps } from "../types";
+
+interface CategoriesNavProps {
+  categories: DbCategory[];
+}
 
 const CategoriesNav = ({ categories }: CategoriesNavProps) => {
   const allCategories = [ALL_CATEGORIES, ...categories];

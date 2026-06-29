@@ -7,7 +7,10 @@
     "next.config.ts"
   ],
   "rules": {
-    "unused-dependencies": "warn"
+    "unused-dependencies": "warn",
+    "prop-drilling": "warn",
+    "thin-wrapper": "warn",
+    "duplicate-prop-shape": "warn"
   },
   "ignorePatterns": ["doctor.config.ts"],
   "ignoreDependencies": [

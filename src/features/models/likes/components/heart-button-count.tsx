@@ -2,7 +2,7 @@ import type { LikesCount } from "../types";
 import { LikesCountTransition } from "./likes-count-transition";
 
 const HeartButtonCount = ({ likesCount }: LikesCount) => (
-  <LikesCountTransition count={likesCount}>
+  <LikesCountTransition likesCount={likesCount}>
     <span>{likesCount}</span>
   </LikesCountTransition>
 );

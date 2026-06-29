@@ -5,8 +5,11 @@ export interface Page {
   page: number;
 }
 
-interface PaginationMetadata extends Page {
+export interface Count {
   count: number;
+}
+
+interface PaginationMetadata extends Page, Count {
   hasNextPage: boolean;
 }
 
@@ -39,9 +42,11 @@ export interface RawPaginatedResult<T> extends ListObject<T> {
 
 export type LimitItem = (typeof LIMITS)[number];
 
-export interface PaginationType extends Page {
+export interface Limit {
   limit: LimitItem;
 }
+
+export interface PaginationType extends Page, Limit {}
 
 export interface PaginationMetadataObject {
   metadata: PaginationMetadata;

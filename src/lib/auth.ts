@@ -1,5 +1,5 @@
 import "server-only";
-import { drizzleAdapter } from "@better-auth/drizzle-adapter";
+import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 import { openAPI } from "better-auth/plugins";
@@ -11,6 +11,7 @@ export const auth = betterAuth({
     provider: "pg",
     schema,
   }),
+  experimental: { joins: true },
   session: {
     cookieCache: {
       enabled: true,

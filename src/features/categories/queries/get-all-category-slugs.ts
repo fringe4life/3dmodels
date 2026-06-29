@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { toCategorySlug } from "@/db/brands";
 import { tryCatch } from "@/utils/try-catch";
 import type { CategoryName } from "../types";
 
@@ -15,5 +16,7 @@ export const getAllCategorySlugs = async (): Promise<CategoryName[]> => {
     throw new Error("Failed to fetch category slugs from database");
   }
 
-  return data.map((category) => ({ categoryName: category.slug }));
+  return data.map((category) => ({
+    categoryName: toCategorySlug(category.slug),
+  }));
 };

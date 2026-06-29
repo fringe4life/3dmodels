@@ -1,16 +1,15 @@
 import { ViewTransition } from "react";
+import type { Children } from "@/types";
+import type { LikesCount } from "../types";
 
-interface LikesCountTransitionProps {
-  children: React.ReactNode;
-  count: number;
-}
+interface LikesCountTransitionProps extends Children, LikesCount {}
 
 const LikesCountTransition = ({
-  count,
+  likesCount,
   children,
 }: LikesCountTransitionProps) => (
   <ViewTransition
-    key={`likes-count-${count}`}
+    key={`likes-count-${likesCount}`}
     update={{
       increase: "likes-update-increase",
       decrease: "likes-update-decrease",

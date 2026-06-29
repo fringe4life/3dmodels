@@ -1,6 +1,7 @@
 import { css } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
 import { Suspense } from "react";
+import type { CategorySlug } from "@/db/brands";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import { DEFAULT_TITLE } from "@/features/models/constants";
 import { getModels } from "@/features/models/dal/get-models";
@@ -12,7 +13,7 @@ import { ModelsGrid } from "./models-grid";
 import { ModelsNotFound } from "./models-not-found";
 
 interface ModelsViewProps extends SearchParamsProps {
-  category?: string;
+  category?: CategorySlug;
   categoryDisplayName?: string;
 }
 

@@ -5,9 +5,9 @@ import { ResetButton } from "@/components/form/reset-button";
 import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 import { MODELS_ERROR_LIST } from "@/features/models/constants";
 
-const ResultsError = ({ unstable_retry }: ErrorInfo) => (
+const ResultsError = ({ retry }: ErrorInfo) => (
   <UnsuccessfulState
-    action={<ResetButton onClick={unstable_retry} />}
+    action={<ResetButton onClick={retry} />}
     heading="Failed to load results"
     isError
     listItems={MODELS_ERROR_LIST}

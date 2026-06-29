@@ -1,6 +1,6 @@
 import { defineConfig } from "@pandacss/dev";
+import presetBase from "@pandacss/preset-base";
 import pandaPreset from "@pandacss/preset-panda";
-import typographyPreset from "pandacss-preset-typography";
 
 export default defineConfig({
   // Whether to use css reset
@@ -12,7 +12,6 @@ export default defineConfig({
     "./src/app/**/*.{ts,tsx,js,jsx}",
     "./src/features/**/*.{ts,tsx,js,jsx}",
   ],
-
   // Files to exclude
   exclude: [],
 
@@ -255,7 +254,7 @@ export default defineConfig({
       },
     },
   },
-  presets: [typographyPreset(), pandaPreset],
+  presets: [presetBase, pandaPreset, "./panda-presets/typography.ts"],
   conditions: {
     extend: {
       supportsScroll: "@supports (animation-timeline: scroll())",
@@ -284,5 +283,12 @@ export default defineConfig({
 
   // The output directory for your css system
   outdir: "styled-system",
-  minify: true,
+
+  optimize: {
+    removeUnusedTokens: true,
+    removeUnusedKeyframes: true,
+    smartCompoundVariants: true,
+  },
+
+  minify: process.env.NODE_ENV === "production",
 });

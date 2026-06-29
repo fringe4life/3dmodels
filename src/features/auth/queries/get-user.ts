@@ -2,7 +2,11 @@ import { headers } from "next/headers";
 import { cache } from "react";
 import { auth } from "@/lib/auth";
 import { tryCatch } from "@/utils/try-catch";
-import type { UserAuthState } from "../types";
+import type {
+  AuthenticatedState,
+  UnauthenticatedState,
+  UserAuthState,
+} from "../types";
 
 const getUser = cache(async (): Promise<UserAuthState> => {
   const { data: session, error } = await tryCatch(
@@ -13,10 +17,13 @@ const getUser = cache(async (): Promise<UserAuthState> => {
   );
 
   if (error || !session?.user?.id) {
-    return { isAuthenticated: false };
+    return { isAuthenticated: false } satisfies UnauthenticatedState;
   }
 
-  return { isAuthenticated: true, user: session.user };
+  return {
+    isAuthenticated: true,
+    user: session.user,
+  } satisfies AuthenticatedState;
 });
 
 export { getUser };

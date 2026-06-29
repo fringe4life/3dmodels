@@ -7,7 +7,7 @@ import {
   type UnsuccessfulStateListItemProps,
 } from "@/components/not-found/unsuccessful-state-list-item";
 
-export interface UnsuccessfulStateProps {
+interface UnsuccessfulStateProps {
   action?: ReactNode;
   heading: string;
   isError?: boolean;

@@ -5,7 +5,7 @@ import { center, grid } from "@styled-system/patterns";
 import type { ErrorInfo } from "next/error";
 import { ResetButton } from "@/components/form/reset-button";
 
-const GlobalError = ({ unstable_retry }: ErrorInfo) => (
+const GlobalError = ({ retry }: ErrorInfo) => (
   <html lang="en">
     <head>
       <title>Something went wrong | PrintForge</title>
@@ -54,7 +54,7 @@ const GlobalError = ({ unstable_retry }: ErrorInfo) => (
             gap: 4,
           })}
         >
-          <ResetButton onClick={unstable_retry} />
+          <ResetButton onClick={retry} />
           {/* Full document navigation (not next/link): after a global error we want a hard refresh so client state and the broken tree are fully cleared. */}
           {/* react-doctor-disable-next-line */}
           <a

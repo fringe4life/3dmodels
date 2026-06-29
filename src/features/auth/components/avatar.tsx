@@ -28,7 +28,6 @@ const Avatar = ({ user }: AvatarProps) => {
       />
     );
   }
-  // "inline-full block-full text-gray-700"
   return (
     <FaUserCircle
       className={css({

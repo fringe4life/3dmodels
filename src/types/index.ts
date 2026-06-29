@@ -8,3 +8,7 @@ export type List<T> = Maybe<T[]>;
 export interface SearchParamsProps {
   searchParams: Promise<SearchParams>;
 }
+
+export interface Children {
+  children: React.ReactNode;
+}

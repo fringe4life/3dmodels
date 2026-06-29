@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import type { SearchParams } from "nuqs/server";
+import type { CategorySlug } from "@/db/brands";
 import { getUser } from "@/features/auth/queries/get-user";
 import type { IsAuthenticated } from "@/features/auth/types";
 import { searchModels } from "@/features/models/dal/search-models";
@@ -16,7 +17,7 @@ interface GetModelsReturn extends IsAuthenticated {
 
 export const getModels = async (
   searchParams: Promise<SearchParams>,
-  category?: string,
+  category?: CategorySlug,
 ): Promise<GetModelsReturn> => {
   await connection();
   const search = await searchParams;

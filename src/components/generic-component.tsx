@@ -4,7 +4,7 @@ export interface GenericListItemKey {
   slug?: string;
 }
 
-export interface GenericComponentProps<
+interface GenericComponentProps<
   T extends GenericListItemKey,
   P,
   E extends React.ElementType = "div",

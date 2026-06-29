@@ -1,9 +1,10 @@
 import slugify from "slugify";
+import type { Category } from "@/db/categories";
 import type { Model } from "@/db/schema/models";
 
-// Category mapping function is no longer needed since we use slugs directly
-
-type SeedModel = Omit<Model, "userId" | "likes">;
+type SeedModel = Omit<Model, "userId" | "likes" | "categorySlug"> & {
+  categorySlug: Category["slug"];
+};
 
 export const modelsData: SeedModel[] = [
   {

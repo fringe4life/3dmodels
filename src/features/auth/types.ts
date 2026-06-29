@@ -5,12 +5,12 @@ export interface IsAuthenticated {
   isAuthenticated: boolean;
 }
 
-type AuthenticatedState = IsAuthenticated & {
+export type AuthenticatedState = IsAuthenticated & {
   isAuthenticated: true;
   user: User;
 };
 
-type UnauthenticatedState = IsAuthenticated & {
+export type UnauthenticatedState = IsAuthenticated & {
   isAuthenticated: false;
 };
 

@@ -19,11 +19,6 @@ export type NavLinkProps = NextLinkComponentProps & {
   matchStrategy?: "includes" | "endsWith";
   href: Route;
 };
-
-export interface NavLinkListItemProps extends NavLinkProps {
-  liClassName?: string;
-}
-
 /**
  * Client-side nav link that marks the current route with `aria-current="page"` and matching styles.
  *
@@ -96,17 +91,4 @@ const NavLink = ({
   );
 };
 
-const NavLinkListItem = ({
-  liClassName = css({
-    fontSize: "sm",
-    textTransform: "uppercase",
-    letterSpacing: "wide",
-  }),
-  ...navLinkProps
-}: NavLinkListItemProps) => (
-  <li className={liClassName}>
-    <NavLink {...navLinkProps} />
-  </li>
-);
-
-export { NavLink, NavLinkListItem };
+export { NavLink };

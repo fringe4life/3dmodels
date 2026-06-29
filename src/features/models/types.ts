@@ -1,3 +1,4 @@
+import type { CategorySlug } from "@/db/brands";
 import type { Model } from "@/db/schema/models";
 import type { IsAuthenticated } from "@/features/auth/types";
 import type { HasLiked, Likes } from "@/features/models/likes/types";
@@ -29,6 +30,6 @@ export interface SearchPattern {
   searchPattern: Exclude<Maybe<string>, null>;
 }
 
-export interface Category {
-  category: Exclude<Maybe<string>, null>;
+export interface CategoryFilter {
+  category: Exclude<Maybe<CategorySlug>, null>;
 }

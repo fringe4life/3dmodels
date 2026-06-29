@@ -40,7 +40,6 @@ const AboutPage = () => (
         className={grid({
           marginBlockEnd: 12,
           columns: { md: 2 },
-          gap: 8,
           alignItems: "center",
         })}
       >
@@ -99,7 +98,7 @@ const AboutPage = () => (
         })}
       >
         <h2 className={css({ srOnly: true })}>Key Features</h2>
-        <div className={grid({ gap: { base: 6, md: 0 }, columns: { md: 3 } })}>
+        <div className={grid({ columns: { md: 3 } })}>
           <article
             className={css({
               backgroundColor: "white",
@@ -176,7 +175,6 @@ const AboutPage = () => (
           grid({
             maxInlineSize: "none",
             gridAutoRows: "min",
-            gap: 6,
           }),
           prose(),
         )}
@@ -184,6 +182,7 @@ const AboutPage = () => (
         <h2
           className={css({
             marginBlockEnd: 0,
+            marginBlockStart: 0,
             fontWeight: "semibold",
             fontSize: "2xl",
           })}

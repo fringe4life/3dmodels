@@ -1,4 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
+import type { CategorySlug } from "@/db/brands";
 import type { Model } from "@/db/schema/models";
 import { getModelsCount } from "@/features/models/queries/get-models-count";
 import { getModelsList } from "@/features/models/queries/get-models-list";
@@ -13,7 +14,7 @@ import type { Maybe } from "@/types";
 export const searchModels = async (
   query: Exclude<Maybe<string>, null>,
   pagination: PaginationType,
-  category?: string,
+  category?: CategorySlug,
 ): Promise<RawPaginatedResult<Model>> => {
   "use cache: remote";
 

@@ -4,7 +4,7 @@ import { EMPTY_LIST_LENGTH } from "@/constants";
 import type { Maybe } from "@/types";
 import type { ActionState } from "@/utils/to-action-state";
 
-export interface FieldErrorProps {
+interface FieldErrorProps {
   actionState: Maybe<ActionState>;
   name: string;
 }

@@ -1,17 +1,5 @@
-import type { Category } from "@/db/schema/models";
-import type { Maybe } from "@/types";
-
-export interface CategoriesNavProps {
-  categories: Category[];
-}
-
-export type CategoryDetail = Maybe<Pick<Category, "displayName">>;
+import type { CategorySlug } from "@/db/brands";
 
 export interface CategoryName {
-  categoryName: string;
-}
-
-export interface CategoriesBlockTransitionProps {
-  categoryName: string;
-  children: React.ReactNode;
+  categoryName: CategorySlug;
 }

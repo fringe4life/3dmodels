@@ -5,7 +5,7 @@ import { flex } from "@styled-system/patterns";
 import type { ErrorInfo } from "next/error";
 import { ResetButton } from "@/components/form/reset-button";
 
-const CategoriesError = ({ unstable_retry }: ErrorInfo) => (
+const CategoriesError = ({ retry }: ErrorInfo) => (
   <div
     className={flex({
       align: { base: "center", md: "start" },
@@ -17,7 +17,7 @@ const CategoriesError = ({ unstable_retry }: ErrorInfo) => (
     <p className={css({ fontSize: "sm", color: "gray.500" })}>
       Failed to load categories
     </p>
-    <ResetButton onClick={unstable_retry} />
+    <ResetButton onClick={retry} />
   </div>
 );
 
