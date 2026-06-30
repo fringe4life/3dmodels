@@ -1,7 +1,7 @@
 import { defineConfig } from "@pandacss/dev";
 import presetBase from "@pandacss/preset-base";
 import pandaPreset from "@pandacss/preset-panda";
-
+import typographyPreset from "./panda-presets/typography";
 export default defineConfig({
   // Whether to use css reset
   preflight: true,
@@ -254,7 +254,7 @@ export default defineConfig({
       },
     },
   },
-  presets: [presetBase, pandaPreset, "./panda-presets/typography.ts"],
+  presets: [presetBase, pandaPreset, typographyPreset],
   conditions: {
     extend: {
       supportsScroll: "@supports (animation-timeline: scroll())",
