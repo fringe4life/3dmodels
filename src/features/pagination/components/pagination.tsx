@@ -10,26 +10,26 @@ import { PaginationSummary } from "./pagination-summary";
 
 interface PaginationProps extends PaginationMetadataObject {}
 
-const Pagination = ({ metadata }: PaginationProps) => {
-  const { pagination, handleNextPage, handlePreviousPage, handleLimitChange } =
-    usePaginationQuery();
-  const hasPreviousPage = pagination.page < 1;
+const Pagination = ({ metadata: { hasNextPage, count } }: PaginationProps) => {
+  const {
+    pagination: { page, limit },
+    handleNextPage,
+    handlePreviousPage,
+    handleLimitChange,
+  } = usePaginationQuery();
+  const hasPreviousPage = page < 1;
 
   return (
     <ViewTransition name="pagination">
       <div className={between()}>
-        <PaginationSummary
-          count={metadata.count}
-          limit={pagination.limit}
-          page={pagination.page}
-        />
+        <PaginationSummary count={count} limit={limit} page={page} />
         <div className={hstack({ columnGap: 2 })}>
           <PaginationLimitControl
-            limit={pagination.limit}
+            limit={limit}
             onLimitChange={handleLimitChange}
           />
           <PaginationPageControl
-            hasNextPage={metadata.hasNextPage}
+            hasNextPage={hasNextPage}
             hasPreviousPage={hasPreviousPage}
             onNextPage={handleNextPage}
             onPreviousPage={handlePreviousPage}

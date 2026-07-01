@@ -9,11 +9,8 @@ import {
 } from "react";
 import type { Maybe } from "@/types";
 import type { ActionState } from "@/utils/to-action-state";
-import type {
-  HeartButtonClientProps,
-  HeartVisualState,
-  LikesCount,
-} from "../types";
+import type { HeartButtonClientProps } from "../components/heart-button-client";
+import type { HeartVisualState, LikesCount } from "../types";
 import {
   createHeartLikePassthrough,
   type HeartLikeOptimisticState,

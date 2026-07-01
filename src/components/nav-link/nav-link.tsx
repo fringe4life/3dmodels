@@ -2,33 +2,37 @@
 
 import { css, cx } from "@styled-system/css";
 import type { Route } from "next";
-import type { LinkProps } from "next/link";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { AnchorHTMLAttributes } from "react";
+import type { ReactNode } from "react";
+import { Suspend } from "../suspend";
+import { NavLinkSkeleton } from "./nav-link-skeleton";
+import type {
+  BorderPosition,
+  MatchStrategy,
+  NextLinkComponentProps,
+} from "./types";
 
-/** Same surface as `next/link` (including `transitionTypes`) plus nav options; `href` uses typed routes. */
-type NextLinkComponentProps = Omit<
-  AnchorHTMLAttributes<HTMLAnchorElement>,
-  keyof LinkProps
-> &
-  LinkProps;
-
-export type NavLinkProps = NextLinkComponentProps & {
-  borderPosition?: "bottom" | "left";
-  matchStrategy?: "includes" | "endsWith";
+export interface NavLinkProps
+  extends NextLinkComponentProps,
+    Partial<BorderPosition>,
+    Partial<MatchStrategy> {
   href: Route;
+  /** Reserved width for the Suspense fallback; defaults to string `children` length. */
+  skeletonCh?: number;
+}
+
+const getSkeletonCh = (children: ReactNode, skeletonCh?: number) => {
+  if (skeletonCh !== undefined) {
+    return skeletonCh;
+  }
+
+  if (typeof children === "string") {
+    return children.length;
+  }
 };
-/**
- * Client-side nav link that marks the current route with `aria-current="page"` and matching styles.
- *
- * **Matching caveats:** `matchStrategy: "includes"` uses substring checks on `pathname`, so more than
- * one link in the same list can appear current (invalid for assistive tech), or a link can match
- * unintentionally — e.g. `/3d-models/about` also contains `"/about"`, so a top-level `/about` item
- * can look active. Prefer `endsWith` when each `href` is a full path prefix, or tighten matching
- * later (e.g. path segments) if nav items are added or slugs can collide with other `href`s.
- */
-const NavLink = ({
+
+const NavLinkInner = ({
   href,
   children,
   matchStrategy = "includes",
@@ -88,6 +92,41 @@ const NavLink = ({
     >
       {children}
     </Link>
+  );
+};
+
+/**
+ * Client nav link with active-route styles. `usePathname()` runs inside an
+ * internal `<Suspense>` boundary so shared nav can prerender with cacheComponents.
+ */
+const NavLink = ({
+  skeletonCh,
+  children,
+  borderPosition = "bottom",
+  className,
+  ...linkProps
+}: NavLinkProps) => {
+  const textCh = getSkeletonCh(children, skeletonCh);
+
+  return (
+    <Suspend
+      fallback={
+        <NavLinkSkeleton
+          borderPosition={borderPosition}
+          ch={textCh ?? 8}
+          className={className}
+          variant={textCh === undefined ? "icon" : "text"}
+        />
+      }
+    >
+      <NavLinkInner
+        borderPosition={borderPosition}
+        className={className}
+        {...linkProps}
+      >
+        {children}
+      </NavLinkInner>
+    </Suspend>
   );
 };
 

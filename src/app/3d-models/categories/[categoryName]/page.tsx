@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
 import { isCategorySlug } from "@/db/brands";
 import { CategoriesBlockTransition } from "@/features/categories/components/categories-block-transition";
 import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
+import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import { ModelsView } from "@/features/models/components/models-view";
+import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
 
 export const generateStaticParams = async () => await getAllCategorySlugs();
@@ -57,13 +60,22 @@ const CategoryPage = async ({
   }
 
   return (
-    <CategoriesBlockTransition categoryName={categoryName}>
-      <ModelsView
-        category={categoryName}
-        categoryDisplayName={category.displayName}
-        searchParams={searchParams}
-      />
-    </CategoriesBlockTransition>
+    <NuqsAdapterBoundary
+      fallback={
+        <>
+          <ModelsGridSkeleton />
+          <PaginationSkeleton />
+        </>
+      }
+    >
+      <CategoriesBlockTransition categoryName={categoryName}>
+        <ModelsView
+          category={categoryName}
+          categoryDisplayName={category.displayName}
+          searchParams={searchParams}
+        />
+      </CategoriesBlockTransition>
+    </NuqsAdapterBoundary>
   );
 };
 

@@ -28,7 +28,8 @@ const nextConfig: NextConfig = {
     optimizePackageImports: isDev ? undefined : ["valibot"],
     cachedNavigations: true,
     appNewScrollHandler: true,
-    turbopackRustReactCompiler: true,
+    // turbopackRustReactCompiler: true,
+    // turbopackFileSystemCacheForBuild: true,
   },
   logging: {
     browserToTerminal: true,

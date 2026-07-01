@@ -11,6 +11,7 @@ interface CategoriesNavProps {
 
 const CategoriesNav = ({ categories }: CategoriesNavProps) => {
   const allCategories = [ALL_CATEGORIES, ...categories];
+
   return (
     <ViewTransition name="categories-nav">
       <GenericComponent

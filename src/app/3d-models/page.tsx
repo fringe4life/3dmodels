@@ -1,8 +1,4 @@
-import { css } from "@styled-system/css";
 import type { Metadata } from "next";
-import { SearchInput } from "@/components/search-input/search-input";
-import { SearchInputSkeleton } from "@/components/search-input/search-input-skeleton";
-import { Suspend } from "@/components/suspend";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
 
 const listingMetadata: Metadata = {
@@ -30,20 +26,7 @@ export const generateMetadata = async ({
   };
 };
 
-const Page = () => (
-  <div
-    className={css({
-      blockSize: 10,
-      inlineSize: "full",
-      maxInlineSize: { md: "xl" },
-      position: "relative",
-      paddingInline: 4,
-    })}
-  >
-    <Suspend fallback={<SearchInputSkeleton />}>
-      <SearchInput />
-    </Suspend>
-  </div>
-);
+/** Listing UI (search + grid) lives in the `@results` parallel slot. */
+const Page = () => null;
 
 export default Page;

@@ -8,7 +8,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.5-000000)
-![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.3-FFE66D?logo=postgresql)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.0-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.4.16-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.8.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
@@ -18,15 +18,15 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Framework**: Next.js 16.3.0-preview.5 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 6.0.3 with React 19.3 canary
 - **Styling**: Panda CSS 2.0.0-beta.5 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `panda.config.ts`, vendored typography preset in `panda-presets/typography.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`;
-- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.3
+- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.4
 - **Authentication**: Better Auth 1.7.0-rc.0 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins
-- **Search Params**: nuqs 2.9.0-beta.3 for type-safe URL state management; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
+- **Search Params**: nuqs 2.9.0-beta.4 for type-safe URL state management; `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
 - **Linting & Formatting**: Biome 2.4.16 with Ultracite 7.8.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
 - **Package Manager**: Bun
-- **Build Tool**: Turbopack for dev and build; experimental view transitions, MCP server, and cached navigations (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
+- **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, and `appNewScrollHandler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
 - **Environment**: [Varlock](https://varlock.dev/) 1.9.0 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
-- **Validation**: Varlock for environment; Valibot 1.4.1 for server action and form schemas
+- **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas
 
 ## 🚀 Features
 
@@ -112,7 +112,8 @@ src/
 │   │   │   ├── auth-footer-link.tsx
 │   │   │   ├── avatar.tsx        # User avatar (GitHub image, fallback icon)
 │   │   │   ├── has-auth.tsx      # Generic auth component with session provider
-│   │   │   └── sign-in-button.tsx
+│   │   │   ├── sign-in-button.tsx
+│   │   │   └── sign-in-nav-link.tsx  # Icon-only sign-in NavLink for navbar
 │   │   ├── auth-types.ts         # Shared auth type definitions
 │   │   ├── constants.ts          # Auth validation constants
 │   │   ├── queries/
@@ -197,7 +198,13 @@ src/
 │   │   └── submit-button.tsx
 │   ├── nav-link/
 │   │   ├── nav-link-list-item.tsx
-│   │   └── nav-link.tsx
+│   │   ├── nav-link-skeleton.tsx
+│   │   ├── nav-link.tsx          # Suspense-wrapped link with active state
+│   │   └── types.ts
+│   ├── navbar/
+│   │   └── navbar.tsx            # Sticky header (logo, nav links, auth slot)
+│   ├── nuqs/
+│   │   └── nuqs-adapter-boundary.tsx  # Suspense + NuqsAdapter for listing routes
 │   ├── button.tsx
 │   ├── generic-component.tsx
 │   ├── not-found/
@@ -264,7 +271,7 @@ The project follows a feature-based architecture where related functionality is 
 - **`db/seed-data/`**: Model seed data only (`models.ts`)
 
 ### Performance Optimizations
-- **NuqsAdapter**: Scoped to `/3d-models` layout only (not root layout) for reduced overhead on routes that don't use URL state management
+- **NuqsAdapterBoundary**: `NuqsAdapter` wrapped in `Suspense` on listing pages (`@results/page.tsx`, category pages) only — model detail routes skip nuqs overhead
 - **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
@@ -383,7 +390,7 @@ The project follows a feature-based architecture where related functionality is 
 - `bun run db:drop` — Drop all tables (development reset)
 
 ### Database Relations
-The application uses Drizzle ORM 1.0.0-rc.3 with `defineRelations` for type-safe relations:
+The application uses Drizzle ORM 1.0.0-rc.4 with `defineRelations` for type-safe relations:
 - Relations defined using the v1/rc syntax with `r.one()` and `r.many()` helpers
 - Relation names avoid conflicts with column names (e.g., `modelLikes` instead of `likes` to avoid conflict with `models.likes` column)
 - All relations exported from `schema/relations.ts` and included in the database schema
@@ -457,14 +464,18 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/3d-models/[slug]/error.tsx` - Error boundary for model detail pages with retry and error guidance
 
 #### Navigation Components
-- `app/@navbar/default` - Navbar parallel route with auth integration; logo uses intrinsic SVG dimensions with Panda `blockSize`/`square` sizing
+- `app/@navbar/default` - Parallel route delegating to shared `Navbar`
 - `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
-- `components/nav-link/nav-link` - `NavLink` (link with active state); matching (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
+- `components/navbar/navbar` - Sticky header with scroll-driven animation, logo, nav links, and auth slot (`HasAuthSuspense` → avatar or `SignInNavLink`)
+- `components/nav-link/nav-link` - `NavLink` with `Suspense` fallback, active state (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
+- `components/nav-link/nav-link-skeleton` - Width-matched skeleton for `NavLink` Suspense fallback
 - `components/nav-link/nav-link-list-item` - `li` + `NavLink` wrapper
+- `components/nuqs/nuqs-adapter-boundary` - `Suspense` + `NuqsAdapter` for listing routes only
 - `components/top-link` - Top-of-page control used in layouts
-- `features/auth/components/auth-buttons` - Authentication buttons with user avatar (GitHub image priority, icon fallback)
+- `features/auth/components/auth-buttons` - Sign-out control wrapping avatar (authenticated navbar slot)
 - `features/auth/components/auth-buttons-skeleton` - Navbar auth slot loading state
+- `features/auth/components/sign-in-nav-link` - Icon-only sign-in link for unauthenticated navbar slot
 - `features/auth/components/auth-card` - Card shell for sign-in/sign-up pages
 - `features/auth/components/auth-footer-link` - Footer link between auth screens
 - `features/auth/components/avatar` - Avatar image with fallback

@@ -3,10 +3,19 @@
 import { css, cx } from "@styled-system/css";
 import { buttonRecipe } from "@/components/button";
 import { FieldError } from "@/components/form/field-errors";
+import type { IsAuthenticated } from "@/features/auth/types";
 import { HeartButtonCount } from "@/features/models/likes/components/heart-button-count";
 import { HeartIcon } from "@/features/models/likes/components/heart-icon";
 import { useHeartLike } from "@/features/models/likes/hooks/use-heart-like";
-import type { HeartButtonClientProps } from "@/features/models/likes/types";
+import type {
+  HasLiked,
+  HeartButtonAdditionalProps,
+} from "@/features/models/likes/types";
+
+export interface HeartButtonClientProps
+  extends HeartButtonAdditionalProps,
+    HasLiked,
+    IsAuthenticated {}
 
 const HeartButtonClient = ({
   hasLiked,

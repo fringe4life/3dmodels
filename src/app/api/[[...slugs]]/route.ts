@@ -6,6 +6,8 @@ import { app } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { OpenAPI } from "./better-auth-openapi";
 
+const isDev = process.env.NODE_ENV === "development";
+
 app
   .use(
     openapi({
@@ -13,6 +15,7 @@ app
         components: await OpenAPI.components,
         paths: await OpenAPI.getPaths(),
       },
+      enabled: isDev,
     }),
   )
   .use(

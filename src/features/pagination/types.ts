@@ -9,9 +9,15 @@ export interface Count {
   count: number;
 }
 
-interface PaginationMetadata extends Page, Count {
+export interface HasNextPage {
   hasNextPage: boolean;
 }
+
+export interface HasPreviousPage {
+  hasPreviousPage: boolean;
+}
+
+interface PaginationMetadata extends Page, Count, HasNextPage {}
 
 interface ListObject<T> {
   items: List<T>;

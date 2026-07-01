@@ -8,7 +8,7 @@ import { cacheLife } from "next/cache";
 
 // biome-ignore lint/suspicious/useAwait: needed for use cache
 export async function getCurrentYear() {
-  "use cache";
+  "use cache: remote";
   cacheLife("days");
 
   return new Date().getFullYear();
