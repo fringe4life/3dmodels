@@ -1,7 +1,7 @@
 import { css } from "@styled-system/css";
 import { square } from "@styled-system/patterns";
 import { FaSignInAlt } from "react-icons/fa";
-import { buttonRecipe } from "@/components/button";
+import { buttonRecipe } from "@/components/button-recipe";
 import { NavLink } from "@/components/nav-link/nav-link";
 
 const SignInNavLink = () => (

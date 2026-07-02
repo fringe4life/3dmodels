@@ -23,7 +23,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Search Params**: nuqs 2.9.0-beta.4 for type-safe URL state management; `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) for SEO metadata
 - **Linting & Formatting**: Biome 2.4.16 with Ultracite 7.8.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
 - **Type Checking**: tsgo (TypeScript Native Preview)
-- **Package Manager**: Bun
+- **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`)
+- **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for `next dev` / `next build` / `next start`). **Temporarily**, production `build` and `start` run **Next on Node** (`bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
 - **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, and `appNewScrollHandler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
 - **Environment**: [Varlock](https://varlock.dev/) 1.9.0 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas
@@ -205,6 +206,7 @@ src/
 │   │   └── navbar.tsx            # Sticky header (logo, nav links, auth slot)
 │   ├── nuqs/
 │   │   └── nuqs-adapter-boundary.tsx  # Suspense + NuqsAdapter for listing routes
+│   ├── button-recipe.ts          # Panda CVA recipe for Button variants
 │   ├── button.tsx
 │   ├── generic-component.tsx
 │   ├── not-found/
@@ -285,7 +287,8 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) (recommended) or a current Node.js LTS
+- [Bun](https://bun.sh/) for package management, tests, and database scripts
+- A current **Node.js** LTS (used by `next build` / `next start` until `bun --bun` is re-enabled for those scripts)
 - Neon database account (or any PostgreSQL database)
 - Optional: [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/) machine account token if you use `bitwarden()` resolvers in `.env.schema` (see `docs/VARLOCK.md`)
 
@@ -408,7 +411,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 The application uses Next.js Cache Components for optimal performance:
 - Static content is pre-rendered at build time
 - Dynamic content (like authentication state) is rendered at request time
-- Server components use `connection()` to opt into dynamic rendering when needed
+- Server components use `connection()` to opt into dynamic rendering when needed (e.g. `getUser()`)
 - Cache invalidation handled by `cacheTag` utilities
 - Error handling with `error.tsx` error boundaries for failed queries (categories, results, and category pages with built-in `reset()` retry functionality)
 - Loading states with `loading.tsx` for results and category pages
@@ -520,13 +523,13 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ### Available Scripts
 
 - `prepare` (automatic on `bun install`) — Panda `styled-system/` build and Husky setup
-- `bun run dev` - Start development server (Turbopack)
+- `bun run dev` - Start development server (Turbopack; currently `bun --bun`)
 - `bun run dev:inspect` - Start development server with Node.js inspector
 - `bun run next:upgrade` - Upgrade Next.js to latest version
 - `bun run next:analyze` - Analyze Next.js bundle (experimental-analyze)
-- `bun run build` - Build for production (Turbopack)
-- `bun run build:debug` - Build with debug prerender information
-- `bun run start` - Start production server
+- `bun run build` - Build for production (**Node** runtime via `varlock run -- next build`)
+- `bun run build:debug` - Build with debug prerender information (`bun --bun`)
+- `bun run start` - Start production server (**Node** runtime via `bun run next start`)
 - `bun run test` - Run tests (Bun test runner)
 - `bun run test:watch` - Run tests in watch mode
 - `bun run test:unit` - Run unit tests
@@ -568,7 +571,7 @@ The project follows a consistent coding style with:
 1. Connect your repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
-4. If you use Bun on Vercel, set `bunVersion: "1.x"` and `buildCommand: "bun --bun run next build"` in `vercel.json`. Ensure Bun runtime is >= 1.3.7 for Cache Components.
+4. **Runtime note**: Bun remains the desired package manager and future Next.js runtime. Vercel builds should use the default Next.js build (`next build` on Node) until `bun --bun` + Cache Components issues are resolved; `vercel.json` no longer forces `bunVersion` / `bun --bun run next build`. Re-enable when upstream fixes land.
 
 ### Environment Variables
 

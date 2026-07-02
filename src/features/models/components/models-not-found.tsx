@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { buttonRecipe } from "@/components/button";
+import { buttonRecipe } from "@/components/button-recipe";
 import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 
 const ModelsNotFound = () => (

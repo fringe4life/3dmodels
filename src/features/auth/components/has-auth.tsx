@@ -11,7 +11,7 @@ interface HasAuthProps {
 // HasAuth component that provides session to children
 const HasAuth = async ({ children }: HasAuthProps) => {
   const auth = await getUser();
-  return <>{children(auth)}</>;
+  return <>{await children(auth)}</>;
 };
 
 interface HasAuthSuspenseProps extends HasAuthProps {

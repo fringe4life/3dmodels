@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { connection } from "next/server";
 import { cache } from "react";
 import { auth } from "@/lib/auth";
 import { tryCatch } from "@/utils/try-catch";
@@ -9,6 +10,7 @@ import type {
 } from "../types";
 
 const getUser = cache(async (): Promise<UserAuthState> => {
+  await connection();
   const { data: session, error } = await tryCatch(
     async () =>
       await auth.api.getSession({

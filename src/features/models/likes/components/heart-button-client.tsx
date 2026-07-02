@@ -1,7 +1,7 @@
 "use client";
 
 import { css, cx } from "@styled-system/css";
-import { buttonRecipe } from "@/components/button";
+import { buttonRecipe } from "@/components/button-recipe";
 import { FieldError } from "@/components/form/field-errors";
 import type { IsAuthenticated } from "@/features/auth/types";
 import { HeartButtonCount } from "@/features/models/likes/components/heart-button-count";

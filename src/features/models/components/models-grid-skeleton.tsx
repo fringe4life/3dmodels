@@ -4,10 +4,7 @@ import { modelsGrid } from "../../../app/styles";
 import { ModelCardSkeleton } from "./model-card-skeleton";
 
 const ModelsGridSkeleton = () => (
-  <div
-    aria-hidden="true"
-    className={css({ marginInline: "auto", paddingBlock: 8 })}
-  >
+  <div aria-hidden="true" className={css({ paddingBlock: 8 })}>
     <Skeleton
       className={css({
         marginBlockEnd: 8,

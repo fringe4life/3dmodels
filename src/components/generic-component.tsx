@@ -44,8 +44,8 @@ const GenericComponent = <
     <Wrapper className={className} {...wrapperProps}>
       {items.map((item, index) => (
         <Component
-          key={getItemKey(item, index)}
           {...renderProps(item, index)}
+          key={getItemKey(item, index)}
         />
       ))}
     </Wrapper>
