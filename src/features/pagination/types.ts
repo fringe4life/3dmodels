@@ -1,5 +1,5 @@
 import type { LIMITS } from "@/features/pagination/constants";
-import type { List, Maybe } from "@/types";
+import type { List, Maybe, Prettify } from "@/types";
 
 export interface Page {
   page: number;
@@ -17,7 +17,7 @@ export interface HasPreviousPage {
   hasPreviousPage: boolean;
 }
 
-interface PaginationMetadata extends Page, Count, HasNextPage {}
+type PaginationMetadata = Prettify<Page & Count & HasNextPage>;
 
 interface ListObject<T> {
   items: List<T>;
@@ -37,14 +37,18 @@ export interface PaginatedResultEmpty {
   message: string;
   type: "empty";
 }
-export interface PaginatedResultSuccess<T> extends PaginationMetadataObject {
-  items: T[];
-  type: "success";
-}
+export type PaginatedResultSuccess<T> = Prettify<
+  PaginationMetadataObject & {
+    items: T[];
+    type: "success";
+  }
+>;
 
-export interface RawPaginatedResult<T> extends ListObject<T> {
-  itemsCount: Maybe<number>;
-}
+export type RawPaginatedResult<T> = Prettify<
+  ListObject<T> & {
+    itemsCount: Maybe<number>;
+  }
+>;
 
 export type LimitItem = (typeof LIMITS)[number];
 
@@ -52,7 +56,7 @@ export interface Limit {
   limit: LimitItem;
 }
 
-export interface PaginationType extends Page, Limit {}
+export type PaginationType = Prettify<Page & Limit>;
 
 export interface PaginationMetadataObject {
   metadata: PaginationMetadata;

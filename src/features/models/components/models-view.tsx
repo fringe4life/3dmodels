@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noUnnecessaryConditions: false positive — biome type inference cannot resolve the PaginatedResult discriminated union across the awaited getModels() call, so it wrongly reports these cases unreachable (tsc validates the switch) */
 import { css } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
 import { Suspense } from "react";
@@ -8,14 +9,16 @@ import { getModels } from "@/features/models/dal/get-models";
 import { Pagination } from "@/features/pagination/components/pagination";
 import { PaginationOffsetTransition } from "@/features/pagination/components/pagination-offset-transition";
 import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
-import type { SearchParamsProps } from "@/types";
+import type { Prettify, SearchParamsProps } from "@/types";
 import { ModelsGrid } from "./models-grid";
 import { ModelsNotFound } from "./models-not-found";
 
-interface ModelsViewProps extends SearchParamsProps {
-  category?: CategorySlug;
-  categoryDisplayName?: string;
-}
+type ModelsViewProps = Prettify<
+  SearchParamsProps & {
+    category?: CategorySlug;
+    categoryDisplayName?: string;
+  }
+>;
 
 const ModelsViewInner = async ({
   searchParams,
@@ -36,11 +39,11 @@ const ModelsViewInner = async ({
           <ModelsNotFound />
           <p
             className={css({
+              color: "text.muted",
+              fontSize: "sm",
+              fontStyle: "italic",
               paddingInlineEnd: "1",
               textAlign: "right",
-              color: "text.muted",
-              fontStyle: "italic",
-              fontSize: "sm",
             })}
           >
             No models found
@@ -52,8 +55,8 @@ const ModelsViewInner = async ({
         <PaginationOffsetTransition metadata={result.metadata}>
           <div
             className={grid({
-              gridAutoRows: "min",
               alignContent: "space-between",
+              gridAutoRows: "min",
               rowGap: 4,
             })}
           >

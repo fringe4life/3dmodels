@@ -14,7 +14,7 @@ const CategoriesError = ({ retry }: ErrorInfo) => (
       padding: 4,
     })}
   >
-    <p className={css({ fontSize: "sm", color: "gray.500" })}>
+    <p className={css({ color: "gray.500", fontSize: "sm" })}>
       Failed to load categories
     </p>
     <ResetButton onClick={retry} />

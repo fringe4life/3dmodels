@@ -1,7 +1,8 @@
 import { css } from "@styled-system/css";
 import type { Count, Limit, Page } from "@/features/pagination/types";
+import type { Prettify } from "@/types";
 
-interface PaginationSummaryProps extends Count, Page, Limit {}
+type PaginationSummaryProps = Prettify<Count & Page & Limit>;
 
 const PaginationSummary = ({ count, limit, page }: PaginationSummaryProps) => {
   const startOffset = page * limit + 1;

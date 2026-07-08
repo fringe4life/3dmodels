@@ -1,15 +1,15 @@
 import { css } from "@styled-system/css";
 import { NavLink, type NavLinkProps } from "./nav-link";
 
-interface NavLinkListItemProps extends NavLinkProps {
+type NavLinkListItemProps = NavLinkProps & {
   liClassName?: string;
-}
+};
 
 const NavLinkListItem = ({
   liClassName = css({
     fontSize: "sm",
-    textTransform: "uppercase",
     letterSpacing: "wide",
+    textTransform: "uppercase",
   }),
   ...navLinkProps
 }: NavLinkListItemProps) => (

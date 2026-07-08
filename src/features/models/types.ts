@@ -1,35 +1,14 @@
 import type { CategorySlug } from "@/db/brands";
 import type { Model } from "@/db/schema/models";
-import type { IsAuthenticated } from "@/features/auth/types";
-import type { HasLiked, Likes } from "@/features/models/likes/types";
-import type { List, Maybe } from "@/types";
-import type { getModelBySlug } from "./queries/get-model-by-slug";
+import type { HasLiked } from "@/features/models/likes/types";
+import type { Prettify } from "@/types";
 
-export interface ModelWithLikeStatus extends Model, HasLiked {}
-
-export interface ModelsGridProps extends IsAuthenticated {
-  models: ModelWithLikeStatus[];
-  title: string;
-}
-export interface ModelCardProps extends IsAuthenticated {
-  model: ModelWithLikeStatus;
-}
-
-export type ModelDetail = Maybe<Omit<Model, "hasLiked" | "userId">>;
-
-export type ModelDetailProps = NonNullable<
-  Awaited<ReturnType<typeof getModelBySlug>>
-> &
-  Likes & {
-    children?: React.ReactNode;
-  };
-
-export type ModelSlugs = List<Pick<Model, "slug">>;
+export type ModelWithLikeStatus = Prettify<Model & HasLiked>;
 
 export interface SearchPattern {
-  searchPattern: Exclude<Maybe<string>, null>;
+  searchPattern: string | undefined;
 }
 
 export interface CategoryFilter {
-  category: Exclude<Maybe<CategorySlug>, null>;
+  category: CategorySlug | undefined;
 }

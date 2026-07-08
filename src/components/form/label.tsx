@@ -9,10 +9,10 @@ const Label = ({
   <label
     className={cx(
       css({
-        display: "block",
-        fontWeight: "medium",
         color: "text.secondary",
+        display: "block",
         fontSize: "sm",
+        fontWeight: "medium",
       }),
       className,
     )}

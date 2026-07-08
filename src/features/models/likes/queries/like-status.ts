@@ -17,12 +17,12 @@ export const getLikedSlugsForUser = async (
 
   const { data, error } = await tryCatch(() =>
     db.query.likes.findMany({
-      where: {
-        userId: { eq: userId },
-        modelSlug: { in: slugs },
-      },
       columns: {
         modelSlug: true,
+      },
+      where: {
+        modelSlug: { in: slugs },
+        userId: { eq: userId },
       },
     }),
   );
@@ -47,8 +47,8 @@ export const getHasLikedStatus = async (
   const { data, error } = await tryCatch(() =>
     db.query.likes.findFirst({
       where: {
-        userId,
         modelSlug: slug,
+        userId,
       },
     }),
   );

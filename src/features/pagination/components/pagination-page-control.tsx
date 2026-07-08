@@ -1,13 +1,17 @@
 import { square } from "@styled-system/patterns";
 import type { MouseEventHandler } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import type { Prettify } from "@/types";
 import type { HasNextPage, HasPreviousPage } from "../types";
 import { PaginationButton } from "./pagination-button";
 
-interface PaginationPageControlProps extends HasNextPage, HasPreviousPage {
-  onNextPage: MouseEventHandler<HTMLButtonElement>;
-  onPreviousPage: MouseEventHandler<HTMLButtonElement>;
-}
+type PaginationPageControlProps = Prettify<
+  HasNextPage &
+    HasPreviousPage & {
+      onNextPage: MouseEventHandler<HTMLButtonElement>;
+      onPreviousPage: MouseEventHandler<HTMLButtonElement>;
+    }
+>;
 
 const PaginationPageControl = ({
   hasNextPage,

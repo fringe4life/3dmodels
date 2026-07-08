@@ -15,8 +15,8 @@ const ListingResultsFallback = () => (
         blockSize: 10,
         inlineSize: "full",
         maxInlineSize: { md: "xl" },
-        position: "relative",
         paddingInline: 4,
+        position: "relative",
       })}
     >
       <SearchInputSkeleton />
@@ -39,8 +39,8 @@ const ResultsPage = ({ searchParams }: PageProps<"/3d-models">) => (
           blockSize: 10,
           inlineSize: "full",
           maxInlineSize: { md: "xl" },
-          position: "relative",
           paddingInline: 4,
+          position: "relative",
         })}
       >
         <Suspend fallback={<SearchInputSkeleton />}>

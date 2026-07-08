@@ -11,40 +11,40 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
 
   const staticEntries: MetadataRoute.Sitemap = [
     {
-      url: `${ENV.NEXT_PUBLIC_SITE_URL}/`,
-      lastModified: new Date(),
       changeFrequency: "daily",
+      lastModified: new Date(),
       priority: 1,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/`,
     },
     {
-      url: `${ENV.NEXT_PUBLIC_SITE_URL}/about`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
+      lastModified: new Date(),
       priority: 0.8,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/about`,
     },
     {
-      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models`,
-      lastModified: new Date(),
       changeFrequency: "daily",
+      lastModified: new Date(),
       priority: 0.9,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models`,
     },
   ];
 
   const modelEntries: MetadataRoute.Sitemap = (modelSlugs ?? []).map(
     ({ slug }) => ({
-      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models/${slug}`,
-      lastModified: new Date(),
       changeFrequency: "weekly" as const,
+      lastModified: new Date(),
       priority: 0.8,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models/${slug}`,
     }),
   );
 
   const categoryEntries: MetadataRoute.Sitemap = categoryRows.map(
     ({ categoryName }) => ({
-      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models/categories/${categoryName}`,
-      lastModified: new Date(),
       changeFrequency: "weekly" as const,
+      lastModified: new Date(),
       priority: 0.7,
+      url: `${ENV.NEXT_PUBLIC_SITE_URL}/3d-models/categories/${categoryName}`,
     }),
   );
 

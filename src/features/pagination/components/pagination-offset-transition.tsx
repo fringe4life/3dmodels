@@ -1,10 +1,12 @@
 import { ViewTransition } from "react";
-import type { Children } from "@/types";
+import type { Children, Prettify } from "@/types";
 import type { Page } from "../types";
 
-interface PaginationOffsetTransitionProps<T extends Page> extends Children {
-  metadata: T;
-}
+type PaginationOffsetTransitionProps<T extends Page> = Prettify<
+  Children & {
+    metadata: T;
+  }
+>;
 
 const PaginationOffsetTransition = <T extends Page>({
   children,
@@ -12,14 +14,14 @@ const PaginationOffsetTransition = <T extends Page>({
 }: PaginationOffsetTransitionProps<T>) => (
   <ViewTransition
     enter={{
-      forwards: "enter-right",
       backwards: "enter-left",
       default: "auto",
+      forwards: "enter-right",
     }}
     exit={{
-      forwards: "exit-left",
       backwards: "exit-right",
       default: "auto",
+      forwards: "exit-left",
     }}
     key={`models-page-${metadata.page}`}
   >

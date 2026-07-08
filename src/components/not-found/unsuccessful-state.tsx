@@ -15,6 +15,10 @@ interface UnsuccessfulStateProps {
   subheading: string;
 }
 
+const renderUnsuccesfulItem = ({ text }: UnsuccessfulStateListItemProps) => ({
+  text,
+});
+
 const UnsuccessfulState = ({
   heading,
   subheading,
@@ -24,10 +28,10 @@ const UnsuccessfulState = ({
 }: UnsuccessfulStateProps) => (
   <div
     className={grid({
-      minBlockSize: "60vh",
       marginInline: 4,
-      placeItems: "center",
+      minBlockSize: "60vh",
       padding: 4,
+      placeItems: "center",
     })}
     data-error={isError}
     data-not-found={!isError}
@@ -42,10 +46,10 @@ const UnsuccessfulState = ({
       <div className={css({ spaceY: 2 })}>
         <h1
           className={css({
-            fontWeight: "bold",
-            fontSize: { base: "4xl", sm: "5xl" },
-            letterSpacing: "tight",
             color: "error",
+            fontSize: { base: "4xl", sm: "5xl" },
+            fontWeight: "bold",
+            letterSpacing: "tight",
           })}
         >
           {heading}
@@ -57,23 +61,23 @@ const UnsuccessfulState = ({
 
       <div
         className={css({
-          spaceY: 4,
-          rounded: "lg",
-          borderColor: "border.subtle",
           backgroundColor: "bg.surface",
+          borderColor: "border.subtle",
           padding: 6,
+          rounded: "lg",
+          spaceY: 4,
           textAlign: "left",
         })}
       >
-        <h2 className={css({ fontWeight: "semibold", fontSize: "xl" })}>
+        <h2 className={css({ fontSize: "xl", fontWeight: "semibold" })}>
           What you can do:
         </h2>
         <GenericComponent
           as="ul"
           Component={UnsuccessfulStateListItem}
-          className={css({ spaceY: 2, color: "gray.600" })}
+          className={css({ color: "gray.600", spaceY: 2 })}
           items={listItems}
-          renderProps={(item) => ({ text: item.text })}
+          renderProps={renderUnsuccesfulItem}
         />
       </div>
       {!!action && (

@@ -7,7 +7,7 @@ import {
   useOptimistic,
   useTransition,
 } from "react";
-import type { Maybe } from "@/types";
+import type { Maybe, Prettify } from "@/types";
 import type { ActionState } from "@/utils/to-action-state";
 import type { HeartButtonClientProps } from "../components/heart-button-client";
 import type { HeartVisualState, LikesCount } from "../types";
@@ -17,17 +17,21 @@ import {
   reduceHeartLikeOptimistic,
 } from "./heart-like-optimistic";
 
-type UseHeartLikeParams = Pick<
-  HeartButtonClientProps,
-  "hasLiked" | "isAuthenticated" | "likes" | "slug" | "toggleAction"
+type UseHeartLikeParams = Prettify<
+  Pick<
+    HeartButtonClientProps,
+    "hasLiked" | "isAuthenticated" | "likes" | "slug" | "toggleAction"
+  >
 >;
 
-interface UseHeartLikeReturn extends HeartVisualState {
-  handleSubmit: SubmitEventHandler<HTMLFormElement>;
-  isDisabled: boolean;
-  optimistic: HeartLikeOptimisticState;
-  state: Maybe<ActionState<LikesCount>>;
-}
+type UseHeartLikeReturn = Prettify<
+  HeartVisualState & {
+    handleSubmit: SubmitEventHandler<HTMLFormElement>;
+    isDisabled: boolean;
+    optimistic: HeartLikeOptimisticState;
+    state: Maybe<ActionState<LikesCount>>;
+  }
+>;
 
 const useHeartLike = ({
   hasLiked,

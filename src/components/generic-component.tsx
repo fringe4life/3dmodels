@@ -4,6 +4,9 @@ export interface GenericListItemKey {
   slug?: string;
 }
 
+const getItemKey = (item: GenericListItemKey, index: number): React.Key =>
+  item.id ?? (item.slug || index);
+
 interface GenericComponentProps<
   T extends GenericListItemKey,
   P,
@@ -16,16 +19,6 @@ interface GenericComponentProps<
   renderProps: (item: T, index: number) => P;
   wrapperProps?: React.ComponentPropsWithoutRef<E>;
 }
-
-const getItemKey = (item: GenericListItemKey, index: number): React.Key => {
-  if (item.id != null) {
-    return item.id;
-  }
-  if (item.slug != null && item.slug !== "") {
-    return item.slug;
-  }
-  return index;
-};
 
 const GenericComponent = <
   T extends GenericListItemKey,

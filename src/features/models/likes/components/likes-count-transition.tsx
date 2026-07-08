@@ -1,8 +1,8 @@
 import { ViewTransition } from "react";
-import type { Children } from "@/types";
+import type { Children, Prettify } from "@/types";
 import type { LikesCount } from "../types";
 
-interface LikesCountTransitionProps extends Children, LikesCount {}
+type LikesCountTransitionProps = Prettify<Children & LikesCount>;
 
 const LikesCountTransition = ({
   likesCount,
@@ -11,9 +11,9 @@ const LikesCountTransition = ({
   <ViewTransition
     key={`likes-count-${likesCount}`}
     update={{
-      increase: "likes-update-increase",
       decrease: "likes-update-decrease",
       default: "auto",
+      increase: "likes-update-increase",
     }}
   >
     {children}

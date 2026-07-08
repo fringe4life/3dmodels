@@ -8,7 +8,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { signOutAction } from "@/features/auth/actions/sign-out-action";
 import type { Children } from "@/types";
 
-interface AuthButtonsProps extends Children {}
+type AuthButtonsProps = Children;
 
 const AuthButtons = ({ children }: AuthButtonsProps) => {
   const [isPending, startTransition] = useTransition();
@@ -23,9 +23,9 @@ const AuthButtons = ({ children }: AuthButtonsProps) => {
     <div className={hstack({ gap: 2 })}>
       <div
         className={circle({
-          size: 8,
-          position: "relative",
           overflow: "hidden",
+          position: "relative",
+          size: 8,
         })}
       >
         {children}
@@ -35,14 +35,14 @@ const AuthButtons = ({ children }: AuthButtonsProps) => {
         className={cx(
           "group",
           css({
+            _disabled: { cursor: "progress", opacity: "0.75" },
             color: {
-              base: "text.placeholder",
-              _hover: "brand",
               _disabled: "text.secondary",
+              _hover: "brand",
+              base: "text.placeholder",
             },
-            transitionProperty: "colors",
             transitionDuration: "normal",
-            _disabled: { opacity: "0.75", cursor: "progress" },
+            transitionProperty: "colors",
           }),
         )}
         isPending={isPending}
@@ -51,7 +51,7 @@ const AuthButtons = ({ children }: AuthButtonsProps) => {
         variant="ghost"
       >
         <FaSignOutAlt
-          className={square({ size: 5, _groupDisabled: { display: "none" } })}
+          className={square({ _groupDisabled: { display: "none" }, size: 5 })}
         />
       </SubmitButton>
     </div>

@@ -1,10 +1,13 @@
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 import type { GenericListItemKey } from "@/components/generic-component";
+import type { Prettify } from "@/types";
 
-export interface UnsuccessfulStateListItemProps extends GenericListItemKey {
-  text: string;
-}
+export type UnsuccessfulStateListItemProps = Prettify<
+  GenericListItemKey & {
+    text: string;
+  }
+>;
 
 const UnsuccessfulStateListItem = ({
   text,

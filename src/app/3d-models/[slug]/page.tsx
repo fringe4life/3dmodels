@@ -21,21 +21,21 @@ export const generateMetadata = async ({
   const { name: title, description, image } = model;
 
   return {
-    title,
     description,
     openGraph: {
-      title,
       description,
-      type: "article",
       images: [
         {
+          alt: `3D model of ${title}`,
+          height: 630,
           url: image || "/img/placeholder.png",
           width: 1200,
-          height: 630,
-          alt: `3D model of ${title}`,
         },
       ],
+      title,
+      type: "article",
     },
+    title,
   };
 };
 

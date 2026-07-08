@@ -16,10 +16,10 @@ export const getCategoryBySlug = cache(
 
     const { data, error } = await tryCatch(() =>
       db.query.categories.findFirst({
-        where: { slug },
         columns: {
           displayName: true,
         },
+        where: { slug },
       }),
     );
 

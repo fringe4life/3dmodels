@@ -28,8 +28,8 @@ export const searchModels = async (
   const searchPattern = query ? `%${query}%` : undefined;
 
   const result = await paginateItems({
-    getItems: () => getModelsList({ searchPattern, category, pagination }),
-    getItemsCount: () => getModelsCount({ searchPattern, category }),
+    getItems: () => getModelsList({ category, pagination, searchPattern }),
+    getItemsCount: () => getModelsCount({ category, searchPattern }),
   });
 
   return result satisfies RawPaginatedResult<Model>;

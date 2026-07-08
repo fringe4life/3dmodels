@@ -1,6 +1,7 @@
 "use client";
 
 import { css, cx } from "@styled-system/css";
+import { ViewTransition } from "react";
 import { buttonRecipe } from "@/components/button-recipe";
 import { FieldError } from "@/components/form/field-errors";
 import type { IsAuthenticated } from "@/features/auth/types";
@@ -11,11 +12,12 @@ import type {
   HasLiked,
   HeartButtonAdditionalProps,
 } from "@/features/models/likes/types";
+import type { Prettify } from "@/types";
+import { sanitiseName } from "@/utils/sanitise-name";
 
-export interface HeartButtonClientProps
-  extends HeartButtonAdditionalProps,
-    HasLiked,
-    IsAuthenticated {}
+export type HeartButtonClientProps = Prettify<
+  HeartButtonAdditionalProps & HasLiked & IsAuthenticated
+>;
 
 const HeartButtonClient = ({
   hasLiked,
@@ -23,6 +25,7 @@ const HeartButtonClient = ({
   likes,
   slug,
   toggleAction,
+  disableTransition,
 }: HeartButtonClientProps) => {
   const {
     handleSubmit,
@@ -40,7 +43,7 @@ const HeartButtonClient = ({
     toggleAction,
   });
 
-  return (
+  const content = (
     <form data-progress={isPending} onSubmit={handleSubmit}>
       <button
         aria-label={
@@ -48,15 +51,15 @@ const HeartButtonClient = ({
         }
         className={cx(
           "group",
-          buttonRecipe({ variant: "ghost", size: "bare" }),
+          buttonRecipe({ size: "bare", variant: "ghost" }),
           css({
-            position: "relative",
-            zIndex: "5",
-            flexWrap: "wrap",
             columnGap: 1,
+            flexWrap: "wrap",
+            position: "relative",
             transitionTimingFunction: {
               _supportsLinear: "ease-smooth-in-out",
             },
+            zIndex: "5",
           }),
         )}
         disabled={isDisabled}
@@ -71,6 +74,16 @@ const HeartButtonClient = ({
         <FieldError actionState={state} name="slug" />
       </button>
     </form>
+  );
+
+  if (disableTransition) {
+    return content;
+  }
+
+  return (
+    <ViewTransition name={`model-heart-${sanitiseName(slug)}`}>
+      {content}
+    </ViewTransition>
   );
 };
 

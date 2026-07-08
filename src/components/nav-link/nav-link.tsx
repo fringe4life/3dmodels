@@ -13,14 +13,13 @@ import type {
   NextLinkComponentProps,
 } from "./types";
 
-export interface NavLinkProps
-  extends NextLinkComponentProps,
-    Partial<BorderPosition>,
-    Partial<MatchStrategy> {
-  href: Route;
-  /** Reserved width for the Suspense fallback; defaults to string `children` length. */
-  skeletonCh?: number;
-}
+export type NavLinkProps = NextLinkComponentProps &
+  Partial<BorderPosition> &
+  Partial<MatchStrategy> & {
+    href: Route;
+    /** Reserved width for the Suspense fallback; defaults to string `children` length. */
+    skeletonCh?: number;
+  };
 
 const getSkeletonCh = (children: ReactNode, skeletonCh?: number) => {
   if (skeletonCh !== undefined) {
@@ -54,24 +53,15 @@ const NavLinkInner = ({
       className={cx(
         className,
         css({
-          fontSize: "sm",
-          fontWeight: "medium",
-          color: {
-            base: "black",
-            _hover: "brand.muted !important",
-          },
-          transitionProperty:
-            "color,background-color,border-color,text-decoration-color",
-          transitionDuration: "normal",
           _currentPage: {
+            borderColor: "currentColor",
             color: "brand",
             fontWeight: "semibold",
-            borderColor: "currentColor",
           },
           '&:not([data-border-bottom])[aria-current="page"]': {
             md: {
-              borderInlineStartWidth: "2px",
               borderInlineStartStyle: "solid",
+              borderInlineStartWidth: "2px",
               paddingInlineStart: 3,
             },
           },
@@ -80,10 +70,19 @@ const NavLinkInner = ({
           },
           '&[data-border-bottom][aria-current="page"]': {
             md: {
-              borderBlockEndWidth: "2px",
               borderBlockEndStyle: "solid",
+              borderBlockEndWidth: "2px",
             },
           },
+          color: {
+            _hover: "brand.muted !important",
+            base: "black",
+          },
+          fontSize: "sm",
+          fontWeight: "medium",
+          transitionDuration: "normal",
+          transitionProperty:
+            "color,background-color,border-color,text-decoration-color",
         }),
       )}
       {...(borderPosition === "bottom" && { "data-border-bottom": true })}

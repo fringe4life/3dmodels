@@ -5,8 +5,16 @@ import Image from "next/image";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
+import type { Likes } from "@/features/models/likes/types";
+import type { Children, Prettify } from "@/types";
 import { sanitiseName } from "@/utils/sanitise-name";
-import type { ModelDetailProps } from "../types";
+import type { getModelBySlug } from "../queries/get-model-by-slug";
+
+type ModelDetailProps = Prettify<
+  NonNullable<Awaited<ReturnType<typeof getModelBySlug>>> &
+    Likes &
+    Partial<Children>
+>;
 
 const ModelDetail = ({
   slug,
@@ -19,23 +27,23 @@ const ModelDetail = ({
 }: ModelDetailProps) => (
   <div
     className={css({
-      maxInlineSize: "6xl",
-      marginInline: "auto",
       alignSelf: "center",
-      rounded: "lg",
-      paddingInline: 4,
+      marginInline: "auto",
+      maxInlineSize: "6xl",
       paddingBlock: 8,
+      paddingInline: 4,
+      rounded: "lg",
     })}
   >
     <article className={grid({ columns: { base: 1, lg: 2 }, gap: 8 })}>
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <figure
           className={css({
-            position: "relative",
             aspectRatio: "square",
+            contain: "content",
+            position: "relative",
             rounded: "lg",
             shadow: "lg",
-            contain: "content",
           })}
         >
           <Image
@@ -55,9 +63,9 @@ const ModelDetail = ({
         <ViewTransition name={`model-title-${sanitiseName(slug)}`}>
           <h1
             className={css({
-              marginBlockEnd: 6,
-              fontWeight: "bold",
               fontSize: "4xl",
+              fontWeight: "bold",
+              marginBlockEnd: 6,
             })}
           >
             {name}
@@ -66,16 +74,16 @@ const ModelDetail = ({
 
         <Pill
           className={gridItem({
-            marginBlockEnd: 6,
-            inlineSize: "fit-content",
             alignSelf: "center",
+            inlineSize: "fit-content",
+            marginBlockEnd: 6,
           })}
         >
           {categorySlug}
         </Pill>
         <div
           className={cx(
-            css({ maxInlineSize: "none", marginBlockEnd: 6 }),
+            css({ marginBlockEnd: 6, maxInlineSize: "none" }),
             prose({ size: "lg" }),
           )}
         >

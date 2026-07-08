@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import type { UnsuccessfulStateListItemProps } from "@/components/not-found/unsuccessful-state-list-item";
 
 export const MODEL_NOT_FOUND: Metadata = {
-  title: "Model Not Found",
   description: "The model you are looking for does not exist.",
+  title: "Model Not Found",
 };
 
 export const MODEL_LIST_ITEMS: UnsuccessfulStateListItemProps[] = [

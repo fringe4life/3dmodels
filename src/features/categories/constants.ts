@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import type { UnsuccessfulStateListItemProps } from "@/components/not-found/unsuccessful-state-list-item";
 
 export const CATEGORY_NOT_FOUND: Metadata = {
-  title: "Category Not Found",
   description: "The category you are looking for does not exist.",
+  title: "Category Not Found",
 };
 
 export const CATEGORY_LIST_ITEMS: UnsuccessfulStateListItemProps[] = [
@@ -19,7 +19,7 @@ export const CATEGORY_LIST_ITEMS: UnsuccessfulStateListItemProps[] = [
 ];
 
 export const ALL_CATEGORIES = {
-  slug: "/3d-models",
   displayName: "All",
   id: "all",
+  slug: "/3d-models",
 } as const;

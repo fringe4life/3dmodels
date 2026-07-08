@@ -1,6 +1,7 @@
+import type { Prettify } from "@/types";
 import type { HasLiked, LikesCount } from "../types";
 
-export interface HeartLikeOptimisticState extends LikesCount, HasLiked {}
+export type HeartLikeOptimisticState = Prettify<LikesCount & HasLiked>;
 
 interface HeartLikeOptimisticAction {
   type: "toggle";

@@ -5,11 +5,10 @@ import { skeletonEnter } from "@/app/styles";
 import { Button } from "@/components/button";
 import type { ButtonVariantProps } from "@/components/button-recipe";
 
-interface SubmitButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type SubmitButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   isPending: boolean;
   variant?: ButtonVariantProps["variant"];
-}
+};
 
 const SubmitButton = ({
   onClick,
@@ -30,8 +29,8 @@ const SubmitButton = ({
         skeletonEnter,
         square({
           animation: "spin",
+          display: { _groupDisabled: "block", base: "none" },
           size: 5,
-          display: { base: "none", _groupDisabled: "block" },
         }),
       )}
     />

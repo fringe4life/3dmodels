@@ -3,12 +3,12 @@
 import { defineConfig } from "drizzle-kit";
 import { ENV } from "varlock/env";
 export default defineConfig({
-  dialect: "postgresql",
-  schema: "./src/db/schema/*.ts",
-  out: "./src/db/migrations",
   dbCredentials: {
     url: ENV.DATABASE_URL,
   },
-  verbose: true,
+  dialect: "postgresql",
+  out: "./src/db/migrations",
+  schema: "./src/db/schema/*.ts",
   strict: true,
+  verbose: true,
 });

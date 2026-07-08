@@ -1,8 +1,8 @@
 import { ViewTransition } from "react";
-import type { Children } from "@/types";
+import type { Children, Prettify } from "@/types";
 import type { CategoryName } from "../types";
 
-interface CategoriesBlockTransitionProps extends CategoryName, Children {}
+type CategoriesBlockTransitionProps = Prettify<CategoryName & Children>;
 
 const CategoriesBlockTransition = ({
   children,

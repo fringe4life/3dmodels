@@ -13,25 +13,27 @@ import {
 } from "@/lib/hero-image";
 
 const albertSans = Albert_Sans({
-  subsets: ["latin"],
   display: "swap",
+  subsets: ["latin"],
   variable: "--font-albert-sans",
 });
 
 const montserrat = Montserrat({
-  subsets: ["latin"],
   display: "swap",
+  subsets: ["latin"],
   variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(ENV.NEXT_PUBLIC_SITE_URL),
-  title: {
-    default: "PrintForge - 3D Printing Community",
-    template: "%s | PrintForge",
-  },
+  authors: [{ name: "PrintForge Team" }],
+  creator: "PrintForge",
   description:
     "Discover and share 3D printing models with the PrintForge community. Browse thousands of user-submitted STL files for 3D printing.",
+  formatDetection: {
+    address: false,
+    email: false,
+    telephone: false,
+  },
   keywords: [
     "3D printing",
     "STL files",
@@ -40,36 +42,34 @@ export const metadata: Metadata = {
     "community",
     "printforge",
   ],
-  authors: [{ name: "PrintForge Team" }],
-  creator: "PrintForge",
-  publisher: "PrintForge",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
+  metadataBase: new URL(ENV.NEXT_PUBLIC_SITE_URL),
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    title: "PrintForge - 3D Printing Community",
     description:
       "Discover and share 3D printing models with the PrintForge community.",
-    siteName: "PrintForge",
     images: [
       {
+        alt: "PrintForge - 3D Printing Community",
+        height: HERO_IMAGE_SQUARE_HEIGHT,
         url: HERO_IMAGE_SQUARE_SRC,
         width: HERO_IMAGE_SQUARE_WIDTH,
-        height: HERO_IMAGE_SQUARE_HEIGHT,
-        alt: "PrintForge - 3D Printing Community",
       },
     ],
+    locale: "en_US",
+    siteName: "PrintForge",
+    title: "PrintForge - 3D Printing Community",
+    type: "website",
+  },
+  publisher: "PrintForge",
+  title: {
+    default: "PrintForge - 3D Printing Community",
+    template: "%s | PrintForge",
   },
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  width: "device-width",
 };
 
 const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
@@ -84,11 +84,11 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
       <div
         className={grid({
           blockSize: "full",
-          minBlockSize: {
-            base: "calc(100dvh - 4.6875rem)",
-            _supportsScroll: "calc(100dvh - 4.8125rem)",
-          },
           gridTemplateRows: "1fr 5.35rem",
+          minBlockSize: {
+            _supportsScroll: "calc(100dvh - 4.8125rem)",
+            base: "calc(100dvh - 4.6875rem)",
+          },
           rowGap: { md: 10 },
         })}
       >

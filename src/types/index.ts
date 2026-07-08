@@ -12,3 +12,7 @@ export interface SearchParamsProps {
 export interface Children {
   children: React.ReactNode;
 }
+
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};

@@ -2,13 +2,16 @@ import { asc } from "drizzle-orm";
 import { db } from "@/db";
 import { type Model, models } from "@/db/schema/models";
 import type { PaginationType } from "@/features/pagination/types";
-import type { List } from "@/types";
+import type { List, Prettify } from "@/types";
 import type { CategoryFilter, SearchPattern } from "../types";
 import { buildModelsWhere } from "./build-models-where";
 
-interface GetModelsListParams extends SearchPattern, CategoryFilter {
-  pagination: PaginationType;
-}
+type GetModelsListParams = Prettify<
+  SearchPattern &
+    CategoryFilter & {
+      pagination: PaginationType;
+    }
+>;
 
 const getModelsList = ({
   searchPattern,

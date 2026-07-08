@@ -10,35 +10,35 @@ import {
 } from "@/lib/hero-image";
 
 export const metadata: Metadata = {
-  title: "Home",
   description:
     "Welcome to PrintForge - your go-to platform for discovering and sharing 3D printing models. Join our community of makers and explore thousands of STL files.",
   openGraph: {
-    title: "PrintForge - Discover 3D Printing Models",
     description:
       "Join our community of creators and explore a vast library of user-submitted 3D printing models.",
+    title: "PrintForge - Discover 3D Printing Models",
   },
+  title: "Home",
 };
 
 const Home = () => (
   <section
     className={grid({
+      alignItems: "center",
       blockSize: "full",
-      maxInlineSize: "7xl",
-      marginInline: "auto",
       gap: 8,
-      paddingInline: { base: 2, sm: 6 },
-      paddingBlock: 12,
       gridAutoFlow: { md: "column" },
       justifyContent: "space-between",
-      alignItems: "center",
+      marginInline: "auto",
+      maxInlineSize: "7xl",
+      paddingBlock: 12,
+      paddingInline: { base: 2, sm: 6 },
     })}
   >
     <div className={grid({ rowGap: 6 })}>
       <p
         className={gridItem({
-          display: { base: "none", md: "block" },
           color: "gray.600",
+          display: { base: "none", md: "block" },
           fontSize: "sm",
           textTransform: "uppercase",
         })}
@@ -47,10 +47,10 @@ const Home = () => (
       </p>
       <h1
         className={css({
-          textWrap: "balance",
-          fontWeight: "bold",
           fontSize: { base: "4xl", md: "5xl" },
+          fontWeight: "bold",
           lineHeight: "tight",
+          textWrap: "balance",
         })}
       >
         Discover what's possible with 3D Printing
@@ -66,15 +66,15 @@ const Home = () => (
       </p>
       <Link
         className={gridItem({
-          justifySelf: "start",
+          backgroundColor: { _hover: "black", base: "white" },
           borderColor: "black",
           borderWidth: 2,
-          backgroundColor: { base: "white", _hover: "black" },
-          paddingInline: 6,
+          color: { _hover: "white", base: "black" },
+          justifySelf: "start",
           paddingBlock: 3,
-          color: { base: "black", _hover: "white" },
-          transitionProperty: "colors",
+          paddingInline: 6,
           transitionDuration: "normal",
+          transitionProperty: "colors",
         })}
         href="/3d-models"
       >
@@ -84,13 +84,13 @@ const Home = () => (
     <Image
       alt="a 3d printed model of the US Capital Building"
       className={gridItem({
-        maskImage: "url(/mask-1.svg)",
-        maskSize: "cover",
+        aspectRatio: "square",
+        contain: "strict",
         inlineSize: "6xl",
         justifySelf: "center",
-        aspectRatio: "square",
+        maskImage: "url(/mask-1.svg)",
+        maskSize: "cover",
         rounded: "lg",
-        contain: "strict",
       })}
       height={HERO_IMAGE_SQUARE_HEIGHT}
       priority

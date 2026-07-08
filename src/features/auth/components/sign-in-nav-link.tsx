@@ -7,7 +7,7 @@ import { NavLink } from "@/components/nav-link/nav-link";
 const SignInNavLink = () => (
   <NavLink
     borderPosition="bottom"
-    className={buttonRecipe({ variant: "ghost", size: "md" })}
+    className={buttonRecipe({ size: "md", variant: "ghost" })}
     href="/signin"
     matchStrategy="endsWith"
     skeletonCh={3}

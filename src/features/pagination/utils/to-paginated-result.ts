@@ -17,15 +17,15 @@ export const transformToPaginatedResult = <T>(
 
   if (!items) {
     return {
-      type: "error",
       message: "Something went wrong. Please try again later.",
+      type: "error",
     } satisfies PaginatedResultError;
   }
 
   if (items.length === EMPTY_LIST_LENGTH) {
     return {
-      type: "empty",
       message: "There are no Models",
+      type: "empty",
     } satisfies PaginatedResultEmpty;
   }
 

@@ -5,10 +5,18 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
+import type { IsAuthenticated } from "@/features/auth/types";
 import { toggleLike } from "@/features/models/likes/actions/toggle-like";
 import { HeartButtonClient } from "@/features/models/likes/components/heart-button-client";
+import type { Prettify } from "@/types";
 import { sanitiseName } from "@/utils/sanitise-name";
-import type { ModelCardProps } from "../types";
+import type { ModelWithLikeStatus } from "../types";
+
+type ModelCardProps = Prettify<
+  IsAuthenticated & {
+    model: ModelWithLikeStatus;
+  }
+>;
 
 const ModelCard = ({
   isAuthenticated,
@@ -18,33 +26,33 @@ const ModelCard = ({
     <article
       className={cx(
         css({
-          position: "relative",
-          isolation: "isolate",
-          rounded: "lg",
-          backgroundColor: "bg.surface",
-          shadow: "md",
-          transitionProperty: "translate",
-          transitionDuration: "normal",
-          cursor: "pointer",
-          transitionTimingFunction: {
-            base: "ease-in-out",
-            _supportsLinear: "glide",
-          },
           _hover: {
             translate: "0 calc(token(sizes.2) * -1)",
           },
           _notSupportsHover: {
             _supportsScroll: {
-              animationName: "animateModelIn, animateModelOut",
               animationDuration: "auto",
-              animationTimingFunction: "glide",
-              animationTimeline: "view()",
               animationFillMode: "forwards",
+              animationName: "animateModelIn, animateModelOut",
               animationRange: "entry, exit 50%",
+              animationTimeline: "view()",
+              animationTimingFunction: "glide",
             },
           },
           "&:has([data-progress='true']) *": {
             cursor: "progress",
+          },
+          backgroundColor: "bg.surface",
+          cursor: "pointer",
+          isolation: "isolate",
+          position: "relative",
+          rounded: "lg",
+          shadow: "md",
+          transitionDuration: "normal",
+          transitionProperty: "translate",
+          transitionTimingFunction: {
+            _supportsLinear: "glide",
+            base: "ease-in-out",
           },
         }),
         hoverShadow({ shadow: "xl" }),
@@ -53,10 +61,10 @@ const ModelCard = ({
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <div
           className={css({
-            position: "relative",
             aspectRatio: "square",
-            roundedTop: "inherit",
             contain: "strict",
+            position: "relative",
+            roundedTop: "inherit",
           })}
         >
           <Image
@@ -79,21 +87,21 @@ const ModelCard = ({
           <ViewTransition name={`model-title-${sanitiseName(slug)}`}>
             <h2
               className={css({
-                lineClamp: 2,
-                fontWeight: "semibold",
                 color: "gray.800",
                 fontSize: "xl",
+                fontWeight: "semibold",
+                lineClamp: 2,
               })}
             >
               <Link href={`/3d-models/${slug}`}>
                 {name}
                 <span
                   className={css({
-                    position: "absolute",
-                    inset: 0,
-                    z: "20",
-                    inlineSize: "full",
                     blockSize: "full",
+                    inlineSize: "full",
+                    inset: 0,
+                    position: "absolute",
+                    z: "20",
                   })}
                 />
               </Link>
@@ -102,10 +110,10 @@ const ModelCard = ({
         </div>
         <p
           className={css({
-            minBlockSize: "10",
-            lineClamp: 2,
             color: "gray.800",
             fontSize: "sm",
+            lineClamp: 2,
+            minBlockSize: "10",
           })}
         >
           {description}
@@ -115,10 +123,10 @@ const ModelCard = ({
         </div>
         <div
           className={hstack({
+            color: "gray.600",
             marginBlockStart: 2,
             position: "relative",
             z: "50",
-            color: "gray.600",
           })}
         >
           <HeartButtonClient

@@ -14,43 +14,43 @@ const Navbar = () => (
   <ViewTransition name="main-header">
     <header
       className={stack({
-        position: "sticky",
-        insetBlockStart: 0,
-        insetInline: 0,
-        zIndex: "20",
-        borderBottomWidth: 2,
+        _supportsScroll: {
+          animationFillMode: "both",
+          animationName: "navAnimation",
+          animationRange: "100px 200px",
+          animationTimeline: "scroll()",
+          animationTimingFunction: "linear",
+        },
+        backdropBlur: "sm",
+        backgroundColor: "white/65",
         borderBottomColor: "gray.400/20",
         borderBottomStyle: "solid",
-        backgroundColor: "white/65",
-        backdropBlur: "sm",
-        transitionProperty: "translate,border-radius",
-        transitionDuration: "normal",
-        transitionTimingFunction: "soft",
-        _supportsScroll: {
-          animationName: "navAnimation",
-          animationTimingFunction: "linear",
-          animationFillMode: "both",
-          animationTimeline: "scroll()",
-          animationRange: "100px 200px",
-        },
-        paddingInline: { base: 2, sm: 6 },
+        borderBottomWidth: 2,
+        insetBlockStart: 0,
+        insetInline: 0,
         paddingBlock: 4,
+        paddingInline: { base: 2, sm: 6 },
+        position: "sticky",
+        transitionDuration: "normal",
+        transitionProperty: "translate,border-radius",
+        transitionTimingFunction: "soft",
+        zIndex: "20",
       })}
     >
       <nav className={between()}>
         <Link href="/">
           <div
             className={css({
-              position: "relative",
               cursor: "pointer",
               paddingInlineStart: 4,
+              position: "relative",
             })}
           >
             <Image
               alt="PrintForge Logo"
               className={css({
-                display: { base: "none", md: "block" },
                 blockSize: 10,
+                display: { base: "none", md: "block" },
                 inlineSize: 200,
               })}
               height={520}
@@ -76,13 +76,13 @@ const Navbar = () => (
         <ul className={hstack({ gap: { base: 2, sm: 4 } })}>
           <NavLinkListItem href="/3d-models">3D Models</NavLinkListItem>
           <NavLinkListItem href="/about">About</NavLinkListItem>
-          <li className={css({ placeSelf: "center", fontSize: "sm" })}>
+          <li className={css({ fontSize: "sm", placeSelf: "center" })}>
             <HasAuthSuspense fallback={<AuthButtonsSkeleton />}>
               {(auth) =>
                 auth.isAuthenticated ? (
                   <AuthButtons>
                     <Avatar
-                      user={{ name: auth.user.name, image: auth.user.image }}
+                      user={{ image: auth.user.image, name: auth.user.name }}
                     />
                   </AuthButtons>
                 ) : (

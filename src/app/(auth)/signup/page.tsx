@@ -15,6 +15,12 @@ const SignUpPage = () => {
   const [state, formAction] = useActionState(signUpAction, null);
   const [isPending, startTransition] = useTransition();
 
+  const handleAction = (formData: FormData) => {
+    startTransition(() => {
+      formAction(formData);
+    });
+  };
+
   // Extract form values from payload if available (for preserving on error)
   const nameValue = state?.payload?.get("name")?.toString() ?? "";
   const emailValue = state?.payload?.get("email")?.toString() ?? "";
@@ -30,14 +36,7 @@ const SignUpPage = () => {
       }
       title="Create your account"
     >
-      <form
-        action={(formData) => {
-          startTransition(() => {
-            formAction(formData);
-          });
-        }}
-        className={css({ spaceY: 4 })}
-      >
+      <form action={handleAction} className={css({ spaceY: 4 })}>
         <div>
           <Label htmlFor="name">Name</Label>
           <Input

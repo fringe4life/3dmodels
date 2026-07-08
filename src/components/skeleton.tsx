@@ -1,10 +1,12 @@
 import { css, cx } from "@styled-system/css";
 import { skeletonEnter } from "@/app/styles";
+import type { Children, Prettify } from "@/types";
 
-interface SkeletonProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+type SkeletonProps = Prettify<
+  Partial<Children> & {
+    className?: string;
+  }
+>;
 
 const Skeleton = ({ className, children }: SkeletonProps) => (
   <div

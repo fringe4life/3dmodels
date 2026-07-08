@@ -4,39 +4,39 @@ const ScrollProgress = () => (
   <div
     aria-hidden="true"
     className={css({
+      _supportsScroll: {
+        animationFillMode: "both",
+        animationName: "navProgressReveal",
+        animationRange: "100px 100%",
+        animationTimeline: "scroll()",
+        animationTimingFunction: "linear",
+        opacity: 0,
+      },
+      backgroundColor: "gray.400/15",
+      blockSize: 2,
+      display: "block",
+      flexShrink: 0,
+      inlineSize: "full",
+      insetInline: 0,
       pointerEvents: "none",
       position: "fixed",
-      insetInline: 0,
       zIndex: 20,
-      flexShrink: 0,
-      display: "block",
-      blockSize: 2,
-      inlineSize: "full",
-      backgroundColor: "gray.400/15",
-      _supportsScroll: {
-        opacity: 0,
-        animationName: "navProgressReveal",
-        animationTimingFunction: "linear",
-        animationFillMode: "both",
-        animationTimeline: "scroll()",
-        animationRange: "100px 100%",
-      },
     })}
   >
     <div
       className={css({
-        inlineSize: "full",
-        blockSize: "full",
+        _supportsScroll: {
+          animationFillMode: "both",
+          animationName: "navProgressFill",
+          animationRange: "0% 100%",
+          animationTimeline: "scroll()",
+          animationTimingFunction: "linear",
+        },
         backgroundColor: "brand",
+        blockSize: "full",
+        inlineSize: "full",
         transform: "scaleX(0)",
         transformOrigin: "inline-start",
-        _supportsScroll: {
-          animationName: "navProgressFill",
-          animationTimingFunction: "linear",
-          animationFillMode: "both",
-          animationTimeline: "scroll()",
-          animationRange: "0% 100%",
-        },
       })}
     />
   </div>

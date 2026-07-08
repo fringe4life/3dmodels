@@ -19,11 +19,11 @@ const FormError = <T = unknown>({
     formErrorElement = (
       <div
         className={css({
-          rounded: "md",
           backgroundColor: "error.bg",
-          padding: 3,
           color: "error.text",
           fontSize: "sm",
+          padding: 3,
+          rounded: "md",
         })}
       >
         {actionState.message}

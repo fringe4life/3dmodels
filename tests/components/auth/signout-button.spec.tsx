@@ -24,8 +24,12 @@ vi.mock("@/features/auth/components/has-auth", () => ({
       isAuthenticated: boolean,
     ) => React.ReactNode;
     fallback: React.ReactNode;
-  }) => <>{children({ id: "u1", email: "t@t.com", name: "Test" }, true)}</>,
+  }) => <>{children({ email: "t@t.com", id: "u1", name: "Test" }, true)}</>,
 }));
+
+const handleSignOut = () => {
+  authClient.signOut();
+};
 
 describe("SignOut (Better Auth flow)", () => {
   it("renders sign out control when authenticated and triggers signOut", async () => {
@@ -33,12 +37,7 @@ describe("SignOut (Better Auth flow)", () => {
     render(
       <HasAuthSuspense fallback={<div>Loading...</div>}>
         {() => (
-          <button
-            onClick={() => {
-              authClient.signOut();
-            }}
-            type="button"
-          >
+          <button onClick={handleSignOut} type="button">
             Sign out
           </button>
         )}

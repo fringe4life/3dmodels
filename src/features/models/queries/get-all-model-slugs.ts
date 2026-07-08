@@ -1,6 +1,9 @@
 import { db } from "@/db";
+import type { Model } from "@/db/schema/models";
+import type { Prettify } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
-import type { ModelSlugs } from "../types";
+
+type ModelSlugs = Prettify<Pick<Model, "slug">>[];
 
 export const getAllModelSlugs = async (): Promise<ModelSlugs> => {
   const { data, error } = await tryCatch(() =>

@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
 import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { auth } from "@/lib/auth";
-import type { Maybe } from "@/types";
+import type { Maybe, Prettify } from "@/types";
 import {
   type ActionState,
   fromErrorToActionState,
@@ -20,15 +20,15 @@ import {
 
 // Valibot schema for sign-up form
 const signUpFormSchema = object({
-  name: pipe(
-    string("Name must be a string"),
-    minLength(MIN_NAME_LENGTH, "Name is required"),
-    maxLength(MAX_NAME_LENGTH, "Name is too long"),
-  ),
   email: pipe(
     string("Email must be a string"),
     minLength(1, "Email is required"),
     maxLength(MAX_EMAIL_LENGTH, "Email is too long"),
+  ),
+  name: pipe(
+    string("Name must be a string"),
+    minLength(MIN_NAME_LENGTH, "Name is required"),
+    maxLength(MAX_NAME_LENGTH, "Name is too long"),
   ),
   password: pipe(
     string("Password must be a string"),
@@ -44,8 +44,8 @@ const signUpFormSchema = object({
   ),
 });
 
-export interface SignUpData {
-  user: Pick<User, "id" | "email" | "name">;
+interface SignUpData {
+  user: Prettify<Pick<User, "id" | "email" | "name">>;
 }
 
 // Server action for sign-up
@@ -64,8 +64,8 @@ const signUpAction = async (
     const session = await auth.api.signUpEmail({
       body: {
         email,
-        password,
         name,
+        password,
       },
       headers: await headers(),
     });

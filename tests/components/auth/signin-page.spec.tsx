@@ -15,18 +15,18 @@ vi.mock("@/features/auth/actions/sign-in-action", () => ({
     const password = formData.get("password")?.toString() ?? "";
     if (email === "test@example.com" && password === "StrongPass123!") {
       return {
-        message: "",
         fieldErrors: {},
-        timestamp: Date.now(),
+        message: "",
         status: "SUCCESS" as const,
+        timestamp: Date.now(),
       };
     }
     return {
-      message: "Invalid email or password",
       fieldErrors: {},
-      timestamp: Date.now(),
-      status: "ERROR" as const,
+      message: "Invalid email or password",
       payload: formData,
+      status: "ERROR" as const,
+      timestamp: Date.now(),
     };
   }),
 }));

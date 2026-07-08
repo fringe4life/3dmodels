@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Route } from "next";
 import { notFound } from "next/navigation";
 import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
 import { isCategorySlug } from "@/db/brands";
@@ -10,7 +10,8 @@ import { ModelsGridSkeleton } from "@/features/models/components/models-grid-ske
 import { ModelsView } from "@/features/models/components/models-view";
 import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
-
+// fallow-ignore-next-line unused-export
+export const prefetch = "allow-runtime";
 export const generateStaticParams = async () => await getAllCategorySlugs();
 
 export const generateMetadata = async ({
@@ -28,18 +29,18 @@ export const generateMetadata = async ({
     return CATEGORY_NOT_FOUND;
   }
 
-  const pathname = `/3d-models/categories/${categoryName}`;
+  const pathname: Route = `/3d-models/categories/${categoryName}`;
   const canonical = await canonicalPathForListing(pathname, searchParams);
 
   return {
-    title: category.displayName,
-    description: `Browse ${category.displayName} 3D printing models. Find STL files for your next ${category.displayName.toLowerCase()} project.`,
     alternates: { canonical },
+    description: `Browse ${category.displayName} 3D printing models. Find STL files for your next ${category.displayName.toLowerCase()} project.`,
     openGraph: {
-      title: `${category.displayName} 3D Models`,
       description: `Browse ${category.displayName} 3D printing models. Find STL files for your next ${category.displayName.toLowerCase()} project.`,
+      title: `${category.displayName} 3D Models`,
       url: canonical,
     },
+    title: category.displayName,
   };
 };
 

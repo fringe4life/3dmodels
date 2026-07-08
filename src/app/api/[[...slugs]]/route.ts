@@ -20,10 +20,10 @@ app
   )
   .use(
     cors({
-      origin: ENV.NEXT_PUBLIC_SITE_URL,
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      origin: ENV.NEXT_PUBLIC_SITE_URL,
     }),
   )
   .mount(auth.handler)

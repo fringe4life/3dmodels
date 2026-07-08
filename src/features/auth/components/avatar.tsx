@@ -31,9 +31,9 @@ const Avatar = ({ user }: AvatarProps) => {
   return (
     <FaUserCircle
       className={css({
-        inlineSize: "full",
         blockSize: "full",
         color: "text.secondary",
+        inlineSize: "full",
       })}
     />
   );

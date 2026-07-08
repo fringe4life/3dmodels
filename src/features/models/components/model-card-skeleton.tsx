@@ -5,8 +5,8 @@ import { HeartButtonSkeleton } from "@/features/models/likes/components/heart-bu
 const ModelCardSkeleton = () => (
   <Skeleton
     className={css({
-      rounded: "lg",
       backgroundColor: "bg.surface",
+      rounded: "lg",
       shadow: "md",
     })}
   >
@@ -14,13 +14,13 @@ const ModelCardSkeleton = () => (
     <div
       className={css({
         aspectRatio: "square",
-        roundedTop: "inherit",
         backgroundColor: "bg.muted",
+        roundedTop: "inherit",
       })}
     />
 
     {/* Content section with same padding as model-card */}
-    <div className={css({ paddingInline: 4, paddingBlock: 4 })}>
+    <div className={css({ paddingBlock: 4, paddingInline: 4 })}>
       {/* Title skeleton - min-block-14 with 2 lines */}
       <div
         className={css({
@@ -31,10 +31,10 @@ const ModelCardSkeleton = () => (
       >
         <div
           className={css({
+            backgroundColor: "bg.muted",
             blockSize: 5,
             inlineSize: "3/4",
             rounded: "sm",
-            backgroundColor: "bg.muted",
           })}
         />
       </div>
@@ -43,18 +43,18 @@ const ModelCardSkeleton = () => (
       <div className={css({ minBlockSize: 10, spaceY: 2 })}>
         <div
           className={css({
+            backgroundColor: "bg.muted",
             blockSize: 4,
             inlineSize: "full",
             rounded: "sm",
-            backgroundColor: "bg.muted",
           })}
         />
         <div
           className={css({
+            backgroundColor: "bg.muted",
             blockSize: 4,
             inlineSize: "5/6",
             rounded: "sm",
-            backgroundColor: "bg.muted",
           })}
         />
       </div>
@@ -63,11 +63,11 @@ const ModelCardSkeleton = () => (
       <div className={css({ marginBlockStart: 2 })}>
         <div
           className={css({
+            backgroundColor: "bg.muted",
             blockSize: 7,
             inlineSize: 20,
-            rounded: "full",
-            backgroundColor: "bg.muted",
             marginBlockEnd: 2,
+            rounded: "full",
           })}
         />
         {/* Heart button skeleton */}

@@ -14,7 +14,7 @@ const FieldError = ({ actionState, name }: FieldErrorProps) => {
   let fieldErrorElement: React.ReactNode = null;
   if (fieldError && fieldError.length > EMPTY_LIST_LENGTH) {
     fieldErrorElement = (
-      <span className={css({ flex: "1", color: "error", fontSize: "sm" })}>
+      <span className={css({ color: "error", flex: "1", fontSize: "sm" })}>
         {fieldError[0]}
       </span>
     );

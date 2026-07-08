@@ -1,11 +1,7 @@
 import type { ReactDoctorConfig } from "react-doctor/api";
 
 export default {
-  serverAuthFunctionNames: ["getUser"],
   deadCode: false,
-  scope: "full",
-  verbose: true,
-  share: false,
   ignore: {
     files: ["styled-system/**", "docs/**"],
     overrides: [
@@ -33,4 +29,8 @@ export default {
       },
     ],
   },
+  scope: "full",
+  serverAuthFunctionNames: ["getUser"],
+  share: false,
+  verbose: true,
 } satisfies ReactDoctorConfig;

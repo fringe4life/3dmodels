@@ -1,8 +1,7 @@
 import { Suspense, ViewTransition, type ViewTransitionProps } from "react";
 
-interface SuspendProps
-  extends Omit<React.ComponentProps<typeof Suspense>, "name">,
-    ViewTransitionProps {}
+type SuspendProps = Omit<React.ComponentProps<typeof Suspense>, "name"> &
+  ViewTransitionProps;
 
 const Suspend = ({ children, fallback, ...props }: SuspendProps) => (
   <Suspense fallback={fallback}>

@@ -5,15 +5,15 @@ const AuthLayout = ({ children }: LayoutProps<"/">) => (
   <div
     className={grid({
       minBlockSize: "full",
-      placeContent: "center",
       paddingInline: 4,
+      placeContent: "center",
     })}
   >
     <div
       className={css({
         inlineSize: "full",
-        maxInlineSize: "md",
         marginBlockStart: 8,
+        maxInlineSize: "md",
       })}
     >
       {children}

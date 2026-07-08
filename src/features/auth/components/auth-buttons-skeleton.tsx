@@ -6,18 +6,18 @@ const AuthButtonsSkeleton = () => (
   <div aria-hidden="true" className={hstack({ gap: 2 })}>
     <Skeleton
       className={css({
+        backgroundColor: "bg.muted",
         blockSize: 8,
         inlineSize: 10,
         rounded: "sm",
-        backgroundColor: "bg.muted",
       })}
     />
     <Skeleton
       className={css({
+        backgroundColor: "bg.muted",
         blockSize: 8,
         inlineSize: 10,
         rounded: "sm",
-        backgroundColor: "bg.muted",
       })}
     />
   </div>

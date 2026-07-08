@@ -4,12 +4,12 @@ import { Skeleton } from "../skeleton";
 const SearchInputSkeleton = () => (
   <Skeleton
     className={css({
+      backgroundColor: "gray.400/20",
       blockSize: "full",
-      inlineSize: "full",
-      rounded: "full",
       borderColor: "searchInput",
       borderWidth: 1,
-      backgroundColor: "gray.400/20",
+      inlineSize: "full",
+      rounded: "full",
     })}
   />
 );

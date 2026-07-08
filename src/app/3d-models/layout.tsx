@@ -8,47 +8,47 @@ const ModelsLayout = ({
 }: LayoutProps<"/3d-models">) => (
   <div
     className={grid({
-      minBlockSize: "full",
-      gridTemplateRows: { base: "min-content 1fr", md: "1fr" },
+      columnGap: { md: 20 },
       gridTemplateColumns: {
         md: "token(sizes.categoryWidthTablet) 1fr",
       },
-      columnGap: { md: 20 },
+      gridTemplateRows: { base: "min-content 1fr", md: "1fr" },
+      minBlockSize: "full",
     })}
   >
     <aside
       className={gridItem({
-        maxInlineSize: { base: "100dvw", md: "categoryWidthTablet" },
-        position: "relative",
+        backgroundColor: "white",
         borderBottomWidth: { base: 2, md: 0 },
         borderColor: "gray.200",
-        backgroundColor: "white",
         colStart: { md: 1 },
+        maxInlineSize: { base: "100dvw", md: "categoryWidthTablet" },
+        position: "relative",
       })}
     >
       <nav
         className={css({
-          position: "sticky",
-          overflowX: "auto",
-          md: {
-            insetBlockStart: "50%",
-            translate: "0 -50%",
-            overflow: "visible",
-            position: "fixed",
-          },
-          scrollbar: "hidden",
-          _supportsScroll: {
-            animationName: "categoriesScrollMask",
-            animationDuration: "auto",
-            animationTimingFunction: "glide",
-            animationFillMode: "both",
-            animationTimeline: "scroll(self inline)",
-            animationRange: "0% 100%",
-          },
           _notSupportsScroll: {
             maskImage: "linear-gradient(to right, black 95%, transparent 100%)",
             md: { maskImage: "none" },
           },
+          _supportsScroll: {
+            animationDuration: "auto",
+            animationFillMode: "both",
+            animationName: "categoriesScrollMask",
+            animationRange: "0% 100%",
+            animationTimeline: "scroll(self inline)",
+            animationTimingFunction: "glide",
+          },
+          md: {
+            insetBlockStart: "50%",
+            overflow: "visible",
+            position: "fixed",
+            translate: "0 -50%",
+          },
+          overflowX: "auto",
+          position: "sticky",
+          scrollbar: "hidden",
         })}
       >
         {categories}

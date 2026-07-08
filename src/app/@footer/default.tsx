@@ -8,8 +8,8 @@ const FooterDefault = async () => {
     <ViewTransition name="main-footer">
       <footer
         className={grid({
-          placeContent: "center",
           color: "gray.500",
+          placeContent: "center",
         })}
       >
         <p>&copy; {currentYear} PrintForge</p>

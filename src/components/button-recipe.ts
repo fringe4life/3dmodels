@@ -12,88 +12,88 @@ import { cva, type RecipeVariantProps } from "@styled-system/css";
  */
 export const buttonRecipe = cva({
   base: {
-    display: "inline-flex",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 2,
+    cursor: { _disabled: "not-allowed", base: "pointer" },
+    display: "inline-flex",
     fontWeight: "medium",
-    cursor: { base: "pointer", _disabled: "not-allowed" },
+    gap: 2,
+    justifyContent: "center",
     opacity: { _disabled: "0.5" },
-    transitionProperty: "colors,scale,opacity",
     transitionDuration: "normal",
+    transitionProperty: "colors,scale,opacity",
     transitionTimingFunction: "ease-in-out",
   },
+  defaultVariants: {
+    size: "md",
+    variant: "primary",
+  },
   variants: {
+    size: {
+      /** Content-sized — no padding or fixed dimensions. Use when the button
+       *  sizes itself from its children (e.g. icon + count pairs). */
+      bare: {
+        padding: 0,
+      },
+      icon: {
+        blockSize: 8,
+        inlineSize: 8,
+        rounded: "md",
+      },
+      lg: {
+        fontSize: "base",
+        paddingBlock: 3,
+        paddingInline: 6,
+        rounded: "md",
+      },
+      md: {
+        fontSize: "sm",
+        paddingBlock: 2,
+        paddingInline: "4",
+        rounded: "md",
+      },
+      sm: {
+        fontSize: "xs",
+        paddingBlock: 1,
+        paddingInline: 2,
+        rounded: "md",
+      },
+    },
     variant: {
-      primary: {
-        backgroundColor: "brand",
-        color: "text.inverse",
+      ghost: {
+        _active: { scale: "0.95" },
+        _disabled: {
+          _active: { scale: "1" },
+          _hover: { color: "text.muted", scale: "1" },
+        },
+        _hover: { color: "text.secondary", scale: "1.05" },
+        color: "text.muted",
+      },
+      outline: {
+        _disabled: { _hover: { backgroundColor: "bg.surface" } },
+        _focus: { outline: "none", ringOffset: "0" },
+        _hover: { backgroundColor: "bg.subtle" },
+        backgroundColor: "bg.surface",
+        borderColor: "border.strong",
+        borderWidth: 1,
+        color: "text.primary",
+        ring: 1,
+        ringColor: "border",
+        ringOffset: "inset",
         shadow: "sm",
-        _hover: { backgroundColor: "brand.hover" },
+      },
+      primary: {
         _focus: {
           outline: "none",
           ring: 2,
           ringColor: "brand.ring",
           ringOffset: 2,
         },
-      },
-      outline: {
-        backgroundColor: "bg.surface",
-        color: "text.primary",
-        borderWidth: 1,
-        borderColor: "border.strong",
-        ring: 1,
-        ringColor: "border",
-        ringOffset: "inset",
+        _hover: { backgroundColor: "brand.hover" },
+        backgroundColor: "brand",
+        color: "text.inverse",
         shadow: "sm",
-        _hover: { backgroundColor: "bg.subtle" },
-        _focus: { outline: "none", ringOffset: "0" },
-        _disabled: { _hover: { backgroundColor: "bg.surface" } },
-      },
-      ghost: {
-        color: "text.muted",
-        _hover: { color: "text.secondary", scale: "1.05" },
-        _active: { scale: "0.95" },
-        _disabled: {
-          _hover: { color: "text.muted", scale: "1" },
-          _active: { scale: "1" },
-        },
       },
     },
-    size: {
-      sm: {
-        paddingInline: 2,
-        paddingBlock: 1,
-        fontSize: "xs",
-        rounded: "md",
-      },
-      md: {
-        paddingInline: "4",
-        paddingBlock: 2,
-        fontSize: "sm",
-        rounded: "md",
-      },
-      lg: {
-        paddingInline: 6,
-        paddingBlock: 3,
-        fontSize: "base",
-        rounded: "md",
-      },
-      icon: {
-        inlineSize: 8,
-        blockSize: 8,
-        rounded: "md",
-      },
-      /** Content-sized — no padding or fixed dimensions. Use when the button
-       *  sizes itself from its children (e.g. icon + count pairs). */
-      bare: {
-        padding: 0,
-      },
-    },
-  },
-  defaultVariants: {
-    variant: "primary",
-    size: "md",
   },
 });
 

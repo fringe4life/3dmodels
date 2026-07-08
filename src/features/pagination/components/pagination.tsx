@@ -8,7 +8,7 @@ import { PaginationLimitControl } from "./pagination-limit-control";
 import { PaginationPageControl } from "./pagination-page-control";
 import { PaginationSummary } from "./pagination-summary";
 
-interface PaginationProps extends PaginationMetadataObject {}
+type PaginationProps = PaginationMetadataObject;
 
 const Pagination = ({ metadata: { hasNextPage, count } }: PaginationProps) => {
   const {

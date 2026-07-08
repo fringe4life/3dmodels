@@ -18,18 +18,18 @@ const fromErrorToActionState = <T = unknown>(
   if (err instanceof ValiError) {
     const flattened = flatten(err.issues);
     return {
-      message: "",
-      timestamp: Date.now(),
       fieldErrors: flattened.nested || {},
+      message: "",
       payload: formData,
       status: "ERROR",
+      timestamp: Date.now(),
     };
   }
 
   if (err instanceof Error || err instanceof APIError) {
     return {
-      message: err.message,
       fieldErrors: {},
+      message: err.message,
       payload: formData,
       status: "ERROR",
       timestamp: Date.now(),
@@ -51,12 +51,12 @@ const toActionState = <T = unknown>(
   formData?: FormData,
   data?: T,
 ): ActionState<T> => ({
-  message,
+  data,
   fieldErrors: {},
+  message,
+  payload: formData,
   status,
   timestamp: Date.now(),
-  payload: formData,
-  data,
 });
 
 export { fromErrorToActionState, toActionState };

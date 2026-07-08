@@ -13,9 +13,9 @@ describe("ModelsGrid", () => {
         models={[
           {
             id: "1",
+            imageUrl: "/placeholder.png",
             name: "Alpha Model",
             slug: "alpha",
-            imageUrl: "/placeholder.png",
           } as any,
         ]}
         title="Browse"

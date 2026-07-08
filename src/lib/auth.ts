@@ -7,22 +7,24 @@ import { ENV } from "varlock/env";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
 export const auth = betterAuth({
+  basePath: "/api/auth",
+  baseURL: ENV.NEXT_PUBLIC_SITE_URL,
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
   }),
+  emailAndPassword: {
+    autoSignIn: true,
+    enabled: true,
+  },
   experimental: { joins: true },
+  plugins: [openAPI(), nextCookies()], // cookies must be last plugin to avoid issues with cache invalidation
+  secret: ENV.BETTER_AUTH_SECRET,
   session: {
     cookieCache: {
       enabled: true,
       maxAge: 5 * 60, // 5 minutes
     },
-  },
-  baseURL: ENV.NEXT_PUBLIC_SITE_URL,
-  basePath: "/api/auth",
-  emailAndPassword: {
-    enabled: true,
-    autoSignIn: true,
   },
   // When adding a provider, add a matching `images.remotePatterns` entry in
   // `next.config.ts` for that provider's avatar host so `next/image` can load
@@ -34,6 +36,4 @@ export const auth = betterAuth({
       redirectURI: "https://3dmodels-ecru.vercel.app/api/auth/callback/github",
     },
   },
-  secret: ENV.BETTER_AUTH_SECRET,
-  plugins: [openAPI(), nextCookies()], // cookies must be last plugin to avoid issues with cache invalidation
 });

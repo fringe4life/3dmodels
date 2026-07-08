@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/suspicious/noConsole: seed file for dummy data */
-import { count, eq } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { EMPTY_LIST_LENGTH } from "@/constants";
 import { db } from "@/db";
 import { toCategorySlug } from "@/db/brands";
@@ -31,22 +31,21 @@ async function seed() {
     // Insert categories first
     console.log("📂 Seeding categories...");
     const categoriesResult = await db.insert(categories).values(
-      CATEGORIES.map((category) => ({
-        id: category.id,
-        displayName: category.displayName,
-        slug: toCategorySlug(category.slug),
+      CATEGORIES.map(({ slug, ...rest }) => ({
+        slug: toCategorySlug(slug),
+        ...rest,
       })),
     );
     console.log(`✅ Successfully seeded ${CATEGORIES.length} categories`);
 
     // Randomly assign each model to a user
     console.log("🎨 Seeding models with random user assignments...");
-    const modelsWithUsers = modelsData.map((model) => {
+    const modelsWithUsers = modelsData.map(({ categorySlug, ...rest }) => {
       const randomUser =
         existingUsers[Math.floor(Math.random() * existingUsers.length)];
       return {
-        ...model,
-        categorySlug: toCategorySlug(model.categorySlug),
+        ...rest,
+        categorySlug: toCategorySlug(categorySlug),
         userId: randomUser.id,
       };
     });
@@ -63,8 +62,8 @@ async function seed() {
         // 30% chance to create a like
         if (Math.random() < 0.33) {
           likesToInsert.push({
-            userId: userItem.id,
             modelSlug: model.slug,
+            userId: userItem.id,
           });
         }
       }
@@ -77,24 +76,19 @@ async function seed() {
       console.log("ℹ️ No likes created (random chance)");
     }
 
-    // Calculate and update likes count on models
-    console.log("🔢 Calculating likes counts...");
-    const likesCounts = await db
-      .select({
-        modelSlug: likes.modelSlug,
-        count: count(),
-      })
-      .from(likes)
-      .groupBy(likes.modelSlug);
-
-    // Update each model's likes count
-    for (const { modelSlug, count: likesCount } of likesCounts) {
-      await db
-        .update(models)
-        .set({ likes: likesCount })
-        .where(eq(models.slug, modelSlug));
-    }
-    console.log(`✅ Updated likes counts for ${likesCounts.length} models`);
+    // Update every model's likes count in a single statement. A correlated
+    // subquery avoids both an awaited loop and Promise.all fan-out, keeping
+    // this to one round-trip (gentle on Neon free-tier connection limits) and
+    // correctly sets 0 for models with no likes.
+    console.log("🔢 Updating likes counts...");
+    await db.update(models).set({
+      likes: sql`(
+        SELECT COUNT(*)::int
+        FROM ${likes}
+        WHERE ${likes.modelSlug} = ${models.slug}
+      )`,
+    });
+    console.log("✅ Updated likes counts for all models");
 
     return { categoriesResult, modelsResult };
   } catch (error) {

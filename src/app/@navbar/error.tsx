@@ -8,10 +8,10 @@ import { ResetButton } from "@/components/form/reset-button";
 const NavbarError = ({ retry }: ErrorInfo) => (
   <div
     className={flex({
-      direction: { md: "column" },
-      padding: 4,
       align: { base: "center", md: "start" },
+      direction: { md: "column" },
       gap: 4,
+      padding: 4,
     })}
   >
     <p className={css({ color: "gray.600", fontSize: "sm" })}>

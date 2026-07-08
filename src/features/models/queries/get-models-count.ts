@@ -1,10 +1,11 @@
 import { count } from "drizzle-orm";
 import { db } from "@/db";
 import { models } from "@/db/schema/models";
+import type { Prettify } from "@/types";
 import type { CategoryFilter, SearchPattern } from "../types";
 import { buildModelsWhere } from "./build-models-where";
 
-interface GetModelsCountParams extends SearchPattern, CategoryFilter {}
+type GetModelsCountParams = Prettify<SearchPattern & CategoryFilter>;
 
 const getModelsCount = async ({
   searchPattern,

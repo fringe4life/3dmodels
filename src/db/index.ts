@@ -10,6 +10,6 @@ const pool = new Pool({ connectionString: ENV.DATABASE_URL });
 // Create the Drizzle database instance
 export const db = drizzle({
   client: pool,
-  relations,
   jit: true,
+  relations,
 });

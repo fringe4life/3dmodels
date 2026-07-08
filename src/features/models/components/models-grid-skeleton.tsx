@@ -7,12 +7,12 @@ const ModelsGridSkeleton = () => (
   <div aria-hidden="true" className={css({ paddingBlock: 8 })}>
     <Skeleton
       className={css({
-        marginBlockEnd: 8,
-        inlineSize: "2/3",
-        maxInlineSize: 40,
-        rounded: "sm",
         backgroundColor: "bg.muted",
         blockSize: 11,
+        inlineSize: "2/3",
+        marginBlockEnd: 8,
+        maxInlineSize: 40,
+        rounded: "sm",
       })}
     />
     <div className={modelsGrid}>

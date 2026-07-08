@@ -6,41 +6,41 @@ import Image from "next/image";
 import { HERO_IMAGE_SQUARE_SRC } from "@/lib/hero-image";
 
 export const metadata: Metadata = {
-  title: "About",
   description:
     "Learn about PrintForge - the go-to platform for 3D printing enthusiasts, makers, and professional designers. Discover our mission to empower makers worldwide.",
   openGraph: {
-    title: "About PrintForge - Empowering Makers Worldwide",
     description:
       "Founded in 2023, PrintForge has quickly become the go-to platform for 3D printing enthusiasts to share and discover amazing STL files.",
+    title: "About PrintForge - Empowering Makers Worldwide",
   },
+  title: "About",
 };
 
 const AboutPage = () => (
   <>
     <section
       className={css({
-        maxInlineSize: "4xl",
         marginInline: "auto",
-        paddingInline: 4,
+        maxInlineSize: "4xl",
         paddingBlock: 8,
+        paddingInline: 4,
       })}
     >
       <h1
         className={css({
+          fontSize: "4xl",
+          fontWeight: "bold",
           marginBlockEnd: 6,
           textAlign: "center",
-          fontWeight: "bold",
-          fontSize: "4xl",
         })}
       >
         About PrintForge
       </h1>
       <div
         className={grid({
-          marginBlockEnd: 12,
-          columns: { md: 2 },
           alignItems: "center",
+          columns: { md: 2 },
+          marginBlockEnd: 12,
         })}
       >
         <div
@@ -52,7 +52,7 @@ const AboutPage = () => (
         >
           <Image
             alt="PrintForge Community - A group of makers collaborating on 3D printing projects"
-            className={css({ rounded: "lg", objectFit: "cover" })}
+            className={css({ objectFit: "cover", rounded: "lg" })}
             fill
             priority
             sizes="(max-width: 767px) 100vw, 50vw"
@@ -70,7 +70,7 @@ const AboutPage = () => (
           >
             About PrintForge
           </p>
-          <h2 className={css({ fontWeight: "semibold", fontSize: "2xl" })}>
+          <h2 className={css({ fontSize: "2xl", fontWeight: "semibold" })}>
             Empowering Makers Worldwide
           </h2>
           <p className={css({ color: "gray.700" })}>
@@ -92,8 +92,8 @@ const AboutPage = () => (
     <section className={css({ paddingBlock: 12 })}>
       <div
         className={css({
-          maxInlineSize: "7xl",
           marginInline: "auto",
+          maxInlineSize: "7xl",
           paddingInline: { base: 2, sm: 6 },
         })}
       >
@@ -107,9 +107,9 @@ const AboutPage = () => (
           >
             <h3
               className={css({
-                marginBlockEnd: 3,
-                fontWeight: "semibold",
                 fontSize: "xl",
+                fontWeight: "semibold",
+                marginBlockEnd: 3,
               })}
             >
               100K+ Models
@@ -121,17 +121,17 @@ const AboutPage = () => (
           </article>
           <article
             className={css({
-              borderColor: "gray.400",
               backgroundColor: "white",
-              padding: 6,
+              borderColor: "gray.400",
               borderInlineWidth: { md: "1px" },
+              padding: 6,
             })}
           >
             <h3
               className={css({
-                marginBlockEnd: 3,
-                fontWeight: "semibold",
                 fontSize: "xl",
+                fontWeight: "semibold",
+                marginBlockEnd: 3,
               })}
             >
               Active Community
@@ -144,9 +144,9 @@ const AboutPage = () => (
           <article className={css({ backgroundColor: "white", padding: 6 })}>
             <h3
               className={css({
-                marginBlockEnd: 3,
-                fontWeight: "semibold",
                 fontSize: "xl",
+                fontWeight: "semibold",
+                marginBlockEnd: 3,
               })}
             >
               Free to Use
@@ -164,32 +164,32 @@ const AboutPage = () => (
 
     <section
       className={css({
-        maxInlineSize: "3xl",
         marginInline: "auto",
-        paddingInline: 4,
+        maxInlineSize: "3xl",
         paddingBlock: 8,
+        paddingInline: 4,
       })}
     >
       <div
         className={cx(
           grid({
-            maxInlineSize: "none",
             gridAutoRows: "min",
+            maxInlineSize: "none",
           }),
           prose(),
         )}
       >
         <h2
           className={css({
+            fontSize: "2xl",
+            fontWeight: "semibold",
             marginBlockEnd: 0,
             marginBlockStart: 0,
-            fontWeight: "semibold",
-            fontSize: "2xl",
           })}
         >
           Our Vision
         </h2>
-        <p className={css({ marginBlockEnd: 0, color: "gray.700" })}>
+        <p className={css({ color: "gray.700", marginBlockEnd: 0 })}>
           At PrintForge, we believe that 3D printing is revolutionizing the way
           we create, prototype, and manufacture. Our platform serves as a bridge
           between designers and makers, enabling the sharing of knowledge and
@@ -198,9 +198,9 @@ const AboutPage = () => (
         </p>
         <p
           className={css({
+            color: "gray.700",
             marginBlockEnd: 0,
             marginBlockStart: 0,
-            color: "gray.700",
           })}
         >
           Whether you're a hobbyist looking for your next weekend project, an

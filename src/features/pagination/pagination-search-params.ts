@@ -22,8 +22,8 @@ const queryParser = parseAsString.withDefault("").withOptions({
 });
 
 export const paginationParser = {
-  page: parseAsInteger.withDefault(DEFAULT_PAGE),
   limit: parseAsNumberLiteral(LIMITS).withDefault(DEFAULT_LIMIT),
+  page: parseAsInteger.withDefault(DEFAULT_PAGE),
 };
 
 export const searchParamsParsers = {

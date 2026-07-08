@@ -1,14 +1,14 @@
 export const CATEGORIES = [
-  { id: 1, displayName: "3D Printer", slug: "3d-printer" },
-  { id: 2, displayName: "Art", slug: "art" },
-  { id: 3, displayName: "Education", slug: "education" },
-  { id: 4, displayName: "Fashion", slug: "fashion" },
-  { id: 5, displayName: "Hobby & DIY", slug: "hobby-diy" },
-  { id: 6, displayName: "Household", slug: "household" },
-  { id: 7, displayName: "Miniatures", slug: "miniatures" },
-  { id: 8, displayName: "Props & Cosplay", slug: "props-cosplay" },
-  { id: 9, displayName: "Tools", slug: "tools" },
-  { id: 10, displayName: "Toys & Games", slug: "toys-games" },
+  { displayName: "3D Printer", id: 1, slug: "3d-printer" },
+  { displayName: "Art", id: 2, slug: "art" },
+  { displayName: "Education", id: 3, slug: "education" },
+  { displayName: "Fashion", id: 4, slug: "fashion" },
+  { displayName: "Hobby & DIY", id: 5, slug: "hobby-diy" },
+  { displayName: "Household", id: 6, slug: "household" },
+  { displayName: "Miniatures", id: 7, slug: "miniatures" },
+  { displayName: "Props & Cosplay", id: 8, slug: "props-cosplay" },
+  { displayName: "Tools", id: 9, slug: "tools" },
+  { displayName: "Toys & Games", id: 10, slug: "toys-games" },
 ] as const;
 
 export type Category = (typeof CATEGORIES)[number];

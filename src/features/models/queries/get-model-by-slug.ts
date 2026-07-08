@@ -1,8 +1,11 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import { db } from "@/db";
+import type { Model } from "@/db/schema/models";
+import type { Prettify } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
-import type { ModelDetail } from "../types";
+
+type ModelDetail = Prettify<Omit<Model, "hasLiked" | "userId">>;
 
 export const getModelBySlug = cache(
   async (slug: string): Promise<ModelDetail> => {
@@ -13,16 +16,16 @@ export const getModelBySlug = cache(
 
     const { data, error } = await tryCatch(() =>
       db.query.models.findFirst({
-        where: { slug },
         columns: {
-          slug: true,
-          name: true,
-          description: true,
-          image: true,
           categorySlug: true,
           dateAdded: true,
+          description: true,
+          image: true,
           likes: true,
+          name: true,
+          slug: true,
         },
+        where: { slug },
       }),
     );
     if (error || !data) {

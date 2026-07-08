@@ -16,6 +16,12 @@ const SignInPage = () => {
   const [state, formAction] = useActionState(signInAction, null);
   const [isPending, startTransition] = useTransition();
 
+  const handleAction = (formData: FormData) => {
+    startTransition(() => {
+      formAction(formData);
+    });
+  };
+
   // Extract email from payload if available (for preserving on error)
   const emailValue = state?.payload?.get("email")?.toString() ?? "";
 
@@ -30,14 +36,7 @@ const SignInPage = () => {
       }
       title="Sign in to your account"
     >
-      <form
-        action={(formData) => {
-          startTransition(() => {
-            formAction(formData);
-          });
-        }}
-        className={css({ spaceY: 4 })}
-      >
+      <form action={handleAction} className={css({ spaceY: 4 })}>
         <fieldset disabled={isPending}>
           <Label htmlFor="email">Email address</Label>
           <Input
@@ -73,32 +72,32 @@ const SignInPage = () => {
         <div
           className={css({
             overflow: "hidden",
-            whiteSpace: "nowrap",
             textAlign: "center",
+            whiteSpace: "nowrap",
           })}
         >
           <span
             className={css({
-              position: "relative",
-              display: "inline-block",
-              backgroundColor: "white",
-              color: "gray.500",
-              "&::after,&::before": {
-                content: "''",
-                blockSize: 0.5,
-                inlineSize: "full",
-                position: "absolute",
-                backgroundColor: "gray.300",
-                insetBlockStart: "50%",
+              _after: {
+                insetInlineStart: "100%",
+                marginInlineStart: 2,
               },
               _before: {
                 insetInlineEnd: "100%",
                 marginInlineEnd: 2,
               },
-              _after: {
-                insetInlineStart: "100%",
-                marginInlineStart: 2,
+              "&::after,&::before": {
+                backgroundColor: "gray.300",
+                blockSize: 0.5,
+                content: "''",
+                inlineSize: "full",
+                insetBlockStart: "50%",
+                position: "absolute",
               },
+              backgroundColor: "white",
+              color: "gray.500",
+              display: "inline-block",
+              position: "relative",
             })}
           >
             Or continue with

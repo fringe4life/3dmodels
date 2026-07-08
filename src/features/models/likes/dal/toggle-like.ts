@@ -2,9 +2,10 @@ import { and, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
+import type { Prettify } from "@/types";
 import type { HasLiked, LikesCount } from "../types";
 
-interface ToggleLikeResult extends LikesCount, HasLiked {}
+type ToggleLikeResult = Prettify<LikesCount & HasLiked>;
 
 export const toggleLikeForModel = async (
   userId: string,
@@ -20,8 +21,8 @@ export const toggleLikeForModel = async (
 
     if (hasLiked) {
       await tx.insert(likes).values({
-        userId,
         modelSlug: slug,
+        userId,
       });
     }
 
@@ -34,7 +35,7 @@ export const toggleLikeForModel = async (
       .returning({ likes: models.likes });
 
     return {
-      likesCount: updated?.likes ?? 0,
       hasLiked,
+      likesCount: updated?.likes ?? 0,
     };
   });

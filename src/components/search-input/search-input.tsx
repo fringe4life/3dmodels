@@ -53,22 +53,22 @@ const SearchInput = () => {
         aria-label="Search models"
         autoComplete="off"
         className={css({
-          inlineSize: "full",
-          position: "absolute",
-          inset: "0",
-          rounded: "full",
-          borderColor: { base: "searchInput/20", _focusWithin: "searchInput" },
-          borderWidth: 1,
-          backgroundColor: "white",
-          paddingInline: 5,
-          paddingBlock: 3,
-          fontSize: { base: "sm" },
-          color: "text.muted",
-          transitionProperty: "colors",
-          transitionDuration: "normal",
           _focus: { outline: "none", ring: "0" },
           _focusVisible: { outline: "2", outlineColor: "searchInput" },
           _placeholder: { color: "gray.500" },
+          backgroundColor: "white",
+          borderColor: { _focusWithin: "searchInput", base: "searchInput/20" },
+          borderWidth: 1,
+          color: "text.muted",
+          fontSize: { base: "sm" },
+          inlineSize: "full",
+          inset: "0",
+          paddingBlock: 3,
+          paddingInline: 5,
+          position: "absolute",
+          rounded: "full",
+          transitionDuration: "normal",
+          transitionProperty: "colors",
         })}
         name="search"
         onChange={handleSearch}
@@ -81,14 +81,14 @@ const SearchInput = () => {
         <SearchInputTransition>
           <AiOutlineLoading3Quarters
             className={square({
-              size: 5,
-              position: "absolute",
-              insetBlockStart: "50%",
-              insetInlineEnd: 5,
-              translate: "0 -50%",
               animation: "spin",
               color: "text.muted",
               fontSize: "sm",
+              insetBlockStart: "50%",
+              insetInlineEnd: 5,
+              position: "absolute",
+              size: 5,
+              translate: "0 -50%",
             })}
           />
         </SearchInputTransition>

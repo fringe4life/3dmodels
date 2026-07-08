@@ -10,10 +10,13 @@ import type { ModelWithLikeStatus } from "@/features/models/types";
 import { searchParamsCache } from "@/features/pagination/pagination-search-params";
 import type { PaginatedResult } from "@/features/pagination/types";
 import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
+import type { Prettify } from "@/types";
 
-interface GetModelsReturn extends IsAuthenticated {
-  result: PaginatedResult<ModelWithLikeStatus>;
-}
+type GetModelsReturn = Prettify<
+  IsAuthenticated & {
+    result: PaginatedResult<ModelWithLikeStatus>;
+  }
+>;
 
 export const getModels = async (
   searchParams: Promise<SearchParams>,
@@ -32,7 +35,7 @@ export const getModels = async (
 
   // if error or empty, return the result
   if (paginatedResult.type !== "success") {
-    return { result: paginatedResult, isAuthenticated: auth.isAuthenticated };
+    return { isAuthenticated: auth.isAuthenticated, result: paginatedResult };
   }
 
   let likedSlugs: Set<string> | null = null;
@@ -52,10 +55,10 @@ export const getModels = async (
   }));
 
   return {
+    isAuthenticated: auth.isAuthenticated,
     result: {
       ...paginatedResult,
       items: itemsWithLikeStatus,
     },
-    isAuthenticated: auth.isAuthenticated,
   };
 };

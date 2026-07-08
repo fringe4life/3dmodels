@@ -9,7 +9,7 @@ describe("toPaginatedResult", () => {
         items: [1, 2, 3],
         itemsCount: 10,
       },
-      { page: 0, limit: 10 },
+      { limit: 10, page: 0 },
     );
     expect(res.type).toBe("success");
     if (res.type !== "success") {

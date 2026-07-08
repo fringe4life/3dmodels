@@ -10,18 +10,18 @@ interface AuthFooterLinkProps {
 const AuthFooterLink = ({ prompt, label, href }: AuthFooterLinkProps) => (
   <div
     className={css({
+      fontSize: "sm",
       marginBlockStart: 6,
       textAlign: "center",
-      fontSize: "sm",
     })}
   >
     <span className={css({ color: "gray.600" })}>{prompt} </span>
     <Link
       className={css({
+        color: { _hover: "brand.hover", base: "brand" },
         fontWeight: "medium",
-        color: { base: "brand", _hover: "brand.hover" },
-        transitionProperty: "colors",
         transitionDuration: "normal",
+        transitionProperty: "colors",
       })}
       href={href}
     >

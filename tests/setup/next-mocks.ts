@@ -7,8 +7,8 @@ vi.mock("next/navigation", () => {
   const forward = vi.fn();
   const prefetch = vi.fn();
   return {
-    useRouter: () => ({ push, replace, back, forward, prefetch }),
     usePathname: () => "/test-path",
+    useRouter: () => ({ back, forward, prefetch, push, replace }),
     useSearchParams: () => new URLSearchParams(""),
   };
 });
@@ -17,8 +17,8 @@ vi.mock("next/headers", () => ({ headers: () => new Map() }));
 
 vi.mock("next/cookies", () => ({
   cookies: () => ({
+    delete: vi.fn(),
     get: vi.fn(),
     set: vi.fn(),
-    delete: vi.fn(),
   }),
 }));

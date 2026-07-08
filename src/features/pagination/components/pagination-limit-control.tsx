@@ -1,25 +1,29 @@
 "use client";
 import { css } from "@styled-system/css";
-import { useId } from "react";
+import { type ChangeEvent, useId } from "react";
 import { LIMITS } from "@/features/pagination/constants";
 import type { Limit, LimitItem } from "@/features/pagination/types";
+import type { Prettify } from "@/types";
 
-interface PaginationLimitControlProps extends Limit {
-  onLimitChange: (limit: LimitItem) => void;
-}
+type PaginationLimitControlProps = Prettify<
+  Limit & {
+    onLimitChange: (limit: LimitItem) => void;
+  }
+>;
 
 const PaginationLimitControl = ({
   limit,
   onLimitChange,
 }: PaginationLimitControlProps) => {
   const id = useId();
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    onLimitChange(Number(event.target.value) as LimitItem);
+  };
   return (
     <select
-      className={css({ inlineSize: 10, blockSize: 8 })}
+      className={css({ blockSize: 8, inlineSize: 10 })}
       id={id}
-      onChange={(event) =>
-        onLimitChange(Number(event.target.value) as LimitItem)
-      }
+      onChange={handleChange}
       value={limit}
     >
       {LIMITS.map((value) => (

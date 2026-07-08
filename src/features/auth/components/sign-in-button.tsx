@@ -27,10 +27,10 @@ const SignInButton = () => {
         <Button
           className={cx(
             css({
-              inlineSize: "full",
-              fontWeight: "semibold",
               _disabled: { cursor: "progress", opacity: "0.75" },
+              fontWeight: "semibold",
               gap: 1,
+              inlineSize: "full",
             }),
           )}
           disabled={isPending}

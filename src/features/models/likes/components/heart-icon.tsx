@@ -3,7 +3,7 @@ import { square } from "@styled-system/patterns";
 import { FaHeart } from "react-icons/fa6";
 import type { HeartVisualState } from "../types";
 
-interface HeartIconProps extends HeartVisualState {}
+type HeartIconProps = HeartVisualState;
 
 const HeartIcon = ({ isLiked, isNotLiked, isPending }: HeartIconProps) => (
   <FaHeart
@@ -11,21 +11,21 @@ const HeartIcon = ({ isLiked, isNotLiked, isPending }: HeartIconProps) => (
     className={cx(
       square({ size: 6 }),
       css({
-        transitionProperty: "color",
         transitionDuration: "normal",
+        transitionProperty: "color",
         transitionTimingFunction: {
-          base: "ease-in-out",
           _supportsLinear: "ease-smooth-in-out",
+          base: "ease-in-out",
         },
       }),
-      isLiked && css({ color: { base: "like", _hover: "like.hover" } }),
-      isPending && css({ cursor: "progress", color: "like.pending" }),
+      isLiked && css({ color: { _hover: "like.hover", base: "like" } }),
+      isPending && css({ color: "like.pending", cursor: "progress" }),
       isNotLiked &&
         css({
           color: {
-            base: "text.placeholder",
-            _groupHover: "like.hover",
             _groupDisabled: "text.placeholder",
+            _groupHover: "like.hover",
+            base: "text.placeholder",
           },
         }),
     )}
