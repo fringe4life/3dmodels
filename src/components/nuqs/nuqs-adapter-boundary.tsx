@@ -1,23 +1,18 @@
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import type { ReactNode } from "react";
-import { Suspense } from "react";
+import type { Children } from "@/types";
 
-interface NuqsAdapterBoundaryProps {
-  children: ReactNode;
-  fallback?: ReactNode;
-}
+interface NuqsAdapterBoundaryProps extends Children {}
 
 /**
  * nuqs reads `usePathname` / `useSearchParams` / `useRouter` in its Next adapter.
- * Mount only on listing routes (inside Suspense), not on shared `/3d-models/[slug]` layout.
+ * Mount only on listing routes, not on shared `/3d-models/[slug]` layout.
+ *
+ * Suspense wrap removed — consumers (`SearchInput`, pagination) already have
+ * their own boundaries. Re-wrap with `<Suspense fallback={fallback}>` if build
+ * fails missing-suspense-with-csr-bailout again.
  */
-const NuqsAdapterBoundary = ({
-  children,
-  fallback = null,
-}: NuqsAdapterBoundaryProps) => (
-  <Suspense fallback={fallback}>
-    <NuqsAdapter>{children}</NuqsAdapter>
-  </Suspense>
+const NuqsAdapterBoundary = ({ children }: NuqsAdapterBoundaryProps) => (
+  <NuqsAdapter>{children}</NuqsAdapter>
 );
 
 export { NuqsAdapterBoundary };

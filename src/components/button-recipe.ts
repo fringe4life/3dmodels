@@ -4,11 +4,11 @@ import { cva, type RecipeVariantProps } from "@styled-system/css";
  * PandaCSS CVA recipe for button variants.
  *
  * Variants:
- *   - `primary`  — orangeAccent fill, white text (reset, submit forms)
- *   - `outline`  — white bg, gray border + ring (sign-in)
+ *   - `primary`  — brand fill + border, inverse text (reset, submit, active sort)
+ *   - `outline`  — surface bg, border tokens + primary text (sign-in, idle sort)
  *   - `ghost`    — no bg, scale interactions (pagination, icon actions)
  *
- * Sizes: `sm` | `md` (default) | `lg` | `icon`
+ * Sizes: `sm` | `md` (default) | `lg` | `icon` | `pill` | `bare`
  */
 export const buttonRecipe = cva({
   base: {
@@ -51,6 +51,12 @@ export const buttonRecipe = cva({
         paddingInline: "4",
         rounded: "md",
       },
+      pill: {
+        fontSize: "sm",
+        paddingBlock: 1,
+        paddingInline: 3,
+        rounded: "full",
+      },
       sm: {
         fontSize: "xs",
         paddingBlock: 1,
@@ -88,15 +94,16 @@ export const buttonRecipe = cva({
           ringColor: "brand.ring",
           ringOffset: 2,
         },
-        _hover: { backgroundColor: "brand.hover" },
+        _hover: { backgroundColor: "brand.hover", borderColor: "brand.hover" },
         backgroundColor: "brand",
+        borderColor: "brand",
+        borderWidth: 1,
         color: "text.inverse",
         shadow: "sm",
       },
     },
   },
 });
-
 export type ButtonVariantProps = NonNullable<
   RecipeVariantProps<typeof buttonRecipe>
 >;

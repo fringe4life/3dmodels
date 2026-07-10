@@ -32,13 +32,13 @@ const GenericComponent = <
   as,
   wrapperProps,
 }: GenericComponentProps<T, P, E>) => {
-  const Wrapper = as || "div";
+  const Wrapper: React.ElementType = as ?? "div";
   return (
     <Wrapper className={className} {...wrapperProps}>
       {items.map((item, index) => (
         <Component
-          {...renderProps(item, index)}
           key={getItemKey(item, index)}
+          {...renderProps(item, index)}
         />
       ))}
     </Wrapper>

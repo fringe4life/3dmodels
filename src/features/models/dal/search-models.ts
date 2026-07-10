@@ -3,6 +3,7 @@ import type { CategorySlug } from "@/db/brands";
 import type { Model } from "@/db/schema/models";
 import { getModelsCount } from "@/features/models/queries/get-models-count";
 import { getModelsList } from "@/features/models/queries/get-models-list";
+import type { Sort } from "@/features/models/sort/brands";
 import { paginateItems } from "@/features/pagination/dal/paginate-items";
 import type {
   PaginationType,
@@ -14,6 +15,7 @@ import type { Maybe } from "@/types";
 export const searchModels = async (
   query: Exclude<Maybe<string>, null>,
   pagination: PaginationType,
+  sort: Sort,
   category?: CategorySlug,
 ): Promise<RawPaginatedResult<Model>> => {
   "use cache: remote";
@@ -28,7 +30,8 @@ export const searchModels = async (
   const searchPattern = query ? `%${query}%` : undefined;
 
   const result = await paginateItems({
-    getItems: () => getModelsList({ category, pagination, searchPattern }),
+    getItems: () =>
+      getModelsList({ category, pagination, searchPattern, sort }),
     getItemsCount: () => getModelsCount({ category, searchPattern }),
   });
 

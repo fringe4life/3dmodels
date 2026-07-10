@@ -21,6 +21,7 @@ const PaginationLimitControl = ({
   };
   return (
     <select
+      aria-label="Pagination limit control"
       className={css({ blockSize: 8, inlineSize: 10 })}
       id={id}
       onChange={handleChange}

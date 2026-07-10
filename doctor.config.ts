@@ -9,13 +9,7 @@ export default {
         files: ["src/app/3d-models/@results/**"],
         rules: ["react-doctor/nextjs-missing-metadata"],
       },
-      {
-        files: ["src/db/seed.ts"],
-        rules: [
-          "react-doctor/async-parallel",
-          "react-doctor/async-await-in-loop",
-        ],
-      },
+
       {
         files: [
           "src/features/auth/actions/sign-in-action.ts",

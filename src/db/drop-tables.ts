@@ -1,11 +1,11 @@
 /** biome-ignore-all lint/suspicious/noConsole: a command to clear db */
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 import { ENV } from "varlock/env";
 
-const sql = neon(ENV.DATABASE_URL);
+const pool = new Pool({ connectionString: ENV.DATABASE_URL });
 
-await sql`DROP TABLE IF EXISTS "likes" CASCADE`;
-await sql`DROP TABLE IF EXISTS "models" CASCADE`;
-await sql`DROP TABLE IF EXISTS "categories" CASCADE`;
+await pool.query(`DROP TABLE IF EXISTS "likes" CASCADE`);
+await pool.query(`DROP TABLE IF EXISTS "models" CASCADE`);
+await pool.query(`DROP TABLE IF EXISTS "categories" CASCADE`);
+await pool.end();
 console.log("✓ All tables dropped successfully");
-process.exit(0);

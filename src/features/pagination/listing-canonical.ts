@@ -25,7 +25,7 @@ const serializeListingCanonicalSearchParams = createSerializer(
 
 /**
  * Path + query string for `rel="canonical"`, aligned with nuqs defaults
- * (omits default `page`, `limit`, and empty `query`).
+ * (omits default `page`, `limit`, `sort`, and empty `query`).
  */
 export const canonicalPathForListing = async (
   pathname: string,

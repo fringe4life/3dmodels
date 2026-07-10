@@ -5,6 +5,7 @@ import {
   parseAsNumberLiteral,
   parseAsString,
 } from "nuqs/server";
+import { sortParser } from "@/features/models/sort/sort-search-params";
 import {
   DEFAULT_LIMIT,
   DEFAULT_PAGE,
@@ -28,6 +29,7 @@ export const paginationParser = {
 
 export const searchParamsParsers = {
   query: queryParser,
+  sort: sortParser.withOptions({ ...options }),
   ...paginationParser,
 };
 

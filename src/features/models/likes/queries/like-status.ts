@@ -36,9 +36,6 @@ export const getLikedSlugsForUser = async (
 
 /**
  * Fetches whether a user has liked a model.
- * Uses "use cache: private" to cache on the user's device.
- * User-specific data.
- * Cache is invalidated on-demand via invalidateModel() when likes change.
  */
 export const getHasLikedStatus = async (
   slug: string,

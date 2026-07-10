@@ -6,9 +6,7 @@ import { CategoriesBlockTransition } from "@/features/categories/components/cate
 import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
-import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import { ModelsView } from "@/features/models/components/models-view";
-import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
 // fallow-ignore-next-line unused-export
 export const prefetch = "allow-runtime";
@@ -61,14 +59,7 @@ const CategoryPage = async ({
   }
 
   return (
-    <NuqsAdapterBoundary
-      fallback={
-        <>
-          <ModelsGridSkeleton />
-          <PaginationSkeleton />
-        </>
-      }
-    >
+    <NuqsAdapterBoundary>
       <CategoriesBlockTransition categoryName={categoryName}>
         <ModelsView
           category={categoryName}

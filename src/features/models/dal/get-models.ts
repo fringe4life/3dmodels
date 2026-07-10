@@ -6,6 +6,8 @@ import type { IsAuthenticated } from "@/features/auth/types";
 import { searchModels } from "@/features/models/dal/search-models";
 import { DEFAULT_HAS_LIKED } from "@/features/models/likes/constants";
 import { getLikedSlugsForUser } from "@/features/models/likes/queries/like-status";
+import { toSort } from "@/features/models/sort/brands";
+import { DEFAULT_SORT } from "@/features/models/sort/constants";
 import type { ModelWithLikeStatus } from "@/features/models/types";
 import { searchParamsCache } from "@/features/pagination/pagination-search-params";
 import type { PaginatedResult } from "@/features/pagination/types";
@@ -24,10 +26,11 @@ export const getModels = async (
 ): Promise<GetModelsReturn> => {
   await connection();
   const search = await searchParams;
-  const { query, ...pagination } = searchParamsCache.parse(search);
+  const { query, sort, ...pagination } = searchParamsCache.parse(search);
+  const resolvedSort = toSort(sort ?? DEFAULT_SORT);
 
   const [result, auth] = await Promise.all([
-    searchModels(query ?? undefined, pagination, category),
+    searchModels(query ?? undefined, pagination, resolvedSort, category),
     getUser(),
   ]);
   // paginate the items

@@ -1,33 +1,12 @@
-import { css } from "@styled-system/css";
 import { grid, gridItem } from "@styled-system/patterns";
 import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
 import { SearchInput } from "@/components/search-input/search-input";
 import { SearchInputSkeleton } from "@/components/search-input/search-input-skeleton";
 import { Suspend } from "@/components/suspend";
-import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
 import { ModelsView } from "@/features/models/components/models-view";
-import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
-
-const ListingResultsFallback = () => (
-  <>
-    <div
-      className={css({
-        blockSize: 10,
-        inlineSize: "full",
-        maxInlineSize: { md: "xl" },
-        paddingInline: 4,
-        position: "relative",
-      })}
-    >
-      <SearchInputSkeleton />
-    </div>
-    <ModelsGridSkeleton />
-    <PaginationSkeleton />
-  </>
-);
 
 const ResultsPage = ({ searchParams }: PageProps<"/3d-models">) => (
-  <NuqsAdapterBoundary fallback={<ListingResultsFallback />}>
+  <NuqsAdapterBoundary>
     <div
       className={grid({
         gridAutoRows: "min",
