@@ -4,28 +4,28 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.82-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.83-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript)
+![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.8-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.1-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.5.2-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.9.2-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.9.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.3.0-canary.82 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
-- **Language**: TypeScript 6.0.3 with React 19.3 canary
+- **Framework**: Next.js 16.3.0-canary.83 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
+- **Language**: TypeScript 7.0.2 with React 19.3 canary
 - **Styling**: Panda CSS 2.0.0-beta.8 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `panda.config.ts`, vendored typography preset in `panda-presets/typography.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`;
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.4
 - **Authentication**: Better Auth 1.7.0-rc.1 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins
 - **Search Params**: nuqs 2.9.0 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata
-- **Linting & Formatting**: Biome 2.5.2 with Ultracite 7.9.2 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
-- **Type Checking**: tsgo (TypeScript Native Preview)
+- **Linting & Formatting**: Biome 2.5.2 with Ultracite 7.9.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
+- **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`)
 - **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for `next dev` / `next build` / `next start`). **Temporarily**, production `build` and `start` run **Next on Node** (`bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
-- **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, and `appNewScrollHandler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
+- **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, `appNewScrollHandler`, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), and `turbopackRustReactCompiler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
 - **Environment**: [Varlock](https://varlock.dev/) 1.10.0 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas
 
@@ -533,8 +533,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 - **Biome / Ultracite**: Linting and formatting (see `biome.json` and `AGENTS.md`)
 - **React Doctor**: React/Next.js diagnostics on pull requests; run locally with `bun run react-doctor`
-- **tsgo**: TypeScript type checking
-- **TypeScript**: Static type checking
+- **TypeScript 7**: Static type checking via `tsc` (`bun run type`); Next uses `experimental.useTypeScriptCli`
 
 ### Available Scripts
 
@@ -555,8 +554,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run test:e2e` - Run Playwright E2E tests
 - `bun run e2e:open` - Open Playwright UI
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)
-- `bun run type` - Run tsgo type checking
-- `bun run typegen` - Generate Next.js routes and run tsgo (noEmit)
+- `bun run type` - Run `tsc` type checking
+- `bun run typegen` - Generate Next.js routes and run `tsc` (noEmit)
 - `bun run env:typegen` - Regenerate `src/env.d.ts` from `.env.schema` (Varlock)
 - `bun run db:generate` - Generate Drizzle migrations
 - `bun run db:migrate` - Run Drizzle migrations
