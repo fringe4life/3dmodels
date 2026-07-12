@@ -11,7 +11,7 @@ import { relations } from "./schema/relations";
 const pool = new Pool({
   connectionString: ENV.DATABASE_URL,
   connectionTimeoutMillis: 30_000,
-  idleTimeoutMillis: 10_000,
+  idleTimeoutMillis: 30_000,
   max: 10,
   min: 1,
 });

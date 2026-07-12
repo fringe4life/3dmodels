@@ -20,11 +20,19 @@ const PaginationPageControl = ({
   onPreviousPage,
 }: PaginationPageControlProps) => (
   <>
-    <PaginationButton disabled={hasPreviousPage} onClick={onPreviousPage}>
-      <FaChevronLeft className={square({ size: 6 })} />
+    <PaginationButton
+      aria-label="Previous page"
+      disabled={hasPreviousPage}
+      onClick={onPreviousPage}
+    >
+      <FaChevronLeft aria-hidden className={square({ size: 6 })} />
     </PaginationButton>
-    <PaginationButton disabled={!hasNextPage} onClick={onNextPage}>
-      <FaChevronRight className={square({ size: 6 })} />
+    <PaginationButton
+      aria-label="Next page"
+      disabled={!hasNextPage}
+      onClick={onNextPage}
+    >
+      <FaChevronRight aria-hidden className={square({ size: 6 })} />
     </PaginationButton>
   </>
 );

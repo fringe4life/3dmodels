@@ -39,11 +39,12 @@ const SearchInput = () => {
     });
   };
 
-  const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
+      const search = e.currentTarget.value;
       startTransition(async () => {
         addTransitionType("search-submit");
-        await setQuery(query || null, { limitUrlUpdates: defaultRateLimit });
+        await setQuery(search || null, { limitUrlUpdates: defaultRateLimit });
       });
     }
   };
@@ -72,7 +73,7 @@ const SearchInput = () => {
         })}
         name="search"
         onChange={handleSearch}
-        onKeyDown={handleKeyPress}
+        onKeyDown={handleKeyDown}
         placeholder="E.g. dragon"
         type="text"
         value={query || ""}

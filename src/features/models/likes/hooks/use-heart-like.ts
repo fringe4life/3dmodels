@@ -24,14 +24,14 @@ type UseHeartLikeParams = Prettify<
   >
 >;
 
-type UseHeartLikeReturn = Prettify<
-  HeartVisualState & {
-    handleSubmit: SubmitEventHandler<HTMLFormElement>;
-    isDisabled: boolean;
-    optimistic: HeartLikeOptimisticState;
-    state: Maybe<ActionState<LikesCount>>;
-  }
->;
+interface UseHeartLikeReturn {
+  handleSubmit: SubmitEventHandler<HTMLFormElement>;
+  isDisabled: boolean;
+  isPending: boolean;
+  optimistic: HeartLikeOptimisticState;
+  state: Maybe<ActionState<LikesCount>>;
+  visualState: HeartVisualState;
+}
 
 const useHeartLike = ({
   hasLiked,
@@ -70,17 +70,21 @@ const useHeartLike = ({
   };
 
   const isDisabled = isPending || !isAuthenticated;
-  const isLiked = optimistic.hasLiked && !isPending;
-  const isNotLiked = !(optimistic.hasLiked || isPending);
+
+  let visualState: HeartVisualState = "unliked";
+  if (isPending) {
+    visualState = "pending";
+  } else if (optimistic.hasLiked) {
+    visualState = "liked";
+  }
 
   return {
     handleSubmit,
     isDisabled,
-    isLiked,
-    isNotLiked,
     isPending,
     optimistic,
     state,
+    visualState,
   };
 };
 

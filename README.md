@@ -21,7 +21,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.4
 - **Authentication**: Better Auth 1.7.0-rc.1 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins
 - **Search Params**: nuqs 2.9.0 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata
-- **Linting & Formatting**: Biome 2.5.2 with Ultracite 7.9.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`)
+- **Linting & Formatting**: Biome 2.5.2 with Ultracite 7.9.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`react-doctor:staged`)
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`)
 - **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for `next dev` / `next build` / `next start`). **Temporarily**, production `build` and `start` run **Next on Node** (`bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
@@ -46,7 +46,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `panda-presets/` (vendored typography preset), `doctor.config.ts`, and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `panda-presets/` (vendored typography preset), `doctor.config.ts`, and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -147,7 +147,7 @@ src/
 │   │   │   ├── get-models.ts     # `{ result, isAuthenticated }`; search + user, batched likes
 │   │   │   └── search-models.ts  # Unified listing/search (optional query + category + sort)
 │   │   ├── sort/                 # Sort sub-feature (nuqs param, order mapping, controls hook)
-│   │   │   ├── brands.ts         # Valibot branded Sort type
+│   │   │   ├── brands.ts         # Valibot branded Sort type; `isSortList` guard
 │   │   │   ├── constants.ts      # SORT_VALUES, DEFAULT_SORT, SORT_LABELS
 │   │   │   ├── hooks/
 │   │   │   │   └── use-sort-query.ts
@@ -455,7 +455,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
 - `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
-- `features/models/components/models-sort-controls` - Client radiogroup for A-Z / Popular / Recent (`useSortQuery`)
+- `features/models/components/models-sort-controls` - Client `fieldset` of native radios for A-Z / Popular / Recent (`useSortQuery`, `isSortList`)
 - `features/models/components/models-sort-controls-skeleton` - Loading skeleton for sort controls
 - `features/models/components/models-view` - Shared server shell: `Suspense` + async inner that awaits `getModels`; pagination uses `PaginationOffsetTransition` for directional View Transitions
 - `features/models/sort/hooks/use-sort-query` - nuqs hook for `sort` with pending state
@@ -463,16 +463,17 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/pagination/components/pagination` - Reusable pagination with nuqs integration and View Transition support
 - `features/pagination/components/pagination-button` - Page/limit control button used by pagination
 - `features/pagination/components/pagination-limit-control` - Per-page limit selector
-- `features/pagination/components/pagination-page-control` - Page number navigation
+- `features/pagination/components/pagination-page-control` - Prev/next page buttons with `aria-label`
 - `features/pagination/components/pagination-summary` - Result count / range summary
 - `features/pagination/hooks/use-pagination-query` - nuqs + View Transition hook for page/limit changes
 - `features/pagination/listing-canonical` - Canonical path serializer for listing SEO (`query`, `page`, `limit`, `sort`)
 - `features/models/likes/components/heart-button-client` - Client component with `useHeartLike` hook, optimistic like/count state, View Transition types for count changes
+- `features/models/likes/components/heart-icon` - Heart glyph styled from `HeartVisualState` (`"liked" | "unliked" | "pending"`)
 - `features/models/likes/components/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/likes/components/heart-button-skeleton` - Loading skeleton for heart button
-- `features/models/likes/hooks/use-heart-like` - Client hook for toggle action and optimistic state
-- `components/search-input/search-input` - Model search with nuqs URL state; `search-input-transition` for view transitions
+- `features/models/likes/hooks/use-heart-like` - Client hook for toggle action, optimistic state, and single `visualState`
+- `components/search-input/search-input` - Model search with nuqs URL state; Enter flushes current input value; `search-input-transition` for view transitions
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `features/categories/components/categories-block-transition` - View transition wrapper for category listing blocks
 - `app/3d-models/@categories/error.tsx` - Error boundary for categories with built-in retry functionality
@@ -532,7 +533,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ### Code Quality Tools
 
 - **Biome / Ultracite**: Linting and formatting (see `biome.json` and `AGENTS.md`)
-- **React Doctor**: React/Next.js diagnostics on pull requests; run locally with `bun run react-doctor`
+- **React Doctor**: React/Next.js diagnostics on pull requests (`.github/workflows/react-doctor.yml`); pre-commit via lint-staged (`bun run react-doctor:staged`); full local run with `bun run react-doctor`
 - **TypeScript 7**: Static type checking via `tsc` (`bun run type`); Next uses `experimental.useTypeScriptCli`
 
 ### Available Scripts
@@ -567,7 +568,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run check` - Check linting rules with Ultracite/Biome
 - `bun run doctor` - Run Ultracite doctor diagnostics
 - `bun run ultracite:upgrade` - Upgrade Ultracite configuration
-- `bun run react-doctor` - Run React Doctor locally (`doctor.config.ts`)
+- `bun run react-doctor` - Run React Doctor on the repo (`doctor.config.ts`)
+- `bun run react-doctor:staged` - Run React Doctor on staged files only (lint-staged / pre-commit)
 
 ### Code Style
 

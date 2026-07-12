@@ -75,7 +75,8 @@
     "check": "ultracite check",
     "doctor": "ultracite doctor",
     "ultracite:upgrade": "bun x ultracite@latest init --pm bun --agents cursor-cli --linter biome --hooks cursor --frameworks next --quiet",
-    "react-doctor": "bunx react-doctor@latest"
+    "react-doctor": "react-doctor . -y --no-score",
+    "react-doctor:staged": "react-doctor . --staged -y --no-score --blocking error"
   },
   "type": "module",
   "version": "0.1.0",

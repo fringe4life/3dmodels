@@ -30,11 +30,10 @@ const HeartButtonClient = ({
   const {
     handleSubmit,
     isDisabled,
-    isLiked,
-    isNotLiked,
     isPending,
     optimistic,
     state,
+    visualState,
   } = useHeartLike({
     hasLiked,
     isAuthenticated,
@@ -65,11 +64,7 @@ const HeartButtonClient = ({
         disabled={isDisabled}
         type="submit"
       >
-        <HeartIcon
-          isLiked={isLiked}
-          isNotLiked={isNotLiked}
-          isPending={isPending}
-        />
+        <HeartIcon visualState={visualState} />
         <HeartButtonCount likesCount={optimistic.likesCount} />
         <FieldError actionState={state} name="slug" />
       </button>

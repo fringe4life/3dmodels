@@ -21,8 +21,4 @@ export type HeartButtonAdditionalProps = Prettify<
   }
 >;
 
-export interface HeartVisualState {
-  isLiked: boolean;
-  isNotLiked: boolean;
-  isPending: boolean;
-}
+export type HeartVisualState = "liked" | "unliked" | "pending";
