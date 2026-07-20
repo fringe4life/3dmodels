@@ -10,7 +10,7 @@
     "better-auth": "1.7.0-rc.1",
     "drizzle-orm": "1.0.0-rc.4",
     "elysia": "^1.4.29",
-    "next": "16.3.0-canary.83",
+    "next": "16.3.0-canary.90",
     "nuqs": "^2.9.0",
     "pg": "^8.22.0",
     "react": "19.3.0-canary-e92ecef2-20260618",
@@ -18,10 +18,10 @@
     "react-icons": "^5.7.0",
     "slugify": "^1.6.9",
     "valibot": "^1.4.2",
-    "varlock": "^1.10.0"
+    "varlock": "^1.11.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.5.3",
     "@happy-dom/global-registrator": "^20.10.6",
     "@pandacss/dev": "^2.0.0-beta.8",
     "@pandacss/preset-base": "2.0.0-beta.8",
@@ -33,16 +33,16 @@
     "@types/pg": "^8.20.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@varlock/nextjs-integration": "^1.1.4",
+    "@varlock/nextjs-integration": "^1.1.6",
     "drizzle-kit": "1.0.0-rc.4",
     "happy-dom": "^20.10.6",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
     "next-devtools-mcp": "^0.4.0",
-    "react-doctor": "^0.7.1",
+    "react-doctor": "^0.7.8",
     "typescript": "^7.0.2",
     "typescript-plugin-directives": "^0.0.3",
-    "ultracite": "7.9.3"
+    "ultracite": "7.9.4"
   },
   "name": "3d-models",
   "scripts": {

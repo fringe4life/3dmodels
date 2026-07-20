@@ -4,29 +4,29 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.83-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.90-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.8-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=postgresql)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.1-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.5.2-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.9.3-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+![Biome](https://img.shields.io/badge/Biome-2.5.3-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.9.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.3.0-canary.83 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
+- **Framework**: Next.js 16.3.0-canary.90 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 7.0.2 with React 19.3 canary
 - **Styling**: Panda CSS 2.0.0-beta.8 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `panda.config.ts`, vendored typography preset in `panda-presets/typography.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`;
-- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.4
+- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.4; `pg` pool uses 120s connection/idle timeouts for Neon cold starts
 - **Authentication**: Better Auth 1.7.0-rc.1 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins
 - **Search Params**: nuqs 2.9.0 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata
-- **Linting & Formatting**: Biome 2.5.2 with Ultracite 7.9.3 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs (`.github/workflows/react-doctor.yml`, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`react-doctor:staged`)
+- **Linting & Formatting**: Biome 2.5.3 with Ultracite 7.9.4 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`)
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`)
 - **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for `next dev` / `next build` / `next start`). **Temporarily**, production `build` and `start` run **Next on Node** (`bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
 - **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, `appNewScrollHandler`, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), and `turbopackRustReactCompiler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.10.0 with `.env.schema`, `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.11.0 with `.env.schema` (`@encryptInjectedEnv`), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas
 
 ## 🚀 Features
@@ -533,7 +533,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ### Code Quality Tools
 
 - **Biome / Ultracite**: Linting and formatting (see `biome.json` and `AGENTS.md`)
-- **React Doctor**: React/Next.js diagnostics on pull requests (`.github/workflows/react-doctor.yml`); pre-commit via lint-staged (`bun run react-doctor:staged`); full local run with `bun run react-doctor`
+- **React Doctor**: React/Next.js diagnostics on pull requests and `main` pushes (`.github/workflows/react-doctor.yml`); pre-commit via lint-staged (`bun run type`, `bun run react-doctor:staged`); full local run with `bun run react-doctor`
 - **TypeScript 7**: Static type checking via `tsc` (`bun run type`); Next uses `experimental.useTypeScriptCli`
 
 ### Available Scripts
@@ -551,7 +551,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run test:unit` - Run unit tests
 - `bun run test:components` - Run component tests
 - `bun run test:integration` - Run integration tests
-- `bunfig.toml` — test preload (`tests/setup/test-preload.ts`) registers Happy DOM globals and stubs `server-only` for component tests
+- `bunfig.toml` — test preload (`tests/setup/test-preload.ts`) registers Happy DOM globals and stubs `server-only` for component tests; `tests/setup/next-mocks.ts` stubs Next navigation; nuqs components use `withNuqsTestingAdapter` from `nuqs/adapters/testing`; integration DB helpers in `tests/setup/db-test.ts` use Drizzle 1.0 `{ client }` config
 - `bun run test:e2e` - Run Playwright E2E tests
 - `bun run e2e:open` - Open Playwright UI
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)

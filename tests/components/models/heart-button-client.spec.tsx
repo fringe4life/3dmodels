@@ -3,8 +3,6 @@ import "../../../tests/setup/test-globals";
 import { describe, expect, it, vi } from "bun:test";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-// biome-ignore lint/correctness/noUnusedImports: avoid umd issue
-import React from "react";
 import { toggleLike } from "../../../src/features/models/likes/actions/toggle-like";
 import { HeartButtonClient } from "../../../src/features/models/likes/components/heart-button-client";
 

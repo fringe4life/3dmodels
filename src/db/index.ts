@@ -10,8 +10,8 @@ import { relations } from "./schema/relations";
 // min: 1 keeps a warm client; idleTimeout closes extras before suspend (attachDatabasePool).
 const pool = new Pool({
   connectionString: ENV.DATABASE_URL,
-  connectionTimeoutMillis: 30_000,
-  idleTimeoutMillis: 30_000,
+  connectionTimeoutMillis: 120_000,
+  idleTimeoutMillis: 120_000,
   max: 10,
   min: 1,
 });

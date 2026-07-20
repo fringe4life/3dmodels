@@ -1,13 +1,13 @@
 import Database from "bun:sqlite";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 
-export type TestDb = ReturnType<typeof drizzle>;
+type TestDb = ReturnType<typeof drizzle>;
 
 let _db: TestDb | null = null;
 
 export function createTestDb(): TestDb {
   const sqlite = new Database(":memory:");
-  const db = drizzle(sqlite);
+  const db = drizzle({ client: sqlite });
   _db = db;
   return db;
 }

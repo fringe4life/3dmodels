@@ -1,8 +1,7 @@
 import "../../../tests/setup/test-globals";
 import { describe, expect, it } from "bun:test";
 import { render, screen } from "@testing-library/react";
-// biome-ignore lint/correctness/noUnusedImports: avoid umd issue
-import React from "react";
+import { withNuqsTestingAdapter } from "nuqs/adapters/testing";
 import { ModelsGrid } from "../../../src/features/models/components/models-grid";
 
 describe("ModelsGrid", () => {
@@ -20,6 +19,7 @@ describe("ModelsGrid", () => {
         ]}
         title="Browse"
       />,
+      { wrapper: withNuqsTestingAdapter() },
     );
     expect(screen.getByText("Alpha Model")).toBeDefined();
   });
