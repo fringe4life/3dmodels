@@ -1,5 +1,6 @@
 import { css, cx } from "@styled-system/css";
 import { square } from "@styled-system/patterns";
+import { ViewTransition } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { skeletonEnter } from "@/app/styles";
 import { Button } from "@/components/button";
@@ -17,25 +18,27 @@ const SubmitButton = ({
   className,
   variant,
 }: SubmitButtonProps) => (
-  <Button
-    className={cx("group", css({ inlineSize: "full" }), className)}
-    disabled={isPending}
-    onClick={onClick}
-    type="submit"
-    variant={variant ?? "primary"}
-  >
-    <FaSpinner
-      className={cx(
-        skeletonEnter,
-        square({
-          animation: "spin",
-          display: { _groupDisabled: "block", base: "none" },
-          size: 5,
-        }),
-      )}
-    />
-    {children}
-  </Button>
+  <ViewTransition name="auth-submit-button">
+    <Button
+      className={cx("group", css({ inlineSize: "full" }), className)}
+      disabled={isPending}
+      onClick={onClick}
+      type="submit"
+      variant={variant ?? "primary"}
+    >
+      <FaSpinner
+        className={cx(
+          skeletonEnter,
+          square({
+            animation: "spin",
+            display: { _groupDisabled: "block", base: "none" },
+            size: 5,
+          }),
+        )}
+      />
+      {children}
+    </Button>
+  </ViewTransition>
 );
 
 export { SubmitButton };

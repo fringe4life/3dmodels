@@ -1,4 +1,5 @@
 import "server-only";
+
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
@@ -6,11 +7,17 @@ import { openAPI } from "better-auth/plugins";
 import { ENV } from "varlock/env";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
+
+/**
+ * Runtime Better Auth instance (server-only).
+ * Schema generation uses `auth.cli.config.ts` instead — do not import this file
+ * from the CLI config path, and do not import `auth.cli.config` from app code.
+ */
 export const auth = betterAuth({
   basePath: "/api/auth",
   baseURL: ENV.NEXT_PUBLIC_SITE_URL,
   database: drizzleAdapter(db, {
-    provider: "pg",
+    provider: "sqlite",
     schema,
   }),
   emailAndPassword: {

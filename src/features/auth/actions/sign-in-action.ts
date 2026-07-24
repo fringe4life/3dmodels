@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
 import {
   examples,
+  type InferOutput,
   maxLength,
   minLength,
   object,
@@ -14,9 +15,11 @@ import {
 import { auth } from "@/lib/auth";
 import type { Maybe } from "@/types";
 import {
-  type ActionState,
-  fromErrorToActionState,
-} from "@/utils/to-action-state";
+  formDataToSafePayload,
+  type SafeFormFields,
+} from "@/utils/to-action-state/form-data-to-safe-payload";
+import { fromErrorToActionState } from "@/utils/to-action-state/to-action-state";
+import type { ActionState } from "@/utils/to-action-state/types";
 import {
   MAX_EMAIL_LENGTH,
   MAX_PASSWORD_LENGTH,
@@ -50,10 +53,15 @@ const signInFormSchema = object({
   ),
 });
 
+type SignInForm = InferOutput<typeof signInFormSchema>;
+type SignInPayload = SafeFormFields<SignInForm>;
+
 const signInAction = async (
-  _: Maybe<ActionState>,
+  _: Maybe<ActionState<unknown, SignInPayload>>,
   formData: FormData,
-): Promise<ActionState> => {
+): Promise<ActionState<unknown, SignInPayload>> => {
+  const payload = formDataToSafePayload<SignInForm>(formData);
+
   try {
     const { email, password } = parse(
       signInFormSchema,
@@ -76,7 +84,7 @@ const signInAction = async (
   } catch (error) {
     unstable_rethrow(error);
 
-    return fromErrorToActionState(error, formData);
+    return fromErrorToActionState(error, payload);
   }
 };
 

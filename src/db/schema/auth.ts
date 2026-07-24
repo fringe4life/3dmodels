@@ -1,28 +1,35 @@
-import { boolean, index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import type { User } from "../brands";
 
-export const user = pgTable("user", {
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+export const user = sqliteTable("user", {
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+    .notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").default(false).notNull(),
+  emailVerified: integer("email_verified", { mode: "boolean" })
+    .default(false)
+    .notNull(),
   id: text("id").primaryKey().$type<User>(),
   image: text("image"),
   name: text("name").notNull(),
-  updatedAt: timestamp("updated_at")
-    .defaultNow()
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
 
-export const session = pgTable(
+export const session = sqliteTable(
   "session",
   {
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    expiresAt: timestamp("expires_at").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+      .notNull(),
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
     id: text("id").primaryKey(),
     ipAddress: text("ip_address"),
     token: text("token").notNull().unique(),
-    updatedAt: timestamp("updated_at")
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     userAgent: text("user_agent"),
@@ -33,21 +40,27 @@ export const session = pgTable(
   (table) => [index("session_userId_idx").on(table.userId)],
 );
 
-export const account = pgTable(
+export const account = sqliteTable(
   "account",
   {
     accessToken: text("access_token"),
-    accessTokenExpiresAt: timestamp("access_token_expires_at"),
+    accessTokenExpiresAt: integer("access_token_expires_at", {
+      mode: "timestamp_ms",
+    }),
     accountId: text("account_id").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+      .notNull(),
     id: text("id").primaryKey(),
     idToken: text("id_token"),
     password: text("password"),
     providerId: text("provider_id").notNull(),
     refreshToken: text("refresh_token"),
-    refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+    refreshTokenExpiresAt: integer("refresh_token_expires_at", {
+      mode: "timestamp_ms",
+    }),
     scope: text("scope"),
-    updatedAt: timestamp("updated_at")
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     userId: text("user_id")
@@ -57,15 +70,17 @@ export const account = pgTable(
   (table) => [index("account_userId_idx").on(table.userId)],
 );
 
-export const verification = pgTable(
+export const verification = sqliteTable(
   "verification",
   {
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    expiresAt: timestamp("expires_at").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+      .notNull(),
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
     id: text("id").primaryKey(),
     identifier: text("identifier").notNull(),
-    updatedAt: timestamp("updated_at")
-      .defaultNow()
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     value: text("value").notNull(),

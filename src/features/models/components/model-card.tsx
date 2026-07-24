@@ -1,4 +1,4 @@
-import { css, cx } from "@styled-system/css";
+import { css, cx, viewTransition } from "@styled-system/css";
 import { hoverShadow, hstack } from "@styled-system/patterns";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,14 +15,34 @@ import type { ModelWithLikeStatus } from "../types";
 type ModelCardProps = Prettify<
   IsAuthenticated & {
     model: ModelWithLikeStatus;
+    priority?: boolean;
   }
 >;
+
+const modelCardEnter = viewTransition({
+  new: {
+    _only: {
+      "--slide-distance": "-20px",
+      animation: "fade-in 250ms, slide-in 250ms",
+    },
+  },
+});
+
+const modelCardExit = viewTransition({
+  old: {
+    _only: {
+      "--slide-distance": "20px",
+      animation: "fade-out 250ms, slide-out 250ms",
+    },
+  },
+});
 
 const ModelCard = ({
   isAuthenticated,
   model: { slug, name, description, image, categorySlug, likes, hasLiked },
+  priority,
 }: ModelCardProps) => (
-  <ViewTransition enter="enter" exit="exit">
+  <ViewTransition enter={modelCardEnter} exit={modelCardExit}>
     <article
       className={cx(
         css({
@@ -68,9 +88,10 @@ const ModelCard = ({
           })}
         >
           <Image
-            alt={description}
+            alt={name ?? ""}
             className={css({ objectFit: "cover" })}
             fill
+            priority={priority}
             sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 250px"
             src={image || placeholderImg}
           />

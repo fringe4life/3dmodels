@@ -1,14 +1,14 @@
-import { pgTable, serial, text, timestamp, unique } from "drizzle-orm/pg-core";
+import { integer, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 import { user } from "./auth";
 import { models } from "./models";
 
-export const likes = pgTable(
+export const likes = sqliteTable(
   "likes",
   {
-    createdAt: timestamp("created_at", { withTimezone: true })
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
-      .defaultNow(),
-    id: serial("id").primaryKey(),
+      .$defaultFn(() => new Date()),
+    id: integer("id").primaryKey({ autoIncrement: true }),
     modelSlug: text("model_slug")
       .notNull()
       .references(() => models.slug, { onDelete: "cascade" }),

@@ -1,26 +1,20 @@
 import { APIError } from "better-auth/api";
 import { flatten, ValiError } from "valibot";
-import type { Maybe } from "@/types";
+import type { ActionState } from "./types";
 
-export interface ActionState<T = unknown> {
-  data?: T;
-  fieldErrors: Record<string, Maybe<string[]>>;
-  message: string;
-  payload?: FormData;
-  status?: "SUCCESS" | "ERROR";
-  timestamp: number;
-}
-
-const fromErrorToActionState = <T = unknown>(
+const fromErrorToActionState = <
+  T = unknown,
+  U extends Record<string, unknown> = Record<string, unknown>,
+>(
   err: unknown,
-  formData?: FormData,
-): ActionState<T> => {
+  payload?: Partial<U>,
+): ActionState<T, U> => {
   if (err instanceof ValiError) {
     const flattened = flatten(err.issues);
     return {
       fieldErrors: flattened.nested || {},
       message: "",
-      payload: formData,
+      payload,
       status: "ERROR",
       timestamp: Date.now(),
     };
@@ -30,7 +24,7 @@ const fromErrorToActionState = <T = unknown>(
     return {
       fieldErrors: {},
       message: err.message,
-      payload: formData,
+      payload,
       status: "ERROR",
       timestamp: Date.now(),
     };
@@ -39,22 +33,25 @@ const fromErrorToActionState = <T = unknown>(
   return {
     fieldErrors: {},
     message: "An unknown error occurred",
-    payload: formData,
+    payload,
     status: "ERROR",
     timestamp: Date.now(),
   };
 };
 
-const toActionState = <T = unknown>(
+const toActionState = <
+  T = unknown,
+  U extends Record<string, unknown> = Record<string, unknown>,
+>(
   message: string,
   status: ActionState["status"],
-  formData?: FormData,
+  payload?: Partial<U>,
   data?: T,
-): ActionState<T> => ({
+): ActionState<T, U> => ({
   data,
   fieldErrors: {},
   message,
-  payload: formData,
+  payload,
   status,
   timestamp: Date.now(),
 });

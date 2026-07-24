@@ -5,10 +5,10 @@ import { toggleLikeForModel } from "@/features/models/likes/dal/toggle-like";
 import type { Maybe } from "@/types";
 import { invalidateModel } from "@/utils/cache-invalidation";
 import {
-  type ActionState,
   fromErrorToActionState,
   toActionState,
-} from "@/utils/to-action-state";
+} from "@/utils/to-action-state/to-action-state";
+import type { ActionState } from "@/utils/to-action-state/types";
 import type { LikesCount } from "../types";
 
 const likeSchema = object({

@@ -2,7 +2,7 @@ import { css } from "@styled-system/css";
 import { ViewTransition } from "react";
 import { EMPTY_LIST_LENGTH } from "@/constants";
 import type { Maybe } from "@/types";
-import type { ActionState } from "@/utils/to-action-state";
+import type { ActionState } from "@/utils/to-action-state/types";
 
 interface FieldErrorProps {
   actionState: Maybe<ActionState>;

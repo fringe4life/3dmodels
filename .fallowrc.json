@@ -8,12 +8,7 @@
   },
   "ignorePatterns": ["doctor.config.ts"],
   "ignoreDependencies": [
-    "@varlock/bitwarden-plugin",
-    "babel-plugin-react-compiler",
     "next-devtools-mcp",
-    "@pandacss/preset-panda",
-    "@pandacss/types",
-    "react-doctor",
     "@styled-system/css",
     "@styled-system/patterns",
     "@styled-system/recipes"

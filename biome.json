@@ -39,7 +39,8 @@
       "!!**/*.lock",
       "!!**/*.svg",
       "!**/drizzle",
-      "!**/src/env.d.ts"
+      "!**/src/env.d.ts",
+      "!fallow-viz.html"
     ]
   }
 }

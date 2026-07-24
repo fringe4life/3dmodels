@@ -20,18 +20,22 @@ All environment variables are validated using Valibot in `src/utils/env.ts`. Cre
 # Site Configuration
 NEXT_PUBLIC_SITE_URL="http://localhost:3000"  # or your production URL
 
-# Better Auth Configuration
-AUTH_SECRET="your-secret-key-here-change-this-in-production"
+# Better Auth
+BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"
 
 # GitHub OAuth
 GITHUB_CLIENT_ID="your-github-client-id"
 GITHUB_CLIENT_SECRET="your-github-client-secret"
 
-# Database
+# Turso (libSQL)
+TURSO_DATABASE_URL="libsql://your-db.turso.io"
+TURSO_DATABASE_AUTH="your-turso-auth-token"
+
+# Legacy Neon URL (kept in .env.schema; unused by app)
 DATABASE_URL="your-neon-database-connection-string"
 ```
 
-**Note**: The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`.
+**Note**: The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`. Auth tables: `bun run auth:generate` (writes `src/db/schema/auth.ts` from `src/lib/auth.cli.config.ts`), then `bun run db:generate` / `db:migrate`. Runtime auth (secrets, OAuth, cookies) lives in `src/lib/auth.ts` (`server-only`).
 
 ## How to Get GitHub OAuth Credentials
 

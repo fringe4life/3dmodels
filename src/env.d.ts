@@ -34,9 +34,7 @@ export type CoercedEnvSchema = {
   
   /**
    * **DATABASE_URL** 🔐 _sensitive_  
-   * PostgreSQL connection string (Neon) — Drizzle ORM, Better Auth adapter, and `db:*` scripts via `varlock run`.  
-   * Use the *pooled* host (`ep-…-pooler.…aws.neon.tech`) for app/runtime. Prefer `sslmode=verify-full`.  
-   * Optional: `&connect_timeout=30` if cold starts still ETIMEDOUT during `next build`.  
+   * Legacy Neon PostgreSQL URL — retained in Bitwarden; unused by app after Turso cutover (Drizzle / Better Auth use TURSO_*).  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M29%2022h-5a2.003%202.003%200%200%201-2-2v-6a2%202%200%200%201%202-2h5v2h-5v6h5ZM18%2012h-4V8h-2v14h6a2.003%202.003%200%200%200%202-2v-6a2%202%200%200%200-2-2m-4%208v-6h4v6Zm-6-8H3v2h5v2H4a2%202%200%200%200-2%202v2a2%202%200%200%200%202%202h6v-8a2%202%200%200%200-2-2m0%208H4v-2h4Z%22%2F%3E%3C%2Fsvg%3E)   
    *   
    * 📚 {@link https://neon.tech/docs/connect/connection-pooling}  
@@ -53,13 +51,33 @@ export type CoercedEnvSchema = {
    */
   NEXT_PUBLIC_SITE_URL: string;
   
+  /**
+   * **TURSO_DATABASE_AUTH** 🔐 _sensitive_  
+   * Turso (libSQL) auth token — drizzle-kit / @libsql/client `authToken`. Keep server-only.  
+   * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M29%2022h-5a2.003%202.003%200%200%201-2-2v-6a2%202%200%200%201%202-2h5v2h-5v6h5ZM18%2012h-4V8h-2v14h6a2.003%202.003%200%200%200%202-2v-6a2%202%200%200%200-2-2m-4%208v-6h4v6Zm-6-8H3v2h5v2H4a2%202%200%200%200-2%202v2a2%202%200%200%200%202%202h6v-8a2%202%200%200%200-2-2m0%208H4v-2h4Z%22%2F%3E%3C%2Fsvg%3E)   
+   *   
+   * 📚 {@link https://docs.turso.tech/cli/db/tokens/create}  
+   * 📚 {@link https://orm.drizzle.team/docs/connect-turso}  
+   */
+  TURSO_DATABASE_AUTH: string;
+  
+  /**
+   * **TURSO_DATABASE_URL** 🔐 _sensitive_  
+   * Turso database URL (`libsql://…`) — Drizzle ORM, Better Auth adapter, and `db:*` scripts via `varlock run`.  
+   * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M29%2022h-5a2.003%202.003%200%200%201-2-2v-6a2%202%200%200%201%202-2h5v2h-5v6h5ZM18%2012h-4V8h-2v14h6a2.003%202.003%200%200%200%202-2v-6a2%202%200%200%200-2-2m-4%208v-6h4v6Zm-6-8H3v2h5v2H4a2%202%200%200%200-2%202v2a2%202%200%200%200%202%202h6v-8a2%202%200%200%200-2-2m0%208H4v-2h4Z%22%2F%3E%3C%2Fsvg%3E)   
+   *   
+   * 📚 {@link https://docs.turso.tech/quickstart}  
+   * 📚 {@link https://orm.drizzle.team/docs/connect-turso}  
+   */
+  TURSO_DATABASE_URL: string;
+  
 };
 
-type _CoercedEnvSchema_8b238210 = CoercedEnvSchema;
+type _CoercedEnvSchema_ad610038 = CoercedEnvSchema;
 
 declare module 'varlock/env' {
-  export interface TypedEnvSchema extends Readonly<_CoercedEnvSchema_8b238210> {}
-  export interface PublicTypedEnvSchema extends Readonly<Pick<_CoercedEnvSchema_8b238210, 'NEXT_PUBLIC_SITE_URL'>> {}
+  export interface TypedEnvSchema extends Readonly<_CoercedEnvSchema_ad610038> {}
+  export interface PublicTypedEnvSchema extends Readonly<Pick<_CoercedEnvSchema_ad610038, 'NEXT_PUBLIC_SITE_URL'>> {}
 }
 
 
@@ -69,17 +87,17 @@ export type EnvSchemaAsStrings = {
       : (CoercedEnvSchema[Property] extends boolean ? ('true' | 'false') : string)
 };
 
-type _EnvSchemaAsStrings_8b238210 = EnvSchemaAsStrings;
+type _EnvSchemaAsStrings_ad610038 = EnvSchemaAsStrings;
 declare global {
 
   // add types for global import.meta.env
-  interface ImportMetaEnv extends _EnvSchemaAsStrings_8b238210 {}
+  interface ImportMetaEnv extends _EnvSchemaAsStrings_ad610038 {}
   interface ImportMeta {
     readonly env: ImportMetaEnv;
   }
 
   // add types for global process.env
   namespace NodeJS {
-    interface ProcessEnv extends _EnvSchemaAsStrings_8b238210 {}
+    interface ProcessEnv extends _EnvSchemaAsStrings_ad610038 {}
   }
 }

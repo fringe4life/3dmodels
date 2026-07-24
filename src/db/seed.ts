@@ -78,12 +78,11 @@ async function seed() {
 
     // Update every model's likes count in a single statement. A correlated
     // subquery avoids both an awaited loop and Promise.all fan-out, keeping
-    // this to one round-trip (gentle on Neon free-tier connection limits) and
-    // correctly sets 0 for models with no likes.
+    // this to one round-trip and correctly sets 0 for models with no likes.
     console.log("🔢 Updating likes counts...");
     await db.update(models).set({
       likes: sql`(
-        SELECT COUNT(*)::int
+        SELECT COUNT(*)
         FROM ${likes}
         WHERE ${likes.modelSlug} = ${models.slug}
       )`,

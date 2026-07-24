@@ -4,23 +4,23 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.90-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.95-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.8-000000)
-![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=postgresql)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.10-000000)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=sqlite)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.1-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.5.3-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.9.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.3.0-canary.90 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
+- **Framework**: Next.js 16.3.0-canary.95 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 7.0.2 with React 19.3 canary
-- **Styling**: Panda CSS 2.0.0-beta.8 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `panda.config.ts`, vendored typography preset in `panda-presets/typography.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); global view transitions and `@layer` rules in `src/app/index.css`;
-- **Database**: Neon (PostgreSQL) with Drizzle ORM 1.0.0-rc.4; `pg` pool uses 120s connection/idle timeouts for Neon cold starts
-- **Authentication**: Better Auth 1.7.0-rc.1 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins
-- **Search Params**: nuqs 2.9.0 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata
+- **Styling**: Panda CSS 2.0.0-beta.10 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`, `panda.config.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; view-transition animations colocated via Panda helpers / `ViewTransition` in components
+- **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`); legacy Neon `DATABASE_URL` kept in `.env.schema` but unused by the app
+- **Authentication**: Better Auth 1.7.0-rc.1 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins (`provider: "sqlite"`)
+- **Search Params**: nuqs 2.9.1 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata
 - **Linting & Formatting**: Biome 2.5.3 with Ultracite 7.9.4 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`)
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`)
@@ -46,7 +46,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `panda-presets/` (vendored typography preset), `doctor.config.ts`, and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -91,7 +91,7 @@ src/
 │   │   └── [[...slugs]]/
 │   │       ├── better-auth-openapi.ts  # Better Auth OpenAPI spec for Elysia docs
 │   │       └── route.ts          # ElysiaJS handler mounting Better Auth (`basePath` /api/auth)
-│   ├── index.css                 # Global @layer stack, view-transition animations
+│   ├── index.css                 # Global `@layer` stack (reset → utilities)
 │   ├── styles.ts                 # Shared Panda `css` / pattern exports for app shells
 │   ├── icon.png                  # App icon (metadata)
 │   ├── layout.tsx                # Root layout
@@ -203,6 +203,7 @@ src/
 │   ├── form/
 │   │   ├── field-errors.tsx
 │   │   ├── form-error.tsx
+│   │   ├── form-field.tsx        # Shared labeled field + errors (auth ViewTransitions)
 │   │   ├── input.tsx
 │   │   ├── label.tsx
 │   │   ├── reset-button.tsx
@@ -235,7 +236,7 @@ src/
 │   ├── schema/
 │   │   ├── auth.ts
 │   │   ├── likes.ts
-│   │   ├── models.ts             # categories + models tables; category_slug pgEnum
+│   │   ├── models.ts             # categories + models tables (sqlite text enum for category slug)
 │   │   ├── relations.ts
 │   │   └── index.ts
 │   ├── migrations/               # Drizzle SQL migrations (drizzle-kit generate)
@@ -248,7 +249,8 @@ src/
 │   └── index.ts
 ├── lib/
 │   ├── api.ts
-│   ├── auth.ts
+│   ├── auth.cli.config.ts        # CLI-only Better Auth config for `auth:generate` (no secrets)
+│   ├── auth.ts                   # Runtime Better Auth (`server-only`; secrets + plugins)
 │   ├── auth-client.ts
 │   ├── date.ts
 │   └── hero-image.ts
@@ -257,7 +259,10 @@ src/
 ├── utils/
 │   ├── cache-invalidation.ts
 │   ├── sanitise-name.ts
-│   ├── to-action-state.ts
+│   ├── to-action-state/          # Server action result helpers
+│   │   ├── form-data-to-safe-payload.ts  # Safe FormData → client payload (#38)
+│   │   ├── to-action-state.ts
+│   │   └── types.ts
 │   └── try-catch.ts
 ├── global.d.ts
 └── proxy.ts
@@ -280,7 +285,7 @@ The project follows a feature-based architecture where related functionality is 
 - **`_` prefix**: Private folders that are not part of Next.js routing
 - **`features/`**: Feature-based modules with their own components and queries
 - **`components/`**: Shared/generic components used across features
-- **`db/categories.ts`**: Source-of-truth category list; drives PostgreSQL `category_slug` enum and Valibot branded slugs in `db/brands.ts`
+- **`db/categories.ts`**: Source-of-truth category list; drives SQLite category slug enum values and Valibot branded slugs in `db/brands.ts`
 - **`db/seed-data/`**: Model seed data only (`models.ts`)
 
 ### Performance Optimizations
@@ -300,7 +305,7 @@ The project follows a feature-based architecture where related functionality is 
 
 - [Bun](https://bun.sh/) for package management, tests, and database scripts
 - A current **Node.js** LTS (used by `next build` / `next start` until `bun --bun` is re-enabled for those scripts)
-- Neon database account (or any PostgreSQL database)
+- Turso database (`TURSO_DATABASE_URL` + `TURSO_DATABASE_AUTH`); legacy Neon `DATABASE_URL` may remain in Bitwarden unused
 - Optional: [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/) machine account token if you use `bitwarden()` resolvers in `.env.schema` (see `docs/VARLOCK.md`)
 
 ### Installation
@@ -332,7 +337,9 @@ The project follows a feature-based architecture where related functionality is 
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
 
-   DATABASE_URL="your-neon-database-connection-string"
+   DATABASE_URL="legacy-neon-url-unused-by-app"
+   TURSO_DATABASE_URL="libsql://your-db.turso.io"
+   TURSO_DATABASE_AUTH="your-turso-auth-token"
    ```
 
    Run **`bun run env:typegen`** after changing `.env.schema` to refresh **`src/env.d.ts`**. Typed access uses **`import { ENV } from "varlock/env"`**. See **`docs/VARLOCK.md`** and **`docs/AUTH_SETUP.md`** for Bitwarden, Bun, and Vercel notes.
@@ -367,7 +374,7 @@ The project follows a feature-based architecture where related functionality is 
 ### Categories Table
 - `id`: Primary key (auto-increment)
 - `displayName`: Human-readable category name
-- `slug`: PostgreSQL `category_slug` enum (unique); values defined in `src/db/categories.ts`
+- `slug`: Category slug text enum (unique); values defined in `src/db/categories.ts`
 
 ### Models Table
 - `slug`: Primary key (text, auto-generated from name)
@@ -396,6 +403,7 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Available Scripts
 
+- `bun run auth:generate` — Regenerate Better Auth Drizzle schema (`src/db/schema/auth.ts` from `src/lib/auth.cli.config.ts`)
 - `bun run db:generate` — Generate migrations (`varlock run -- bun x drizzle-kit generate`)
 - `bun run db:migrate` — Run migrations (`varlock run -- bun x drizzle-kit migrate`)
 - `bun run db:push` — Push schema (`varlock run -- bun x drizzle-kit push --force`)
@@ -411,12 +419,12 @@ The application uses Drizzle ORM 1.0.0-rc.4 with `defineRelations` for type-safe
 
 ### Query Builder (RQBv2)
 The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-safe relational queries:
-- **Read queries**: All read queries use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses, including complex conditions with `OR: []`, `AND: []`, `NOT: {}`, and column filters like `{ column: { eq: value, ilike: pattern } }` for better type safety and developer experience
-- **Count queries**: Count queries use `db.$count()` (RQBv2), with where conditions passed using SQL builder syntax (`and()`, `or()`, `ilike()`, etc.) since `$count` accepts SQL builder conditions
+- **Read queries**: All read queries use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses
+- **Count / filter queries**: Listing search uses SQL builder (`and()`, `or()`, `like()` + `COLLATE NOCASE`) since SQLite has no `ilike`
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
 - **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder, `build-models-where.ts` for shared filter conditions) and composed in higher-level DAL functions (`get-models.ts`, `search-models.ts`). Both helpers support optional `searchPattern` and `category` parameters; list ordering comes from `features/models/sort/order-for-sort.ts` via the `sort` search param
-- **Better Auth adapter**: Uses `@better-auth/drizzle-adapter/relations-v2` with experimental joins enabled (`lib/auth.ts`); mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI documentation includes auth routes via `better-auth-openapi.ts`
+- **Better Auth adapter**: Uses `@better-auth/drizzle-adapter/relations-v2` with experimental joins (`lib/auth.ts` runtime, `lib/auth.cli.config.ts` for generate); `provider: "sqlite"`; mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI via `better-auth-openapi.ts`
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:
@@ -442,9 +450,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ## 🎨 Styling & Components
 
 ### Design System
-- **Tokens & utilities**: Panda CSS 2 semantic tokens and preset utilities (`panda.config.ts`, `@pandacss/preset-base`, `@pandacss/preset-panda`, typography preset in `panda-presets/typography.ts`); orange accent and shared patterns (e.g., `navLink`) live in config
+- **Tokens & utilities**: Panda CSS 2 semantic tokens and preset utilities (`panda.config.ts`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); orange accent and shared patterns (e.g., `navLink`) live in config; `treeshakeDesignSystem` enabled
 - **Typography**: Albert Sans + Montserrat Alternates via `next/font` in root layout; heading font applied in Panda `globalCss`
 - **Layout & spacing**: Panda `css()` / layout patterns (e.g., `grid` for model grids in `src/app/styles.ts`)
+- **View transitions**: Colocated with components via React `ViewTransition` + Panda view-transition helpers (global VT CSS removed from `index.css`)
 - **Responsive**: Mobile-first breakpoints via Panda conditions and component styles
 
 ### Key Components
@@ -504,6 +513,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/button` - Shared button styled with Panda variants
 - `components/form/input` - Text input with consistent field styling
 - `components/form/label` - Accessible labels for form fields
+- `components/form/form-field` - Shared labeled field shell with field errors and shared ViewTransition names for auth forms
 - `components/form/submit-button` - Submit control wired for pending state
 - `components/form/reset-button` - Reset control for forms
 - `components/form/field-errors` - Field-level error display component with ViewTransition support
@@ -517,14 +527,15 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/generic-component` - Generic wrapper for collections
 
 #### Authentication & Data Access
-- `lib/auth` - Better Auth configuration with email/password and GitHub OAuth
+- `lib/auth.cli.config` - CLI-only Better Auth config for schema generate (no secrets)
+- `lib/auth` - Runtime Better Auth (`server-only`; secrets, OAuth, cookies, OpenAPI)
 - `lib/auth-client` - Better Auth client instance for client-side usage
 - `features/auth/actions` - Sign-in, sign-up, and sign-out server actions with Valibot validation
 - `features/auth/components/has-auth` - Renders `children(auth)` with `UserAuthState`; `HasAuthSuspense` wraps in `Suspend`
 - `features/auth/constants` - Validation constants (password length, email length, name length limits)
 - `features/auth/queries/get-user` - User query with `React.cache()` (returns `UserAuthState` from session)
 - `features/auth/components/sign-in-button` - GitHub OAuth sign-in button
-- `utils/to-action-state` - Action state utilities for consistent server action responses
+- `utils/to-action-state` - Action state helpers (`to-action-state.ts`, `types.ts`, `form-data-to-safe-payload.ts` for allowlisted FormData → client)
 - `components/form/field-errors` - Reusable field error component used in auth forms
 - `components/form/form-error` - Reusable form-level error component used in auth forms
 
@@ -558,13 +569,14 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run type` - Run `tsc` type checking
 - `bun run typegen` - Generate Next.js routes and run `tsc` (noEmit)
 - `bun run env:typegen` - Regenerate `src/env.d.ts` from `.env.schema` (Varlock)
+- `bun run auth:generate` - Regenerate Better Auth Drizzle schema from `auth.cli.config.ts`
 - `bun run db:generate` - Generate Drizzle migrations
 - `bun run db:migrate` - Run Drizzle migrations
 - `bun run db:push` - Push schema directly to database
 - `bun run db:studio` - Open Drizzle Studio
 - `bun run db:seed` - Seed database with initial data
 - `bun run db:drop` - Drop all tables (development reset)
-- `bun run fix` - Fix linting issues with Ultracite/Biome
+- `bun run fix` - Fix linting/formatting issues with Ultracite/Biome
 - `bun run check` - Check linting rules with Ultracite/Biome
 - `bun run doctor` - Run Ultracite doctor diagnostics
 - `bun run ultracite:upgrade` - Upgrade Ultracite configuration
@@ -592,7 +604,7 @@ The project follows a consistent coding style with:
 
 ### Environment Variables
 
-Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `DATABASE_URL`, and **`BITWARDEN_ACCESS_TOKEN`** when using **`bitwarden()`** resolvers. Varlock validates at runtime; types live in **`src/env.d.ts`**. See **`docs/VARLOCK.md`** for Vercel and Bitwarden.
+Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `TURSO_DATABASE_URL`, `TURSO_DATABASE_AUTH`, legacy `DATABASE_URL` (unused), and **`BITWARDEN_ACCESS_TOKEN`** when using **`bitwarden()`** resolvers. Varlock validates at runtime; types live in **`src/env.d.ts`**. See **`docs/VARLOCK.md`** for Vercel and Bitwarden.
 
 ## 📝 Data Management
 
@@ -603,7 +615,7 @@ Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_
 
 ### Adding New Categories
 
-1. Add the category to `src/db/categories.ts` (updates the PostgreSQL enum source of truth)
+1. Add the category to `src/db/categories.ts` (updates the category slug enum source of truth)
 2. Run `bun run db:generate` then `bun run db:migrate` (or `bun run db:push` in development)
 3. Run `bun run db:seed` to update the database
 

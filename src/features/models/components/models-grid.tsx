@@ -18,9 +18,10 @@ type ModelsGridProps = Prettify<
 >;
 
 const ModelsGrid = ({ isAuthenticated, title, models }: ModelsGridProps) => {
-  const renderModelCardProps = (model: ModelWithLikeStatus) => ({
+  const renderModelCardProps = (model: ModelWithLikeStatus, index: number) => ({
     isAuthenticated,
     model,
+    priority: index < 4,
   });
   return (
     <div className={css({ paddingBlock: 8 })}>
