@@ -2,10 +2,9 @@
 
 import { css } from "@styled-system/css";
 import { useActionState, useTransition } from "react";
-import { FieldError } from "@/components/form/field-errors";
 import { FormError } from "@/components/form/form-error";
+import { FormField } from "@/components/form/form-field";
 import { Input } from "@/components/form/input";
-import { Label } from "@/components/form/label";
 import { SubmitButton } from "@/components/form/submit-button";
 import { signInAction } from "@/features/auth/actions/sign-in-action";
 import { AuthCard } from "@/features/auth/components/auth-card";
@@ -22,8 +21,8 @@ const SignInPage = () => {
     });
   };
 
-  // Extract email from payload if available (for preserving on error)
-  const emailValue = state?.payload?.get("email")?.toString() ?? "";
+  // Preserve non-secret fields on validation / auth errors
+  const { email: emailValue = "" } = state?.payload ?? {};
 
   return (
     <AuthCard
@@ -37,29 +36,41 @@ const SignInPage = () => {
       title="Sign in to your account"
     >
       <form action={handleAction} className={css({ spaceY: 4 })}>
-        <fieldset disabled={isPending}>
-          <Label htmlFor="email">Email address</Label>
-          <Input
-            autoComplete="email"
-            defaultValue={emailValue}
-            id="email"
-            name="email"
-            required
-            type="email"
-          />
-          <FieldError actionState={state} name="email" />
-        </fieldset>
-        <fieldset disabled={isPending}>
-          <Label htmlFor="password">Password</Label>
-          <Input
-            autoComplete="current-password"
-            id="password"
-            name="password"
-            required
-            type="password"
-          />
-          <FieldError actionState={state} name="password" />
-        </fieldset>
+        <FormField
+          actionState={state}
+          disabled={isPending}
+          label="Email address"
+          name="email"
+          transitionName="auth-email-field"
+        >
+          {(id) => (
+            <Input
+              autoComplete="email"
+              defaultValue={emailValue}
+              id={id}
+              name="email"
+              required
+              type="email"
+            />
+          )}
+        </FormField>
+        <FormField
+          actionState={state}
+          disabled={isPending}
+          label="Password"
+          name="password"
+          transitionName="auth-password-field"
+        >
+          {(id) => (
+            <Input
+              autoComplete="current-password"
+              id={id}
+              name="password"
+              required
+              type="password"
+            />
+          )}
+        </FormField>
         <FormError actionState={state} isPending={isPending} />
         <SubmitButton isPending={isPending}>
           <span className={css({ _groupDisabled: { display: "none" } })}>

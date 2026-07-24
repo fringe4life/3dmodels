@@ -11,7 +11,7 @@ This note summarizes how [Varlock](https://varlock.dev/) fits a Next.js app on *
 
 - **`.env.schema`** as a single, AI-safe description of config (names, types, validation) without exposing secret values.
 - **Validation, optional type generation**, log redaction, `varlock scan` for leaks, and **`varlock run`** to inject resolved env into arbitrary commands.
-- **Next.js**: replaces internal [`@next/env`](https://www.npmjs.com/package/@next/env) loading via **`@varlock/nextjs-integration`** plus a small **`next.config`** plugin.
+- **Next.js**: replaces internal `[@next/env](https://www.npmjs.com/package/@next/env)` loading via **`@varlock/nextjs-integration`** plus a small **`next.config`** plugin.
 
 ## Recommended integration path (high level)
 
@@ -40,8 +40,10 @@ Varlock’s Bitwarden integration targets **Bitwarden Secrets Manager** (organiz
 # @type=bitwardenAccessToken @sensitive
 BITWARDEN_ACCESS_TOKEN=
 
-# Example: load a DB URL from Secrets Manager by secret UUID
-# DATABASE_URL=bitwarden("12345678-1234-1234-1234-123456789abc")
+# Example: load Turso URL from Secrets Manager by secret UUID
+# TURSO_DATABASE_URL=bitwarden("12345678-1234-1234-1234-123456789abc")
+# TURSO_DATABASE_AUTH=bitwarden("12345678-1234-1234-1234-123456789abc")
+# Legacy Neon (unused by app): DATABASE_URL=bitwarden("…")
 ```
 
 Install the package **`@varlock/bitwarden-plugin`** as a dependency, or load the plugin from the schema with a version per the [plugins installation](https://varlock.dev/guides/plugins/#installation) docs.
@@ -98,7 +100,7 @@ Per [Varlock’s Bun docs](https://varlock.dev/integrations/bun/):
 ### Caveats
 
 - **Bootstrap tokens** (e.g. **`BITWARDEN_ACCESS_TOKEN`**) must be present where Varlock runs (local shell, Vercel env, CI). They are not fetched from Bitwarden by magic without configuration.
-- **`varlock run` in production**: The [standalone mode](https://varlock.dev/integrations/nextjs/) section notes that **standalone** output needs copying `.env.*` and running with the **varlock CLI** installed. This repo does **not** use `output: 'standalone'` today; if you add it later, follow Varlock’s standalone instructions.
+- **`varlock run` in production**: The [standalone mode](https://varlock.dev/integrations/nextjs/) section notes that **standalone** output needs copying `.env.`* and running with the **varlock CLI** installed. This repo does **not** use `output: 'standalone'` today; if you add it later, follow Varlock’s standalone instructions.
 - **Branch-based logic**: For finer control than `VERCEL_ENV`, the docs point at **`VERCEL_GIT_COMMIT_REF`** and similar—useful if schema composition depends on branch name.
 
 ## Friction with the **current** tech stack
@@ -123,7 +125,7 @@ Public client vars use **`NEXT_PUBLIC_SITE_URL`** as the canonical app URL. Varl
 
 ### 3. **Tools outside Next: Drizzle, Playwright, scripts**
 
-- **`drizzle.config.ts`** reads **`process.env.DATABASE_URL`** directly. Drizzle CLI does not use `next.config`; ensure **`DATABASE_URL`** is available when running **`drizzle-kit`** (shell env, `.env`, or `varlock run -- bun x drizzle-kit ...`).
+- **`drizzle.config.ts`** reads **`TURSO_DATABASE_URL`** + **`TURSO_DATABASE_AUTH`** via Varlock. Drizzle CLI does not use `next.config`; run kit via **`varlock run -- bun x drizzle-kit ...`** (or the `db:`* scripts). Legacy **`DATABASE_URL`** remains in `.env.schema` unused.
 - **`playwright.config.ts`** and **`tests/setup/test-preload.ts`** set or assume env. After Varlock + optional `bunfig` changes, re-verify **e2e** and **unit** runs.
 - **`db:seed`**, **`db:drop`**, etc. use **`bun --conditions=react-server`**: confirm env loading matches expectations once Bun auto-env is disabled.
 

@@ -1,7 +1,8 @@
 import { defineConfig } from "@pandacss/dev";
 import presetBase from "@pandacss/preset-base";
 import pandaPreset from "@pandacss/preset-panda";
-import typographyPreset from "./panda-presets/typography";
+import { typographyPreset } from "@pandacss/preset-typography";
+
 export default defineConfig({
   conditions: {
     extend: {
@@ -43,6 +44,7 @@ export default defineConfig({
     removeUnusedKeyframes: true,
     removeUnusedTokens: true,
     smartCompoundVariants: true,
+    treeshakeDesignSystem: true,
   },
 
   // The output directory for your css system
@@ -95,7 +97,7 @@ export default defineConfig({
   },
   // Whether to use css reset
   preflight: true,
-  presets: [presetBase, pandaPreset, typographyPreset],
+  presets: [presetBase, pandaPreset, typographyPreset()],
 
   // Useful for theme customization
   theme: {

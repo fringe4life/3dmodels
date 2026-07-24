@@ -2,13 +2,23 @@
 
 import { headers } from "next/headers";
 import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
-import { maxLength, minLength, object, parse, pipe, string } from "valibot";
+import {
+  type InferOutput,
+  maxLength,
+  minLength,
+  object,
+  parse,
+  pipe,
+  string,
+} from "valibot";
 import { auth } from "@/lib/auth";
 import type { Maybe, Prettify } from "@/types";
 import {
-  type ActionState,
-  fromErrorToActionState,
-} from "@/utils/to-action-state";
+  formDataToSafePayload,
+  type SafeFormFields,
+} from "@/utils/to-action-state/form-data-to-safe-payload";
+import { fromErrorToActionState } from "@/utils/to-action-state/to-action-state";
+import type { ActionState } from "@/utils/to-action-state/types";
 import type { User } from "../auth-types";
 import {
   MAX_EMAIL_LENGTH,
@@ -18,7 +28,6 @@ import {
   MIN_PASSWORD_LENGTH,
 } from "../constants";
 
-// Valibot schema for sign-up form
 const signUpFormSchema = object({
   email: pipe(
     string("Email must be a string"),
@@ -44,23 +53,25 @@ const signUpFormSchema = object({
   ),
 });
 
+type SignUpForm = InferOutput<typeof signUpFormSchema>;
+type SignUpPayload = SafeFormFields<SignUpForm>;
+
 interface SignUpData {
   user: Prettify<Pick<User, "id" | "email" | "name">>;
 }
 
-// Server action for sign-up
 const signUpAction = async (
-  _: Maybe<ActionState<SignUpData>>,
+  _: Maybe<ActionState<SignUpData, SignUpPayload>>,
   formData: FormData,
-): Promise<ActionState<SignUpData>> => {
+): Promise<ActionState<SignUpData, SignUpPayload>> => {
+  const payload = formDataToSafePayload<SignUpForm>(formData);
+
   try {
-    // Validate form data with Valibot (parse throws ValiError on failure)
     const { email, password, name } = parse(
       signUpFormSchema,
       Object.fromEntries(formData.entries()),
     );
 
-    // Call Better Auth sign-up API
     const session = await auth.api.signUpEmail({
       body: {
         email,
@@ -74,14 +85,11 @@ const signUpAction = async (
       throw new Error("Failed to sign up");
     }
 
-    // Redirect on success
     throw redirect("/", RedirectType.replace);
   } catch (error) {
-    // Handle redirect separately (it's not an error)
     unstable_rethrow(error);
 
-    // Convert error to ActionState
-    return fromErrorToActionState(error, formData);
+    return fromErrorToActionState(error, payload);
   }
 };
 

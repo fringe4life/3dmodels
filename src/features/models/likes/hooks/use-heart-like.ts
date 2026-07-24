@@ -8,7 +8,7 @@ import {
   useTransition,
 } from "react";
 import type { Maybe, Prettify } from "@/types";
-import type { ActionState } from "@/utils/to-action-state";
+import type { ActionState } from "@/utils/to-action-state/types";
 import type { HeartButtonClientProps } from "../components/heart-button-client";
 import type { HeartVisualState, LikesCount } from "../types";
 import {

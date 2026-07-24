@@ -1,11 +1,15 @@
 /** biome-ignore-all lint/suspicious/noConsole: a command to clear db */
-import { Pool } from "pg";
-import { ENV } from "varlock/env";
+import { sql } from "drizzle-orm";
+import { db } from "@/db";
 
-const pool = new Pool({ connectionString: ENV.DATABASE_URL });
-
-await pool.query(`DROP TABLE IF EXISTS "likes" CASCADE`);
-await pool.query(`DROP TABLE IF EXISTS "models" CASCADE`);
-await pool.query(`DROP TABLE IF EXISTS "categories" CASCADE`);
-await pool.end();
+await db.run(sql`PRAGMA foreign_keys = OFF`);
+await db.run(sql`DROP TABLE IF EXISTS likes`);
+await db.run(sql`DROP TABLE IF EXISTS models`);
+await db.run(sql`DROP TABLE IF EXISTS categories`);
+await db.run(sql`DROP TABLE IF EXISTS session`);
+await db.run(sql`DROP TABLE IF EXISTS account`);
+await db.run(sql`DROP TABLE IF EXISTS verification`);
+await db.run(sql`DROP TABLE IF EXISTS user`);
+await db.run(sql`DROP TABLE IF EXISTS __drizzle_migrations`);
+await db.run(sql`PRAGMA foreign_keys = ON`);
 console.log("✓ All tables dropped successfully");

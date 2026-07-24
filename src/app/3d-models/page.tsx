@@ -22,6 +22,7 @@ export const generateMetadata = async ({
   return {
     ...listingMetadata,
     alternates: { canonical },
+    description: listingMetadata.description,
     openGraph: {
       ...listingMetadata.openGraph,
       url: canonical,
