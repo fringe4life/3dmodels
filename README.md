@@ -249,8 +249,8 @@ src/
 │   └── index.ts
 ├── lib/
 │   ├── api.ts
-│   ├── auth.config.ts            # Better Auth instance (CLI-safe; no `server-only`)
-│   ├── auth.ts                   # Re-exports auth with `import "server-only"`
+│   ├── auth.cli.config.ts        # CLI-only Better Auth config for `auth:generate` (no secrets)
+│   ├── auth.ts                   # Runtime Better Auth (`server-only`; secrets + plugins)
 │   ├── auth-client.ts
 │   ├── date.ts
 │   └── hero-image.ts
@@ -403,7 +403,7 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Available Scripts
 
-- `bun run auth:generate` — Regenerate Better Auth Drizzle schema (`src/db/schema/auth.ts` from `src/lib/auth.config.ts`)
+- `bun run auth:generate` — Regenerate Better Auth Drizzle schema (`src/db/schema/auth.ts` from `src/lib/auth.cli.config.ts`)
 - `bun run db:generate` — Generate migrations (`varlock run -- bun x drizzle-kit generate`)
 - `bun run db:migrate` — Run migrations (`varlock run -- bun x drizzle-kit migrate`)
 - `bun run db:push` — Push schema (`varlock run -- bun x drizzle-kit push --force`)
@@ -424,7 +424,7 @@ The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
 - **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
 - **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder, `build-models-where.ts` for shared filter conditions) and composed in higher-level DAL functions (`get-models.ts`, `search-models.ts`). Both helpers support optional `searchPattern` and `category` parameters; list ordering comes from `features/models/sort/order-for-sort.ts` via the `sort` search param
-- **Better Auth adapter**: Uses `@better-auth/drizzle-adapter/relations-v2` with experimental joins (`lib/auth.config.ts` / `lib/auth.ts`); `provider: "sqlite"`; mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI via `better-auth-openapi.ts`
+- **Better Auth adapter**: Uses `@better-auth/drizzle-adapter/relations-v2` with experimental joins (`lib/auth.ts` runtime, `lib/auth.cli.config.ts` for generate); `provider: "sqlite"`; mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI via `better-auth-openapi.ts`
 
 ### Cache Components
 The application uses Next.js Cache Components for optimal performance:
@@ -527,8 +527,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/generic-component` - Generic wrapper for collections
 
 #### Authentication & Data Access
-- `lib/auth.config` - Better Auth instance (CLI-safe; no `server-only`)
-- `lib/auth` - Re-exports auth with `import "server-only"` for app Server Components
+- `lib/auth.cli.config` - CLI-only Better Auth config for schema generate (no secrets)
+- `lib/auth` - Runtime Better Auth (`server-only`; secrets, OAuth, cookies, OpenAPI)
 - `lib/auth-client` - Better Auth client instance for client-side usage
 - `features/auth/actions` - Sign-in, sign-up, and sign-out server actions with Valibot validation
 - `features/auth/components/has-auth` - Renders `children(auth)` with `UserAuthState`; `HasAuthSuspense` wraps in `Suspend`
@@ -569,7 +569,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run type` - Run `tsc` type checking
 - `bun run typegen` - Generate Next.js routes and run `tsc` (noEmit)
 - `bun run env:typegen` - Regenerate `src/env.d.ts` from `.env.schema` (Varlock)
-- `bun run auth:generate` - Regenerate Better Auth Drizzle schema from `auth.config.ts`
+- `bun run auth:generate` - Regenerate Better Auth Drizzle schema from `auth.cli.config.ts`
 - `bun run db:generate` - Generate Drizzle migrations
 - `bun run db:migrate` - Run Drizzle migrations
 - `bun run db:push` - Push schema directly to database

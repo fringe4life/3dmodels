@@ -35,7 +35,7 @@ TURSO_DATABASE_AUTH="your-turso-auth-token"
 DATABASE_URL="your-neon-database-connection-string"
 ```
 
-**Note**: The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`. Auth tables: `bun run auth:generate` (writes `src/db/schema/auth.ts` from `src/lib/auth.config.ts`), then `bun run db:generate` / `db:migrate`.
+**Note**: The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`. Auth tables: `bun run auth:generate` (writes `src/db/schema/auth.ts` from `src/lib/auth.cli.config.ts`), then `bun run db:generate` / `db:migrate`. Runtime auth (secrets, OAuth, cookies) lives in `src/lib/auth.ts` (`server-only`).
 
 ## How to Get GitHub OAuth Credentials
 
