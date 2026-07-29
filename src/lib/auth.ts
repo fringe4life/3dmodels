@@ -14,6 +14,7 @@ import { schema } from "@/db/schema";
  * from the CLI config path, and do not import `auth.cli.config` from app code.
  */
 export const auth = betterAuth({
+  advanced: { database: { joins: true } },
   basePath: "/api/auth",
   baseURL: ENV.NEXT_PUBLIC_SITE_URL,
   database: drizzleAdapter(db, {
@@ -24,7 +25,6 @@ export const auth = betterAuth({
     autoSignIn: true,
     enabled: true,
   },
-  experimental: { joins: true },
   plugins: [openAPI(), nextCookies()], // cookies must be last plugin to avoid issues with cache invalidation
   secret: ENV.BETTER_AUTH_SECRET,
   session: {

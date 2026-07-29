@@ -6,30 +6,28 @@ import type { LikesCount } from "../types";
 type LikesCountTransitionProps = Prettify<Children & LikesCount>;
 
 const likesUpdateIncrease = viewTransition({
+  group: { animationDuration: "normal" },
   new: {
     "--slide-distance-y": "-10px",
-    animationDuration: "200ms",
     animationName: "fade-out, slide-out-y",
     animationTimingFunction: "inDramatic",
   },
   old: {
     "--slide-distance-y": "8px",
-    animationDuration: "200ms",
     animationName: "slide-out-y, fade-out",
     animationTimingFunction: "outDramatic",
   },
 });
 
 const likesUpdateDecrease = viewTransition({
+  group: { animationDuration: "normal" },
   new: {
     "--slide-distance-y": "10px",
-    animationDuration: "200ms",
     animationName: "fade-in, slide-in-y",
     animationTimingFunction: "inDramatic",
   },
   old: {
     "--slide-distance-y": "-8px",
-    animationDuration: "200ms",
     animationName: "slide-out-y, fade-out",
     animationTimingFunction: "outDramatic",
   },

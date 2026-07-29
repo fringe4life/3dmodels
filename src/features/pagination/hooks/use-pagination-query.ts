@@ -6,10 +6,7 @@ import {
   type MouseEventHandler,
   useTransition,
 } from "react";
-import {
-  options as PaginationOptions,
-  paginationParser,
-} from "@/features/pagination/pagination-search-params";
+import { paginationParser } from "@/features/pagination/pagination-search-params";
 import type { LimitItem, PaginationType } from "@/features/pagination/types";
 
 interface UsePaginationQueryReturn {
@@ -22,10 +19,7 @@ interface UsePaginationQueryReturn {
 
 const usePaginationQuery = (): UsePaginationQueryReturn => {
   const [isPending, startTransition] = useTransition();
-  const [pagination, setPagination] = useQueryStates(paginationParser, {
-    ...PaginationOptions,
-    startTransition,
-  });
+  const [pagination, setPagination] = useQueryStates(paginationParser);
 
   const { page } = pagination;
 

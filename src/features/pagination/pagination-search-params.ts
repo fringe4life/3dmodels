@@ -1,6 +1,5 @@
 import {
   createSearchParamsCache,
-  type Options,
   parseAsInteger,
   parseAsNumberLiteral,
   parseAsString,
@@ -12,25 +11,28 @@ import {
   LIMITS,
 } from "@/features/pagination/constants";
 
-export const options: Options = {
-  clearOnDefault: true,
-  shallow: false,
+/** URL key `query` — shared by server cache + `SearchInput`. */
+export const queryParser = {
+  query: parseAsString.withDefault(""),
 };
 
-/** URL key `query` — must match `SearchInput` (`useQueryState("query", …)`). */
-const queryParser = parseAsString.withDefault("").withOptions({
-  ...options,
-});
-
-export const paginationParser = {
-  limit: parseAsNumberLiteral(LIMITS).withDefault(DEFAULT_LIMIT),
+export const pageParser = {
   page: parseAsInteger.withDefault(DEFAULT_PAGE),
 };
 
+const limitParser = {
+  limit: parseAsNumberLiteral(LIMITS).withDefault(DEFAULT_LIMIT),
+};
+
+export const paginationParser = {
+  ...limitParser,
+  ...pageParser,
+};
+
 export const searchParamsParsers = {
-  query: queryParser,
-  sort: sortParser.withOptions({ ...options }),
+  ...sortParser,
   ...paginationParser,
+  ...queryParser,
 };
 
 export const searchParamsCache = createSearchParamsCache(searchParamsParsers);

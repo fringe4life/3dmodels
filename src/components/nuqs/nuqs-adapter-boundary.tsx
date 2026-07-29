@@ -1,4 +1,5 @@
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { defaultOptions } from "@/lib/url";
 import type { Children } from "@/types";
 
 interface NuqsAdapterBoundaryProps extends Children {}
@@ -12,7 +13,7 @@ interface NuqsAdapterBoundaryProps extends Children {}
  * fails missing-suspense-with-csr-bailout again.
  */
 const NuqsAdapterBoundary = ({ children }: NuqsAdapterBoundaryProps) => (
-  <NuqsAdapter>{children}</NuqsAdapter>
+  <NuqsAdapter defaultOptions={defaultOptions}>{children}</NuqsAdapter>
 );
 
 export { NuqsAdapterBoundary };

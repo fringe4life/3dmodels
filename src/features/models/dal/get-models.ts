@@ -16,6 +16,7 @@ import type { Prettify } from "@/types";
 
 type GetModelsReturn = Prettify<
   IsAuthenticated & {
+    query: string;
     result: PaginatedResult<ModelWithLikeStatus>;
   }
 >;
@@ -30,7 +31,7 @@ export const getModels = async (
   const resolvedSort = toSort(sort ?? DEFAULT_SORT);
 
   const [result, auth] = await Promise.all([
-    searchModels(query ?? undefined, pagination, resolvedSort, category),
+    searchModels(query || undefined, pagination, resolvedSort, category),
     getUser(),
   ]);
   // paginate the items
@@ -38,7 +39,11 @@ export const getModels = async (
 
   // if error or empty, return the result
   if (paginatedResult.type !== "success") {
-    return { isAuthenticated: auth.isAuthenticated, result: paginatedResult };
+    return {
+      isAuthenticated: auth.isAuthenticated,
+      query,
+      result: paginatedResult,
+    };
   }
 
   let likedSlugs: Set<string> | null = null;
@@ -59,6 +64,7 @@ export const getModels = async (
 
   return {
     isAuthenticated: auth.isAuthenticated,
+    query,
     result: {
       ...paginatedResult,
       items: itemsWithLikeStatus,

@@ -4,29 +4,29 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.95-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.3.0--canary.102-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.10-000000)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.11-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=sqlite)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.1-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.2-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![Biome](https://img.shields.io/badge/Biome-2.5.3-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.9.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.3.0-canary.95 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
+- **Framework**: Next.js 16.3.0-canary.102 with App Router, Cache Components, React Compiler, and typed routes (`typedRoutes`)
 - **Language**: TypeScript 7.0.2 with React 19.3 canary
-- **Styling**: Panda CSS 2.0.0-beta.10 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`, `panda.config.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; view-transition animations colocated via Panda helpers / `ViewTransition` in components
-- **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`); legacy Neon `DATABASE_URL` kept in `.env.schema` but unused by the app
-- **Authentication**: Better Auth 1.7.0-rc.1 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins (`provider: "sqlite"`)
-- **Search Params**: nuqs 2.9.1 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` scopes the adapter to listing routes inside `Suspense` (not model detail); listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata
+- **Styling**: Panda CSS 2.0.0-beta.11 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`, `panda.config.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; view-transition animations colocated via Panda helpers / `ViewTransition` (duration tokens + `group` where needed)
+- **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`)
+- **Authentication**: Better Auth 1.7.0-rc.2 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins (`provider: "sqlite"`)
+- **Search Params**: nuqs 2.9.2 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata
 - **Linting & Formatting**: Biome 2.5.3 with Ultracite 7.9.4 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`)
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`)
-- **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for `next dev` / `next build` / `next start`). **Temporarily**, production `build` and `start` run **Next on Node** (`bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
+- **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for inspect / debug build). **Temporarily**, `dev`, production `build`, and `start` run **Next on Node** (`next dev`, `bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
 - **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, `appNewScrollHandler`, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), and `turbopackRustReactCompiler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.11.0 with `.env.schema` (`@encryptInjectedEnv`), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.13.0 with `.env.schema` (`@encryptInjectedEnv`), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas
 
 ## 🚀 Features
@@ -34,6 +34,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Browse 3D Models**: View a curated collection of 3D models across various categories
 - **Category Filtering**: Filter models by category (3D Printer, Art, Education, Fashion, etc.)
 - **Sort Controls**: Sort listings by A-Z, Popular, or Recent via nuqs `sort` search param (default A-Z omitted from URL)
+- **Search across listings**: Search bar lives in `ModelsGridHeader` (index + category routes); grid title shows `Results for "{query}"` via nuqs when a query is present
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
@@ -137,17 +138,23 @@ src/
 │   │   │   ├── model-card-skeleton.tsx
 │   │   │   ├── model-detail.tsx
 │   │   │   ├── models-grid.tsx
+│   │   │   ├── models-grid-header.tsx
+│   │   │   ├── models-grid-header-skeleton.tsx
 │   │   │   ├── models-grid-skeleton.tsx
+│   │   │   ├── models-grid-title.tsx
+│   │   │   ├── models-grid-title-skeleton.tsx
 │   │   │   ├── models-not-found.tsx
 │   │   │   ├── models-sort-controls.tsx
 │   │   │   ├── models-sort-controls-skeleton.tsx
 │   │   │   └── models-view.tsx
 │   │   ├── constants.ts
 │   │   ├── dal/
-│   │   │   ├── get-models.ts     # `{ result, isAuthenticated }`; search + user, batched likes
+│   │   │   ├── get-models.ts     # `{ result, query, isAuthenticated }`; search + user, batched likes
 │   │   │   └── search-models.ts  # Unified listing/search (optional query + category + sort)
 │   │   ├── sort/                 # Sort sub-feature (nuqs param, order mapping, controls hook)
 │   │   │   ├── brands.ts         # Valibot branded Sort type; `isSortList` guard
+│   │   │   ├── components/
+│   │   │   │   └── sort-option.tsx  # Radio + label pill for one sort value
 │   │   │   ├── constants.ts      # SORT_VALUES, DEFAULT_SORT, SORT_LABELS
 │   │   │   ├── hooks/
 │   │   │   │   └── use-sort-query.ts
@@ -253,7 +260,8 @@ src/
 │   ├── auth.ts                   # Runtime Better Auth (`server-only`; secrets + plugins)
 │   ├── auth-client.ts
 │   ├── date.ts
-│   └── hero-image.ts
+│   ├── hero-image.ts
+│   └── url.ts                    # Shared URL helpers
 ├── types/
 │   └── index.ts
 ├── utils/
@@ -289,7 +297,7 @@ The project follows a feature-based architecture where related functionality is 
 - **`db/seed-data/`**: Model seed data only (`models.ts`)
 
 ### Performance Optimizations
-- **NuqsAdapterBoundary**: `NuqsAdapter` wrapped in `Suspense` on listing pages (`@results/page.tsx`, category pages) only — model detail routes skip nuqs overhead; parsers cover `query`, `page`, `limit`, and `sort`
+- **NuqsAdapterBoundary**: `NuqsAdapter` wrapped in `Suspense` on the `3d-models` layout — covers index + category listings; parsers cover `query`, `page`, `limit`, and `sort`
 - **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
@@ -305,7 +313,7 @@ The project follows a feature-based architecture where related functionality is 
 
 - [Bun](https://bun.sh/) for package management, tests, and database scripts
 - A current **Node.js** LTS (used by `next build` / `next start` until `bun --bun` is re-enabled for those scripts)
-- Turso database (`TURSO_DATABASE_URL` + `TURSO_DATABASE_AUTH`); legacy Neon `DATABASE_URL` may remain in Bitwarden unused
+- Turso database (`TURSO_DATABASE_URL` + `TURSO_DATABASE_AUTH`)
 - Optional: [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/) machine account token if you use `bitwarden()` resolvers in `.env.schema` (see `docs/VARLOCK.md`)
 
 ### Installation
@@ -337,7 +345,6 @@ The project follows a feature-based architecture where related functionality is 
    GITHUB_CLIENT_ID="your-github-oauth-client-id"
    GITHUB_CLIENT_SECRET="your-github-oauth-client-secret"
 
-   DATABASE_URL="legacy-neon-url-unused-by-app"
    TURSO_DATABASE_URL="libsql://your-db.turso.io"
    TURSO_DATABASE_AUTH="your-turso-auth-token"
    ```
@@ -463,10 +470,13 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/model-card-skeleton` - Loading skeleton for model cards
 - `features/models/components/model-detail` - Detailed model view page
 - `features/models/components/models-grid` - Grid layout for model cards
-- `features/models/components/models-not-found` - Cached component for displaying no search results with helpful suggestions
-- `features/models/components/models-sort-controls` - Client `fieldset` of native radios for A-Z / Popular / Recent (`useSortQuery`, `isSortList`)
+- `features/models/components/models-grid-header` - Listing header: search input, query-aware title, sort controls
+- `features/models/components/models-grid-title` - Client title via nuqs (`Results for "{query}"` or fallback category / default title)
+- `features/models/components/models-not-found` - Empty search state with the active query in the subheading
+- `features/models/components/models-sort-controls` - Client `fieldset` of `SortOption` radios for A-Z / Popular / Recent (`useSortQuery`)
 - `features/models/components/models-sort-controls-skeleton` - Loading skeleton for sort controls
-- `features/models/components/models-view` - Shared server shell: `Suspense` + async inner that awaits `getModels`; pagination uses `PaginationOffsetTransition` for directional View Transitions
+- `features/models/components/models-view` - Shared server shell: header outside `Suspense`, async inner awaits `getModels`; pagination uses `PaginationOffsetTransition`
+- `features/models/sort/components/sort-option` - Single sort radio + label pill
 - `features/models/sort/hooks/use-sort-query` - nuqs hook for `sort` with pending state
 - `features/models/sort/order-for-sort` - Maps sort brand to Drizzle `orderBy` clauses
 - `features/pagination/components/pagination` - Reusable pagination with nuqs integration and View Transition support
@@ -482,7 +492,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/likes/components/heart-button-skeleton` - Loading skeleton for heart button
 - `features/models/likes/hooks/use-heart-like` - Client hook for toggle action, optimistic state, and single `visualState`
-- `components/search-input/search-input` - Model search with nuqs URL state; Enter flushes current input value; `search-input-transition` for view transitions
+- `components/search-input/search-input` - Model search with nuqs URL state (mounted in `ModelsGridHeader`); Enter flushes current input value; `search-input-transition` for view transitions
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `features/categories/components/categories-block-transition` - View transition wrapper for category listing blocks
 - `app/3d-models/@categories/error.tsx` - Error boundary for categories with built-in retry functionality
@@ -500,7 +510,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/nav-link/nav-link` - `NavLink` with `Suspense` fallback, active state (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
 - `components/nav-link/nav-link-skeleton` - Width-matched skeleton for `NavLink` Suspense fallback
 - `components/nav-link/nav-link-list-item` - `li` + `NavLink` wrapper
-- `components/nuqs/nuqs-adapter-boundary` - `Suspense` + `NuqsAdapter` for listing routes only
+- `components/nuqs/nuqs-adapter-boundary` - `Suspense` + `NuqsAdapter` for the `3d-models` layout
 - `components/top-link` - Top-of-page control used in layouts
 - `features/auth/components/auth-buttons` - Sign-out control wrapping avatar (authenticated navbar slot)
 - `features/auth/components/auth-buttons-skeleton` - Navbar auth slot loading state
@@ -566,8 +576,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run test:e2e` - Run Playwright E2E tests
 - `bun run e2e:open` - Open Playwright UI
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)
-- `bun run type` - Run `tsc` type checking
-- `bun run typegen` - Generate Next.js routes and run `tsc` (noEmit)
+- `bun run type` - Run Next typegen then `tsc` type checking
+- `bun run typegen` - Generate Next.js routes (`next typegen`)
 - `bun run env:typegen` - Regenerate `src/env.d.ts` from `.env.schema` (Varlock)
 - `bun run auth:generate` - Regenerate Better Auth Drizzle schema from `auth.cli.config.ts`
 - `bun run db:generate` - Generate Drizzle migrations
@@ -604,7 +614,7 @@ The project follows a consistent coding style with:
 
 ### Environment Variables
 
-Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `TURSO_DATABASE_URL`, `TURSO_DATABASE_AUTH`, legacy `DATABASE_URL` (unused), and **`BITWARDEN_ACCESS_TOKEN`** when using **`bitwarden()`** resolvers. Varlock validates at runtime; types live in **`src/env.d.ts`**. See **`docs/VARLOCK.md`** for Vercel and Bitwarden.
+Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `TURSO_DATABASE_URL`, `TURSO_DATABASE_AUTH`, and **`BITWARDEN_ACCESS_TOKEN`** when using **`bitwarden()`** resolvers. Varlock validates at runtime; types live in **`src/env.d.ts`**. See **`docs/VARLOCK.md`** for Vercel and Bitwarden.
 
 ## 📝 Data Management
 

@@ -23,7 +23,8 @@ const modelCardEnter = viewTransition({
   new: {
     _only: {
       "--slide-distance": "-20px",
-      animation: "fade-in 250ms, slide-in 250ms",
+      animationDuration: "slow",
+      animationName: "fade-in, slide-in",
     },
   },
 });
@@ -32,7 +33,8 @@ const modelCardExit = viewTransition({
   old: {
     _only: {
       "--slide-distance": "20px",
-      animation: "fade-out 250ms, slide-out 250ms",
+      animationDuration: "slow",
+      animationName: "fade-out, slide-out",
     },
   },
 });

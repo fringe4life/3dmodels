@@ -2,7 +2,11 @@ import Link from "next/link";
 import { buttonRecipe } from "@/components/button-recipe";
 import { UnsuccessfulState } from "@/components/not-found/unsuccessful-state";
 
-const ModelsNotFound = () => (
+interface ModelsNotFoundProps {
+  query: string;
+}
+
+const ModelsNotFound = ({ query }: ModelsNotFoundProps) => (
   <UnsuccessfulState
     action={
       <Link className={buttonRecipe({ variant: "primary" })} href="/3d-models">
@@ -24,7 +28,7 @@ const ModelsNotFound = () => (
         text: "Try searching for related terms or synonyms",
       },
     ]}
-    subheading="Your search returned no results."
+    subheading={`Your search for "${query}" returned no results.`}
   />
 );
 

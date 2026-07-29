@@ -11,17 +11,18 @@ type AuthCardProps = Prettify<
 >;
 
 const authFooterVt = viewTransition({
+  group: {
+    // animationDuration: "250ms",
+    animationDuration: "slow",
+    animationTimingFunction: "glide",
+  },
   new: {
     "--slide-distance-y": "-20px",
-    animationDuration: "250ms",
     animationName: "fade-in, slide-in-y",
-    animationTimingFunction: "glide",
   },
   old: {
     "--slide-distance-y": "20px",
-    animationDuration: "250ms",
     animationName: "fade-out, slide-out-y",
-    animationTimingFunction: "glide",
   },
 });
 

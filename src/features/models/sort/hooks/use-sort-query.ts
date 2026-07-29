@@ -7,10 +7,7 @@ import { toSort } from "@/features/models/sort/brands";
 import { DEFAULT_SORT } from "@/features/models/sort/constants";
 import { sortParser } from "@/features/models/sort/sort-search-params";
 import { DEFAULT_PAGE } from "@/features/pagination/constants";
-import {
-  options as PaginationOptions,
-  paginationParser,
-} from "@/features/pagination/pagination-search-params";
+import { pageParser } from "@/features/pagination/pagination-search-params";
 
 interface UseSortQueryReturn {
   handleSortChange: (next: Sort) => void;
@@ -20,16 +17,10 @@ interface UseSortQueryReturn {
 
 const useSortQuery = (): UseSortQueryReturn => {
   const [isPending, startTransition] = useTransition();
-  const [{ sort }, setSortState] = useQueryStates(
-    {
-      page: paginationParser.page,
-      sort: sortParser,
-    },
-    {
-      ...PaginationOptions,
-      startTransition,
-    },
-  );
+  const [{ sort }, setSortState] = useQueryStates({
+    ...pageParser,
+    ...sortParser,
+  });
 
   const handleSortChange = (next: Sort) => {
     if (next === sort) {
