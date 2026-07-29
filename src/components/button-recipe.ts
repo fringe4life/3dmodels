@@ -77,7 +77,11 @@ export const buttonRecipe = cva({
       outline: {
         _disabled: { _hover: { backgroundColor: "bg.surface" } },
         _focus: { outline: "none", ringOffset: "0" },
-        _hover: { backgroundColor: "bg.subtle" },
+        _hover: {
+          backgroundColor: "brand.muted",
+          borderColor: "brand",
+          color: "text.inverse",
+        },
         backgroundColor: "bg.surface",
         borderColor: "border.strong",
         borderWidth: 1,

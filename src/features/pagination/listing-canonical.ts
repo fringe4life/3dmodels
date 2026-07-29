@@ -2,7 +2,7 @@
  * Canonical URLs for listing routes (`/3d-models`, category listings).
  *
  * Uses nuqs `createLoader` + `createSerializer` with `clearOnDefault: true` so
- * serialized URLs match client hooks (`clearOnDefault` in pagination options).
+ * serialized URLs match client parsers (`listingSearchParamsOptions`).
  *
  * @see https://nuqs.dev/docs/seo (nuqs README SEO section)
  * @see node_modules/next/dist/docs/.../generate-metadata.md — `alternates.canonical`

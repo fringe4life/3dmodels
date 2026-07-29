@@ -11,6 +11,7 @@ import { PaginationOffsetTransition } from "@/features/pagination/components/pag
 import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
 import type { Prettify, SearchParamsProps } from "@/types";
 import { ModelsGrid } from "./models-grid";
+import { ModelsGridHeader } from "./models-grid-header";
 import { ModelsNotFound } from "./models-not-found";
 
 type ModelsViewProps = Prettify<
@@ -20,35 +21,33 @@ type ModelsViewProps = Prettify<
   }
 >;
 
-const ModelsViewInner = async ({
-  searchParams,
-  category,
-  categoryDisplayName,
-}: ModelsViewProps) => {
-  const { isAuthenticated, result } = await getModels(searchParams, category);
+const ModelsViewInner = async ({ searchParams, category }: ModelsViewProps) => {
+  const { isAuthenticated, query, result } = await getModels(
+    searchParams,
+    category,
+  );
   // DO AUTH CHECKS HERE AND MAKE SLUG LIST HERE
   // WE COULD EVEN PASS THE LIST FROM THIS SERVER COMPONENT TO
-  const displayTitle = categoryDisplayName ?? DEFAULT_TITLE;
 
   switch (result.type) {
     case "error":
       throw new Error(result.message);
     case "empty":
+      if (query) {
+        return <ModelsNotFound query={query} />;
+      }
       return (
-        <>
-          <ModelsNotFound />
-          <p
-            className={css({
-              color: "text.muted",
-              fontSize: "sm",
-              fontStyle: "italic",
-              paddingInlineEnd: "1",
-              textAlign: "right",
-            })}
-          >
-            No models found
-          </p>
-        </>
+        <p
+          className={css({
+            color: "text.muted",
+            fontSize: "sm",
+            fontStyle: "italic",
+            paddingInlineEnd: "1",
+            textAlign: "right",
+          })}
+        >
+          No models found
+        </p>
       );
     case "success":
       return (
@@ -63,7 +62,6 @@ const ModelsViewInner = async ({
             <ModelsGrid
               isAuthenticated={isAuthenticated}
               models={result.items}
-              title={displayTitle}
             />
             <Pagination metadata={result.metadata} />
           </div>
@@ -74,17 +72,24 @@ const ModelsViewInner = async ({
   }
 };
 
-const ModelsView = (props: ModelsViewProps) => (
-  <Suspense
-    fallback={
-      <>
-        <ModelsGridSkeleton />
-        <PaginationSkeleton />
-      </>
-    }
+const ModelsView = ({ categoryDisplayName, ...props }: ModelsViewProps) => (
+  <div
+    className={grid({
+      gridAutoRows: "min",
+    })}
   >
-    <ModelsViewInner {...props} />
-  </Suspense>
+    <ModelsGridHeader fallbackTitle={categoryDisplayName ?? DEFAULT_TITLE} />
+    <Suspense
+      fallback={
+        <>
+          <ModelsGridSkeleton />
+          <PaginationSkeleton />
+        </>
+      }
+    >
+      <ModelsViewInner {...props} />
+    </Suspense>
+  </div>
 );
 
 export { ModelsView };

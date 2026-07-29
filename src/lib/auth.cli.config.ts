@@ -10,6 +10,7 @@ import { schema } from "@/db/schema";
  * and any plugin that defines tables/columns).
  */
 export const auth = betterAuth({
+  advanced: { database: { joins: true } },
   database: drizzleAdapter(db, {
     provider: "sqlite",
     schema,
@@ -17,7 +18,6 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  experimental: { joins: true },
   // Placeholder so `betterAuth()` constructs without loading ENV secrets.
   secret: "cli-generate-only",
 });

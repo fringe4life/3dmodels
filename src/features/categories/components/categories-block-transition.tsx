@@ -8,7 +8,7 @@ type CategoriesBlockTransitionProps = Prettify<CategoryName & Children>;
 const enterBlock = viewTransition({
   new: {
     "--slide-distance-y": "-20px",
-    animationDuration: "200ms",
+    animationDuration: "normal",
     animationName: "fade-in, slide-in-y",
     animationTimingFunction: "glide",
   },
@@ -17,7 +17,7 @@ const enterBlock = viewTransition({
 const exitBlock = viewTransition({
   old: {
     "--slide-distance-y": "20px",
-    animationDuration: "200ms",
+    animationDuration: "normal",
     animationName: "fade-out, slide-out-y",
     animationTimingFunction: "glide",
   },

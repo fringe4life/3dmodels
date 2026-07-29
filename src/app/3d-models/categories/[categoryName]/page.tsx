@@ -8,8 +8,7 @@ import { getAllCategorySlugs } from "@/features/categories/queries/get-all-categ
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import { ModelsView } from "@/features/models/components/models-view";
 import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
-// fallow-ignore-next-line unused-export
-export const prefetch = "allow-runtime";
+
 export const generateStaticParams = async () => await getAllCategorySlugs();
 
 export const generateMetadata = async ({

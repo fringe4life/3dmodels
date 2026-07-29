@@ -2,7 +2,7 @@
 
 import { css } from "@styled-system/css";
 import { square } from "@styled-system/patterns";
-import { debounce, defaultRateLimit, parseAsString, useQueryState } from "nuqs";
+import { debounce, defaultRateLimit, useQueryStates } from "nuqs";
 import {
   Activity,
   addTransitionType,
@@ -11,41 +11,63 @@ import {
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { DEFAULT_PAGE } from "@/features/pagination/constants";
+import {
+  pageParser,
+  queryParser,
+} from "@/features/pagination/pagination-search-params";
 import { SearchInputTransition } from "./search-input-transition";
 
 // Constants for debounce timing
 const SEARCH_DEBOUNCE_DELAY = 250; // milliseconds
 
+type TransitionType = "search-clear" | "search-debounce" | "search-submit";
+
+type LimitUrlUpdates = typeof defaultRateLimit;
+
 const SearchInput = () => {
   const [isPending, startTransition] = useTransition();
-  const [query, setQuery] = useQueryState(
-    "query",
-    parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-      startTransition,
-    }),
-  );
+  const [{ query }, setSearchState] = useQueryStates({
+    ...pageParser,
+    ...queryParser,
+  });
+
+  const changeSearch = (
+    search: string,
+    transitionType: TransitionType,
+    debounceTime: LimitUrlUpdates,
+  ) => {
+    startTransition(async () => {
+      addTransitionType(transitionType);
+      await setSearchState(
+        {
+          page: DEFAULT_PAGE,
+          query: search,
+        },
+        {
+          limitUrlUpdates: debounceTime,
+        },
+      );
+    });
+  };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const search = e.currentTarget.value;
+    const search = e.currentTarget.value.trim().toLowerCase() || "";
+    const isEmpty = search === "";
     // Send immediate update if clearing the input, otherwise debounce
-    startTransition(async () => {
-      addTransitionType(search === "" ? "search-clear" : "search-debounce");
-      await setQuery(search || null, {
-        limitUrlUpdates:
-          search === "" ? defaultRateLimit : debounce(SEARCH_DEBOUNCE_DELAY),
-      });
-    });
+    let debounceTime: LimitUrlUpdates = debounce(SEARCH_DEBOUNCE_DELAY);
+    let transitionType: TransitionType = "search-debounce";
+    if (isEmpty) {
+      transitionType = "search-clear";
+      debounceTime = defaultRateLimit;
+    }
+    changeSearch(search, transitionType, debounceTime);
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
-      const search = e.currentTarget.value;
-      startTransition(async () => {
-        addTransitionType("search-submit");
-        await setQuery(search || null, { limitUrlUpdates: defaultRateLimit });
-      });
+      const search = e.currentTarget.value.trim().toLowerCase() || "";
+      changeSearch(search, "search-submit", defaultRateLimit);
     }
   };
   return (

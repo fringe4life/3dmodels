@@ -8,6 +8,7 @@ minimumReleaseAgeExcludes = [
   "next",
   "@next/swc-linux-x64-gnu",
   "@next/swc-linux-x64-musl",
+  "@modelcontextprotocol/sdk",
   "@pandacss/cli",
   "@pandacss/compiler",
   "@pandacss/compiler-darwin-arm64",
@@ -27,7 +28,7 @@ minimumReleaseAgeExcludes = [
   "@pandacss/preset-base",
   "@pandacss/preset-panda",
   "@pandacss/preset-typography",
-  "@pandacss/types",
+  "@pandacss/types"
 ]
 
 [test]

@@ -3,20 +3,30 @@ import { ViewTransition } from "react";
 import type { Children } from "@/types";
 
 const searchSpinnerQuick = viewTransition({
+  group: {
+    animationDuration: "fast",
+  },
   new: {
-    animation: "fade-in 100ms ease-out",
+    animationName: "fade-in",
+    animationTimingFunction: "inDramatic",
   },
   old: {
-    animation: "fade-out 100ms ease-out",
+    animationName: "fade-out",
+    animationTimingFunction: "outDramatic",
   },
 });
 
 const searchSpinnerStandard = viewTransition({
+  group: {
+    animationDuration: "slow",
+  },
   new: {
-    animation: "fade-in 200ms ease-out",
+    animationName: "fade-in",
+    animationTimingFunction: "inDramatic",
   },
   old: {
-    animation: "fade-out 200ms ease-out",
+    animationName: "fade-out",
+    animationTimingFunction: "outDramatic",
   },
 });
 
