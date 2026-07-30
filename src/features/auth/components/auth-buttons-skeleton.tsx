@@ -1,22 +1,20 @@
 import { css } from "@styled-system/css";
-import { hstack } from "@styled-system/patterns";
+import { circle, hstack } from "@styled-system/patterns";
 import { Skeleton } from "@/components/skeleton";
 
 const AuthButtonsSkeleton = () => (
   <div aria-hidden="true" className={hstack({ gap: 2 })}>
     <Skeleton
-      className={css({
+      className={circle({
         backgroundColor: "bg.muted",
-        blockSize: 8,
-        inlineSize: 10,
-        rounded: "sm",
+        size: 8,
       })}
     />
     <Skeleton
       className={css({
         backgroundColor: "bg.muted",
         blockSize: 8,
-        inlineSize: 10,
+        inlineSize: "52px",
         rounded: "sm",
       })}
     />
