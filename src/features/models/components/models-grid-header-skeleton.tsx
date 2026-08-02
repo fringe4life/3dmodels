@@ -17,7 +17,6 @@ const ModelsGridHeaderSkeleton = () => (
           blockSize: 10,
           inlineSize: "full",
           maxInlineSize: { md: "xl" },
-          paddingInline: 4,
           position: "relative",
         })}
       >

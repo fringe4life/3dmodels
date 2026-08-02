@@ -7,7 +7,9 @@
  * @see https://nuqs.dev/docs/seo (nuqs README SEO section)
  * @see node_modules/next/dist/docs/.../generate-metadata.md — `alternates.canonical`
  */
+import type { Route } from "next";
 import { createLoader, createSerializer, type SearchParams } from "nuqs/server";
+import { toListingRoute } from "@/features/pagination/listing-path";
 import { searchParamsParsers } from "@/features/pagination/pagination-search-params";
 
 const loadListingCanonicalSearchParams = createLoader(searchParamsParsers);
@@ -26,11 +28,14 @@ const serializeListingCanonicalSearchParams = createSerializer(
 /**
  * Path + query string for `rel="canonical"`, aligned with nuqs defaults
  * (omits default `page`, `limit`, `sort`, and empty `query`).
+ * Validated as a listing `Route` after serialize.
  */
 export const canonicalPathForListing = async (
-  pathname: string,
+  pathname: Route,
   searchParams: Promise<SearchParams>,
-): Promise<string> => {
+): Promise<Route> => {
   const values = await loadListingCanonicalSearchParams(searchParams);
-  return serializeListingCanonicalSearchParams(pathname, values);
+  return toListingRoute(
+    serializeListingCanonicalSearchParams(pathname, values),
+  );
 };

@@ -1,6 +1,7 @@
 import slugify from "slugify";
 import type { Category } from "@/db/categories";
 import type { Model } from "@/db/schema/models";
+import { MODEL_SLUGIFY_OPTIONS } from "@/lib/slugify";
 import type { Prettify } from "@/types";
 
 type SeedModel = Prettify<
@@ -16,7 +17,7 @@ export const modelsData: SeedModel[] = [
     description: "A detailed dragon model with movable joints and wings",
     image: "/img/models/1.jpg",
     name: "Articulated Dragon",
-    slug: slugify("Articulated Dragon", { lower: true, strict: true }),
+    slug: slugify("Articulated Dragon", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "household",
@@ -24,7 +25,7 @@ export const modelsData: SeedModel[] = [
     description: "Geometric planter perfect for small succulents",
     image: "/img/models/2.jpg",
     name: "Succulent Planter",
-    slug: slugify("Succulent Planter", { lower: true, strict: true }),
+    slug: slugify("Succulent Planter", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "props-cosplay",
@@ -32,7 +33,7 @@ export const modelsData: SeedModel[] = [
     description: "Sci-fi inspired helmet for costume making",
     image: "/img/models/3.jpg",
     name: "Cosplay Helmet",
-    slug: slugify("Cosplay Helmet", { lower: true, strict: true }),
+    slug: slugify("Cosplay Helmet", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "education",
@@ -40,7 +41,7 @@ export const modelsData: SeedModel[] = [
     description: "Scale model of the solar system for classroom use",
     image: "/img/models/4.jpg",
     name: "Educational Solar System",
-    slug: slugify("Educational Solar System", { lower: true, strict: true }),
+    slug: slugify("Educational Solar System", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "art",
@@ -48,7 +49,7 @@ export const modelsData: SeedModel[] = [
     description: "Modern art piece with flowing curves",
     image: "/img/models/5.jpg",
     name: "Abstract Sculpture",
-    slug: slugify("Abstract Sculpture", { lower: true, strict: true }),
+    slug: slugify("Abstract Sculpture", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "tools",
@@ -56,7 +57,7 @@ export const modelsData: SeedModel[] = [
     description: "Customizable holder for workshop tools",
     image: "/img/models/6.jpg",
     name: "Tool Holder",
-    slug: slugify("Tool Holder", { lower: true, strict: true }),
+    slug: slugify("Tool Holder", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "miniatures",
@@ -64,7 +65,7 @@ export const modelsData: SeedModel[] = [
     description: "Detailed warrior miniature for tabletop gaming",
     image: "/img/models/7.jpg",
     name: "Fantasy Miniature",
-    slug: slugify("Fantasy Miniature", { lower: true, strict: true }),
+    slug: slugify("Fantasy Miniature", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "fashion",
@@ -72,7 +73,7 @@ export const modelsData: SeedModel[] = [
     description: "Tool for creating custom jewelry",
     image: "/img/models/8.jpg",
     name: "Bracelet Maker",
-    slug: slugify("Bracelet Maker", { lower: true, strict: true }),
+    slug: slugify("Bracelet Maker", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "3d-printer",
@@ -80,7 +81,7 @@ export const modelsData: SeedModel[] = [
     description: "Enhancement parts for 3D printer performance",
     image: "/img/models/9.jpg",
     name: "Printer Upgrade Kit",
-    slug: slugify("Printer Upgrade Kit", { lower: true, strict: true }),
+    slug: slugify("Printer Upgrade Kit", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "hobby-diy",
@@ -88,7 +89,7 @@ export const modelsData: SeedModel[] = [
     description: "Collection of tools for gardening enthusiasts",
     image: "/img/models/10.jpg",
     name: "Garden Tool Set",
-    slug: slugify("Garden Tool Set", { lower: true, strict: true }),
+    slug: slugify("Garden Tool Set", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "toys-games",
@@ -96,7 +97,7 @@ export const modelsData: SeedModel[] = [
     description: "Modern interpretation of classic chess pieces",
     image: "/img/models/11.jpg",
     name: "Chess Set",
-    slug: slugify("Chess Set", { lower: true, strict: true }),
+    slug: slugify("Chess Set", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "household",
@@ -104,7 +105,7 @@ export const modelsData: SeedModel[] = [
     description: "Modular system for wall storage",
     image: "/img/models/12.jpg",
     name: "Wall Organizer",
-    slug: slugify("Wall Organizer", { lower: true, strict: true }),
+    slug: slugify("Wall Organizer", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "props-cosplay",
@@ -112,7 +113,7 @@ export const modelsData: SeedModel[] = [
     description: "Fantasy sword for costume play",
     image: "/img/models/13.jpg",
     name: "Prop Sword",
-    slug: slugify("Prop Sword", { lower: true, strict: true }),
+    slug: slugify("Prop Sword", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "education",
@@ -120,7 +121,7 @@ export const modelsData: SeedModel[] = [
     description: "Educational model of molecular structures",
     image: "/img/models/14.jpg",
     name: "Molecular Model",
-    slug: slugify("Molecular Model", { lower: true, strict: true }),
+    slug: slugify("Molecular Model", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "art",
@@ -128,7 +129,7 @@ export const modelsData: SeedModel[] = [
     description: "Decorative wall panels with geometric patterns",
     image: "/img/models/15.jpg",
     name: "Geometric Wall Art",
-    slug: slugify("Geometric Wall Art", { lower: true, strict: true }),
+    slug: slugify("Geometric Wall Art", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "tools",
@@ -136,7 +137,7 @@ export const modelsData: SeedModel[] = [
     description: "Custom handles for precision screwdrivers",
     image: "/img/models/16.jpg",
     name: "Screwdriver Set",
-    slug: slugify("Screwdriver Set", { lower: true, strict: true }),
+    slug: slugify("Screwdriver Set", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "miniatures",
@@ -144,7 +145,7 @@ export const modelsData: SeedModel[] = [
     description: "Detailed dragon for tabletop gaming",
     image: "/img/models/17.jpg",
     name: "Dragon Miniature",
-    slug: slugify("Dragon Miniature", { lower: true, strict: true }),
+    slug: slugify("Dragon Miniature", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "fashion",
@@ -152,7 +153,7 @@ export const modelsData: SeedModel[] = [
     description: "Set of geometric earring designs",
     image: "/img/models/18.jpg",
     name: "Earring Collection",
-    slug: slugify("Earring Collection", { lower: true, strict: true }),
+    slug: slugify("Earring Collection", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "3d-printer",
@@ -160,7 +161,7 @@ export const modelsData: SeedModel[] = [
     description: "Enhanced cooling solution for 3D printers",
     image: "/img/models/19.jpg",
     name: "Cooling System",
-    slug: slugify("Cooling System", { lower: true, strict: true }),
+    slug: slugify("Cooling System", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "hobby-diy",
@@ -168,7 +169,7 @@ export const modelsData: SeedModel[] = [
     description: "DIY birdhouse with modern design",
     image: "/img/models/20.jpg",
     name: "Birdhouse Kit",
-    slug: slugify("Birdhouse Kit", { lower: true, strict: true }),
+    slug: slugify("Birdhouse Kit", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "toys-games",
@@ -176,7 +177,7 @@ export const modelsData: SeedModel[] = [
     description: "Articulated robot with moving parts",
     image: "/img/models/21.jpg",
     name: "Robot Toy",
-    slug: slugify("Robot Toy", { lower: true, strict: true }),
+    slug: slugify("Robot Toy", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "household",
@@ -184,7 +185,7 @@ export const modelsData: SeedModel[] = [
     description: "Customizable drawer organization system",
     image: "/img/models/22.jpg",
     name: "Kitchen Organizer",
-    slug: slugify("Kitchen Organizer", { lower: true, strict: true }),
+    slug: slugify("Kitchen Organizer", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "props-cosplay",
@@ -192,7 +193,7 @@ export const modelsData: SeedModel[] = [
     description: "Base template for custom costume masks",
     image: "/img/models/23.jpg",
     name: "Mask Template",
-    slug: slugify("Mask Template", { lower: true, strict: true }),
+    slug: slugify("Mask Template", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "education",
@@ -200,7 +201,7 @@ export const modelsData: SeedModel[] = [
     description: "Educational DNA double helix model",
     image: "/img/models/24.jpg",
     name: "DNA Model",
-    slug: slugify("DNA Model", { lower: true, strict: true }),
+    slug: slugify("DNA Model", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "art",
@@ -208,7 +209,7 @@ export const modelsData: SeedModel[] = [
     description: "Contemporary vase with unique patterns",
     image: "/img/models/25.jpg",
     name: "Modern Vase",
-    slug: slugify("Modern Vase", { lower: true, strict: true }),
+    slug: slugify("Modern Vase", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "tools",
@@ -216,7 +217,7 @@ export const modelsData: SeedModel[] = [
     description: "Custom sized wrench collection",
     image: "/img/models/26.jpg",
     name: "Wrench Set",
-    slug: slugify("Wrench Set", { lower: true, strict: true }),
+    slug: slugify("Wrench Set", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "miniatures",
@@ -224,7 +225,7 @@ export const modelsData: SeedModel[] = [
     description: "Detailed medieval castle for gaming",
     image: "/img/models/27.jpg",
     name: "Castle Miniature",
-    slug: slugify("Castle Miniature", { lower: true, strict: true }),
+    slug: slugify("Castle Miniature", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "fashion",
@@ -232,7 +233,7 @@ export const modelsData: SeedModel[] = [
     description: "Customizable pendant template",
     image: "/img/models/28.jpg",
     name: "Pendant Design",
-    slug: slugify("Pendant Design", { lower: true, strict: true }),
+    slug: slugify("Pendant Design", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "3d-printer",
@@ -240,7 +241,7 @@ export const modelsData: SeedModel[] = [
     description: "Enhanced extruder mechanism",
     image: "/img/models/29.jpg",
     name: "Extruder Upgrade",
-    slug: slugify("Extruder Upgrade", { lower: true, strict: true }),
+    slug: slugify("Extruder Upgrade", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "hobby-diy",
@@ -248,7 +249,7 @@ export const modelsData: SeedModel[] = [
     description: "Modern stand for indoor plants",
     image: "/img/models/30.jpg",
     name: "Plant Stand",
-    slug: slugify("Plant Stand", { lower: true, strict: true }),
+    slug: slugify("Plant Stand", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "toys-games",
@@ -256,7 +257,7 @@ export const modelsData: SeedModel[] = [
     description: "Complex mechanical puzzle toy",
     image: "/img/models/31.jpg",
     name: "Puzzle Cube",
-    slug: slugify("Puzzle Cube", { lower: true, strict: true }),
+    slug: slugify("Puzzle Cube", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "household",
@@ -264,7 +265,7 @@ export const modelsData: SeedModel[] = [
     description: "Shower organization solution",
     image: "/img/models/32.jpg",
     name: "Bathroom Caddy",
-    slug: slugify("Bathroom Caddy", { lower: true, strict: true }),
+    slug: slugify("Bathroom Caddy", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "props-cosplay",
@@ -272,7 +273,7 @@ export const modelsData: SeedModel[] = [
     description: "Detailed costume armor segment",
     image: "/img/models/33.jpg",
     name: "Armor Piece",
-    slug: slugify("Armor Piece", { lower: true, strict: true }),
+    slug: slugify("Armor Piece", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "education",
@@ -280,7 +281,7 @@ export const modelsData: SeedModel[] = [
     description: "Interactive atomic structure model",
     image: "/img/models/34.jpg",
     name: "Atom Model",
-    slug: slugify("Atom Model", { lower: true, strict: true }),
+    slug: slugify("Atom Model", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "art",
@@ -288,7 +289,7 @@ export const modelsData: SeedModel[] = [
     description: "Abstract wall mounted artwork",
     image: "/img/models/35.jpg",
     name: "Wall Sculpture",
-    slug: slugify("Wall Sculpture", { lower: true, strict: true }),
+    slug: slugify("Wall Sculpture", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "tools",
@@ -296,7 +297,7 @@ export const modelsData: SeedModel[] = [
     description: "Precise measurement device",
     image: "/img/models/36.jpg",
     name: "Measuring Tool",
-    slug: slugify("Measuring Tool", { lower: true, strict: true }),
+    slug: slugify("Measuring Tool", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "miniatures",
@@ -304,7 +305,7 @@ export const modelsData: SeedModel[] = [
     description: "Detailed tree for miniature landscapes",
     image: "/img/models/37.jpg",
     name: "Fantasy Tree",
-    slug: slugify("Fantasy Tree", { lower: true, strict: true }),
+    slug: slugify("Fantasy Tree", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "fashion",
@@ -312,7 +313,7 @@ export const modelsData: SeedModel[] = [
     description: "Customizable ring designs",
     image: "/img/models/38.jpg",
     name: "Ring Collection",
-    slug: slugify("Ring Collection", { lower: true, strict: true }),
+    slug: slugify("Ring Collection", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "3d-printer",
@@ -320,7 +321,7 @@ export const modelsData: SeedModel[] = [
     description: "Optimized cooling fan design",
     image: "/img/models/39.jpg",
     name: "Print Fan",
-    slug: slugify("Print Fan", { lower: true, strict: true }),
+    slug: slugify("Print Fan", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "hobby-diy",
@@ -328,7 +329,7 @@ export const modelsData: SeedModel[] = [
     description: "Wall-mounted tool organization system",
     image: "/img/models/40.jpg",
     name: "Tool Rack",
-    slug: slugify("Tool Rack", { lower: true, strict: true }),
+    slug: slugify("Tool Rack", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "toys-games",
@@ -336,7 +337,7 @@ export const modelsData: SeedModel[] = [
     description: "Poseable character figure",
     image: "/img/models/41.jpg",
     name: "Action Figure",
-    slug: slugify("Action Figure", { lower: true, strict: true }),
+    slug: slugify("Action Figure", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "household",
@@ -344,7 +345,7 @@ export const modelsData: SeedModel[] = [
     description: "Desk cable organization solution",
     image: "/img/models/42.jpg",
     name: "Cable Manager",
-    slug: slugify("Cable Manager", { lower: true, strict: true }),
+    slug: slugify("Cable Manager", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "props-cosplay",
@@ -352,7 +353,7 @@ export const modelsData: SeedModel[] = [
     description: "Fantasy shield for costumes",
     image: "/img/models/43.jpg",
     name: "Prop Shield",
-    slug: slugify("Prop Shield", { lower: true, strict: true }),
+    slug: slugify("Prop Shield", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "education",
@@ -360,7 +361,7 @@ export const modelsData: SeedModel[] = [
     description: "Detailed biological cell model",
     image: "/img/models/44.jpg",
     name: "Cell Model",
-    slug: slugify("Cell Model", { lower: true, strict: true }),
+    slug: slugify("Cell Model", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "art",
@@ -368,7 +369,7 @@ export const modelsData: SeedModel[] = [
     description: "Decorative lamp with unique design",
     image: "/img/models/45.jpg",
     name: "Art Lamp",
-    slug: slugify("Art Lamp", { lower: true, strict: true }),
+    slug: slugify("Art Lamp", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "tools",
@@ -376,7 +377,7 @@ export const modelsData: SeedModel[] = [
     description: "Fine detail work tool",
     image: "/img/models/46.jpg",
     name: "Precision Tool",
-    slug: slugify("Precision Tool", { lower: true, strict: true }),
+    slug: slugify("Precision Tool", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "miniatures",
@@ -384,7 +385,7 @@ export const modelsData: SeedModel[] = [
     description: "Detailed landscape for gaming",
     image: "/img/models/47.jpg",
     name: "Terrain Piece",
-    slug: slugify("Terrain Piece", { lower: true, strict: true }),
+    slug: slugify("Terrain Piece", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "fashion",
@@ -392,7 +393,7 @@ export const modelsData: SeedModel[] = [
     description: "Modern accessory design",
     image: "/img/models/48.jpg",
     name: "Fashion Accessory",
-    slug: slugify("Fashion Accessory", { lower: true, strict: true }),
+    slug: slugify("Fashion Accessory", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "3d-printer",
@@ -400,7 +401,7 @@ export const modelsData: SeedModel[] = [
     description: "Stabilizing platform for 3D printers",
     image: "/img/models/49.jpg",
     name: "Printer Stand",
-    slug: slugify("Printer Stand", { lower: true, strict: true }),
+    slug: slugify("Printer Stand", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "hobby-diy",
@@ -408,7 +409,7 @@ export const modelsData: SeedModel[] = [
     description: "Modular garden planter system",
     image: "/img/models/50.jpg",
     name: "Planter Box",
-    slug: slugify("Planter Box", { lower: true, strict: true }),
+    slug: slugify("Planter Box", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "toys-games",
@@ -416,7 +417,7 @@ export const modelsData: SeedModel[] = [
     description: "Compatible construction toy set",
     image: "/img/models/51.jpg",
     name: "Building Blocks",
-    slug: slugify("Building Blocks", { lower: true, strict: true }),
+    slug: slugify("Building Blocks", MODEL_SLUGIFY_OPTIONS),
   },
   {
     categorySlug: "household",
@@ -424,6 +425,6 @@ export const modelsData: SeedModel[] = [
     description: "Customizable shelving solution",
     image: "/img/models/52.jpg",
     name: "Shelf System",
-    slug: slugify("Shelf System", { lower: true, strict: true }),
+    slug: slugify("Shelf System", MODEL_SLUGIFY_OPTIONS),
   },
 ];

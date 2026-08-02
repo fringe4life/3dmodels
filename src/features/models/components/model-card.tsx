@@ -1,5 +1,6 @@
 import { css, cx, viewTransition } from "@styled-system/css";
 import { hoverShadow, hstack } from "@styled-system/patterns";
+import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
@@ -14,6 +15,7 @@ import type { ModelWithLikeStatus } from "../types";
 
 type ModelCardProps = Prettify<
   IsAuthenticated & {
+    href: Route;
     model: ModelWithLikeStatus;
     priority?: boolean;
   }
@@ -40,6 +42,7 @@ const modelCardExit = viewTransition({
 });
 
 const ModelCard = ({
+  href,
   isAuthenticated,
   model: { slug, name, description, image, categorySlug, likes, hasLiked },
   priority,
@@ -116,7 +119,7 @@ const ModelCard = ({
                 lineClamp: 2,
               })}
             >
-              <Link href={`/3d-models/${slug}`}>
+              <Link href={href}>
                 {name}
                 <span
                   className={css({

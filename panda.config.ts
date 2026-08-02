@@ -165,6 +165,11 @@ export default defineConfig({
         navProgressReveal: {
           to: { opacity: 1 },
         },
+        /** Loading placeholder highlight sweeps across the skeleton surface */
+        skeletonShimmer: {
+          from: { backgroundPosition: "-200% 0" },
+          to: { backgroundPosition: "200% 0" },
+        },
         "slide-in": {
           from: {
             translate: "var(--slide-distance)",

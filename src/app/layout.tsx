@@ -12,6 +12,8 @@ import {
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
 
+export const maxDuration = 45;
+
 const albertSans = Albert_Sans({
   display: "swap",
   subsets: ["latin"],

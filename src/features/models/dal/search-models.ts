@@ -1,4 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
+import { cacheSignal } from "react";
+import { ABORT_TIMEOUT_MS } from "@/constants";
 import type { CategorySlug } from "@/db/brands";
 import type { Model } from "@/db/schema/models";
 import { getModelsCount } from "@/features/models/queries/get-models-count";
@@ -10,6 +12,7 @@ import type {
   RawPaginatedResult,
 } from "@/features/pagination/types";
 import type { Maybe } from "@/types";
+import { toCombinedAbortSignal, withAbort } from "@/utils/with-abort";
 
 // Optimized search function that doesn't fetch like status
 export const searchModels = async (
@@ -29,11 +32,19 @@ export const searchModels = async (
   cacheLife("default");
   const searchPattern = query ? `%${query}%` : undefined;
 
-  const result = await paginateItems({
-    getItems: () =>
-      getModelsList({ category, pagination, searchPattern, sort }),
-    getItemsCount: () => getModelsCount({ category, searchPattern }),
-  });
+  const signal = toCombinedAbortSignal(
+    cacheSignal(),
+    AbortSignal.timeout(ABORT_TIMEOUT_MS),
+  );
+
+  const result = await withAbort(
+    paginateItems({
+      getItems: () =>
+        getModelsList({ category, pagination, searchPattern, sort }),
+      getItemsCount: () => getModelsCount({ category, searchPattern }),
+    }),
+    signal,
+  );
 
   return result satisfies RawPaginatedResult<Model>;
 };
