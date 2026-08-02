@@ -16,8 +16,15 @@
   },
   "hooks": {
     "afterFileEdit": [
-      { "command": "bun run test:affected" },
-      { "command": "bun run fix" }
+      {
+        "command": "bun x ultracite fix --skip=correctness/noUnusedImports"
+      },
+      { "command": "bun run test:affected" }
+    ],
+    "stop": [
+      { "command": "bun run fix" },
+      { "command": "fallow audit --quiet" },
+      { "command": "bun run test" }
     ]
   }
 }

@@ -1,4 +1,5 @@
 import { css } from "@styled-system/css";
+import { token } from "@styled-system/tokens";
 import { Skeleton } from "@/components/skeleton";
 
 const ModelsSortControlsSkeleton = () => (
@@ -12,27 +13,27 @@ const ModelsSortControlsSkeleton = () => (
   >
     <Skeleton
       className={css({
-        backgroundColor: "bg.muted",
         blockSize: 7,
         inlineSize: 12,
         rounded: "full",
       })}
+      color={token("colors.bg.muted")}
     />
     <Skeleton
       className={css({
-        backgroundColor: "bg.muted",
         blockSize: 7,
         inlineSize: 20,
         rounded: "full",
       })}
+      color={token("colors.bg.muted")}
     />
     <Skeleton
       className={css({
-        backgroundColor: "bg.muted",
         blockSize: 7,
         inlineSize: 16,
         rounded: "full",
       })}
+      color={token("colors.bg.muted")}
     />
   </div>
 );

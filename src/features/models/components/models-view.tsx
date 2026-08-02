@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/suspicious/noUnnecessaryConditions: false positive — biome type inference cannot resolve the PaginatedResult discriminated union across the awaited getModels() call, so it wrongly reports these cases unreachable (tsc validates the switch) */
 import { css } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
+import type { Route } from "next";
 import { Suspense } from "react";
 import type { CategorySlug } from "@/db/brands";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
@@ -9,6 +10,7 @@ import { getModels } from "@/features/models/dal/get-models";
 import { Pagination } from "@/features/pagination/components/pagination";
 import { PaginationOffsetTransition } from "@/features/pagination/components/pagination-offset-transition";
 import { PaginationSkeleton } from "@/features/pagination/components/pagination-skeleton";
+import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
 import type { Prettify, SearchParamsProps } from "@/types";
 import { ModelsGrid } from "./models-grid";
 import { ModelsGridHeader } from "./models-grid-header";
@@ -22,10 +24,14 @@ type ModelsViewProps = Prettify<
 >;
 
 const ModelsViewInner = async ({ searchParams, category }: ModelsViewProps) => {
-  const { isAuthenticated, query, result } = await getModels(
-    searchParams,
-    category,
-  );
+  const listingPathname = (
+    category ? `/3d-models/categories/${category}` : "/3d-models"
+  ) satisfies Route;
+
+  const [{ isAuthenticated, query, result }, returnTo] = await Promise.all([
+    getModels(searchParams, category),
+    canonicalPathForListing(listingPathname, searchParams),
+  ]);
   // DO AUTH CHECKS HERE AND MAKE SLUG LIST HERE
   // WE COULD EVEN PASS THE LIST FROM THIS SERVER COMPONENT TO
 
@@ -62,6 +68,7 @@ const ModelsViewInner = async ({ searchParams, category }: ModelsViewProps) => {
             <ModelsGrid
               isAuthenticated={isAuthenticated}
               models={result.items}
+              returnTo={returnTo}
             />
             <Pagination metadata={result.metadata} />
           </div>

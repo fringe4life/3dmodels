@@ -2,6 +2,7 @@ import { css, cx } from "@styled-system/css";
 import { grid, gridItem } from "@styled-system/patterns";
 import { prose } from "@styled-system/recipes";
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { ViewTransition } from "react";
 import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
@@ -13,7 +14,9 @@ import type { getModelBySlug } from "../queries/get-model-by-slug";
 type ModelDetailProps = Prettify<
   NonNullable<Awaited<ReturnType<typeof getModelBySlug>>> &
     Likes &
-    Partial<Children>
+    Partial<Children> & {
+      header?: ReactNode;
+    }
 >;
 
 const ModelDetail = ({
@@ -24,6 +27,7 @@ const ModelDetail = ({
   description,
   dateAdded,
   children,
+  header,
 }: ModelDetailProps) => (
   <div
     className={css({
@@ -35,6 +39,7 @@ const ModelDetail = ({
       rounded: "lg",
     })}
   >
+    {header}
     <article className={grid({ columns: { base: 1, lg: 2 }, gap: 8 })}>
       <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
         <figure

@@ -1,5 +1,9 @@
+import { css } from "@styled-system/css";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next/types";
+import { Suspend } from "@/components/suspend";
+import { ModelBackLink } from "@/features/models/back-link/model-back-link";
+import { ModelBackLinkSkeleton } from "@/features/models/back-link/model-back-link-skeleton";
 import { ModelDetail } from "@/features/models/components/model-detail";
 import { MODEL_NOT_FOUND } from "@/features/models/constants";
 import { toggleLike } from "@/features/models/likes/actions/toggle-like";
@@ -39,7 +43,10 @@ export const generateMetadata = async ({
   };
 };
 
-const ModelDetailPage = async ({ params }: PageProps<"/3d-models/[slug]">) => {
+const ModelDetailPage = async ({
+  params,
+  searchParams,
+}: PageProps<"/3d-models/[slug]">) => {
   const { slug } = await params;
 
   const model = await getModelBySlug(slug);
@@ -49,7 +56,21 @@ const ModelDetailPage = async ({ params }: PageProps<"/3d-models/[slug]">) => {
   }
 
   return (
-    <ModelDetail {...model}>
+    <ModelDetail
+      {...model}
+      header={
+        <div
+          className={css({
+            blockSize: 8,
+            marginBlockEnd: 4,
+          })}
+        >
+          <Suspend fallback={<ModelBackLinkSkeleton />} name="model-back-link">
+            <ModelBackLink searchParams={searchParams} />
+          </Suspend>
+        </div>
+      }
+    >
       <HeartButtonServer
         likes={model.likes}
         slug={slug}

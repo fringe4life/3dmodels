@@ -2,16 +2,15 @@ import { hstack } from "@styled-system/patterns";
 import { token } from "@styled-system/tokens";
 import { Skeleton } from "@/components/skeleton";
 
-const HeartButtonSkeleton = () => (
+const ModelBackLinkSkeleton = () => (
   <Skeleton
     className={hstack({
-      blockSize: 6,
-      inlineSize: 12,
-      marginInlineEnd: 1,
-      rounded: "sm",
+      blockSize: 8,
+      inlineSize: 20,
+      rounded: "md",
     })}
     color={token("colors.bg.muted")}
   />
 );
 
-export { HeartButtonSkeleton };
+export { ModelBackLinkSkeleton };
