@@ -1,11 +1,13 @@
-import type slugify from "slugify";
-
 /**
  * Object form of slugify's 2nd arg (excludes the string `replacement` shorthand).
- * `import type` gives the function type, so use `Parameters<slugify>` (no `typeof`).
+ *
+ * Prefer `typeof import("slugify")` over `import type slugify`:
+ * the package is `export =` + `export as namespace`, so a type-only default
+ * import is the namespace (TS2709 if used as `Parameters<slugify>`).
+ * `typeof` yields the callable; `Parameters` then works.
  */
 type SlugifyOptions = Exclude<
-  NonNullable<Parameters<typeof slugify>[1]>,
+  NonNullable<Parameters<typeof import("slugify")>[1]>,
   string
 >;
 
