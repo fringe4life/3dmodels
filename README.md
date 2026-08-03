@@ -10,7 +10,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.11-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=sqlite)
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.2-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.5.3-60A5FA?logo=biome)
+![Biome](https://img.shields.io/badge/Biome-2.5.6-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.9.4-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
@@ -21,12 +21,12 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`)
 - **Authentication**: Better Auth 1.7.0-rc.2 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins (`provider: "sqlite"`)
 - **Search Params**: nuqs 2.9.2 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata; model detail `from` return paths are allowlisted via `features/pagination/listing-path.ts`
-- **Linting & Formatting**: Biome 2.5.3 with Ultracite 7.9.4 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`)
+- **Linting & Formatting**: Biome 2.5.6 with Ultracite 7.9.4 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`)
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`); `bunfig.toml` sets `minimumReleaseAge` with excludes for Next / Panda canaries
 - **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for inspect / debug build). **Temporarily**, `dev`, production `build`, and `start` run **Next on Node** (`next dev`, `bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
 - **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, `appNewScrollHandler`, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), and `turbopackRustReactCompiler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.14.1 with `.env.schema` (`@encryptInjectedEnv`), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.15.0 with `.env.schema` (`@encryptInjectedEnv`), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas; model slugs validated via slugify idempotency (`lib/slugify.ts` + `isModelSlug` in `db/brands.ts`)
 
 ## 🚀 Features
@@ -38,7 +38,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Model detail back link**: Detail pages restore the prior listing via allowlisted `from` query (`features/models/back-link/`) with runtime prefetch under Partial Prefetching
 - **Shimmer skeletons**: Shared `Skeleton` shimmer (CSS vars / `color` props) for listing and detail loading states
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination
+- **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination (full-viewport slide on small screens, compact slide from `md`)
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data; listing DAL combines cache + timeout abort signals (`utils/with-abort.ts`, `ABORT_TIMEOUT_MS`)
 - **Modern Stack**: Built with Next.js 16.3, TypeScript, and Panda CSS
@@ -49,7 +49,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -307,15 +307,15 @@ The project follows a feature-based architecture where related functionality is 
 - **`db/seed-data/`**: Model seed data only (`models.ts`)
 
 ### Performance Optimizations
-- **NuqsAdapterBoundary**: `NuqsAdapter` wrapped in `Suspense` on the `3d-models` layout — covers index + category listings; parsers cover `query`, `page`, `limit`, and `sort`
-- **Font Loading**: Only required font weights are loaded (Albert Sans: 400,500,600,700; Montserrat Alternates: 400,600,700)
+- **NuqsAdapterBoundary**: `NuqsAdapter` wraps entire 3d-models tree
+- **Font Loading**: Variable fonts are used as 3+ font weights are used
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` for nullable query results; `UserAuthState` discriminated union (`{ isAuthenticated: true, user }` | `{ isAuthenticated: false }`) from `getUser()` and `HasAuth`; shared `IsAuthenticated` interface extended by models/pagination props; component-specific props co-located next to components where not reused
 - **Query Builder**: Migrated to Drizzle ORM RQBv2 for simple relational queries (`db.query.tableName.findMany/findFirst`) with object-based `where` clauses; complex queries and mutations remain on SQL builder
 - **Error Recovery**: Error boundaries with `error.tsx` for failed queries (results, category pages, and model detail pages) with built-in `reset()` retry functionality and helpful error guidance
 - **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `features/pagination/utils/`
-- **View Transitions**: Composable CSS animations using base fade and slide keyframes with CSS variables for slide distance, enabling smooth directional page transitions (enter-left, exit-left, enter-right, exit-right) for pagination
+- **View Transitions**: Composable CSS animations using base fade and slide keyframes with CSS variables for slide distance, enabling smooth directional page transitions (enter-left, exit-left, enter-right, exit-right) for pagination; `--slide-distance` is responsive (`100vw`-based on small screens, compact from `md`)
 - **Abortable listing fetches**: `search-models` combines Next cache signal + `AbortSignal.timeout(ABORT_TIMEOUT_MS)` via `utils/with-abort.ts` so cancelled navigations drop DB awaits sooner
 - **Platform timeout**: Root layout exports `maxDuration = 45` (literal) so Vercel/Next can apply a hard execution ceiling
 
@@ -463,7 +463,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Query Functions**: Unified `getModels()` function uses `searchModels()` which handles search (with optional query), category filtering, sort order, and listing. The function uses helper functions `getModelsList` and `getModelsCount` which support optional search and category parameters; sort maps through `orderForSort`
 - **Like Status**: `like-status.ts` queries use `"use cache: private"` for user-specific like status (cached on device)
 - **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the page
-- **Invalidation**: Centralized utilities in `utils/cache-invalidation.ts` with on-demand invalidation via `invalidateModel()`
+- **Invalidation**: `invalidateAllModels()` in `utils/cache-invalidation.ts` (`updateTag("models")`) — simple broad invalidation on like/unlike so counts and `sort=popular` stay correct; longer-term content/likes split documented in `docs/MODEL_CACHE_SPLIT.md`
 - **Optimistic Updates**: Heart button uses `useOptimistic` for immediate UI feedback with server state synchronization via form actions
 
 ## 🎨 Styling & Components
@@ -481,7 +481,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/model-card` - Individual model display card
 - `features/models/components/model-card-skeleton` - Loading skeleton for model cards
 - `features/models/components/model-detail` - Detailed model view page
-- `features/models/back-link/model-back-link` - Server back link restoring allowlisted listing `from` (runtime `prefetch={true}`)
+- `features/models/back-link/model-back-link` - Server back link restoring allowlisted listing `from` (runtime `prefetch={true}`; `arrowRecipe` left chevron micro-interactions)
 - `features/models/back-link/from-search-params` - `modelDetailHref` / `resolveBackHref` with slugify-stable slug checks
 - `features/models/components/models-grid` - Grid layout for model cards (embeds `from` on detail links)
 - `features/models/components/models-grid-header` - Listing header: search input, query-aware title, sort controls
@@ -494,9 +494,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/sort/hooks/use-sort-query` - nuqs hook for `sort` with pending state
 - `features/models/sort/order-for-sort` - Maps sort brand to Drizzle `orderBy` clauses
 - `features/pagination/components/pagination` - Reusable pagination with nuqs integration and View Transition support
-- `features/pagination/components/pagination-button` - Page/limit control button used by pagination
-- `features/pagination/components/pagination-limit-control` - Per-page limit selector
-- `features/pagination/components/pagination-page-control` - Prev/next page buttons with `aria-label`
+- `features/pagination/components/pagination-button` - Page control button (`group` for arrow micro-interactions)
+- `features/pagination/components/pagination-limit-control` - Per-page limit via customizable `<select>` (`appearance: base-select`, `selectedcontent`, picker transitions)
+- `features/pagination/components/pagination-offset-transition` - Directional View Transition wrapper; responsive `--slide-distance`
+- `features/pagination/components/pagination-page-control` - Prev/next page buttons with `aria-label` and `arrowRecipe` chevrons
 - `features/pagination/components/pagination-summary` - Result count / range summary
 - `features/pagination/hooks/use-pagination-query` - nuqs + View Transition hook for page/limit changes
 - `features/pagination/listing-canonical` - Canonical path serializer for listing SEO (`query`, `page`, `limit`, `sort`)
@@ -535,7 +536,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/auth/components/avatar` - Avatar image with fallback
 
 #### Shared Components
-- `components/button` - Shared button styled with Panda variants
+- `components/arrow-recipe` - Panda CVA for directional arrow icons (left/right, compact/default distance, size; group hover/focus/active)
+- `components/button` - Shared button styled with Panda variants (`primary`, `outline`, `brandOutline`, `ghost`) and densities
+- `components/button-recipe` - Button CVA recipe (`brandOutline` for idle sort; neutral `outline` for GitHub sign-in)
 - `components/form/input` - Text input with consistent field styling
 - `components/form/label` - Accessible labels for form fields
 - `components/form/form-field` - Shared labeled field shell with field errors and shared ViewTransition names for auth forms
@@ -650,10 +653,10 @@ Mirror **`.env.schema`**: `NEXT_PUBLIC_SITE_URL`, `BETTER_AUTH_SECRET`, `GITHUB_
 
 ### Cache Management
 
-- Use centralized cache invalidation utilities in `utils/cache-invalidation.ts`
-- Functions: `invalidateAllModels()`, `invalidateModel(slug)`, `invalidateCategory(slug)`
-- Cache tags provide granular control over what gets invalidated
-- Automatic cache invalidation on data mutations (e.g., `toggleLike` invalidates model cache)
+- Use centralized cache invalidation in `utils/cache-invalidation.ts`
+- Function: `invalidateAllModels()` — expires every entry tagged `"models"` via `updateTag("models")`
+- `toggleLike` calls `invalidateAllModels()` so list counts and `sort=popular` stay fresh (simple correctness choice for now)
+- Longer-term split of stable content vs likes (and popular-order tags): see `docs/MODEL_CACHE_SPLIT.md`
 - Session cache uses `"use cache: private"` directive with `cacheTag("session")` for responsive auth state
 - Like status uses `features/models/likes/queries/like-status.ts` with `"use cache: private"` for user-specific cache
 

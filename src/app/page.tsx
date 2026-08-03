@@ -1,8 +1,10 @@
-import { css } from "@styled-system/css";
+import { css, cx } from "@styled-system/css";
 import { grid, gridItem } from "@styled-system/patterns";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa6";
+import { arrowRecipe } from "@/components/arrow-recipe";
 import {
   HERO_IMAGE_SQUARE_HEIGHT,
   HERO_IMAGE_SQUARE_SRC,
@@ -65,20 +67,47 @@ const Home = () => (
         user-submitted models.
       </p>
       <Link
-        className={gridItem({
-          backgroundColor: { _hover: "black", base: "white" },
-          borderColor: "black",
-          borderWidth: 2,
-          color: { _hover: "white", base: "black" },
-          justifySelf: "start",
-          paddingBlock: 3,
-          paddingInline: 6,
-          transitionDuration: "normal",
-          transitionProperty: "colors",
-        })}
+        className={cx(
+          "group",
+          gridItem({
+            _active: {
+              backgroundColor: "brand.subtle",
+              borderColor: "brand",
+            },
+            _focusVisible: {
+              borderColor: "brand",
+              outline: "3px solid token(colors.brand)",
+              outlineOffset: "4px",
+            },
+            _hover: {
+              borderColor: "brand",
+            },
+            alignItems: "center",
+            backgroundColor: "white",
+            borderColor: "black",
+            borderWidth: 2,
+            color: "black",
+            display: "inline-flex",
+            gap: 3,
+            justifySelf: "start",
+            paddingBlock: 3,
+            paddingInline: 6,
+            transitionDuration: "fast",
+            transitionProperty: "colors",
+            transitionTimingFunction: "outDramatic",
+          }),
+        )}
         href="/3d-models"
       >
-        Browse Models
+        <span>Browse Models</span>
+        <FaArrowRight
+          aria-hidden="true"
+          className={arrowRecipe({
+            direction: "right",
+            distance: "default",
+            size: "md",
+          })}
+        />
       </Link>
     </div>
     <Image

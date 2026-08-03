@@ -11,7 +11,10 @@ type PaginationOffsetTransitionProps<T extends Page> = Prettify<
 
 const enterLeft = viewTransition({
   new: {
-    "--slide-distance": "-60px",
+    "--slide-distance": {
+      base: "calc(-100vw - 60px)",
+      md: "-60px",
+    },
     animationDuration: "slow",
     animationName: "fade-in, slide-in",
   },
@@ -19,7 +22,10 @@ const enterLeft = viewTransition({
 
 const enterRight = viewTransition({
   new: {
-    "--slide-distance": "calc(100vw + 60px)",
+    "--slide-distance": {
+      base: "calc(100vw + 60px)",
+      md: "60px",
+    },
     animationDuration: "slow",
     animationName: "fade-in, slide-in",
   },
@@ -27,7 +33,10 @@ const enterRight = viewTransition({
 
 const exitLeft = viewTransition({
   old: {
-    "--slide-distance": "-60px",
+    "--slide-distance": {
+      base: "calc(-100vw - 60px)",
+      md: "-60px",
+    },
     animation: "fade-out, slide-out",
     animationDuration: "slow",
   },
@@ -35,7 +44,10 @@ const exitLeft = viewTransition({
 
 const exitRight = viewTransition({
   old: {
-    "--slide-distance": "calc(100vw + 60px)",
+    "--slide-distance": {
+      base: "calc(100vw + 60px)",
+      md: "60px",
+    },
     animation: "fade-out, slide-out",
     animationDuration: "slow",
   },

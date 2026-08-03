@@ -8,6 +8,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   };
 
 const Button = ({
+  density,
   variant,
   size,
   className,
@@ -17,7 +18,7 @@ const Button = ({
   ...props
 }: ButtonProps) => (
   <button
-    className={cx(buttonRecipe({ size, variant }), className)}
+    className={cx(buttonRecipe({ density, size, variant }), className)}
     ref={ref}
     type={type}
     {...props}

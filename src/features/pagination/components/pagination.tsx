@@ -17,7 +17,7 @@ const Pagination = ({ metadata: { hasNextPage, count } }: PaginationProps) => {
     handlePreviousPage,
     handleLimitChange,
   } = usePaginationQuery();
-  const hasPreviousPage = page < 1;
+  const hasPreviousPage = page > 0;
 
   return (
     <ViewTransition name="pagination">

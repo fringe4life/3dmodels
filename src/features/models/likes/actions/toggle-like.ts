@@ -3,7 +3,7 @@ import { maxLength, minLength, object, parse, pipe, string } from "valibot";
 import { getUser } from "@/features/auth/queries/get-user";
 import { toggleLikeForModel } from "@/features/models/likes/dal/toggle-like";
 import type { Maybe } from "@/types";
-import { invalidateModel } from "@/utils/cache-invalidation";
+import { invalidateAllModels } from "@/utils/cache-invalidation";
 import {
   fromErrorToActionState,
   toActionState,
@@ -19,6 +19,11 @@ const likeSchema = object({
   ),
 });
 
+/**
+ * Toggle like for a model, then expire the shared `"models"` cache tag.
+ *
+ * @see docs/MODEL_CACHE_SPLIT.md — Why all models invalidate today; plan to split long-lived content vs likes (sorting)
+ */
 const toggleLike = async (
   slugToValidate: string,
   _prevState: Maybe<ActionState>,
@@ -34,7 +39,7 @@ const toggleLike = async (
 
     const { likesCount } = await toggleLikeForModel(auth.user.id, slug);
 
-    invalidateModel(slug);
+    invalidateAllModels();
     return toActionState("Like toggled successfully", "SUCCESS", undefined, {
       likesCount,
     });

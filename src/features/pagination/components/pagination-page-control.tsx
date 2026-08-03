@@ -1,6 +1,6 @@
-import { square } from "@styled-system/patterns";
 import type { MouseEventHandler } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import { arrowRecipe } from "@/components/arrow-recipe";
 import type { Prettify } from "@/types";
 import type { HasNextPage, HasPreviousPage } from "../types";
 import { PaginationButton } from "./pagination-button";
@@ -22,17 +22,31 @@ const PaginationPageControl = ({
   <>
     <PaginationButton
       aria-label="Previous page"
-      disabled={hasPreviousPage}
+      disabled={!hasPreviousPage}
       onClick={onPreviousPage}
     >
-      <FaChevronLeft aria-hidden className={square({ size: 6 })} />
+      <FaChevronLeft
+        aria-hidden
+        className={arrowRecipe({
+          direction: "left",
+          distance: "compact",
+          size: "lg",
+        })}
+      />
     </PaginationButton>
     <PaginationButton
       aria-label="Next page"
       disabled={!hasNextPage}
       onClick={onNextPage}
     >
-      <FaChevronRight aria-hidden className={square({ size: 6 })} />
+      <FaChevronRight
+        aria-hidden
+        className={arrowRecipe({
+          direction: "right",
+          distance: "compact",
+          size: "lg",
+        })}
+      />
     </PaginationButton>
   </>
 );
