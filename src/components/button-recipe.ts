@@ -4,10 +4,12 @@ import { cva, type RecipeVariantProps } from "@styled-system/css";
  * PandaCSS CVA recipe for button variants.
  *
  * Variants:
- *   - `primary`  — brand fill + border, inverse text (reset, submit, active sort)
- *   - `outline`  — surface bg, border tokens + primary text (sign-in, idle sort)
- *   - `ghost`    — no bg, scale interactions (pagination, icon actions)
+ *   - `primary`      — brand fill + border, inverse text (reset, submit, active sort)
+ *   - `outline`      — neutral surface, border, and hover treatment (sign-in)
+ *   - `brandOutline` — surface and border with brand hover treatment (idle sort)
+ *   - `ghost`        — no bg, scale interactions (pagination, icon actions)
  *
+ * Densities: `default` | `compact`
  * Sizes: `sm` | `md` (default) | `lg` | `icon` | `pill` | `bare`
  */
 export const buttonRecipe = cva({
@@ -16,7 +18,6 @@ export const buttonRecipe = cva({
     cursor: { _disabled: "not-allowed", base: "pointer" },
     display: "inline-flex",
     fontWeight: "medium",
-    gap: 2,
     justifyContent: "center",
     opacity: { _disabled: "0.5" },
     transitionDuration: "normal",
@@ -24,10 +25,19 @@ export const buttonRecipe = cva({
     transitionTimingFunction: "ease-in-out",
   },
   defaultVariants: {
+    density: "default",
     size: "md",
     variant: "primary",
   },
   variants: {
+    density: {
+      compact: {
+        gap: 1,
+      },
+      default: {
+        gap: 2,
+      },
+    },
     size: {
       /** Content-sized — no padding or fixed dimensions. Use when the button
        *  sizes itself from its children (e.g. icon + count pairs). */
@@ -65,6 +75,23 @@ export const buttonRecipe = cva({
       },
     },
     variant: {
+      brandOutline: {
+        _disabled: { _hover: { backgroundColor: "bg.surface" } },
+        _focus: { outline: "none", ringOffset: "0" },
+        _hover: {
+          backgroundColor: "brand.muted",
+          borderColor: "brand",
+          color: "text.inverse",
+        },
+        backgroundColor: "bg.surface",
+        borderColor: "border.strong",
+        borderWidth: 1,
+        color: "text.primary",
+        ring: 1,
+        ringColor: "border",
+        ringOffset: "inset",
+        shadow: "sm",
+      },
       ghost: {
         _active: { scale: "0.95" },
         _disabled: {
@@ -78,9 +105,9 @@ export const buttonRecipe = cva({
         _disabled: { _hover: { backgroundColor: "bg.surface" } },
         _focus: { outline: "none", ringOffset: "0" },
         _hover: {
-          backgroundColor: "brand.muted",
-          borderColor: "brand",
-          color: "text.inverse",
+          backgroundColor: "bg.muted",
+          borderColor: "border.strong",
+          color: "text.primary",
         },
         backgroundColor: "bg.surface",
         borderColor: "border.strong",

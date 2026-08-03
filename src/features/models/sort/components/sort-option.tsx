@@ -15,7 +15,7 @@ const SortOption = ({ checked, label, onChange, value }: SortOptionProps) => (
     className={cx(
       buttonRecipe({
         size: "pill",
-        variant: checked ? "primary" : "outline",
+        variant: checked ? "primary" : "brandOutline",
       }),
       css({
         _focusWithin: {

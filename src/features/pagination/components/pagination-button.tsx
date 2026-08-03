@@ -1,9 +1,20 @@
+import { cx } from "@styled-system/css";
 import { Button } from "@/components/button";
 
 type PaginationButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const PaginationButton = ({ children, ...props }: PaginationButtonProps) => (
-  <Button {...props} size="icon" type="button" variant="ghost">
+const PaginationButton = ({
+  children,
+  className,
+  ...props
+}: PaginationButtonProps) => (
+  <Button
+    {...props}
+    className={cx("group", className)}
+    size="icon"
+    type="button"
+    variant="ghost"
+  >
     {children}
   </Button>
 );
