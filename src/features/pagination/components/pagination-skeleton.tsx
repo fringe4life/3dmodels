@@ -17,7 +17,7 @@ const PaginationSkeleton = () => (
       <Skeleton
         className={css({
           blockSize: 8,
-          inlineSize: 10,
+          inlineSize: 14,
           rounded: "sm",
         })}
         color={token("colors.bg.muted")}

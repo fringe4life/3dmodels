@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForBuild: true,
     turbopackFileSystemCacheForDev: true,
     turbopackRustReactCompiler: true,
+    useOffline: true,
     // TypeScript 7 has no JS compiler API; next build uses project-local `tsc` instead
     useTypeScriptCli: true,
   },

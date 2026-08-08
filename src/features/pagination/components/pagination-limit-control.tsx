@@ -43,6 +43,7 @@ const limitControlClass = css({
     transitionTimingFunction: "ease-in-out",
   },
   "&::picker(select)": {
+    appearance: "base-select",
     backgroundColor: "bg.surface",
     borderColor: "border",
     borderWidth: 1,
@@ -100,7 +101,7 @@ const PaginationLimitControl = ({
       onChange={handleChange}
       value={limit}
     >
-      <button type="button">
+      <button suppressHydrationWarning type="button">
         <selectedcontent
           // biome-ignore assist/source/useSortedKeys: starting style needs to be last usually
           className={css({

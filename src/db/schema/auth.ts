@@ -53,6 +53,7 @@ export const account = sqliteTable(
     accessTokenExpiresAt: integer("access_token_expires_at", {
       mode: "timestamp_ms",
     }),
+    accountId: text("account_id").notNull(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
       .notNull(),
@@ -60,7 +61,6 @@ export const account = sqliteTable(
     idToken: text("id_token"),
     issuer: text("issuer").notNull(),
     password: text("password"),
-    providerAccountId: text("provider_account_id").notNull(),
     providerId: text("provider_id").notNull(),
     refreshToken: text("refresh_token"),
     refreshTokenExpiresAt: integer("refresh_token_expires_at", {
@@ -75,9 +75,9 @@ export const account = sqliteTable(
       .references(() => user.id, { onDelete: "cascade" }),
   },
   (table) => [
-    uniqueIndex("account_issuer_providerAccountId_uidx").on(
+    uniqueIndex("account_issuer_accountId_uidx").on(
       table.issuer,
-      table.providerAccountId,
+      table.accountId,
     ),
     index("account_userId_idx").on(table.userId),
   ],
