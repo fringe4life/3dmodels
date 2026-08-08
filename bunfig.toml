@@ -4,32 +4,7 @@ env = false
 
 [install]
 minimumReleaseAge = 259200
-minimumReleaseAgeExcludes = [
-  "next",
-  "@next/swc-linux-x64-gnu",
-  "@next/swc-linux-x64-musl",
-  "@modelcontextprotocol/sdk",
-  "@pandacss/cli",
-  "@pandacss/compiler",
-  "@pandacss/compiler-darwin-arm64",
-  "@pandacss/compiler-darwin-x64",
-  "@pandacss/compiler-linux-arm64-gnu",
-  "@pandacss/compiler-linux-arm64-musl",
-  "@pandacss/compiler-linux-x64-gnu",
-  "@pandacss/compiler-linux-x64-musl",
-  "@pandacss/compiler-shared",
-  "@pandacss/compiler-wasm",
-  "@pandacss/compiler-wasm32-wasi",
-  "@pandacss/compiler-win32-arm64-msvc",
-  "@pandacss/compiler-win32-x64-msvc",
-  "@pandacss/config",
-  "@pandacss/dev",
-  "@pandacss/postcss",
-  "@pandacss/preset-base",
-  "@pandacss/preset-panda",
-  "@pandacss/preset-typography",
-  "@pandacss/types"
-]
+minimumReleaseAgeExcludes = []
 
 [test]
 preload = ["varlock/auto-load", "./tests/setup/test-preload.ts"]

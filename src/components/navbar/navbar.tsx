@@ -9,6 +9,7 @@ import { AuthButtonsSkeleton } from "@/features/auth/components/auth-buttons-ske
 import { Avatar } from "@/features/auth/components/avatar";
 import { HasAuthSuspense } from "@/features/auth/components/has-auth";
 import { SignInNavLink } from "@/features/auth/components/sign-in-nav-link";
+import { OfflineBanner } from "../offline-indicator";
 
 const Navbar = () => (
   <ViewTransition name="main-header">
@@ -73,6 +74,7 @@ const Navbar = () => (
             />
           </div>
         </Link>
+        <OfflineBanner />
         <ul className={hstack({ gap: { base: 2, sm: 4 } })}>
           <NavLinkListItem href="/3d-models">3D Models</NavLinkListItem>
           <NavLinkListItem href="/about">About</NavLinkListItem>

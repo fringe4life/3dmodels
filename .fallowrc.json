@@ -4,7 +4,8 @@
     "unused-dependencies": "warn",
     "prop-drilling": "warn",
     "thin-wrapper": "warn",
-    "duplicate-prop-shape": "warn"
+    "duplicate-prop-shape": "warn",
+    "unused-dependency-overrides": "off"
   },
   "ignorePatterns": ["doctor.config.ts"],
   "ignoreDependencies": [
