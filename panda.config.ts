@@ -129,6 +129,11 @@ export default defineConfig({
             maskImage: "linear-gradient(to right, transparent 0%, black 5%)",
           },
         },
+        /** Offline connectivity dot in mobile nav popover */
+        connectivityPulse: {
+          "0%, 100%": { opacity: 1 },
+          "50%": { opacity: 0.35 },
+        },
         "fade-in": {
           from: {
             filter: "blur(2px)",

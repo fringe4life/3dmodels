@@ -38,7 +38,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Model detail back link**: Detail pages restore the prior listing via allowlisted `from` query (`features/models/back-link/`) with runtime prefetch under Partial Prefetching
 - **Shimmer skeletons**: Shared `Skeleton` shimmer (CSS vars / `color` props) for listing and detail loading states
 - **Offline indicator**: Navbar `OfflineBanner` via Next.js experimental `useOffline` — pill with wifi-off icon, pulsing dot when offline, solid green when online; visible on all breakpoints (`components/offline-indicator.tsx`)
-- **Mobile navigation**: Below `md`, navbar uses native `<button popovertarget>` + `popover="auto"` menu (avatar trigger when signed in, hamburger when signed out); desktop keeps inline nav links
+- **Mobile navigation**: Below `sm` (640px), navbar uses native `<button popovertarget>` + `popover="auto"` menu; from `sm` up, full wordmark + inline nav links (`src/components/navbar/`)
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination (full-viewport slide on small screens, compact slide from `md`)
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
@@ -229,9 +229,21 @@ src/
 │   │   ├── nav-link-skeleton.tsx
 │   │   ├── nav-link.tsx          # Suspense-wrapped link with active state (prefetch off by default)
 │   │   └── types.ts
-│   ├── navbar/
-│   │   └── navbar.tsx            # Sticky header (logo, offline banner, desktop nav, mobile popover menu, auth slot)
-│   ├── offline-indicator.tsx     # OfflineBanner via next/offline useOffline (pulse offline / solid online)
+│   ├── navbar/                   # Sticky header (split by breakpoint at sm)
+│   │   ├── navbar.tsx            # Orchestrator: logo, offline, desktop nav, mobile popover
+│   │   ├── navbar.constants.ts   # MOBILE_NAVIGATION_ID, typed PRIMARY_NAV_LINKS
+│   │   ├── navbar.types.ts       # NavbarNavLinkConfig (typed Route + NavLink props)
+│   │   ├── navbar-shell.styles.ts # Header shell + :has() hamburger-open animation
+│   │   ├── navbar-logo.tsx
+│   │   ├── desktop-nav.tsx
+│   │   ├── mobile-menu-button.tsx
+│   │   ├── mobile-nav-popover.tsx
+│   │   ├── mobile-nav-link.tsx   # Mobile row link; closePopoverOnClick by default
+│   │   ├── mobile-nav-auth.tsx
+│   │   └── navbar-auth-slot.tsx
+│   ├── offline/
+│   │   ├── offline-indicator.tsx # OfflineBanner via next/offline useOffline
+│   │   └── offline-mobile.tsx    # MobileConnectivityStatus for popover header
 │   ├── nuqs/
 │   │   └── nuqs-adapter-boundary.tsx  # Suspense + NuqsAdapter for listing routes
 │   ├── button-recipe.ts          # Panda CVA recipe for Button variants
@@ -525,8 +537,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/@navbar/default` - Parallel route delegating to shared `Navbar`
 - `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
-- `components/navbar/navbar` - Sticky header with scroll-driven animation, logo, `OfflineBanner`, desktop nav links, mobile popover menu (avatar or hamburger trigger), and auth slot (`HasAuthSuspense` → avatar or `SignInNavLink`)
-- `components/offline-indicator` - `OfflineBanner` using Next.js `useOffline` (styled pill; pulsing dot offline, solid green online)
+- `components/navbar/navbar` - Thin orchestrator: `NavbarLogo`, `OfflineBanner`, `DesktopNav`, `MobileMenuButton`, `MobileNavPopover` (`sm` breakpoint)
+- `components/navbar/mobile-nav-link` - Mobile popover row; closes ancestor popover on navigate
+- `components/offline/offline-indicator` - `OfflineBanner` using Next.js `useOffline` (hidden when online)
+- `components/offline/offline-mobile` - `MobileConnectivityStatus` in mobile popover header (offline only)
 - `components/nav-link/nav-link` - `NavLink` with `Suspense` fallback, active state (`includes` or `endsWith`), border position (`bottom` or `left`); **`prefetch={false}` by default** to reduce network noise (opt-in per link, e.g. model back link)
 - `components/nav-link/nav-link-skeleton` - Width-matched skeleton for `NavLink` Suspense fallback
 - `components/nav-link/nav-link-list-item` - `li` + `NavLink` wrapper
