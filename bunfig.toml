@@ -4,8 +4,12 @@ env = false
 
 [install]
 minimumReleaseAge = 259200
-minimumReleaseAgeExcludes = []
+minimumReleaseAgeExcludes = [
+    "next",
+    "@next/swc",
+    "@next/swc-linux-x64-gnu"
+]
 
 [test]
-preload = ["varlock/auto-load", "./tests/setup/test-preload.ts"]
+preload = ["./tests/setup/varlock-test-env.ts", "varlock/auto-load", "./tests/setup/test-preload.ts"]
 pathIgnorePatterns = ["tests/e2e/**"]

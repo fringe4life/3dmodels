@@ -28,3 +28,6 @@ export default {
   share: false,
   verbose: true,
 } satisfies ReactDoctorConfig;
+
+// run in terminal
+// export _VARLOCK_ENV_KEY="$(bun x varlock generate-key --plain)"

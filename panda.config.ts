@@ -41,7 +41,7 @@ export default defineConfig({
   minify: true,
 
   optimize: {
-    removeUnusedKeyframes: true,
+    removeUnusedKeyframes: false,
     removeUnusedTokens: true,
     smartCompoundVariants: true,
     treeshakeDesignSystem: true,
@@ -102,6 +102,11 @@ export default defineConfig({
   // Useful for theme customization
   theme: {
     extend: {
+      breakpoints: {
+        // Keep units consistent with Panda's default rem breakpoints.
+        xs: "30rem", // 480px
+        xxs: "20rem", // 320px
+      },
       keyframes: {
         /** View-timeline enter/exit on narrow viewports (see `ModelCard`) */
         animateModelIn: {

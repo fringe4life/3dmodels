@@ -4,7 +4,7 @@ import { css, cx } from "@styled-system/css";
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { Suspend } from "../suspend";
 import { NavLinkSkeleton } from "./nav-link-skeleton";
 import type {
@@ -19,7 +19,17 @@ export type NavLinkProps = NextLinkComponentProps &
     href: Route;
     /** Reserved width for the Suspense fallback; defaults to string `children` length. */
     skeletonCh?: number;
+    /** Close the nearest ancestor popover when this link is activated. */
+    closePopoverOnClick?: boolean;
   };
+
+const hideContainingPopover = (element: Element) => {
+  const popover = element.closest("[popover]");
+
+  if (popover instanceof HTMLElement && "hidePopover" in popover) {
+    popover.hidePopover();
+  }
+};
 
 const getSkeletonCh = (children: ReactNode, skeletonCh?: number) => {
   if (skeletonCh !== undefined) {
@@ -37,7 +47,9 @@ const NavLinkInner = ({
   matchStrategy = "includes",
   borderPosition = "bottom",
   className,
-  prefetch = true,
+  prefetch = false,
+  closePopoverOnClick = false,
+  onClick,
   ...linkProps
 }: NavLinkProps) => {
   const pathname = usePathname();
@@ -45,6 +57,14 @@ const NavLinkInner = ({
     matchStrategy === "endsWith"
       ? pathname.endsWith(href)
       : pathname.includes(href);
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(event);
+
+    if (closePopoverOnClick && !event.defaultPrevented) {
+      hideContainingPopover(event.currentTarget);
+    }
+  };
 
   return (
     <Link
@@ -85,6 +105,7 @@ const NavLinkInner = ({
             "color,background-color,border-color,text-decoration-color",
         }),
       )}
+      onClick={handleClick}
       {...(borderPosition === "bottom" && { "data-border-bottom": true })}
       href={href}
       prefetch={prefetch}

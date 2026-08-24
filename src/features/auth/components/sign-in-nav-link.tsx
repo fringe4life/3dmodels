@@ -10,6 +10,7 @@ const SignInNavLink = () => (
     className={buttonRecipe({ size: "md", variant: "ghost" })}
     href="/signin"
     matchStrategy="endsWith"
+    prefetch
     skeletonCh={3}
   >
     <span className={css({ srOnly: true })}>Sign In</span>

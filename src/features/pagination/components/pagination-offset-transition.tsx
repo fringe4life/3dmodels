@@ -37,8 +37,8 @@ const exitLeft = viewTransition({
       base: "calc(-100vw - 60px)",
       md: "-60px",
     },
-    animation: "fade-out, slide-out",
     animationDuration: "slow",
+    animationName: "fade-out, slide-out",
   },
 });
 
@@ -48,8 +48,8 @@ const exitRight = viewTransition({
       base: "calc(100vw + 60px)",
       md: "60px",
     },
-    animation: "fade-out, slide-out",
     animationDuration: "slow",
+    animationName: "fade-out, slide-out",
   },
 });
 

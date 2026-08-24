@@ -1,6 +1,7 @@
 node_modules
 .env*
 !.env.schema
+!.env.test
 .next
 .vercel
 .fallow
@@ -15,3 +16,7 @@ tsconfig.tsbuildinfo
 styled-system
 styled-system-studio
 .fallow/cache.bin
+
+
+# kombai
+.kombai/canvas

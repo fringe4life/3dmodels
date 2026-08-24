@@ -30,7 +30,9 @@ const SubmitButton = ({
         className={cx(
           skeletonEnter,
           square({
-            animation: "spin",
+            animationDuration: "slow",
+            animationIterationCount: "infinite",
+            animationName: "spin",
             display: { _groupDisabled: "block", base: "none" },
             size: 5,
           }),

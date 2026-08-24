@@ -22,7 +22,7 @@ const ModelBackLink = async ({ searchParams }: ModelBackLinkProps) => {
       )}
       href={href}
       // Runtime prefetch: listing searchParams aren't in App Shell under partialPrefetching
-      prefetch={true}
+      prefetch
     >
       <FaArrowLeft
         aria-hidden="true"

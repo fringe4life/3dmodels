@@ -42,6 +42,7 @@ describe("SignInPage (Better Auth flow)", () => {
   it("signs in with valid credentials", async () => {
     const user = userEvent.setup();
     render(<SignInPage />);
+
     await user.type(screen.getByLabelText(/email/i), "test@example.com");
     await user.type(screen.getByLabelText(/password/i), "StrongPass123!");
     await user.click(screen.getByRole("button", { name: /^sign in$/i }));
@@ -52,16 +53,50 @@ describe("SignInPage (Better Auth flow)", () => {
       }) as HTMLButtonElement;
       expect(submit.disabled).toBe(false);
     });
-    expect(screen.queryByText(/invalid email or password/i)).toBeNull();
+    expect(screen.queryByTestId("form-error")).toBeNull();
+    expect(screen.queryByTestId("field-error-email")).toBeNull();
+    expect(screen.queryByTestId("field-error-password")).toBeNull();
   });
 
-  it("shows error for invalid credentials", async () => {
+  it("shows form error for invalid credentials", async () => {
     const user = userEvent.setup();
     render(<SignInPage />);
+
     await user.type(screen.getByLabelText(/email/i), "nope@example.com");
     await user.type(screen.getByLabelText(/password/i), "WrongPass123!");
     await user.click(screen.getByRole("button", { name: /^sign in$/i }));
 
-    expect(await screen.findByText(/invalid email or password/i)).toBeDefined();
+    const formError = await screen.findByTestId("form-error");
+    expect(formError.textContent).toMatch(/invalid email or password/i);
+    expect(screen.queryByTestId("field-error-email")).toBeNull();
+    expect(screen.queryByTestId("field-error-password")).toBeNull();
+  });
+
+  it("clears auth error and signs in after correcting credentials", async () => {
+    const user = userEvent.setup();
+    render(<SignInPage />);
+
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+
+    await user.type(emailInput, "nope@example.com");
+    await user.type(passwordInput, "WrongPass123!");
+    await user.click(screen.getByRole("button", { name: /^sign in$/i }));
+
+    expect((await screen.findByTestId("form-error")).textContent).toMatch(
+      /invalid email or password/i,
+    );
+
+    await user.clear(emailInput);
+    await user.clear(passwordInput);
+    await user.type(emailInput, "test@example.com");
+    await user.type(passwordInput, "StrongPass123!");
+    await user.click(screen.getByRole("button", { name: /^sign in$/i }));
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("form-error")).toBeNull();
+    });
+    expect(screen.queryByTestId("field-error-email")).toBeNull();
+    expect(screen.queryByTestId("field-error-password")).toBeNull();
   });
 });

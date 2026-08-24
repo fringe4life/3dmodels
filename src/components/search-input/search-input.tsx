@@ -104,7 +104,9 @@ const SearchInput = () => {
         <SearchInputTransition>
           <AiOutlineLoading3Quarters
             className={square({
-              animation: "spin",
+              animationDuration: "slow",
+              animationIterationCount: "infinite",
+              animationName: "spin",
               color: "text.muted",
               fontSize: "sm",
               insetBlockStart: "50%",
