@@ -9,14 +9,14 @@ const logoLinkClassName = css({
   position: "relative",
 });
 
-const fullLogoClassName = css({
+const wordmarkLogoClassName = css({
   blockSize: 10,
-  display: { base: "none", sm: "block" },
+  display: { base: "none", xs: "block" },
   inlineSize: 200,
 });
 
 const iconLogoClassName = square({
-  display: { base: "block", sm: "none" },
+  display: { base: "block", xs: "none" },
   size: 10,
 });
 
@@ -25,7 +25,7 @@ const NavbarLogo = () => (
     <div className={logoLinkClassName}>
       <Image
         alt="PrintForge Logo"
-        className={fullLogoClassName}
+        className={wordmarkLogoClassName}
         height={520}
         priority
         src="/printforge-logo.svg"

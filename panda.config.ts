@@ -102,6 +102,11 @@ export default defineConfig({
   // Useful for theme customization
   theme: {
     extend: {
+      breakpoints: {
+        // Keep units consistent with Panda's default rem breakpoints.
+        xs: "30rem", // 480px
+        xxs: "20rem", // 320px
+      },
       keyframes: {
         /** View-timeline enter/exit on narrow viewports (see `ModelCard`) */
         animateModelIn: {
@@ -128,11 +133,6 @@ export default defineConfig({
           "100%": {
             maskImage: "linear-gradient(to right, transparent 0%, black 5%)",
           },
-        },
-        /** Offline connectivity dot in mobile nav popover */
-        connectivityPulse: {
-          "0%, 100%": { opacity: 1 },
-          "50%": { opacity: 0.35 },
         },
         "fade-in": {
           from: {

@@ -37,8 +37,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Search across listings**: Search bar lives in `ModelsGridHeader` (index + category routes); grid title shows `Results for "{query}"` via nuqs when a query is present
 - **Model detail back link**: Detail pages restore the prior listing via allowlisted `from` query (`features/models/back-link/`) with runtime prefetch under Partial Prefetching
 - **Shimmer skeletons**: Shared `Skeleton` shimmer (CSS vars / `color` props) for listing and detail loading states
-- **Offline indicator**: Navbar `OfflineBanner` via Next.js experimental `useOffline` — pill with wifi-off icon, pulsing dot when offline, solid green when online; visible on all breakpoints (`components/offline-indicator.tsx`)
-- **Mobile navigation**: Below `sm` (640px), navbar uses native `<button popovertarget>` + `popover="auto"` menu; from `sm` up, full wordmark + inline nav links (`src/components/navbar/`)
+- **Offline indicator**: Navbar `OfflineBanner` via Next.js experimental `useOffline` — persistent pill with a wifi-off icon and container-responsive status detail; visible on all breakpoints (`components/offline-indicator.tsx`)
+- **Mobile navigation**: Below `sm` (640px), navbar uses native `<button popovertarget>` + `popover="auto"` menu; the compact icon logo is used below `xs` (480px), with the full wordmark from `xs` upward (`src/components/navbar/`)
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination (full-viewport slide on small screens, compact slide from `md`)
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
@@ -229,7 +229,7 @@ src/
 │   │   ├── nav-link-skeleton.tsx
 │   │   ├── nav-link.tsx          # Suspense-wrapped link with active state (prefetch off by default)
 │   │   └── types.ts
-│   ├── navbar/                   # Sticky header (split by breakpoint at sm)
+│   ├── navbar/                   # Sticky header (compact logo below xs; nav split at sm)
 │   │   ├── navbar.tsx            # Orchestrator: logo, offline, desktop nav, mobile popover
 │   │   ├── navbar.constants.ts   # MOBILE_NAVIGATION_ID, typed PRIMARY_NAV_LINKS
 │   │   ├── navbar.types.ts       # NavbarNavLinkConfig (typed Route + NavLink props)
@@ -241,9 +241,7 @@ src/
 │   │   ├── mobile-nav-link.tsx   # Mobile row link; closePopoverOnClick by default
 │   │   ├── mobile-nav-auth.tsx
 │   │   └── navbar-auth-slot.tsx
-│   ├── offline/
-│   │   ├── offline-indicator.tsx # OfflineBanner via next/offline useOffline
-│   │   └── offline-mobile.tsx    # MobileConnectivityStatus for popover header
+│   ├── offline-indicator.tsx     # OfflineBanner via next/offline useOffline
 │   ├── nuqs/
 │   │   └── nuqs-adapter-boundary.tsx  # Suspense + NuqsAdapter for listing routes
 │   ├── button-recipe.ts          # Panda CVA recipe for Button variants
@@ -539,8 +537,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/@footer/default` - Footer parallel route with copyright
 - `components/navbar/navbar` - Thin orchestrator: `NavbarLogo`, `OfflineBanner`, `DesktopNav`, `MobileMenuButton`, `MobileNavPopover` (`sm` breakpoint)
 - `components/navbar/mobile-nav-link` - Mobile popover row; closes ancestor popover on navigate
-- `components/offline/offline-indicator` - `OfflineBanner` using Next.js `useOffline` (hidden when online)
-- `components/offline/offline-mobile` - `MobileConnectivityStatus` in mobile popover header (offline only)
+- `components/offline-indicator` - `OfflineBanner` using Next.js `useOffline`, with persistent reserved navbar placement and container-responsive detail (hidden when online)
 - `components/nav-link/nav-link` - `NavLink` with `Suspense` fallback, active state (`includes` or `endsWith`), border position (`bottom` or `left`); **`prefetch={false}` by default** to reduce network noise (opt-in per link, e.g. model back link)
 - `components/nav-link/nav-link-skeleton` - Width-matched skeleton for `NavLink` Suspense fallback
 - `components/nav-link/nav-link-list-item` - `li` + `NavLink` wrapper

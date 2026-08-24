@@ -14,15 +14,12 @@ const offlineIndicatorClassName = hstack({
   flexShrink: 0,
   fontSize: { base: "xs", md: "sm" },
   gap: { base: 1.5, md: 2 },
-  insetBlockStart: { md: "50%" },
-  insetInlineStart: { md: "50%" },
+  justifySelf: "center",
   paddingBlock: { base: 1, md: 2 },
-  paddingInline: { base: 2, md: 3 },
-  position: { md: "absolute" },
+  paddingInline: { base: 1, md: 3 },
   rounded: "full",
   shadow: "sm",
   shadowColor: "gray.300/20",
-  translate: { md: "-50% -50%" },
   whiteSpace: "nowrap",
 });
 
@@ -39,16 +36,29 @@ const offlineIconContainerClassName = cx(
   }),
 );
 
-const offlineIconClassName = cx(
-  square({ size: { base: 3, md: 4 } }),
-  css({ color: "brand" }),
-);
+const offlineIconClassName = cx(square({ size: 4 }), css({ color: "brand" }));
 
-const offlineLabelClassName = css({ fontWeight: "semibold" });
+const offlineLabelClassName = css({
+  "@container navbar-status (min-width: 20ch)": {
+    clip: "auto",
+    height: "auto",
+    margin: 0,
+    overflow: "visible",
+    padding: 0,
+    position: "static",
+    whiteSpace: "normal",
+    width: "auto",
+  },
+  fontWeight: "semibold",
+  srOnly: true,
+});
 
 const offlineSupportingTextClassName = css({
+  "@container navbar-status (min-width: 50ch)": {
+    display: "inline",
+  },
   color: "text.muted",
-  display: { base: "none", md: "inline" },
+  display: "none",
 });
 
 export function OfflineBanner() {

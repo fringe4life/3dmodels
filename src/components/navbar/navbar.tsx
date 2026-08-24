@@ -1,7 +1,7 @@
 import { css, cx } from "@styled-system/css";
 import { between, hstack } from "@styled-system/patterns";
 import { ViewTransition } from "react";
-import { OfflineBanner } from "@/components/offline/offline-indicator";
+import { OfflineBanner } from "@/components/offline-indicator";
 import { MOBILE_NAVIGATION_ID } from "./constants";
 import { DesktopNav } from "./desktop-nav";
 import { MobileMenuButton } from "./mobile-menu-button";

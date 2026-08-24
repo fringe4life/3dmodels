@@ -1,6 +1,5 @@
 import { css } from "@styled-system/css";
 import { stack } from "@styled-system/patterns";
-import { MobileConnectivityStatus } from "@/components/offline/offline-mobile";
 import { PRIMARY_NAV_LINKS } from "./constants";
 import { MobileNavLink } from "./mobile-nav-link";
 import { NavbarAuthSlot } from "./navbar-auth-slot";
@@ -26,7 +25,6 @@ const mobilePopoverClassName = css({
   borderColor: "border.subtle",
   borderWidth: 1,
   boxShadow: "lg",
-  display: { base: "block", sm: "none" },
   inlineSize: "calc(100% - 1rem)",
   insetBlockStart: "anchor(bottom)",
   insetInlineEnd: "anchor(right)",
@@ -47,11 +45,8 @@ const mobilePopoverClassName = css({
 });
 
 const mobilePopoverHeaderClassName = css({
-  alignItems: "center",
   borderBlockEndColor: "border.subtle",
   borderBlockEndWidth: 1,
-  display: "flex",
-  justifyContent: "space-between",
   paddingBlock: 3,
   paddingInline: 4,
 });
@@ -80,7 +75,6 @@ const MobileNavPopover = ({ navigationId }: MobileNavPopoverProps) => (
   <div className={mobilePopoverClassName} id={navigationId} popover="auto">
     <div className={mobilePopoverHeaderClassName}>
       <span className={mobilePopoverTitleClassName}>Navigate</span>
-      <MobileConnectivityStatus />
     </div>
     <nav aria-label="Mobile navigation">
       <ul className={mobileNavigationListClassName}>
