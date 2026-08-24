@@ -25,11 +25,10 @@ export const searchModels = async (
 
   // Set cache tags for revalidation control
   cacheTag("models");
+  cacheLife("hours");
   if (category) {
     cacheTag(`models-category-${category}`);
   }
-  // Set cache life to default (1 hour)
-  cacheLife("default");
   const searchPattern = query ? `%${query}%` : undefined;
 
   const signal = toCombinedAbortSignal(

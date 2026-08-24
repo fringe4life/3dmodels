@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   cacheComponents: true,
   experimental: {
-    appNewScrollHandler: true,
     cachedNavigations: true,
     mcpServer: true,
     // Env types: Varlock `.env.schema` + `src/env.d.ts` (not Next typedEnv)

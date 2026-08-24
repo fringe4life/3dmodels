@@ -9,11 +9,9 @@ test("login then logout (Better Auth)", async ({ page }) => {
   await page.getByRole("button", { name: /sign in/i }).click();
 
   await expect(page).toHaveURL(/\/3d-models/);
-  // Expect a sign out control somewhere (adjust selector to your UI)
   const signOut = page.getByRole("button", { name: /sign out|log out/i });
   await expect(signOut).toBeVisible();
 
   await signOut.click();
-  // After sign out, expect sign in control visible again
   await expect(page.getByRole("button", { name: /sign in/i })).toBeVisible();
 });

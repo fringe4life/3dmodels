@@ -4,29 +4,29 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.3.0-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.2-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.12-000000)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.14-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=sqlite)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.0--rc.4-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
-![Biome](https://img.shields.io/badge/Biome-2.5.6-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.10.1-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.1-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![Biome](https://img.shields.io/badge/Biome-2.5.9-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.10.6-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.3.0 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
-- **Language**: TypeScript 7.0.2 with React 19.3 canary (`19.3.0-canary-96fcba90-20260728`, aged for `bunfig` `minimumReleaseAge`)
-- **Styling**: Panda CSS 2.0.0-beta.12 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`, `panda.config.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; view-transition animations colocated via Panda helpers / `ViewTransition` (duration tokens + `group` where needed); shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props)
+- **Framework**: Next.js 16.4.0-canary.2 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
+- **Language**: TypeScript 7.0.2 with React 19.3 canary (`19.3.0-canary-eb8feb71-20260814`, aged for `bunfig` `minimumReleaseAge`)
+- **Styling**: Panda CSS 2.0.0-beta.14 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`, `panda.config.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; view-transition animations colocated via Panda helpers / `ViewTransition` (duration tokens + `group` where needed); shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props)
 - **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`)
-- **Authentication**: Better Auth 1.7.0-rc.4 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins (`provider: "sqlite"`); account identity keyed by `(issuer, accountId)`
-- **Search Params**: nuqs 2.9.5 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata; model detail `from` return paths are allowlisted via `features/pagination/listing-path.ts`
-- **Linting & Formatting**: Biome 2.5.6 with Ultracite 7.10.1 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`)
+- **Authentication**: Better Auth 1.7.1 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with experimental joins (`provider: "sqlite"`); account identity keyed by `(issuer, accountId)`
+- **Search Params**: nuqs 2.10.0 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/pagination/listing-canonical.ts`) with `clearOnDefault` for SEO metadata; model detail `from` return paths are allowlisted via `features/pagination/listing-path.ts`
+- **Linting & Formatting**: Biome 2.5.9 with Ultracite 7.10.6 presets (`ultracite/biome/core`, `react`, `next`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`)
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`); `bunfig.toml` sets `minimumReleaseAge` (3 days)
 - **Next.js runtime**: **Bun is the desired runtime** (`bun --bun` for inspect / debug build). **Temporarily**, `dev`, production `build`, and `start` run **Next on Node** (`next dev`, `bun varlock run -- next build`, `bun run next start`) because Next.js 16 Cache Components + `bun --bun` can surface spurious `AbortError` unhandled rejections during prerender. Plan to re-enable `bun --bun` for all Next scripts once Bun/Next compatibility improves (see [vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)).
 - **Build Tool**: Turbopack for dev and build; `partialPrefetching`, experimental view transitions, MCP server, cached navigations, `appNewScrollHandler`, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), and `turbopackRustReactCompiler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.16.0 with `.env.schema` (`@encryptInjectedEnv`), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.17.0 with `.env.schema` (`@currentEnv=$VARLOCK_ENV`, `@encryptInjectedEnv=forEnv(production, preview)`), committed `.env.test` fixtures for Bun tests (no Bitwarden fetch), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
 - **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas; model slugs validated via slugify idempotency (`lib/slugify.ts` + `isModelSlug` in `db/brands.ts`)
 
 ## 🚀 Features
@@ -37,7 +37,8 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Search across listings**: Search bar lives in `ModelsGridHeader` (index + category routes); grid title shows `Results for "{query}"` via nuqs when a query is present
 - **Model detail back link**: Detail pages restore the prior listing via allowlisted `from` query (`features/models/back-link/`) with runtime prefetch under Partial Prefetching
 - **Shimmer skeletons**: Shared `Skeleton` shimmer (CSS vars / `color` props) for listing and detail loading states
-- **Offline indicator**: Navbar `OfflineBanner` via Next.js experimental `useOffline` (`components/offline-indicator.tsx`, `experimental.useOffline` in `next.config.ts`)
+- **Offline indicator**: Navbar `OfflineBanner` via Next.js experimental `useOffline` — pill with wifi-off icon, pulsing dot when offline, solid green when online; visible on all breakpoints (`components/offline-indicator.tsx`)
+- **Mobile navigation**: Below `md`, navbar uses native `<button popovertarget>` + `popover="auto"` menu (avatar trigger when signed in, hamburger when signed out); desktop keeps inline nav links
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination (full-viewport slide on small screens, compact slide from `md`)
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
@@ -226,11 +227,11 @@ src/
 │   ├── nav-link/
 │   │   ├── nav-link-list-item.tsx
 │   │   ├── nav-link-skeleton.tsx
-│   │   ├── nav-link.tsx          # Suspense-wrapped link with active state
+│   │   ├── nav-link.tsx          # Suspense-wrapped link with active state (prefetch off by default)
 │   │   └── types.ts
 │   ├── navbar/
-│   │   └── navbar.tsx            # Sticky header (logo, offline banner, nav links, auth slot)
-│   ├── offline-indicator.tsx     # OfflineBanner via next/offline useOffline
+│   │   └── navbar.tsx            # Sticky header (logo, offline banner, desktop nav, mobile popover menu, auth slot)
+│   ├── offline-indicator.tsx     # OfflineBanner via next/offline useOffline (pulse offline / solid online)
 │   ├── nuqs/
 │   │   └── nuqs-adapter-boundary.tsx  # Suspense + NuqsAdapter for listing routes
 │   ├── button-recipe.ts          # Panda CVA recipe for Button variants
@@ -363,7 +364,7 @@ The project follows a feature-based architecture where related functionality is 
    TURSO_DATABASE_AUTH="your-turso-auth-token"
    ```
 
-   Run **`bun run env:typegen`** after changing `.env.schema` to refresh **`src/env.d.ts`**. Typed access uses **`import { ENV } from "varlock/env"`**. See **`docs/VARLOCK.md`** and **`docs/AUTH_SETUP.md`** for Bitwarden, Bun, and Vercel notes.
+   Run **`bun run env:typegen`** after changing `.env.schema` to refresh **`src/env.d.ts`**. Typed access uses **`import { ENV } from "varlock/env"`**. Tests use committed **`.env.test`** (static fixtures; no secret fetch). See **`docs/VARLOCK.md`** and **`docs/AUTH_SETUP.md`** for Bitwarden, Bun, and Vercel notes.
 
 4. **Database Setup**
    Scripts use **`varlock run --`** so Drizzle and seed commands receive resolved env (see `package.json`):
@@ -524,9 +525,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `app/@navbar/default` - Parallel route delegating to shared `Navbar`
 - `app/@navbar/error.tsx` - Error boundary for navbar with retry functionality
 - `app/@footer/default` - Footer parallel route with copyright
-- `components/navbar/navbar` - Sticky header with scroll-driven animation, logo, `OfflineBanner`, nav links, and auth slot (`HasAuthSuspense` → avatar or `SignInNavLink`)
-- `components/offline-indicator` - `OfflineBanner` using Next.js `useOffline` (hidden when online; `md+` only)
-- `components/nav-link/nav-link` - `NavLink` with `Suspense` fallback, active state (`includes` or `endsWith`), border position (`bottom` or `left`) (client component)
+- `components/navbar/navbar` - Sticky header with scroll-driven animation, logo, `OfflineBanner`, desktop nav links, mobile popover menu (avatar or hamburger trigger), and auth slot (`HasAuthSuspense` → avatar or `SignInNavLink`)
+- `components/offline-indicator` - `OfflineBanner` using Next.js `useOffline` (styled pill; pulsing dot offline, solid green online)
+- `components/nav-link/nav-link` - `NavLink` with `Suspense` fallback, active state (`includes` or `endsWith`), border position (`bottom` or `left`); **`prefetch={false}` by default** to reduce network noise (opt-in per link, e.g. model back link)
 - `components/nav-link/nav-link-skeleton` - Width-matched skeleton for `NavLink` Suspense fallback
 - `components/nav-link/nav-link-list-item` - `li` + `NavLink` wrapper
 - `components/nuqs/nuqs-adapter-boundary` - `Suspense` + `NuqsAdapter` for the `3d-models` layout
@@ -591,13 +592,13 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run build` - Build for production (**Node** runtime via `varlock run -- next build`)
 - `bun run build:debug` - Build with debug prerender information (`bun --bun`)
 - `bun run start` - Start production server (**Node** runtime via `bun run next start`)
-- `bun run test` - Run tests (Bun test runner)
+- `bun run test` - Run tests (Bun test runner; `VARLOCK_ENV=test` loads `.env.test` — no Bitwarden)
 - `bun run test:affected` - Run tests affected by git changes (`bun test --changed --pass-with-no-tests`; Cursor `afterFileEdit`)
 - `bun run test:watch` - Run tests in watch mode
 - `bun run test:unit` - Run unit tests
 - `bun run test:components` - Run component tests
 - `bun run test:integration` - Run integration tests
-- `bunfig.toml` — `minimumReleaseAge` (3 days); test preload (`tests/setup/test-preload.ts`) registers Happy DOM globals and stubs `server-only` for component tests; `tests/setup/next-mocks.ts` stubs Next navigation; nuqs components use `withNuqsTestingAdapter` from `nuqs/adapters/testing`; integration DB helpers in `tests/setup/db-test.ts` use Drizzle 1.0 `{ client }` config
+- `bunfig.toml` — `env = false` (Varlock owns `.env*` resolution); `minimumReleaseAge` (3 days) with Next/SWC excludes; test preload order: `tests/setup/varlock-test-env.ts` → `varlock/auto-load` → `tests/setup/test-preload.ts` (Happy DOM + `server-only` stub); `tests/setup/next-mocks.ts` stubs Next navigation; nuqs components use `withNuqsTestingAdapter` from `nuqs/adapters/testing`; integration DB helpers in `tests/setup/db-test.ts` use Drizzle 1.0 `{ client }` config
 - `bun run test:e2e` - Run Playwright E2E tests
 - `bun run e2e:open` - Open Playwright UI
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)

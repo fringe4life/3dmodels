@@ -37,7 +37,7 @@ const NavLinkInner = ({
   matchStrategy = "includes",
   borderPosition = "bottom",
   className,
-  prefetch = true,
+  prefetch = false,
   ...linkProps
 }: NavLinkProps) => {
   const pathname = usePathname();
