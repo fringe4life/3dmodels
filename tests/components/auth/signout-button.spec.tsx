@@ -24,7 +24,7 @@ describe("AuthButtons sign out", () => {
       </AuthButtons>,
     );
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole("button", { name: /sign out/i }));
     expect(signOutAction).toHaveBeenCalledTimes(1);
   });
 });

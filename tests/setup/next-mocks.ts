@@ -5,6 +5,21 @@ const RedirectType = {
   replace: "replace",
 } as const;
 
+const NEXT_CONTROL_FLOW_MESSAGES = new Set(["NEXT_REDIRECT", "NEXT_NOT_FOUND"]);
+
+const isNextControlFlowError = (error: unknown): boolean => {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+  if (NEXT_CONTROL_FLOW_MESSAGES.has(error.message)) {
+    return true;
+  }
+  if ("cause" in error && error.cause !== undefined) {
+    return isNextControlFlowError(error.cause);
+  }
+  return false;
+};
+
 vi.mock("next/navigation", () => {
   const push = vi.fn();
   const replace = vi.fn();
@@ -17,7 +32,9 @@ vi.mock("next/navigation", () => {
       throw new Error("NEXT_REDIRECT");
     }),
     unstable_rethrow: vi.fn((error: unknown) => {
-      throw error;
+      if (isNextControlFlowError(error)) {
+        throw error;
+      }
     }),
     usePathname: () => "/test-path",
     useRouter: () => ({ back, forward, prefetch, push, replace }),

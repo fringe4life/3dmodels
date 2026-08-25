@@ -17,14 +17,17 @@ const SubmitButton = ({
   isPending,
   className,
   variant,
+  type = "submit",
+  ...props
 }: SubmitButtonProps) => (
   <ViewTransition name="auth-submit-button">
     <Button
       className={cx("group", css({ inlineSize: "full" }), className)}
       disabled={isPending}
       onClick={onClick}
-      type="submit"
+      type={type}
       variant={variant ?? "primary"}
+      {...props}
     >
       <FaSpinner
         className={cx(
