@@ -12,7 +12,6 @@ type AuthCardProps = Prettify<
 
 const authFooterVt = viewTransition({
   group: {
-    // animationDuration: "250ms",
     animationDuration: "slow",
     animationTimingFunction: "glide",
   },

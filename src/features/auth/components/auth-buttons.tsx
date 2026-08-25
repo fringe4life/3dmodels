@@ -32,6 +32,7 @@ const AuthButtons = ({ children }: AuthButtonsProps) => {
       </div>
 
       <SubmitButton
+        aria-label="Sign out"
         className={cx(
           "group",
           css({
@@ -51,6 +52,7 @@ const AuthButtons = ({ children }: AuthButtonsProps) => {
         variant="ghost"
       >
         <FaSignOutAlt
+          aria-hidden="true"
           className={square({ _groupDisabled: { display: "none" }, size: 5 })}
         />
       </SubmitButton>

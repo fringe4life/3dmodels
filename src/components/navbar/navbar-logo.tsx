@@ -5,7 +5,6 @@ import Link from "next/link";
 
 const logoLinkClassName = css({
   cursor: "pointer",
-  paddingInlineStart: 4,
   position: "relative",
 });
 
@@ -21,7 +20,7 @@ const iconLogoClassName = square({
 });
 
 const NavbarLogo = () => (
-  <Link href="/" prefetch>
+  <Link aria-label="Go to the printforge homepage" href="/" prefetch>
     <div className={logoLinkClassName}>
       <Image
         alt="PrintForge Logo"
