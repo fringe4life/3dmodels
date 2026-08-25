@@ -1,51 +1,30 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: test */
 import "../../../tests/setup/test-globals";
-import { describe, expect, it, vi } from "bun:test";
-import { render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "bun:test";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { signOutAction } from "../../../src/features/auth/actions/sign-out-action";
+import { AuthButtons } from "../../../src/features/auth/components/auth-buttons";
 
-// biome-ignore lint/style/useImportType: avoid umd issue
-import React from "react";
-import { HasAuthSuspense } from "../../../src/features/auth/components/has-auth";
-import { authClient } from "../../../src/lib/auth-client";
+afterEach(() => {
+  cleanup();
+});
 
-vi.mock("../../../src/lib/auth-client", () => ({
-  authClient: {
-    signOut: vi.fn(async () => ({ ok: true })),
-  },
+/** Navbar sign-out uses `signOutAction`, not `authClient.signOut`. */
+vi.mock("@/features/auth/actions/sign-out-action", () => ({
+  signOutAction: vi.fn(async () => undefined),
 }));
 
-vi.mock("@/features/auth/components/has-auth", () => ({
-  HasAuthSuspense: ({
-    children,
-  }: {
-    children: (
-      user: { id: string; email: string; name: string },
-      isAuthenticated: boolean,
-    ) => React.ReactNode;
-    fallback: React.ReactNode;
-  }) => <>{children({ email: "t@t.com", id: "u1", name: "Test" }, true)}</>,
-}));
-
-const handleSignOut = () => {
-  authClient.signOut();
-};
-
-describe("SignOut (Better Auth flow)", () => {
-  it("renders sign out control when authenticated and triggers signOut", async () => {
+describe("AuthButtons sign out", () => {
+  it("calls signOutAction when the sign-out control is clicked", async () => {
     const user = userEvent.setup();
     render(
-      <HasAuthSuspense fallback={<div>Loading...</div>}>
-        {() => (
-          <button onClick={handleSignOut} type="button">
-            Sign out
-          </button>
-        )}
-      </HasAuthSuspense>,
+      <AuthButtons>
+        <span>User avatar</span>
+      </AuthButtons>,
     );
 
-    const btn = screen.getByRole("button", { name: /sign out/i });
-    await user.click(btn);
-    expect(authClient.signOut).toHaveBeenCalled();
+    await user.click(screen.getByRole("button"));
+    expect(signOutAction).toHaveBeenCalledTimes(1);
   });
 });

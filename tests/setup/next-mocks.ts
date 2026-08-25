@@ -1,5 +1,10 @@
 import { vi } from "bun:test";
 
+const RedirectType = {
+  push: "push",
+  replace: "replace",
+} as const;
+
 vi.mock("next/navigation", () => {
   const push = vi.fn();
   const replace = vi.fn();
@@ -7,6 +12,13 @@ vi.mock("next/navigation", () => {
   const forward = vi.fn();
   const prefetch = vi.fn();
   return {
+    RedirectType,
+    redirect: vi.fn(() => {
+      throw new Error("NEXT_REDIRECT");
+    }),
+    unstable_rethrow: vi.fn((error: unknown) => {
+      throw error;
+    }),
     usePathname: () => "/test-path",
     useRouter: () => ({ back, forward, prefetch, push, replace }),
     useSearchParams: () => new URLSearchParams(""),

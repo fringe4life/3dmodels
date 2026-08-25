@@ -39,7 +39,7 @@ const offlineIconContainerClassName = cx(
 const offlineIconClassName = cx(square({ size: 4 }), css({ color: "brand" }));
 
 const offlineLabelClassName = css({
-  "@container navbar-status (min-width: 20ch)": {
+  "@container navbar (min-width: 20ch)": {
     clip: "auto",
     height: "auto",
     margin: 0,
@@ -54,7 +54,7 @@ const offlineLabelClassName = css({
 });
 
 const offlineSupportingTextClassName = css({
-  "@container navbar-status (min-width: 50ch)": {
+  "@container navbar (min-width: 50ch)": {
     display: "inline",
   },
   color: "text.muted",

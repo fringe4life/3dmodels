@@ -1,10 +1,14 @@
 /** biome-ignore-all lint/suspicious/useAwait: test */
 /** biome-ignore-all lint/performance/useTopLevelRegex: test */
 import "../../../tests/setup/test-globals";
-import { describe, expect, it, vi } from "bun:test";
-import { render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "bun:test";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SignInPage from "../../../src/app/(auth)/signin/page";
+
+afterEach(() => {
+  cleanup();
+});
 
 /** Email/password form uses `signInAction`, not `authClient`; mock the action so tests don't hit real auth/DB. */
 vi.mock("@/features/auth/actions/sign-in-action", () => ({
