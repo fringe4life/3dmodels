@@ -1,17 +1,29 @@
-import { css, cx, viewTransition } from "@styled-system/css";
-import { hoverShadow, hstack } from "@styled-system/patterns";
+import { viewTransition } from "@styled-system/css";
 import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
-import placeholderImg from "@/assets/images/placeholder.png";
 import { Pill } from "@/components/pill";
 import type { IsAuthenticated } from "@/features/auth/types";
 import { toggleLike } from "@/features/models/likes/actions/toggle-like";
 import { HeartButtonClient } from "@/features/models/likes/components/heart-button-client";
+import { PLACEHOLDER_IMAGE_SRC } from "@/lib/placeholder-image";
 import type { Prettify } from "@/types";
 import { sanitiseName } from "@/utils/sanitise-name";
 import type { ModelWithLikeStatus } from "../types";
+import {
+  modelCardCategory,
+  modelCardContainer,
+  modelCardDescription,
+  modelCardImage,
+  modelCardLikeRow,
+  modelCardLinkOverlay,
+  modelCardMedia,
+  modelCardMeta,
+  modelCardSurface,
+  modelCardTitle,
+  modelCardTitleLink,
+} from "./model-card.styles";
 
 type ModelCardProps = Prettify<
   IsAuthenticated & {
@@ -46,126 +58,53 @@ const ModelCard = ({
   isAuthenticated,
   model: { slug, name, description, image, categorySlug, likes, hasLiked },
   priority,
-}: ModelCardProps) => (
-  <ViewTransition enter={modelCardEnter} exit={modelCardExit}>
-    <article
-      className={cx(
-        css({
-          _hover: {
-            translate: "0 calc(token(sizes.2) * -1)",
-          },
-          _notSupportsHover: {
-            _supportsScroll: {
-              animationDuration: "auto",
-              animationFillMode: "forwards",
-              animationName: "animateModelIn, animateModelOut",
-              animationRange: "entry, exit 50%",
-              animationTimeline: "view()",
-              animationTimingFunction: "glide",
-            },
-          },
-          "&:has([data-progress='true']) *": {
-            cursor: "progress",
-          },
-          backgroundColor: "bg.surface",
-          cursor: "pointer",
-          isolation: "isolate",
-          position: "relative",
-          rounded: "lg",
-          shadow: "md",
-          transitionDuration: "normal",
-          transitionProperty: "translate",
-          transitionTimingFunction: {
-            _supportsLinear: "glide",
-            base: "ease-in-out",
-          },
-        }),
-        hoverShadow({ shadow: "xl" }),
-      )}
-    >
-      <ViewTransition name={`model-image-${sanitiseName(slug)}`}>
-        <div
-          className={css({
-            aspectRatio: "square",
-            contain: "strict",
-            position: "relative",
-            roundedTop: "inherit",
-          })}
-        >
-          <Image
-            alt={name ?? ""}
-            className={css({ objectFit: "cover" })}
-            fill
-            priority={priority}
-            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 250px"
-            src={image || placeholderImg}
-          />
-        </div>
-      </ViewTransition>
+}: ModelCardProps) => {
+  const transitionSlug = sanitiseName(slug);
 
-      <div className={css({ padding: 4 })}>
-        <div
-          className={css({
-            marginBlockEnd: 2,
-            minBlockSize: 14,
-          })}
-        >
-          <ViewTransition name={`model-title-${sanitiseName(slug)}`}>
-            <h2
-              className={css({
-                color: "gray.800",
-                fontSize: "xl",
-                fontWeight: "semibold",
-                lineClamp: 2,
-              })}
-            >
-              <Link href={href}>
+  return (
+    <ViewTransition enter={modelCardEnter} exit={modelCardExit}>
+      <div className={modelCardContainer}>
+        <article className={modelCardSurface}>
+          <ViewTransition name={`model-image-${transitionSlug}`}>
+            <div className={modelCardMedia}>
+              <Image
+                alt={name}
+                className={modelCardImage}
+                fill
+                priority={priority}
+                sizes="(max-width: 28rem) calc(100vw - 2rem), 10rem"
+                src={image || PLACEHOLDER_IMAGE_SRC}
+              />
+            </div>
+          </ViewTransition>
+
+          <ViewTransition name={`model-title-${transitionSlug}`}>
+            <h2 className={modelCardTitle}>
+              <Link className={modelCardTitleLink} href={href}>
                 {name}
-                <span
-                  className={css({
-                    blockSize: "full",
-                    inlineSize: "full",
-                    inset: 0,
-                    position: "absolute",
-                    z: "20",
-                  })}
-                />
+                <span className={modelCardLinkOverlay} />
               </Link>
             </h2>
           </ViewTransition>
-        </div>
-        <p
-          className={css({
-            color: "gray.800",
-            fontSize: "sm",
-            lineClamp: 2,
-            minBlockSize: "10",
-          })}
-        >
-          {description}
-        </p>
-        <div className={css({ marginBlockStart: 2 })}>
-          <Pill>{categorySlug}</Pill>
-        </div>
-        <div
-          className={hstack({
-            color: "gray.600",
-            marginBlockStart: 2,
-            position: "relative",
-            z: "50",
-          })}
-        >
-          <HeartButtonClient
-            hasLiked={hasLiked}
-            isAuthenticated={isAuthenticated}
-            likes={likes}
-            slug={slug}
-            toggleAction={toggleLike}
-          />
-        </div>
+          <p className={modelCardDescription}>{description}</p>
+          <div className={modelCardMeta}>
+            <div className={modelCardCategory}>
+              <Pill>{categorySlug}</Pill>
+            </div>
+            <div className={modelCardLikeRow}>
+              <HeartButtonClient
+                hasLiked={hasLiked}
+                isAuthenticated={isAuthenticated}
+                likes={likes}
+                slug={slug}
+                toggleAction={toggleLike}
+              />
+            </div>
+          </div>
+        </article>
       </div>
-    </article>
-  </ViewTransition>
-);
+    </ViewTransition>
+  );
+};
 
 export { ModelCard };

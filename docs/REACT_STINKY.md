@@ -150,15 +150,14 @@ Name means opposite of value; `disabled={hasPreviousPage}` only works because of
 **Files:**
 - `src/features/models/likes/types.ts` (`HeartVisualState`)
 - `src/features/models/likes/hooks/use-heart-like.ts`
-- `src/features/models/likes/components/heart-icon.tsx`
 - `src/features/models/likes/components/heart-button-client.tsx`
 
 `isLiked` + `isNotLiked` + `isPending` were a redundant pair; impossible combos possible.
 
-**Applied:** `HeartVisualState = "liked" | "unliked" | "pending"`. Hook derives one `visualState` (pending wins). `HeartIcon` maps via `Record<HeartVisualState, …>`. `isPending` / `isDisabled` stay on hook for form/button, not paint.
+**Applied:** `HeartVisualState = "liked" | "unliked" | "pending"`. Hook derives one `visualState` (pending wins). Button maps via `Record<HeartVisualState, …>` with Panda `_icon` (`& :where(svg)`). `isPending` / `isDisabled` stay on hook for form/button; paint lives on button, not a separate icon component.
 
 - [x] Introduce discriminated `visualState`
-- [x] Update hook + icon + client button
+- [x] Update hook + client button (`_icon` colors; no `heart-icon`)
 
 ---
 
