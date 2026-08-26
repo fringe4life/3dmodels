@@ -38,8 +38,8 @@ export async function applySchema(db: TestDb) {
 // biome-ignore lint/suspicious/useAwait: test
 export async function seedTestDb(db: TestDb) {
   db.run?.(`INSERT INTO models (id, name, slug, imageUrl, description, category) VALUES
-    ('1', 'Test Model One', 'test-model-one', '/placeholder.png', 'First test model', 'props'),
-    ('2', 'Test Model Two', 'test-model-two', '/placeholder.png', 'Second test model', 'props')
+    ('1', 'Test Model One', 'test-model-one', '/img/placeholder.avif', 'First test model', 'props'),
+    ('2', 'Test Model Two', 'test-model-two', '/img/placeholder.avif', 'Second test model', 'props')
   ;`);
 }
 

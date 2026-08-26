@@ -4,7 +4,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.2-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.8-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3_canary-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.14-000000)
@@ -15,7 +15,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.4.0-canary.2 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
+- **Framework**: Next.js 16.4.0-canary.8 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
 - **Language**: TypeScript 7.0.2 with React 19.3 canary (`19.3.0-canary-eb8feb71-20260814`, aged for `bunfig` `minimumReleaseAge`)
 - **Styling**: Panda CSS 2.0.0-beta.14 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`, `panda.config.ts`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; view-transition animations colocated via Panda helpers / `ViewTransition` (duration tokens + `group` where needed); shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props)
 - **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`)
@@ -51,7 +51,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.jpg` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.avif` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** writes generated files to **`styled-system/`** at the repo root (`panda.config.ts` → `outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 src/
@@ -104,8 +104,6 @@ src/
 │   ├── global-error.tsx          # Root error boundary (App Router)
 │   ├── robots.ts                 # robots.txt Route Handler
 │   └── sitemap.ts                # Sitemap generation
-├── assets/
-│   └── images/                   # App-local image assets
 ├── features/
 │   ├── auth/                     # Authentication feature
 │   │   ├── actions/              # Server actions
@@ -143,8 +141,10 @@ src/
 │   │   │   └── model-back-link-skeleton.tsx
 │   │   ├── components/
 │   │   │   ├── model-card.tsx
+│   │   │   ├── model-card.styles.ts   # Container-query + subgrid listing card
 │   │   │   ├── model-card-skeleton.tsx
 │   │   │   ├── model-detail.tsx
+│   │   │   ├── model-detail.styles.ts # Container-query detail layout
 │   │   │   ├── models-grid.tsx
 │   │   │   ├── models-grid-header.tsx
 │   │   │   ├── models-grid-header-skeleton.tsx
@@ -176,7 +176,6 @@ src/
 │   │   │   │   ├── heart-button-count.tsx
 │   │   │   │   ├── heart-button-server.tsx
 │   │   │   │   ├── heart-button-skeleton.tsx
-│   │   │   │   ├── heart-icon.tsx
 │   │   │   │   └── likes-count-transition.tsx
 │   │   │   ├── dal/
 │   │   │   │   └── toggle-like.ts
@@ -281,6 +280,7 @@ src/
 │   ├── auth-client.ts
 │   ├── date.ts
 │   ├── hero-image.ts
+│   ├── placeholder-image.ts
 │   ├── slugify.ts                # MODEL_SLUGIFY_OPTIONS + SlugifyOptions
 │   └── url.ts                    # Shared URL helpers (nuqs defaultOptions)
 ├── types/
@@ -491,9 +491,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ### Key Components
 
 #### Feature Components
-- `features/models/components/model-card` - Individual model display card
+- `features/models/components/model-card` - Individual model display card (container-query split + subgrid via `model-card.styles`)
 - `features/models/components/model-card-skeleton` - Loading skeleton for model cards
-- `features/models/components/model-detail` - Detailed model view page
+- `features/models/components/model-detail` - Detailed model view (`model-detail.styles` container queries)
 - `features/models/back-link/model-back-link` - Server back link restoring allowlisted listing `from` (runtime `prefetch={true}`; `arrowRecipe` left chevron micro-interactions)
 - `features/models/back-link/from-search-params` - `modelDetailHref` / `resolveBackHref` with slugify-stable slug checks
 - `features/models/components/models-grid` - Grid layout for model cards (embeds `from` on detail links)
@@ -515,8 +515,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/pagination/hooks/use-pagination-query` - nuqs + View Transition hook for page/limit changes
 - `features/pagination/listing-canonical` - Canonical path serializer for listing SEO (`query`, `page`, `limit`, `sort`)
 - `features/pagination/listing-path` - Allowlisted listing `Route` validation (`/3d-models`, category listings)
-- `features/models/likes/components/heart-button-client` - Client component with `useHeartLike` hook, optimistic like/count state, View Transition types for count changes
-- `features/models/likes/components/heart-icon` - Heart glyph styled from `HeartVisualState` (`"liked" | "unliked" | "pending"`)
+- `features/models/likes/components/heart-button-client` - Client like button with `useHeartLike`, optimistic state, and `_icon` colors from `HeartVisualState` (`"liked" | "unliked" | "pending"`)
 - `features/models/likes/components/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/likes/components/heart-button-skeleton` - Loading skeleton for heart button

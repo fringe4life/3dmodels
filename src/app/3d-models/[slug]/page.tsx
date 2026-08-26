@@ -10,6 +10,10 @@ import { toggleLike } from "@/features/models/likes/actions/toggle-like";
 import { HeartButtonServer } from "@/features/models/likes/components/heart-button-server";
 import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
 import { getModelBySlug } from "@/features/models/queries/get-model-by-slug";
+import { PLACEHOLDER_IMAGE_SRC } from "@/lib/placeholder-image";
+
+// fallow-ignore-next-line
+export const instant = false;
 
 export const generateStaticParams = async () => await getAllModelSlugs();
 
@@ -32,7 +36,7 @@ export const generateMetadata = async ({
         {
           alt: `3D model of ${title}`,
           height: 630,
-          url: image || "/img/placeholder.png",
+          url: image || PLACEHOLDER_IMAGE_SRC,
           width: 1200,
         },
       ],
