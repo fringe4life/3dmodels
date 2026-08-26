@@ -5,6 +5,19 @@ import { hoverShadow } from "@styled-system/patterns";
 const MODEL_CARD_LISTING_SPAN = 5;
 const MODEL_CARD_CONTENT_SPAN = 4;
 
+/**
+ * `theme.containers.card-split` is measured on `models-grid`.
+ * Listing section uses `padding: 4` (1rem each side) in `3d-models/layout`.
+ * Viewport at split ≈ 28rem + 2rem = 30rem — keep the stacked `sizes` hint until then.
+ */
+const MODEL_CARD_SPLIT_VIEWPORT = "30rem";
+const MODEL_CARD_SECTION_INLINE_PAD = "2rem";
+/** Split media column caps at `clamp(..., 10rem)` in `modelCardTrackGrid`. */
+const MODEL_CARD_SPLIT_MEDIA_MAX = "10rem";
+
+const MODEL_CARD_IMAGE_SIZES =
+  `(max-width: ${MODEL_CARD_SPLIT_VIEWPORT}) calc(100vw - ${MODEL_CARD_SECTION_INLINE_PAD}), ${MODEL_CARD_SPLIT_MEDIA_MAX}` as const;
+
 const modelCardTrackGrid = {
   display: "grid",
   gridColumn: "1 / -1",
@@ -184,6 +197,7 @@ const modelCardLikeRow = css({
 });
 
 export {
+  MODEL_CARD_IMAGE_SIZES,
   modelCardCategory,
   modelCardContainer,
   modelCardDescription,

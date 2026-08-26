@@ -2,6 +2,7 @@ import "../../../tests/setup/test-globals";
 import { afterEach, describe, expect, it } from "bun:test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ModelDetail } from "../../../src/features/models/components/model-detail";
+import { MODEL_DETAIL_IMAGE_SIZES } from "../../../src/features/models/components/model-detail.styles";
 
 const description =
   "A detailed articulated model with movable joints, flexible wings, and a deliberately long description that must remain fully available in detail mode.";
@@ -34,6 +35,9 @@ describe("ModelDetail", () => {
       }),
     ).toBeDefined();
     expect(screen.getByRole("img", { name: description })).toBeDefined();
+    expect(
+      screen.getByRole("img", { name: description }).getAttribute("sizes"),
+    ).toBe(MODEL_DETAIL_IMAGE_SIZES);
     expect(screen.getByText("toys-games")).toBeDefined();
     expect(screen.getByText(description)).toBeDefined();
     expect(screen.getByText("Back to models")).toBeDefined();

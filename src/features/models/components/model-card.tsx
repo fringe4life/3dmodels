@@ -12,6 +12,7 @@ import type { Prettify } from "@/types";
 import { sanitiseName } from "@/utils/sanitise-name";
 import type { ModelWithLikeStatus } from "../types";
 import {
+  MODEL_CARD_IMAGE_SIZES,
   modelCardCategory,
   modelCardContainer,
   modelCardDescription,
@@ -72,7 +73,7 @@ const ModelCard = ({
                 className={modelCardImage}
                 fill
                 priority={priority}
-                sizes="(max-width: 28rem) calc(100vw - 2rem), 10rem"
+                sizes={MODEL_CARD_IMAGE_SIZES}
                 src={image || PLACEHOLDER_IMAGE_SRC}
               />
             </div>

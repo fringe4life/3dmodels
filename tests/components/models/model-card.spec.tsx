@@ -2,6 +2,7 @@ import "../../../tests/setup/test-globals";
 import { afterEach, describe, expect, it } from "bun:test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ModelCard } from "../../../src/features/models/components/model-card";
+import { MODEL_CARD_IMAGE_SIZES } from "../../../src/features/models/components/model-card.styles";
 
 const model = {
   categorySlug: "toys-games" as const,
@@ -37,6 +38,11 @@ describe("ModelCard", () => {
     expect(
       screen.getByRole("img", { name: "Articulated Dragon" }),
     ).toBeDefined();
+    expect(
+      screen
+        .getByRole("img", { name: "Articulated Dragon" })
+        .getAttribute("sizes"),
+    ).toBe(MODEL_CARD_IMAGE_SIZES);
     expect(screen.getByText("toys-games")).toBeDefined();
     expect(
       screen.getByRole("button", { name: "Sign in to like this model" }),

@@ -107,11 +107,13 @@ export default defineConfig({
         xs: "30rem", // 480px
         xxs: "20rem", // 320px
       },
-      containerNames: ["models-grid", "model-detail"],
+      containerNames: ["models-grid", "model-detail", "navbar"],
       containers: {
         "card-copy": "48rem",
         "card-split": "28rem",
         "detail-split": "26rem",
+        "offline-indicator-full": "50ch",
+        "offline-indicator-small": "20ch",
       },
       keyframes: {
         /** View-timeline enter/exit on narrow viewports (see `ModelCard`) */

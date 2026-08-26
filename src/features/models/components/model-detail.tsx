@@ -9,6 +9,7 @@ import type { Children, Prettify } from "@/types";
 import { sanitiseName } from "@/utils/sanitise-name";
 import type { getModelBySlug } from "../queries/get-model-by-slug";
 import {
+  MODEL_DETAIL_IMAGE_SIZES,
   modelDetailCategory,
   modelDetailContainer,
   modelDetailContent,
@@ -52,7 +53,7 @@ const ModelDetail = ({
               className={modelDetailImage}
               fill
               priority
-              sizes="(max-width: 1023px) 100vw, 50vw"
+              sizes={MODEL_DETAIL_IMAGE_SIZES}
               src={image || PLACEHOLDER_IMAGE_SRC}
             />
           </figure>

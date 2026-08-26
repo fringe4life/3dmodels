@@ -1,6 +1,21 @@
 import { css } from "@styled-system/css";
 import { cq } from "@styled-system/patterns";
 
+/**
+ * `theme.containers.detail-split` (26rem) is the `model-detail` content box.
+ * Frame adds `paddingInline: 4` (2rem); listing layout section adds another 2rem.
+ * Viewport at split ≈ 26rem + 4rem = 30rem. Frame caps at `6xl` (72rem).
+ */
+const DETAIL_SPLIT_VIEWPORT = "30rem";
+const DETAIL_FRAME_MAX_VIEWPORT = "74rem"; // 6xl (72rem) + section pad (2rem)
+const DETAIL_STACKED_INLINE_PAD = "4rem"; // section + frame
+/** Split media ≈ 0.94fr of surface; stay slightly conservative vs undersizing. */
+const DETAIL_SPLIT_MEDIA_HINT = "calc(50vw - 2rem)";
+const DETAIL_SPLIT_MEDIA_MAX = "34rem";
+
+const MODEL_DETAIL_IMAGE_SIZES =
+  `(max-width: ${DETAIL_SPLIT_VIEWPORT}) calc(100vw - ${DETAIL_STACKED_INLINE_PAD}), (max-width: ${DETAIL_FRAME_MAX_VIEWPORT}) ${DETAIL_SPLIT_MEDIA_HINT}, ${DETAIL_SPLIT_MEDIA_MAX}` as const;
+
 const modelDetailContainer = cq({
   // with model detail we dont need subgrid at all
   // as with detail view there is no sibling content to align with
@@ -107,6 +122,7 @@ const modelDetailFooter = css({
 });
 
 export {
+  MODEL_DETAIL_IMAGE_SIZES,
   modelDetailCategory,
   modelDetailContainer,
   modelDetailContent,
