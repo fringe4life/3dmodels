@@ -49,7 +49,6 @@ export default defineConfig({
 
   // The output directory for your css system
   outdir: "styled-system",
-  // In panda.config.ts → theme.extend.semanticTokens
 
   patterns: {
     extend: {

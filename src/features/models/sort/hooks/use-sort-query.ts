@@ -6,8 +6,8 @@ import type { Sort } from "@/features/models/sort/brands";
 import { toSort } from "@/features/models/sort/brands";
 import { DEFAULT_SORT } from "@/features/models/sort/constants";
 import { sortParser } from "@/features/models/sort/sort-search-params";
-import { DEFAULT_PAGE } from "@/features/pagination/constants";
-import { pageParser } from "@/features/pagination/pagination-search-params";
+import { DEFAULT_PAGE } from "@/lib/pagination/constants";
+import { pageParser } from "@/lib/pagination/search-params";
 
 interface UseSortQueryReturn {
   handleSortChange: (next: Sort) => void;

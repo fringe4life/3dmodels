@@ -1,17 +1,17 @@
 import { connection } from "next/server";
 import type { SearchParams } from "nuqs/server";
 import type { CategorySlug } from "@/db/brands";
-import { getUser } from "@/features/auth/queries/get-user";
-import type { IsAuthenticated } from "@/features/auth/types";
 import { searchModels } from "@/features/models/dal/search-models";
 import { DEFAULT_HAS_LIKED } from "@/features/models/likes/constants";
 import { getLikedSlugsForUser } from "@/features/models/likes/queries/like-status";
+import { searchParamsCache } from "@/features/models/listing-search-params";
 import { toSort } from "@/features/models/sort/brands";
 import { DEFAULT_SORT } from "@/features/models/sort/constants";
 import type { ModelWithLikeStatus } from "@/features/models/types";
-import { searchParamsCache } from "@/features/pagination/pagination-search-params";
-import type { PaginatedResult } from "@/features/pagination/types";
-import { transformToPaginatedResult } from "@/features/pagination/utils/to-paginated-result";
+import { getUser } from "@/lib/auth/get-user";
+import type { IsAuthenticated } from "@/lib/auth/types";
+import type { PaginatedResult } from "@/lib/pagination/types";
+import { transformToPaginatedResult } from "@/lib/pagination/utils/to-paginated-result";
 import type { Prettify } from "@/types";
 
 type GetModelsReturn = Prettify<

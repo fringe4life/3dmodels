@@ -5,10 +5,6 @@ export interface HasLiked {
   hasLiked: boolean;
 }
 
-export interface LikesCount {
-  likesCount: number;
-}
-
 export interface Likes {
   likes: number;
 }

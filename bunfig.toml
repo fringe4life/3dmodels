@@ -3,6 +3,7 @@
 env = false
 
 [install]
+linker = "isolated"
 minimumReleaseAge = 259200
 minimumReleaseAgeExcludes = [
     "next",

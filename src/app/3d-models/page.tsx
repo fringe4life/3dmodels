@@ -1,5 +1,5 @@
 import type { Metadata, Route } from "next";
-import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
+import { canonicalPathForListing } from "@/features/models/listing/listing-canonical";
 
 const listingMetadata: Metadata = {
   description:

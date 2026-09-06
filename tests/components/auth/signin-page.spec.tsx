@@ -10,7 +10,7 @@ afterEach(() => {
   cleanup();
 });
 
-/** Email/password form uses `signInAction`, not `authClient`; mock the action so tests don't hit real auth/DB. */
+/** Email/password form uses `signInAction`; GitHub uses `signInGithubAction`. Mock both so tests don't hit real auth/DB. */
 vi.mock("@/features/auth/actions/sign-in-action", () => ({
   signInAction: vi.fn(async (_: unknown, formData: FormData) => {
     const email = formData.get("email")?.toString() ?? "";
@@ -33,13 +33,13 @@ vi.mock("@/features/auth/actions/sign-in-action", () => ({
   }),
 }));
 
-vi.mock("@/lib/auth-client", () => ({
-  authClient: {
-    signIn: {
-      social: vi.fn(async () => ({ ok: true })),
-    },
-    signOut: vi.fn(async () => ({ ok: true })),
-  },
+vi.mock("@/features/auth/actions/sign-in-github-action", () => ({
+  signInGithubAction: vi.fn(async () => ({
+    fieldErrors: {},
+    message: "",
+    status: "SUCCESS" as const,
+    timestamp: Date.now(),
+  })),
 }));
 
 describe("SignInPage (Better Auth flow)", () => {

@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "ultracite": {
-      "command": "npx",
+      "command": "bunx",
       "args": ["-y", "mcp-remote", "https://www.ultracite.ai/api/mcp/mcp"]
     },
     "TalkToFigma": {
@@ -11,6 +11,10 @@
     "next-devtools": {
       "command": "npx",
       "args": ["-y", "next-devtools-mcp@latest"]
+    },
+    "fallow": {
+      "command": "bunx",
+      "args": ["fallow-mcp"]
     }
   }
 }

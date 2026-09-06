@@ -1,4 +1,5 @@
 import { css, cx } from "@styled-system/css";
+import { visuallyHidden } from "@styled-system/patterns";
 import type { ChangeEventHandler } from "react";
 import { buttonRecipe } from "@/components/button-recipe";
 import type { SortList } from "@/features/models/sort/constants";
@@ -29,7 +30,7 @@ const SortOption = ({ checked, label, onChange, value }: SortOptionProps) => (
   >
     <input
       checked={checked}
-      className={css({ srOnly: true })}
+      className={visuallyHidden()}
       name="sort"
       onChange={onChange}
       type="radio"

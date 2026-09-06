@@ -26,6 +26,7 @@ const FormError = <T = unknown>({
           rounded: "md",
         })}
         data-testid="form-error"
+        role="alert"
       >
         {actionState.message}
       </div>

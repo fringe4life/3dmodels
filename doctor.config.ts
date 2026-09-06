@@ -18,7 +18,7 @@ export default {
         rules: ["react-doctor/nextjs-no-redirect-in-try-catch"],
       },
       {
-        files: ["src/features/auth/actions/sign-out-action.ts"],
+        files: ["src/lib/auth/sign-out-action.ts"],
         rules: ["react-doctor/server-auth-actions"],
       },
     ],

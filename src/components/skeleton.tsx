@@ -1,7 +1,7 @@
 import { cva, cx } from "@styled-system/css";
 import type { CssVarProperties } from "@styled-system/types";
 import type { CSSProperties } from "react";
-import { skeletonEnter } from "@/app/styles";
+import { skeletonEnter } from "@/components/skeleton-enter";
 import type { Children, Prettify } from "@/types";
 
 /** React `style` + Panda `--*` keys (partial overrides OK; recipe has fallbacks). */

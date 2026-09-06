@@ -1,7 +1,12 @@
 "use client";
 
 import { css, cx } from "@styled-system/css";
-import { circle, hstack, square } from "@styled-system/patterns";
+import {
+  circle,
+  hstack,
+  square,
+  visuallyHidden,
+} from "@styled-system/patterns";
 import { useOffline } from "next/offline";
 import { MdWifiOff } from "react-icons/md";
 
@@ -38,20 +43,22 @@ const offlineIconContainerClassName = cx(
 
 const offlineIconClassName = cx(square({ size: 4 }), css({ color: "brand" }));
 
-const offlineLabelClassName = css({
-  "@navbar/offline-indicator-small": {
-    clip: "auto",
-    height: "auto",
-    margin: 0,
-    overflow: "visible",
-    padding: 0,
-    position: "static",
-    whiteSpace: "normal",
-    width: "auto",
-  },
-  fontWeight: "semibold",
-  srOnly: true,
-});
+const offlineLabelClassName = cx(
+  visuallyHidden(),
+  css({
+    "@navbar/offline-indicator-small": {
+      clip: "auto",
+      height: "auto",
+      margin: 0,
+      overflow: "visible",
+      padding: 0,
+      position: "static",
+      whiteSpace: "normal",
+      width: "auto",
+    },
+    fontWeight: "semibold",
+  }),
+);
 
 const offlineSupportingTextClassName = css({
   "@navbar/offline-indicator-full": {

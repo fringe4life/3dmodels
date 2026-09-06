@@ -1,7 +1,6 @@
 "use client";
 
-import { css } from "@styled-system/css";
-import { wrap } from "@styled-system/patterns";
+import { visuallyHidden, wrap } from "@styled-system/patterns";
 import type { ChangeEventHandler } from "react";
 import { isSortList, toSort } from "@/features/models/sort/brands";
 import { SortOption } from "@/features/models/sort/components/sort-option";
@@ -31,7 +30,7 @@ const ModelsSortControls = () => {
       })}
       disabled={isPending}
     >
-      <legend className={css({ srOnly: true })}>Sort models</legend>
+      <legend className={visuallyHidden()}>Sort models</legend>
       {SORT_VALUES.map((value) => (
         <SortOption
           checked={toSort(value) === sort}

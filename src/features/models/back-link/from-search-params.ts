@@ -9,7 +9,7 @@ import { isModelSlug } from "@/db/brands";
 import {
   DEFAULT_LISTING_HREF,
   toListingRoute,
-} from "@/features/pagination/listing-path";
+} from "@/features/models/listing/listing-path";
 
 /** Detail-page query key carrying the listing path (+ search) to restore. */
 const fromSearchParamsParsers = {

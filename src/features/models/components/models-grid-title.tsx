@@ -2,7 +2,7 @@
 
 import { css } from "@styled-system/css";
 import { useQueryStates } from "nuqs";
-import { queryParser } from "@/features/pagination/pagination-search-params";
+import { queryParser } from "@/lib/pagination/search-params";
 
 interface ModelsGridTitleProps {
   fallbackTitle: string;

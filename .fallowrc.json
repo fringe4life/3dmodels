@@ -1,11 +1,19 @@
 {
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "boundaries": {
+    "preset": "bulletproof"
+  },
   "rules": {
     "unused-dependencies": "warn",
     "prop-drilling": "warn",
     "thin-wrapper": "warn",
     "duplicate-prop-shape": "warn",
-    "unused-dependency-overrides": "off"
+    "unused-dependency-overrides": "off",
+    "private-type-leaks": "off"
+  },
+  "typeAware": {
+    "enabled": true,
+    "require": "best-effort"
   },
   "ignorePatterns": ["doctor.config.ts"],
   "ignoreDependencies": [

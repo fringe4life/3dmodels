@@ -10,7 +10,7 @@ import {
 import type { Maybe, Prettify } from "@/types";
 import type { ActionState } from "@/utils/to-action-state/types";
 import type { HeartButtonClientProps } from "../components/heart-button-client";
-import type { HeartVisualState, LikesCount } from "../types";
+import type { HeartVisualState, Likes } from "../types";
 import {
   createHeartLikePassthrough,
   type HeartLikeOptimisticState,
@@ -29,7 +29,7 @@ interface UseHeartLikeReturn {
   isDisabled: boolean;
   isPending: boolean;
   optimistic: HeartLikeOptimisticState;
-  state: Maybe<ActionState<LikesCount>>;
+  state: Maybe<ActionState<Likes>>;
   visualState: HeartVisualState;
 }
 
@@ -46,10 +46,10 @@ const useHeartLike = ({
     null,
   );
 
-  const serverLikesCount =
-    state?.status === "SUCCESS" && state.data ? state.data.likesCount : likes;
+  const serverLikes =
+    state?.status === "SUCCESS" && state.data ? state.data.likes : likes;
 
-  const passthrough = createHeartLikePassthrough(hasLiked, serverLikesCount);
+  const passthrough = createHeartLikePassthrough(hasLiked, serverLikes);
 
   const [optimistic, addOptimistic] = useOptimistic(
     passthrough,
@@ -69,7 +69,7 @@ const useHeartLike = ({
     });
   };
 
-  const isDisabled = isPending || !isAuthenticated;
+  const isDisabled = isPending;
 
   let visualState: HeartVisualState = "unliked";
   if (isPending) {

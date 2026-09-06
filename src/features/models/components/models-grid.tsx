@@ -1,10 +1,10 @@
 import { css } from "@styled-system/css";
 import type { Route } from "next";
-import { modelsGrid } from "@/app/styles";
 import { GenericComponent } from "@/components/generic-component";
-import type { IsAuthenticated } from "@/features/auth/types";
 import { modelDetailHref } from "@/features/models/back-link/from-search-params";
 import { ModelCard } from "@/features/models/components/model-card";
+import { modelsGrid } from "@/features/models/components/models-grid.styles";
+import type { IsAuthenticated } from "@/lib/auth/types";
 import type { Prettify } from "@/types";
 import type { ModelWithLikeStatus } from "../types";
 

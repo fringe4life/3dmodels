@@ -1,12 +1,14 @@
 <!-- BEGIN:nextjs-agent-rules -->
- 
-# Next.js: ALWAYS read docs before coding
- 
-Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
- 
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
 <!-- END:nextjs-agent-rules -->
 
-**Listing URLs & SEO:** For routes that use [nuqs](https://nuqs.dev) query state (`query`, `page`, `limit`), canonical URLs are built with `createLoader` + `createSerializer` from `nuqs/server` (see `src/features/pagination/listing-canonical.ts`), matching `clearOnDefault` client behavior. Wire them in `generateMetadata` as `alternates.canonical` per Next.js [`generateMetadata`](node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md) / [`alternates`](node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md#alternates). nuqs docs: [SEO](https://nuqs.dev/docs/seo).
+**Listing URLs & SEO:** For routes that use [nuqs](https://nuqs.dev) query state (`query`, `page`, `limit`), canonical URLs are built with `createLoader` + `createSerializer` from `nuqs/server` (see `src/features/models/listing/listing-canonical.ts`), matching nuqs v2 `clearOnDefault` (true by default; omit default query keys). Wire them in `generateMetadata` as `alternates.canonical` per Next.js [`generateMetadata`](node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md) / [`alternates`](node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md#alternates). nuqs docs: [SEO](https://nuqs.dev/docs/seo), [clearOnDefault](https://nuqs.dev/docs/options#clear-on-default).
 
 
 
@@ -133,3 +135,33 @@ Biome's linter will catch most issues automatically. Focus your attention on:
 ---
 
 Most formatting and common issues are automatically fixed by Biome. Run `bun x ultracite fix` before committing to ensure compliance.
+
+---
+
+<!-- fallow:setup-hooks:start -->
+## Fallow local gate
+
+Before any `git commit` or `git push`, run `fallow audit --format json --quiet --explain --gate-marker agent`. If the verdict is `fail`, fix the reported findings before retrying. Treat JSON runtime errors like `{ "error": true, ... }` as non-blocking.
+
+Audit defaults to `gate=new-only`: only findings introduced by the current changeset affect the verdict. Inherited findings on touched files are reported under `attribution` and annotated with `introduced: false`, but do not block the commit. Set `[audit] gate = "all"` in `fallow.toml` to gate every finding in changed files.
+
+For non-skill agents, treat the task map below as the local onboarding source: run the listed fallow command before destructive edits, before commits, and before pull request handoff.
+
+## Fallow task map
+
+| When the agent is about to... | Run |
+|---|---|
+| delete an "unused" export or file | `fallow dead-code --trace <file>:<export>` |
+| prove a TypeScript symbol's exact consumers before refactoring | `fallow dead-code --type-aware --symbol-impact <file>:<export-or-class.method>` |
+| delete an "unused" dependency | `fallow dead-code --trace-dependency <name>` |
+| commit or open a PR | `fallow audit --base <ref>` |
+| prioritize refactoring | `fallow health --hotspots --targets` |
+| ask who owns code | `fallow health --ownership` |
+| check untested-but-reachable code | `fallow health --coverage-gaps` |
+| consolidate duplication | `fallow dupes --trace dup:<fingerprint>` |
+| find feature flags | `fallow flags` |
+| check which architecture rules apply to a file before changing it | `fallow guard <files>` |
+| surface security candidates | `fallow security` |
+| understand a finding | `fallow explain <issue-type>` |
+| scope a monorepo | `--workspace <glob> / --changed-workspaces <ref>` (global flags, prefix any command) |
+<!-- fallow:setup-hooks:end -->

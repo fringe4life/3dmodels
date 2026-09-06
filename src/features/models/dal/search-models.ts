@@ -6,11 +6,11 @@ import type { Model } from "@/db/schema/models";
 import { getModelsCount } from "@/features/models/queries/get-models-count";
 import { getModelsList } from "@/features/models/queries/get-models-list";
 import type { Sort } from "@/features/models/sort/brands";
-import { paginateItems } from "@/features/pagination/dal/paginate-items";
+import { paginateItems } from "@/lib/pagination/dal/paginate-items";
 import type {
   PaginationType,
   RawPaginatedResult,
-} from "@/features/pagination/types";
+} from "@/lib/pagination/types";
 import type { Maybe } from "@/types";
 import { toCombinedAbortSignal, withAbort } from "@/utils/with-abort";
 

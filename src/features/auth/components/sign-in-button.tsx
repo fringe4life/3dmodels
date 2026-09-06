@@ -2,46 +2,41 @@
 
 import { css, cx } from "@styled-system/css";
 import { square } from "@styled-system/patterns";
-import { type MouseEventHandler, useTransition, ViewTransition } from "react";
+import { useActionState, ViewTransition } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Button } from "@/components/button";
-import { authClient } from "@/lib/auth-client";
-import { tryCatch } from "@/utils/try-catch";
+import { FormError } from "@/components/form/form-error";
+import { signInGithubAction } from "@/features/auth/actions/sign-in-github-action";
 
 const SignInButton = () => {
-  const [isPending, startTransition] = useTransition();
-
-  const handleGithubLogin: MouseEventHandler<HTMLButtonElement> = () => {
-    startTransition(async () => {
-      await tryCatch(() =>
-        authClient.signIn.social({
-          provider: "github",
-        }),
-      );
-    });
-  };
+  const [actionState, formAction, isPending] = useActionState(
+    signInGithubAction,
+    null,
+  );
 
   return (
     <div className={css({ spaceY: 4 })}>
-      <ViewTransition>
-        <Button
-          className={cx(
-            css({
-              _disabled: { cursor: "progress", opacity: "0.75" },
-              fontWeight: "semibold",
-              gap: 1,
-              inlineSize: "full",
-            }),
-          )}
-          disabled={isPending}
-          onClick={handleGithubLogin}
-          type="button"
-          variant="outline"
-        >
-          <FaGithub className={square({ size: 5 })} />
-          {isPending ? "Signing in..." : "Sign in with GitHub"}
-        </Button>
-      </ViewTransition>
+      <form action={formAction}>
+        <ViewTransition>
+          <Button
+            className={cx(
+              css({
+                _disabled: { cursor: "progress", opacity: "0.75" },
+                fontWeight: "semibold",
+                gap: 1,
+                inlineSize: "full",
+              }),
+            )}
+            disabled={isPending}
+            type="submit"
+            variant="outline"
+          >
+            <FaGithub aria-hidden className={square({ size: 5 })} />
+            {isPending ? "Signing in..." : "Sign in with GitHub"}
+          </Button>
+        </ViewTransition>
+      </form>
+      <FormError actionState={actionState} isPending={isPending} />
       <div className={css({ textAlign: "center" })}>
         <p className={css({ color: "text.muted", fontSize: "sm" })}>
           By signing in, you agree to our terms of service and privacy policy.
