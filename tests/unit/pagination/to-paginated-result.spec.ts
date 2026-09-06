@@ -1,6 +1,6 @@
 import "../../setup/test-globals";
 import { describe, expect, it } from "bun:test";
-import { transformToPaginatedResult } from "../../../src/features/pagination/utils/to-paginated-result";
+import { transformToPaginatedResult } from "../../../src/lib/pagination/utils/to-paginated-result";
 
 describe("toPaginatedResult", () => {
   it("calculates pagination metadata", () => {

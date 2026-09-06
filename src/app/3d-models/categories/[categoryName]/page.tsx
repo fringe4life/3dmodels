@@ -7,7 +7,7 @@ import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getCategoryBySlug } from "@/features/categories/queries/get-category-by-slug";
 import { ModelsView } from "@/features/models/components/models-view";
-import { canonicalPathForListing } from "@/features/pagination/listing-canonical";
+import { canonicalPathForListing } from "@/features/models/listing/listing-canonical";
 
 export const generateStaticParams = async () => await getAllCategorySlugs();
 

@@ -1,7 +1,7 @@
 import type { Prettify } from "@/types";
-import type { HasLiked, LikesCount } from "../types";
+import type { HasLiked, Likes } from "../types";
 
-export type HeartLikeOptimisticState = Prettify<LikesCount & HasLiked>;
+export type HeartLikeOptimisticState = Prettify<Likes & HasLiked>;
 
 interface HeartLikeOptimisticAction {
   type: "toggle";
@@ -12,8 +12,8 @@ interface HeartLikeOptimisticAction {
  */
 export const createHeartLikePassthrough = (
   hasLiked: boolean,
-  likesCount: number,
-): HeartLikeOptimisticState => ({ hasLiked, likesCount });
+  likes: number,
+): HeartLikeOptimisticState => ({ hasLiked, likes });
 
 export const reduceHeartLikeOptimistic = (
   state: HeartLikeOptimisticState,
@@ -22,6 +22,6 @@ export const reduceHeartLikeOptimistic = (
   const newHasLiked = !state.hasLiked;
   return {
     hasLiked: newHasLiked,
-    likesCount: newHasLiked ? state.likesCount + 1 : state.likesCount - 1,
+    likes: newHasLiked ? state.likes + 1 : state.likes - 1,
   };
 };

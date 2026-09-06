@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "types": ["bun", "react/canary"],
+    "types": ["bun", "react/canary", "node"],
     "incremental": true,
     "noImplicitAny": true,
     "allowJs": true,

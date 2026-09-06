@@ -17,6 +17,7 @@ const FieldError = ({ actionState, name }: FieldErrorProps) => {
       <span
         className={css({ color: "error", flex: "1", fontSize: "sm" })}
         data-testid={`field-error-${name}`}
+        role="alert"
       >
         {fieldError[0]}
       </span>

@@ -1,6 +1,6 @@
 import { css } from "@styled-system/css";
-import { modelsGrid } from "../../../app/styles";
 import { ModelCardSkeleton } from "./model-card-skeleton";
+import { modelsGrid } from "./models-grid.styles";
 
 const ModelsGridSkeleton = () => (
   <div aria-hidden="true" className={css({ paddingBlockEnd: 8 })}>

@@ -11,11 +11,8 @@ import {
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { DEFAULT_PAGE } from "@/features/pagination/constants";
-import {
-  pageParser,
-  queryParser,
-} from "@/features/pagination/pagination-search-params";
+import { DEFAULT_PAGE } from "@/lib/pagination/constants";
+import { pageParser, queryParser } from "@/lib/pagination/search-params";
 import { SearchInputTransition } from "./search-input-transition";
 
 // Constants for debounce timing
@@ -73,6 +70,7 @@ const SearchInput = () => {
   return (
     <>
       <input
+        aria-busy={isPending}
         aria-label="Search models"
         autoComplete="off"
         className={css({
@@ -103,6 +101,7 @@ const SearchInput = () => {
       <Activity mode={isPending ? "visible" : "hidden"}>
         <SearchInputTransition>
           <AiOutlineLoading3Quarters
+            aria-hidden="true"
             className={square({
               animationDuration: "slow",
               animationIterationCount: "infinite",

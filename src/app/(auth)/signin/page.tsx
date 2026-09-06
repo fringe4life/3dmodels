@@ -1,84 +1,40 @@
-"use client";
-
 import { css } from "@styled-system/css";
-import { useActionState, useTransition } from "react";
-import { FormError } from "@/components/form/form-error";
-import { FormField } from "@/components/form/form-field";
-import { Input } from "@/components/form/input";
-import { SubmitButton } from "@/components/form/submit-button";
 import { signInAction } from "@/features/auth/actions/sign-in-action";
 import { AuthCard } from "@/features/auth/components/auth-card";
 import { AuthFooterLink } from "@/features/auth/components/auth-footer-link";
+import {
+  AuthForm,
+  type AuthFormField,
+} from "@/features/auth/components/auth-form";
 import { SignInButton } from "@/features/auth/components/sign-in-button";
 
-const SignInPage = () => {
-  const [state, formAction] = useActionState(signInAction, null);
-  const [isPending, startTransition] = useTransition();
+const signInFields = [
+  {
+    autoComplete: "email",
+    label: "Email address",
+    name: "email",
+    type: "email",
+  },
+  {
+    autoComplete: "current-password",
+    label: "Password",
+    name: "password",
+    type: "password",
+  },
+] as const satisfies readonly AuthFormField[];
 
-  const handleAction = (formData: FormData) => {
-    startTransition(() => {
-      formAction(formData);
-    });
-  };
-
-  // Preserve non-secret fields on validation / auth errors
-  const { email: emailValue = "" } = state?.payload ?? {};
-
-  return (
-    <AuthCard
-      footer={
-        <AuthFooterLink
-          href="/signup"
-          label="Sign up"
-          prompt="Don't have an account?"
-        />
-      }
-      title="Sign in to your account"
-    >
-      <form action={handleAction} className={css({ spaceY: 4 })}>
-        <FormField
-          actionState={state}
-          disabled={isPending}
-          label="Email address"
-          name="email"
-          transitionName="auth-email-field"
-        >
-          {(id) => (
-            <Input
-              autoComplete="email"
-              defaultValue={emailValue}
-              id={id}
-              name="email"
-              required
-              type="email"
-            />
-          )}
-        </FormField>
-        <FormField
-          actionState={state}
-          disabled={isPending}
-          label="Password"
-          name="password"
-          transitionName="auth-password-field"
-        >
-          {(id) => (
-            <Input
-              autoComplete="current-password"
-              id={id}
-              name="password"
-              required
-              type="password"
-            />
-          )}
-        </FormField>
-        <FormError actionState={state} isPending={isPending} />
-        <SubmitButton isPending={isPending}>
-          <span className={css({ _groupDisabled: { display: "none" } })}>
-            Sign in
-          </span>
-        </SubmitButton>
-      </form>
-
+const SignInPage = () => (
+  <AuthCard
+    footer={
+      <AuthFooterLink
+        href="/signup"
+        label="Sign up"
+        prompt="Don't have an account?"
+      />
+    }
+    title="Sign in to your account"
+  >
+    <AuthForm action={signInAction} fields={signInFields} submitLabel="Sign in">
       <div className={css({ marginBlockStart: 6 })}>
         <div
           className={css({
@@ -118,8 +74,8 @@ const SignInPage = () => {
           <SignInButton />
         </div>
       </div>
-    </AuthCard>
-  );
-};
+    </AuthForm>
+  </AuthCard>
+);
 
 export default SignInPage;

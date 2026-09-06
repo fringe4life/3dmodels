@@ -7,7 +7,7 @@ import {
 import {
   DEFAULT_LISTING_HREF,
   toListingRoute,
-} from "../../../src/features/pagination/listing-path";
+} from "../../../src/features/models/listing/listing-path";
 
 describe("toListingRoute", () => {
   describe("allows trusted listing paths", () => {

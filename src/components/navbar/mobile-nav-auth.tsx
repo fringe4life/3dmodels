@@ -1,9 +1,9 @@
 import { css, cx } from "@styled-system/css";
 import { circle, hstack, square } from "@styled-system/patterns";
 import { FaSignInAlt } from "react-icons/fa";
-import { AuthButtons } from "@/features/auth/components/auth-buttons";
-import { Avatar } from "@/features/auth/components/avatar";
-import { HasAuthSuspense } from "@/features/auth/components/has-auth";
+import { HasAuthSuspense } from "@/lib/auth/has-auth";
+import { AuthButtons } from "./auth-buttons";
+import { Avatar } from "./avatar";
 import { MOBILE_SIGN_IN_LINK } from "./constants";
 import { MobileNavLink } from "./mobile-nav-link";
 
@@ -53,7 +53,7 @@ const MobileAuthAction = () => (
       auth.isAuthenticated ? (
         <div className={mobileAccountRowClassName}>
           <span className={mobileAccountLabelClassName}>Account</span>
-          <AuthButtons>
+          <AuthButtons transitionName="navbar-sign-out-mobile">
             <Avatar user={{ image: auth.user.image, name: auth.user.name }} />
           </AuthButtons>
         </div>

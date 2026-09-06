@@ -23,7 +23,7 @@
     ],
     "stop": [
       { "command": "bun run fix" },
-      { "command": "fallow audit --quiet" },
+      { "command": "bun x fallow audit --quiet" },
       { "command": "bun run test" }
     ]
   }

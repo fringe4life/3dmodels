@@ -1,6 +1,6 @@
 import "server-only";
 import { ViewTransition } from "react";
-import { HasAuthSuspense } from "@/features/auth/components/has-auth";
+import { HasAuthSuspense } from "@/lib/auth/has-auth";
 import { sanitiseName } from "@/utils/sanitise-name";
 import { DEFAULT_HAS_LIKED } from "../constants";
 import { getHasLikedStatus } from "../queries/like-status";

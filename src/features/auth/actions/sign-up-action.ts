@@ -12,6 +12,7 @@ import {
   string,
 } from "valibot";
 import { auth } from "@/lib/auth";
+import type { User } from "@/lib/auth/auth-types";
 import type { Maybe, Prettify } from "@/types";
 import {
   formDataToSafePayload,
@@ -19,7 +20,6 @@ import {
 } from "@/utils/to-action-state/form-data-to-safe-payload";
 import { fromErrorToActionState } from "@/utils/to-action-state/to-action-state";
 import type { ActionState } from "@/utils/to-action-state/types";
-import type { User } from "../auth-types";
 import {
   MAX_EMAIL_LENGTH,
   MAX_NAME_LENGTH,

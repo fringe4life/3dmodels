@@ -45,7 +45,31 @@ describe("ModelCard", () => {
     ).toBe(MODEL_CARD_IMAGE_SIZES);
     expect(screen.getByText("toys-games")).toBeDefined();
     expect(
-      screen.getByRole("button", { name: "Sign in to like this model" }),
+      screen
+        .getByRole("link", { name: "Sign in to like this model" })
+        .getAttribute("href"),
+    ).toBe("/signin");
+    const hint = document.querySelector("[popover='hint']");
+    expect(hint).not.toBeNull();
+    expect(hint?.textContent?.trim()).toBe("Sign in to like this model");
+  });
+
+  it("keeps an authenticated heart as a like button without a sign-in hint", () => {
+    render(
+      <ModelCard
+        href="/3d-models/articulated-dragon"
+        isAuthenticated={true}
+        model={model}
+      />,
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Like this model" }),
     ).toBeDefined();
+    expect(
+      screen.queryByRole("link", { name: "Sign in to like this model" }),
+    ).toBeNull();
+    expect(screen.queryByText("Sign in to like this model")).toBeNull();
+    expect(document.querySelector("[popover]")).toBeNull();
   });
 });

@@ -1,9 +1,9 @@
 import { viewTransition } from "@styled-system/css";
 import { ViewTransition } from "react";
 import type { Children, Prettify } from "@/types";
-import type { LikesCount } from "../types";
+import type { Likes } from "../types";
 
-type LikesCountTransitionProps = Prettify<Children & LikesCount>;
+type LikesCountTransitionProps = Prettify<Children & Likes>;
 
 const likesUpdateIncrease = viewTransition({
   group: { animationDuration: "normal" },
@@ -34,11 +34,11 @@ const likesUpdateDecrease = viewTransition({
 });
 
 const LikesCountTransition = ({
-  likesCount,
+  likes,
   children,
 }: LikesCountTransitionProps) => (
   <ViewTransition
-    key={`likes-count-${likesCount}`}
+    key={`likes-${likes}`}
     update={{
       decrease: likesUpdateDecrease,
       default: "auto",

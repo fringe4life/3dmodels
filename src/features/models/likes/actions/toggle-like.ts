@@ -1,7 +1,7 @@
 "use server";
 import { maxLength, minLength, object, parse, pipe, string } from "valibot";
-import { getUser } from "@/features/auth/queries/get-user";
 import { toggleLikeForModel } from "@/features/models/likes/dal/toggle-like";
+import { getUser } from "@/lib/auth/get-user";
 import type { Maybe } from "@/types";
 import { invalidateAllModels } from "@/utils/cache-invalidation";
 import {
@@ -9,7 +9,7 @@ import {
   toActionState,
 } from "@/utils/to-action-state/to-action-state";
 import type { ActionState } from "@/utils/to-action-state/types";
-import type { LikesCount } from "../types";
+import type { Likes } from "../types";
 
 const likeSchema = object({
   slug: pipe(
@@ -28,7 +28,7 @@ const toggleLike = async (
   slugToValidate: string,
   _prevState: Maybe<ActionState>,
   _formData: FormData,
-): Promise<ActionState<LikesCount>> => {
+): Promise<ActionState<Likes>> => {
   const auth = await getUser();
   if (!auth.isAuthenticated) {
     return fromErrorToActionState(new Error("Authentication required"));
@@ -37,11 +37,11 @@ const toggleLike = async (
   try {
     const { slug } = parse(likeSchema, { slug: slugToValidate });
 
-    const { likesCount } = await toggleLikeForModel(auth.user.id, slug);
+    const { likes } = await toggleLikeForModel(auth.user.id, slug);
 
     invalidateAllModels();
     return toActionState("Like toggled successfully", "SUCCESS", undefined, {
-      likesCount,
+      likes,
     });
   } catch (error) {
     return fromErrorToActionState(error);

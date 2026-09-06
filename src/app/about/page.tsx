@@ -1,5 +1,5 @@
 import { css, cx } from "@styled-system/css";
-import { grid } from "@styled-system/patterns";
+import { grid, visuallyHidden } from "@styled-system/patterns";
 import { prose } from "@styled-system/recipes";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -97,7 +97,7 @@ const AboutPage = () => (
           paddingInline: { base: 2, sm: 6 },
         })}
       >
-        <h2 className={css({ srOnly: true })}>Key Features</h2>
+        <h2 className={visuallyHidden()}>Key Features</h2>
         <div className={grid({ columns: { md: 3 } })}>
           <article
             className={css({

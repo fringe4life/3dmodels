@@ -3,9 +3,9 @@ import { db } from "@/db";
 import { likes } from "@/db/schema/likes";
 import { models } from "@/db/schema/models";
 import type { Prettify } from "@/types";
-import type { HasLiked, LikesCount } from "../types";
+import type { HasLiked, Likes } from "../types";
 
-type ToggleLikeResult = Prettify<LikesCount & HasLiked>;
+type ToggleLikeResult = Prettify<Likes & HasLiked>;
 
 export const toggleLikeForModel = async (
   userId: string,
@@ -36,6 +36,6 @@ export const toggleLikeForModel = async (
 
     return {
       hasLiked,
-      likesCount: updated?.likes ?? 0,
+      likes: updated?.likes ?? 0,
     };
   });

@@ -35,7 +35,7 @@ TURSO_DATABASE_AUTH="your-turso-auth-token"
 DATABASE_URL="your-neon-database-connection-string"
 ```
 
-**Note**: The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`. Auth tables: `bun run auth:generate` (writes `src/db/schema/auth.ts` from `src/lib/auth.cli.config.ts`), then `bun run db:generate` / `db:migrate`. Runtime auth (secrets, OAuth, cookies) lives in `src/lib/auth.ts` (`server-only`).
+**Note**: The client-side auth client uses `NEXT_PUBLIC_SITE_URL` for `baseURL`. Auth tables: `bun run auth:generate` (writes `src/db/schema/auth.ts` from `src/lib/auth.cli.config.ts`), then `bun run db:generate` / `db:migrate`. Runtime auth (secrets, OAuth, cookies) lives in `src/lib/auth/index.ts` (`server-only`).
 
 ## How to Get GitHub OAuth Credentials
 
@@ -80,7 +80,7 @@ All tables are defined in `src/db/schema/auth.ts` and use Drizzle ORM v1 beta re
 
 To add more authentication providers (Google, Discord, etc.):
 
-1. Add the provider configuration to `src/lib/auth.ts`:
+1. Add the provider configuration to `src/lib/auth/index.ts`:
    ```typescript
    socialProviders: {
      github: { ... },
@@ -102,7 +102,7 @@ To add more authentication providers (Google, Discord, etc.):
 
 All environment variables are validated at application startup using Valibot in `src/utils/env.ts`. If any required variable is missing or invalid, the application will fail to start with a clear error message.
 
-**Server-side usage**: Import `env` from `@/utils/env` (e.g., `src/lib/auth.ts`, `src/db/index.ts`)
+**Server-side usage**: Import `env` from `@/utils/env` (e.g., `src/lib/auth/index.ts`, `src/db/index.ts`)
 
 **Client-side usage**: Use `process.env.NEXT_PUBLIC_*` variables directly (e.g., `src/lib/auth-client.ts`)
 

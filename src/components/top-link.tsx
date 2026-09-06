@@ -1,5 +1,4 @@
-import { css } from "@styled-system/css";
-import { circle } from "@styled-system/patterns";
+import { circle, visuallyHidden } from "@styled-system/patterns";
 import { FaArrowUp } from "react-icons/fa";
 
 const TopLink = () => (
@@ -25,7 +24,7 @@ const TopLink = () => (
     href="#top"
   >
     <FaArrowUp />
-    <span className={css({ srOnly: true })}>Back to top</span>
+    <span className={visuallyHidden()}>Back to top</span>
   </a>
 );
 
