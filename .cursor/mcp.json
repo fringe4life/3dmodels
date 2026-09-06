@@ -1,9 +1,5 @@
 {
   "mcpServers": {
-    "ultracite": {
-      "command": "bunx",
-      "args": ["-y", "mcp-remote", "https://www.ultracite.ai/api/mcp/mcp"]
-    },
     "TalkToFigma": {
       "command": "bunx",
       "args": ["cursor-talk-to-figma-mcp@latest"]
