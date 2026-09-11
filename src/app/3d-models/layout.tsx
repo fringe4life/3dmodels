@@ -1,6 +1,24 @@
-import { css } from "@styled-system/css";
+import { css, keyframes } from "@styled-system/css";
 import { grid, gridItem } from "@styled-system/patterns";
 import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
+
+/** Horizontal category strip: edge fade follows self-scroll (see 3d-models layout) */
+const categoriesScrollMask = keyframes({
+  "0%": {
+    maskImage: "linear-gradient(to right, black 95%, transparent 100%)",
+  },
+  "5%": {
+    maskImage:
+      "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
+  },
+  "95%": {
+    maskImage:
+      "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
+  },
+  "100%": {
+    maskImage: "linear-gradient(to right, transparent 0%, black 5%)",
+  },
+});
 
 const ModelsLayout = ({
   children,
@@ -38,16 +56,17 @@ const ModelsLayout = ({
             _supportsScroll: {
               animationDuration: "auto",
               animationFillMode: "both",
-              animationName: "categoriesScrollMask",
+              animationName: categoriesScrollMask,
               animationRange: "0% 100%",
               animationTimeline: "scroll(self inline)",
               animationTimingFunction: "glide",
             },
             md: {
-              insetBlockStart: "50%",
-              overflow: "visible",
-              position: "fixed",
-              translate: "0 -50%",
+              insetBlockStart: "6.5rem",
+              maxBlockSize: "calc(100dvh - 7.5rem)",
+              overflowX: "hidden",
+              overflowY: "auto",
+              position: "sticky",
             },
             overflowX: "auto",
             position: "sticky",

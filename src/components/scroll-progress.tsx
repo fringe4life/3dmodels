@@ -1,4 +1,13 @@
-import { css } from "@styled-system/css";
+import { css, keyframes } from "@styled-system/css";
+
+const navProgressFill = keyframes({
+  to: { transform: "scaleX(1)" },
+});
+
+/** Scroll-linked nav reading bar (see `ScrollProgress`) */
+const navProgressReveal = keyframes({
+  to: { opacity: 1 },
+});
 
 const ScrollProgress = () => (
   <div
@@ -6,7 +15,7 @@ const ScrollProgress = () => (
     className={css({
       _supportsScroll: {
         animationFillMode: "both",
-        animationName: "navProgressReveal",
+        animationName: navProgressReveal,
         animationRange: "100px 100%",
         animationTimeline: "scroll()",
         animationTimingFunction: "linear",
@@ -27,7 +36,7 @@ const ScrollProgress = () => (
       className={css({
         _supportsScroll: {
           animationFillMode: "both",
-          animationName: "navProgressFill",
+          animationName: navProgressFill,
           animationRange: "0% 100%",
           animationTimeline: "scroll()",
           animationTimingFunction: "linear",

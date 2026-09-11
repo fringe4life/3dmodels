@@ -6,7 +6,7 @@ import { schema } from "@/db/schema";
 /**
  * CLI-only Better Auth config for `auth:generate`.
  * No secrets, OAuth creds, or runtime plugins — keep schema-affecting options
- * in sync with `auth.ts` (adapter provider, email/password, experimental joins,
+ * in sync with `auth.ts` (adapter provider, email/password, database joins,
  * and any plugin that defines tables/columns).
  */
 export const auth = betterAuth({

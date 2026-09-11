@@ -1,9 +1,5 @@
 {
   "mcpServers": {
-    "TalkToFigma": {
-      "command": "bunx",
-      "args": ["cursor-talk-to-figma-mcp@latest"]
-    },
     "next-devtools": {
       "command": "npx",
       "args": ["-y", "next-devtools-mcp@latest"]
@@ -11,6 +7,10 @@
     "fallow": {
       "command": "bunx",
       "args": ["fallow-mcp"]
+    },
+    "panda": {
+      "command": "bunx",
+      "args": ["panda-mcp"]
     }
   }
 }
