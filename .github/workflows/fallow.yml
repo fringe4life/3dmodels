@@ -1,0 +1,41 @@
+# Fallow PR quality gate.
+#
+# Changed-file audit with new-only: fail only on findings this PR introduces.
+# Inline review comments (not sticky summary; not Code Scanning SARIF).
+# CLI version comes from package.json (`fallow`); action ref is the wrapper pin.
+# Docs: https://docs.fallow.tools/integrations/ci
+name: Fallow
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: fallow-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: fallow-rs/fallow@79a0e8d8dbcaa408dce348b3df14fc1e824f988b # v3.22.0
+        id: fallow
+        with:
+          command: audit
+          gate: new-only
+          fail-on-issues: true
+          review-comments: true
+          branded-token: false
+
+      - name: Warn if PR scoping degraded
+        if: steps.fallow.outputs.changed-files-unavailable == 'true'
+        run: echo '::warning::Fallow ran unscoped; PR file list unavailable'
