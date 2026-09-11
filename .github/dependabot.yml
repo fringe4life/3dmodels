@@ -1,0 +1,14 @@
+# GitHub Actions pin policy:
+# - Pin every `uses:` to a full commit SHA
+# - Keep a same-line version comment (`# vX.Y.Z`) so Dependabot can bump both
+# - Weekly version updates (Dependabot security alerts skip SHA-pinned actions)
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
