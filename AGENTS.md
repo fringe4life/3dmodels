@@ -10,6 +10,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 **Listing URLs & SEO:** For routes that use [nuqs](https://nuqs.dev) query state (`query`, `page`, `limit`), canonical URLs are built with `createLoader` + `createSerializer` from `nuqs/server` (see `src/features/models/listing/listing-canonical.ts`), matching nuqs v2 `clearOnDefault` (true by default; omit default query keys). Wire them in `generateMetadata` as `alternates.canonical` per Next.js [`generateMetadata`](node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md) / [`alternates`](node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md#alternates). nuqs docs: [SEO](https://nuqs.dev/docs/seo), [clearOnDefault](https://nuqs.dev/docs/options#clear-on-default).
 
+**Panda CSS MCP:** Use the project `panda` MCP (`@pandacss/mcp@2.0.0-beta.16`, matches `@pandacss/dev`) for tokens, semantic tokens, recipes, patterns, conditions, config, and usage reports. Do not guess token/recipe names from training data.
+
 
 
 # Ultracite Code Standards

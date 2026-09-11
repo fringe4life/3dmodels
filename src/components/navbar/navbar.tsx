@@ -1,4 +1,4 @@
-import { css, cx } from "@styled-system/css";
+import { css, cx, keyframes } from "@styled-system/css";
 import { between, cq, hstack, stack } from "@styled-system/patterns";
 import { ViewTransition } from "react";
 import { OfflineBanner } from "@/components/offline-indicator";
@@ -11,11 +11,21 @@ import { NavbarLogo } from "./navbar-logo";
 /** Must match `MOBILE_NAVIGATION_ID` — used in `:has()` hamburger-open selectors below. */
 const mobileNavigationSelector = `#${MOBILE_NAVIGATION_ID}`;
 
+/** Sticky main header: elevates on page scroll (see `Navbar`) */
+const navAnimation = keyframes({
+  to: {
+    borderRadius: "100dvw",
+    boxShadow:
+      "0 1px 2px token(colors.gray.300/0.2), 0 2px 4px token(colors.black/0.2), 0 4px 8px token(colors.black/0.1)",
+    translate: "0 8px",
+  },
+});
+
 const navbarShellClassName = cx(
   stack({
     _supportsScroll: {
       animationFillMode: "both",
-      animationName: "navAnimation",
+      animationName: navAnimation,
       animationRange: "100px 200px",
       animationTimeline: "scroll()",
       animationTimingFunction: "linear",

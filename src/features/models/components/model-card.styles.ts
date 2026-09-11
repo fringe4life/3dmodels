@@ -1,5 +1,15 @@
-import { css, cx } from "@styled-system/css";
+import { css, cx, keyframes } from "@styled-system/css";
 import { hoverShadow } from "@styled-system/patterns";
+
+/** View-timeline enter/exit on narrow viewports (see `ModelCard`) */
+const animateModelIn = keyframes({
+  "20%": { opacity: "0", translate: "0 25%" },
+  "100%": { opacity: "1", translate: "0 0" },
+});
+const animateModelOut = keyframes({
+  from: { opacity: "1", translate: "0 0" },
+  to: { opacity: "0", translate: "0 -25%" },
+});
 
 /** Listing implicit rows per card: 4 content tracks + 1 gutter. */
 const MODEL_CARD_LISTING_SPAN = 5;
@@ -59,7 +69,7 @@ const modelCardSurface = cx(
       _supportsScroll: {
         animationDuration: "auto",
         animationFillMode: "forwards",
-        animationName: "animateModelIn, animateModelOut",
+        animationName: `${animateModelIn}, ${animateModelOut}`,
         animationRange: "entry, exit 50%",
         animationTimeline: "view()",
         animationTimingFunction: "glide",

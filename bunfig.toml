@@ -8,7 +8,11 @@ minimumReleaseAge = 259200
 minimumReleaseAgeExcludes = [
     "next",
     "@next/swc",
-    "@next/swc-linux-x64-gnu"
+    "@next/swc-linux-x64-gnu",
+    "react",
+    "react-dom",
+    "@types/react",
+    "scheduler"
 ]
 
 [test]
