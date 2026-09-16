@@ -41,6 +41,7 @@ const Pagination = <T extends Id>({
 
     startTransition(async () => {
       addTransitionType(pagerTransitionType(direction));
+      // awaited as it triggers get-models
       await setCursorState({
         cursor: nextCursor,
         direction,

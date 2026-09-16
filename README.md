@@ -36,7 +36,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 - **Browse 3D Models**: View a curated collection of 3D models across various categories
 - **Category Filtering**: Filter models by category (3D Printer, Art, Education, Fashion, etc.)
 - **Sort Controls**: Sort listings by A-Z, Popular, or Recent via nuqs `sort` search param (default A-Z omitted from URL); ties break on `ModelId`
-- **Cursor pagination**: Exclusive keyset on `(sortCol, ModelId)` with URL `cursor` (uuidv7 `ModelId`) + `direction` (`forward`/`backward`) + `limit`; next/prev flags from `limit+1` (no `COUNT(*)`); old `?page=` bookmarks land on the first slice. ADR: `docs/adr/0001-cursor-pagination.md`. Domain terms: `CONTEXT.md`
+- **Cursor pagination**: Exclusive keyset on `(sortCol, ModelId)` with URL `cursor` (uuidv7 `ModelId`) + `direction` (`forward`/`backward`) + `limit`; next/prev flags from `limit+1` (no `COUNT(*)`); old `?page=` bookmarks land on the first slice. `sort=popular` is a live feed: likes can skip/dup between slices (accepted). ADR: `docs/adr/0001-cursor-pagination.md`. Domain terms: `CONTEXT.md`. Survey: `docs/MUTABLE_SORT_KEYSET.md`
 - **Search across listings**: Search bar lives in `ModelsGridHeader` (index + category routes); grid title shows `Results for "{query}"` via nuqs when a query is present; search/sort/limit reset `cursor` rather than paging
 - **Model detail back link**: Detail pages restore the prior listing via allowlisted `from` query (`features/models/back-link/`) with runtime prefetch under Partial Prefetching
 - **Shimmer skeletons**: Shared `Skeleton` shimmer (CSS vars / `color` props) for listing and detail loading states

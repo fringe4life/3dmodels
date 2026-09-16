@@ -17,3 +17,4 @@ Total `COUNT(*)` is dropped; next/prev flags come from `limit+1` and whether a c
 - Equal likes / equal `dateAdded` order by ModelId, not name.
 - Old `?page=` bookmarks land on the first slice.
 - Reseed deletes models and likes; auth tables stay.
+- **`sort=popular` is a live feed.** Cursor is ModelId only; the next slice rereads live `likes`. When likes change between requests, a model can skip or appear twice. That is accepted (low-stakes browsing, not a duplicate-free export). Frozen `(likes, id)` tokens, HMAC, OFFSET, and rank snapshots were considered and declined. Survey: [MUTABLE_SORT_KEYSET.md](../MUTABLE_SORT_KEYSET.md).
