@@ -11,12 +11,14 @@ import {
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { DEFAULT_PAGE } from "@/lib/pagination/constants";
-import { pageParser, queryParser } from "@/lib/pagination/search-params";
+import { DEFAULT_CURSOR, DEFAULT_DIRECTION } from "@/lib/pagination/constants";
+import {
+  cursorPaginationParsers,
+  queryParser,
+} from "@/lib/pagination/search-params";
 import { SearchInputTransition } from "./search-input-transition";
 
-// Constants for debounce timing
-const SEARCH_DEBOUNCE_DELAY = 250; // milliseconds
+const SEARCH_DEBOUNCE_DELAY = 250;
 
 type TransitionType = "search-clear" | "search-debounce" | "search-submit";
 
@@ -25,7 +27,7 @@ type LimitUrlUpdates = typeof defaultRateLimit;
 const SearchInput = () => {
   const [isPending, startTransition] = useTransition();
   const [{ query }, setSearchState] = useQueryStates({
-    ...pageParser,
+    ...cursorPaginationParsers,
     ...queryParser,
   });
 
@@ -38,7 +40,8 @@ const SearchInput = () => {
       addTransitionType(transitionType);
       await setSearchState(
         {
-          page: DEFAULT_PAGE,
+          cursor: DEFAULT_CURSOR,
+          direction: DEFAULT_DIRECTION,
           query: search,
         },
         {
@@ -51,7 +54,6 @@ const SearchInput = () => {
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
     const search = e.currentTarget.value.trim().toLowerCase() || "";
     const isEmpty = search === "";
-    // Send immediate update if clearing the input, otherwise debounce
     let debounceTime: LimitUrlUpdates = debounce(SEARCH_DEBOUNCE_DELAY);
     let transitionType: TransitionType = "search-debounce";
     if (isEmpty) {

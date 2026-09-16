@@ -10,6 +10,7 @@ const model = {
   description:
     "A detailed articulated model with movable joints, flexible wings, and a long description used to guard the responsive card copy contract.",
   hasLiked: false,
+  id: "01900000-0000-7000-8000-000000000001",
   image: "/img/models/1.avif",
   likes: 24,
   name: "Articulated Dragon",

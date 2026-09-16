@@ -1,21 +1,23 @@
-import type { RawPaginatedResult } from "@/lib/pagination/types";
-import type { List, Maybe } from "@/types";
+import type {
+  PaginationType,
+  RawPaginatedResult,
+} from "@/lib/pagination/types";
+import type { List } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
 interface RawPaginationAccess<T> {
-  getItems: () => Promise<List<T>>;
-  getItemsCount: () => Promise<Maybe<number>>;
+  fallbackPagination: PaginationType;
+  getPage: () => Promise<{ items: List<T>; pagination: PaginationType }>;
 }
 
 const paginateItems = async <T>({
-  getItems,
-  getItemsCount,
-}: RawPaginationAccess<T>): Promise<RawPaginatedResult<T>> => {
-  const [{ data: items }, { data: itemsCount }] = await Promise.all([
-    tryCatch(() => getItems()),
-    tryCatch(() => getItemsCount()),
-  ]);
-  return { items, itemsCount };
+  fallbackPagination,
+  getPage,
+}: RawPaginationAccess<T>): Promise<
+  RawPaginatedResult<T> & { pagination: PaginationType }
+> => {
+  const { data } = await tryCatch(() => getPage());
+  return data ?? { items: undefined, pagination: fallbackPagination };
 };
 
 export { paginateItems };

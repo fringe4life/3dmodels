@@ -1,7 +1,17 @@
 import "../../setup/test-globals";
 import { afterEach, describe, expect, it, vi } from "bun:test";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { PaginationLimitControl } from "../../../src/components/pagination/pagination-limit-control";
+import {
+  getLastUrlUpdate,
+  withListingNuqsTestingAdapter,
+} from "../../setup/nuqs-testing";
 
 afterEach(() => {
   cleanup();
@@ -10,26 +20,43 @@ afterEach(() => {
 const getLimitSelect = () =>
   screen.getByRole("combobox", { name: "Pagination limit control" });
 
-describe("PaginationLimitControl onChange", () => {
-  it("calls onLimitChange with 10 when the select value is a valid limit", () => {
-    const onLimitChange = vi.fn();
+describe("PaginationLimitControl", () => {
+  it("writes a valid limit to the URL", async () => {
+    const onUrlUpdate = vi.fn();
 
-    render(<PaginationLimitControl limit={5} onLimitChange={onLimitChange} />);
+    render(<PaginationLimitControl />, {
+      wrapper: withListingNuqsTestingAdapter({
+        hasMemory: true,
+        onUrlUpdate,
+      }),
+    });
 
-    fireEvent.change(getLimitSelect(), { target: { value: "10" } });
+    fireEvent.change(getLimitSelect(), { target: { value: "20" } });
 
-    expect(onLimitChange).toHaveBeenCalledTimes(1);
-    expect(onLimitChange).toHaveBeenCalledWith(10);
+    await waitFor(() => {
+      expect(onUrlUpdate.mock.calls.length).toBeGreaterThan(0);
+    });
+
+    expect(getLastUrlUpdate(onUrlUpdate).searchParams.get("limit")).toBe("20");
   });
 
-  it("calls onLimitChange with DEFAULT_LIMIT when the select value is not a limit", () => {
-    const onLimitChange = vi.fn();
+  it("falls back to DEFAULT_LIMIT for an invalid value", async () => {
+    const onUrlUpdate = vi.fn();
 
-    render(<PaginationLimitControl limit={5} onLimitChange={onLimitChange} />);
+    render(<PaginationLimitControl />, {
+      wrapper: withListingNuqsTestingAdapter({
+        hasMemory: true,
+        onUrlUpdate,
+        searchParams: { limit: "5" },
+      }),
+    });
 
     fireEvent.change(getLimitSelect(), { target: { value: "7" } });
 
-    expect(onLimitChange).toHaveBeenCalledTimes(1);
-    expect(onLimitChange).toHaveBeenCalledWith(10);
+    await waitFor(() => {
+      expect(onUrlUpdate.mock.calls.length).toBeGreaterThan(0);
+    });
+
+    expect(getLastUrlUpdate(onUrlUpdate).searchParams.get("limit")).toBeNull();
   });
 });

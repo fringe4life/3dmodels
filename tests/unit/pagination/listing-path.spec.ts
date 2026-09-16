@@ -13,12 +13,15 @@ describe("toListingRoute", () => {
   describe("allows trusted listing paths", () => {
     it.each([
       ["/3d-models", "/3d-models"],
-      ["/3d-models?page=2&sort=popular", "/3d-models?page=2&sort=popular"],
+      [
+        "/3d-models?cursor=abc&sort=popular",
+        "/3d-models?cursor=abc&sort=popular",
+      ],
       ["/3d-models?query=dragon", "/3d-models?query=dragon"],
       ["/3d-models/categories/art", "/3d-models/categories/art"],
       [
-        "/3d-models/categories/art?page=1&query=dragon",
-        "/3d-models/categories/art?page=1&query=dragon",
+        "/3d-models/categories/art?cursor=abc&query=dragon",
+        "/3d-models/categories/art?cursor=abc&query=dragon",
       ],
       ["/3d-models/categories/3d-printer", "/3d-models/categories/3d-printer"],
     ] as const)("%s → %s", (input, expected) => {
@@ -30,8 +33,10 @@ describe("toListingRoute", () => {
         "/3d-models",
       );
       expect(
-        toListingRoute("http://local.invalid/3d-models/categories/art?page=2"),
-      ).toBe("/3d-models/categories/art?page=2");
+        toListingRoute(
+          "http://local.invalid/3d-models/categories/art?cursor=abc",
+        ),
+      ).toBe("/3d-models/categories/art?cursor=abc");
     });
   });
 
@@ -110,9 +115,9 @@ describe("resolveBackHref", () => {
 
     await expect(
       resolveBackHref(
-        Promise.resolve({ from: "/3d-models/categories/art?page=2" }),
+        Promise.resolve({ from: "/3d-models/categories/art?cursor=abc" }),
       ),
-    ).resolves.toBe("/3d-models/categories/art?page=2");
+    ).resolves.toBe("/3d-models/categories/art?cursor=abc");
   });
 
   it("defaults when from is missing", async () => {

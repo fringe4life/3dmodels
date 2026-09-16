@@ -24,7 +24,7 @@ describe("ModelsSortControls", () => {
     expect(recent).toHaveProperty("checked", true);
   });
 
-  it("writes sort and clears default page on change", async () => {
+  it("writes sort and clears default cursor on change", async () => {
     const user = userEvent.setup();
     const onUrlUpdate = vi.fn();
 
@@ -32,7 +32,11 @@ describe("ModelsSortControls", () => {
       wrapper: withListingNuqsTestingAdapter({
         hasMemory: true,
         onUrlUpdate,
-        searchParams: { page: "2", sort: "alphabetic" },
+        searchParams: {
+          cursor: "01900000-0000-7000-8000-000000000001",
+          direction: "backward",
+          sort: "alphabetic",
+        },
       }),
     });
 
@@ -44,7 +48,8 @@ describe("ModelsSortControls", () => {
 
     const event = getLastUrlUpdate(onUrlUpdate);
     expect(event.searchParams.get("sort")).toBe("popular");
-    expect(event.searchParams.get("page")).toBeNull();
+    expect(event.searchParams.get("cursor")).toBeNull();
+    expect(event.searchParams.get("direction")).toBeNull();
     expect(event.options.history).toBe("replace");
   });
 });

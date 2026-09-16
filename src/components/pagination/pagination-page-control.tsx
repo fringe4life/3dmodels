@@ -8,6 +8,7 @@ import { PaginationButton } from "./pagination-button";
 type PaginationPageControlProps = Prettify<
   HasNextPage &
     HasPreviousPage & {
+      isPending: boolean;
       onNextPage: MouseEventHandler<HTMLButtonElement>;
       onPreviousPage: MouseEventHandler<HTMLButtonElement>;
     }
@@ -16,13 +17,14 @@ type PaginationPageControlProps = Prettify<
 const PaginationPageControl = ({
   hasNextPage,
   hasPreviousPage,
+  isPending,
   onNextPage,
   onPreviousPage,
 }: PaginationPageControlProps) => (
   <>
     <PaginationButton
       aria-label="Previous page"
-      disabled={!hasPreviousPage}
+      disabled={isPending || !hasPreviousPage}
       onClick={onPreviousPage}
     >
       <FaChevronLeft
@@ -36,7 +38,7 @@ const PaginationPageControl = ({
     </PaginationButton>
     <PaginationButton
       aria-label="Next page"
-      disabled={!hasNextPage}
+      disabled={isPending || !hasNextPage}
       onClick={onNextPage}
     >
       <FaChevronRight

@@ -3,7 +3,7 @@ import { grid } from "@styled-system/patterns";
 import type { Route } from "next";
 import { Suspense } from "react";
 import { Pagination } from "@/components/pagination/pagination";
-import { PaginationOffsetTransition } from "@/components/pagination/pagination-offset-transition";
+import { PaginationPageSlice } from "@/components/pagination/pagination-page-slice";
 import { PaginationSkeleton } from "@/components/pagination/pagination-skeleton";
 import type { CategorySlug } from "@/db/brands";
 import { ModelsGridSkeleton } from "@/features/models/components/models-grid-skeleton";
@@ -61,7 +61,7 @@ const ModelsViewResult = ({
       );
     case "success":
       return (
-        <PaginationOffsetTransition metadata={result.metadata}>
+        <PaginationPageSlice>
           <div
             className={grid({
               alignContent: "space-between",
@@ -74,9 +74,9 @@ const ModelsViewResult = ({
               models={result.items}
               returnTo={returnTo}
             />
-            <Pagination metadata={result.metadata} />
+            <Pagination items={result.items} metadata={result.metadata} />
           </div>
-        </PaginationOffsetTransition>
+        </PaginationPageSlice>
       );
     default:
       throw new Error("Should not happen") as never;

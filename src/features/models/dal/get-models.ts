@@ -9,6 +9,8 @@ import { toSort } from "@/features/models/sort/brands";
 import type { ModelWithLikeStatus } from "@/features/models/types";
 import { getUser } from "@/lib/auth/get-user";
 import type { IsAuthenticated } from "@/lib/auth/types";
+import { DEFAULT_DIRECTION } from "@/lib/pagination/constants";
+import { parsePaginationCursor } from "@/lib/pagination/parse-cursor";
 import type { PaginatedResult } from "@/lib/pagination/types";
 import { transformToPaginatedResult } from "@/lib/pagination/utils/to-paginated-result";
 import type { Prettify } from "@/types";
@@ -26,17 +28,22 @@ export const getModels = async (
 ): Promise<GetModelsReturn> => {
   await connection();
   const search = await searchParams;
-  const { query, sort, ...pagination } = searchParamsCache.parse(search);
+  const { query, sort, cursor, direction, limit } =
+    searchParamsCache.parse(search);
   const resolvedSort = toSort(sort);
+  const parsedCursor = parsePaginationCursor(cursor);
+  const pagination = {
+    cursor: parsedCursor,
+    direction: parsedCursor ? direction : DEFAULT_DIRECTION,
+    limit,
+  };
 
   const [result, auth] = await Promise.all([
     searchModels(query, pagination, resolvedSort, category),
     getUser(),
   ]);
-  // paginate the items
-  const paginatedResult = transformToPaginatedResult(result, pagination);
+  const paginatedResult = transformToPaginatedResult(result, result.pagination);
 
-  // if error or empty, return the result
   if (paginatedResult.type !== "success") {
     return {
       isAuthenticated: auth.isAuthenticated,
@@ -46,14 +53,11 @@ export const getModels = async (
   }
 
   let likedSlugs: Set<string> | null = null;
-  // only map over the items or do the query if the user is authenticated
   if (auth.isAuthenticated) {
     const slugs = paginatedResult.items.map((m) => m.slug);
     likedSlugs = await getLikedSlugsForUser(auth.user.id, slugs);
   }
 
-  // apply the liked slugs to the items do this even
-  // for non authenticated users to avoid subtle bugs
   const itemsWithLikeStatus = withLikeStatuses(
     paginatedResult.items,
     likedSlugs,

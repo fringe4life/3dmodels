@@ -5,7 +5,7 @@ import { MODEL_SLUGIFY_OPTIONS } from "@/lib/slugify";
 import type { Prettify } from "@/types";
 
 type SeedModel = Prettify<
-  Omit<Model, "userId" | "likes" | "categorySlug"> & {
+  Omit<Model, "userId" | "likes" | "categorySlug" | "id"> & {
     categorySlug: Category["slug"];
   }
 >;

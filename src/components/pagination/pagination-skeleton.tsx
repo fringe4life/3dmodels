@@ -7,21 +7,13 @@ const PaginationSkeleton = () => (
   <div aria-hidden="true" className={between()}>
     <Skeleton
       className={css({
-        blockSize: 6,
-        inlineSize: 24,
+        blockSize: 8,
+        inlineSize: 14,
         rounded: "sm",
       })}
       color={token("colors.bg.muted")}
     />
     <div className={hstack({ columnGap: 2 })}>
-      <Skeleton
-        className={css({
-          blockSize: 8,
-          inlineSize: 14,
-          rounded: "sm",
-        })}
-        color={token("colors.bg.muted")}
-      />
       <Skeleton
         className={css({
           blockSize: 8,

@@ -1,13 +1,9 @@
 import type { LIMITS } from "@/lib/pagination/constants";
-import type { List, Maybe, Prettify } from "@/types";
+import type { List, Prettify } from "@/types";
 
-export interface Page {
-  page: number;
-}
+export type Direction = "forward" | "backward";
 
-export interface Count {
-  count: number;
-}
+export type SortDirection = "asc" | "desc";
 
 export interface HasNextPage {
   hasNextPage: boolean;
@@ -17,16 +13,27 @@ export interface HasPreviousPage {
   hasPreviousPage: boolean;
 }
 
-type PaginationMetadata = Prettify<Page & Count & HasNextPage>;
+export type PaginationMetadata = Prettify<HasNextPage & HasPreviousPage>;
 
-interface ListObject<T> {
-  items: List<T>;
+export interface PaginationMetadataObject {
+  metadata: PaginationMetadata;
 }
 
-export type PaginatedResult<T> =
-  | PaginatedResultError
-  | PaginatedResultEmpty
-  | PaginatedResultSuccess<T>;
+export interface Limit {
+  limit: LimitItem;
+}
+
+export type LimitItem = (typeof LIMITS)[number];
+
+export interface Cursor {
+  cursor: string;
+}
+
+export interface DirectionState {
+  direction: Direction;
+}
+
+export type PaginationType = Prettify<Limit & Cursor & DirectionState>;
 
 export interface PaginatedResultError {
   message: string;
@@ -37,6 +44,7 @@ export interface PaginatedResultEmpty {
   message: string;
   type: "empty";
 }
+
 export type PaginatedResultSuccess<T> = Prettify<
   PaginationMetadataObject & {
     items: T[];
@@ -44,20 +52,21 @@ export type PaginatedResultSuccess<T> = Prettify<
   }
 >;
 
-export type RawPaginatedResult<T> = Prettify<
-  ListObject<T> & {
-    itemsCount: Maybe<number>;
-  }
+export type PaginatedResult<T> =
+  | PaginatedResultError
+  | PaginatedResultEmpty
+  | PaginatedResultSuccess<T>;
+
+interface ListObject<T> {
+  items: List<T>;
+}
+
+export type RawPaginatedResult<T> = ListObject<T>;
+
+export interface Id {
+  id: string;
+}
+
+export type ToPaginationParams<T> = Prettify<
+  ListObject<T> & Limit & Cursor & Partial<DirectionState>
 >;
-
-export type LimitItem = (typeof LIMITS)[number];
-
-export interface Limit {
-  limit: LimitItem;
-}
-
-export type PaginationType = Prettify<Page & Limit>;
-
-export interface PaginationMetadataObject {
-  metadata: PaginationMetadata;
-}

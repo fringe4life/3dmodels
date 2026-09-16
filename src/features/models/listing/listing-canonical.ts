@@ -2,7 +2,7 @@
  * Canonical URLs for listing routes (`/3d-models`, category listings).
  *
  * Uses nuqs `createLoader` + `createSerializer`. `clearOnDefault` is true by
- * default in nuqs v2+, so serialized URLs omit default `page`/`limit`/`sort`
+ * default in nuqs v2+, so serialized URLs omit default `cursor`/`direction`/`limit`/`sort`
  * and empty `query`, matching client parsers.
  *
  * @see https://nuqs.dev/docs/options#clear-on-default
@@ -21,6 +21,9 @@ const serializeListingCanonicalSearchParams = createSerializer(
   {
     // clearOnDefault is true by default in nuqs v2+
     processUrlSearchParams: (search) => {
+      if (!search.has("cursor")) {
+        search.delete("direction");
+      }
       search.sort();
       return search;
     },
@@ -29,7 +32,7 @@ const serializeListingCanonicalSearchParams = createSerializer(
 
 /**
  * Path + query string for `rel="canonical"`, aligned with nuqs defaults
- * (omits default `page`, `limit`, `sort`, and empty `query`).
+ * (omits default `cursor`, `direction`, `limit`, `sort`, and empty `query`).
  * Validated as a listing `Route` after serialize.
  */
 export const canonicalPathForListing = async (

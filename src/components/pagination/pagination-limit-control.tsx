@@ -1,23 +1,13 @@
 "use client";
 
 import { css } from "@styled-system/css";
-import { type ChangeEvent, useId } from "react";
+import { useQueryStates } from "nuqs";
+import { type ChangeEvent, useId, useTransition } from "react";
 import { parse } from "valibot";
 import { LIMITS } from "@/lib/pagination/constants";
 import { limitItemSchema } from "@/lib/pagination/schema";
-import type { Limit, LimitItem } from "@/lib/pagination/types";
-import type { Prettify } from "@/types";
+import { limitParser } from "@/lib/pagination/search-params";
 
-type PaginationLimitControlProps = Prettify<
-  Limit & {
-    onLimitChange: (limit: LimitItem) => void;
-  }
->;
-// newer customisable select has 2/3 browser support
-// this is fine as this is portfolio project
-// ideally ::picker(select) would also have appearance changed
-// however postcss does not support ::picker(select) yet
-// safari with ios 27 now supports it
 const limitControlClass = css({
   _focusVisible: {
     outline: "none",
@@ -87,13 +77,20 @@ const limitControlClass = css({
   transitionTimingFunction: "ease-in-out",
 });
 
-const PaginationLimitControl = ({
-  limit,
-  onLimitChange,
-}: PaginationLimitControlProps) => {
+const PaginationLimitControl = () => {
   const id = useId();
+  const [, startTransition] = useTransition();
+  const [{ limit }, setLimitState] = useQueryStates(limitParser);
+
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    onLimitChange(parse(limitItemSchema, Number(event.target.value)));
+    const nextLimit = parse(limitItemSchema, Number(event.target.value));
+    if (nextLimit === limit) {
+      return;
+    }
+
+    startTransition(async () => {
+      await setLimitState({ limit: nextLimit });
+    });
   };
 
   return (
