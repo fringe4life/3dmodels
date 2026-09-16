@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noUnnecessaryConditions: false positive — biome type inference cannot resolve the PaginatedResult discriminated union across the awaited getModels() call, so it wrongly reports these cases unreachable (tsc validates the switch) */
 import { css } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
 import type { Route } from "next";
@@ -11,6 +10,9 @@ import { ModelsGridSkeleton } from "@/features/models/components/models-grid-ske
 import { DEFAULT_TITLE } from "@/features/models/constants";
 import { getModels } from "@/features/models/dal/get-models";
 import { canonicalPathForListing } from "@/features/models/listing/listing-canonical";
+import type { ModelWithLikeStatus } from "@/features/models/types";
+import type { IsAuthenticated } from "@/lib/auth/types";
+import type { PaginatedResult } from "@/lib/pagination/types";
 import type { Prettify, SearchParamsProps } from "@/types";
 import { ModelsGrid } from "./models-grid";
 import { ModelsGridHeader } from "./models-grid-header";
@@ -23,18 +25,20 @@ type ModelsViewProps = Prettify<
   }
 >;
 
-const ModelsViewInner = async ({ searchParams, category }: ModelsViewProps) => {
-  const listingPathname = (
-    category ? `/3d-models/categories/${category}` : "/3d-models"
-  ) satisfies Route;
+type ModelsViewResultProps = Prettify<
+  IsAuthenticated & {
+    query: string;
+    result: PaginatedResult<ModelWithLikeStatus>;
+    returnTo: Route;
+  }
+>;
 
-  const [{ isAuthenticated, query, result }, returnTo] = await Promise.all([
-    getModels(searchParams, category),
-    canonicalPathForListing(listingPathname, searchParams),
-  ]);
-  // DO AUTH CHECKS HERE AND MAKE SLUG LIST HERE
-  // WE COULD EVEN PASS THE LIST FROM THIS SERVER COMPONENT TO
-
+const ModelsViewResult = ({
+  isAuthenticated,
+  query,
+  result,
+  returnTo,
+}: ModelsViewResultProps) => {
   switch (result.type) {
     case "error":
       throw new Error(result.message);
@@ -79,6 +83,26 @@ const ModelsViewInner = async ({ searchParams, category }: ModelsViewProps) => {
   }
 };
 
+const ModelsViewInner = async ({ searchParams, category }: ModelsViewProps) => {
+  const listingPathname = (
+    category ? `/3d-models/categories/${category}` : "/3d-models"
+  ) satisfies Route;
+
+  const [{ isAuthenticated, query, result }, returnTo] = await Promise.all([
+    getModels(searchParams, category),
+    canonicalPathForListing(listingPathname, searchParams),
+  ]);
+
+  return (
+    <ModelsViewResult
+      isAuthenticated={isAuthenticated}
+      query={query}
+      result={result}
+      returnTo={returnTo}
+    />
+  );
+};
+
 const ModelsView = ({ categoryDisplayName, ...props }: ModelsViewProps) => (
   <div
     className={grid({
@@ -99,4 +123,4 @@ const ModelsView = ({ categoryDisplayName, ...props }: ModelsViewProps) => (
   </div>
 );
 
-export { ModelsView };
+export { ModelsView, ModelsViewResult };

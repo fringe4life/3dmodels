@@ -1,25 +1,11 @@
 "use server";
 
 import { headers } from "next/headers";
-import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
-import {
-  examples,
-  type InferOutput,
-  maxLength,
-  minLength,
-  object,
-  parse,
-  pipe,
-  string,
-} from "valibot";
+import { RedirectType, redirect } from "next/navigation";
+import { returnServerError } from "next-safe-action";
+import { examples, maxLength, minLength, object, pipe, string } from "valibot";
 import { auth } from "@/lib/auth";
-import type { Maybe } from "@/types";
-import {
-  formDataToSafePayload,
-  type SafeFormFields,
-} from "@/utils/to-action-state/form-data-to-safe-payload";
-import { fromErrorToActionState } from "@/utils/to-action-state/to-action-state";
-import type { ActionState } from "@/utils/to-action-state/types";
+import { actionClient, formDataInput } from "@/lib/safe-action";
 import {
   MAX_EMAIL_LENGTH,
   MAX_PASSWORD_LENGTH,
@@ -53,21 +39,9 @@ const signInFormSchema = object({
   ),
 });
 
-type SignInForm = InferOutput<typeof signInFormSchema>;
-type SignInPayload = SafeFormFields<SignInForm>;
-
-const signInAction = async (
-  _: Maybe<ActionState<unknown, SignInPayload>>,
-  formData: FormData,
-): Promise<ActionState<unknown, SignInPayload>> => {
-  const payload = formDataToSafePayload<SignInForm>(formData);
-
-  try {
-    const { email, password } = parse(
-      signInFormSchema,
-      Object.fromEntries(formData.entries()),
-    );
-
+const signInAction = actionClient
+  .inputSchema(formDataInput(signInFormSchema))
+  .stateAction(async ({ parsedInput: { email, password } }) => {
     const session = await auth.api.signInEmail({
       body: {
         email,
@@ -77,15 +51,10 @@ const signInAction = async (
     });
 
     if (!session) {
-      throw new Error("Failed to sign in");
+      returnServerError("Failed to sign in");
     }
 
-    throw redirect("/", RedirectType.replace);
-  } catch (error) {
-    unstable_rethrow(error);
-
-    return fromErrorToActionState(error, payload);
-  }
-};
+    redirect("/", RedirectType.replace);
+  });
 
 export { signInAction };

@@ -1,16 +1,40 @@
 import { css } from "@styled-system/css";
+import type {
+  FlattenedValidationErrors,
+  InferSafeActionFnResult,
+} from "next-safe-action";
 import { ViewTransition } from "react";
 import { EMPTY_LIST_LENGTH } from "@/constants";
-import type { Maybe } from "@/types";
-import type { ActionState } from "@/utils/to-action-state/types";
+
+interface FlattenedFieldErrorProbe {
+  _: { _errors?: string[] };
+  _errors?: string[];
+}
+
+type ActionFieldErrorMessages = NonNullable<
+  FlattenedValidationErrors<FlattenedFieldErrorProbe>["fieldErrors"]["_"]
+>;
+
+/** Flattened NSA `validationErrors.fieldErrors` bag (schema-agnostic keys). */
+type ActionFieldErrors = Record<string, ActionFieldErrorMessages | undefined>;
+
+type SafeActionFnLike = (...args: never[]) => Promise<unknown>;
+
+/** Flattened `fieldErrors` inferred from a next-safe-action fn. */
+type ActionFieldErrorsOf<TAction extends SafeActionFnLike> =
+  InferSafeActionFnResult<TAction> extends infer R
+    ? R extends { validationErrors: { fieldErrors?: infer F } }
+      ? F
+      : never
+    : never;
 
 interface FieldErrorProps {
-  actionState: Maybe<ActionState>;
+  fieldErrors?: ActionFieldErrors;
   name: string;
 }
 
-const FieldError = ({ actionState, name }: FieldErrorProps) => {
-  const fieldError = actionState?.fieldErrors[name];
+const FieldError = ({ fieldErrors, name }: FieldErrorProps) => {
+  const fieldError = fieldErrors?.[name];
   let fieldErrorElement: React.ReactNode = null;
   if (fieldError && fieldError.length > EMPTY_LIST_LENGTH) {
     fieldErrorElement = (
@@ -26,4 +50,5 @@ const FieldError = ({ actionState, name }: FieldErrorProps) => {
   return <ViewTransition>{fieldErrorElement}</ViewTransition>;
 };
 
+export type { ActionFieldErrors, ActionFieldErrorsOf };
 export { FieldError };

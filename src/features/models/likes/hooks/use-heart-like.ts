@@ -1,72 +1,56 @@
 "use client";
 
-import {
-  addTransitionType,
-  type SubmitEventHandler,
-  useActionState,
-  useOptimistic,
-  useTransition,
-} from "react";
-import type { Maybe, Prettify } from "@/types";
-import type { ActionState } from "@/utils/to-action-state/types";
+import { useOptimisticStateAction } from "next-safe-action/hooks";
+import { addTransitionType, useMemo } from "react";
+import type { ActionFieldErrorsOf } from "@/components/form/field-errors";
+import type { Prettify } from "@/types";
 import type { HeartButtonClientProps } from "../components/heart-button-client";
-import type { HeartVisualState, Likes } from "../types";
+import type { HeartVisualState } from "../types";
 import {
-  createHeartLikePassthrough,
   type HeartLikeOptimisticState,
   reduceHeartLikeOptimistic,
 } from "./heart-like-optimistic";
 
 type UseHeartLikeParams = Prettify<
-  Pick<
-    HeartButtonClientProps,
-    "hasLiked" | "isAuthenticated" | "likes" | "slug" | "toggleAction"
-  >
+  Pick<HeartButtonClientProps, "hasLiked" | "likes" | "toggleAction">
 >;
 
 interface UseHeartLikeReturn {
-  handleSubmit: SubmitEventHandler<HTMLFormElement>;
+  fieldErrors:
+    | ActionFieldErrorsOf<UseHeartLikeParams["toggleAction"]>
+    | undefined;
+  formAction: (payload: FormData) => void;
   isDisabled: boolean;
   isPending: boolean;
   optimistic: HeartLikeOptimisticState;
-  state: Maybe<ActionState<Likes>>;
   visualState: HeartVisualState;
 }
 
+const TOGGLE_OPTIMISTIC = { type: "toggle" } as const;
+
 const useHeartLike = ({
   hasLiked,
-  isAuthenticated,
   likes,
-  slug,
   toggleAction,
 }: UseHeartLikeParams): UseHeartLikeReturn => {
-  const [isPending, startTransition] = useTransition();
-  const [state, formAction] = useActionState(
-    toggleAction.bind(null, slug),
-    null,
+  const currentState = useMemo(
+    (): HeartLikeOptimisticState => ({ hasLiked, likes }),
+    [hasLiked, likes],
   );
 
-  const serverLikes =
-    state?.status === "SUCCESS" && state.data ? state.data.likes : likes;
+  const {
+    formAction: dispatchHeart,
+    isPending,
+    optimisticState,
+    result,
+  } = useOptimisticStateAction(toggleAction, {
+    currentState,
+    updateFn: (state) => reduceHeartLikeOptimistic(state, TOGGLE_OPTIMISTIC),
+  });
 
-  const passthrough = createHeartLikePassthrough(hasLiked, serverLikes);
-
-  const [optimistic, addOptimistic] = useOptimistic(
-    passthrough,
-    reduceHeartLikeOptimistic,
-  );
-
-  const handleSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    if (!isAuthenticated) {
-      return;
-    }
-    const newTransitionType = optimistic.hasLiked ? "decrease" : "increase";
-    startTransition(async () => {
-      addTransitionType(newTransitionType);
-      addOptimistic({ type: "toggle" });
-      await formAction(new FormData(e.currentTarget));
-    });
+  const formAction = (payload: FormData) => {
+    addTransitionType(optimisticState.hasLiked ? "decrease" : "increase");
+    dispatchHeart(payload);
   };
 
   const isDisabled = isPending;
@@ -74,16 +58,16 @@ const useHeartLike = ({
   let visualState: HeartVisualState = "unliked";
   if (isPending) {
     visualState = "pending";
-  } else if (optimistic.hasLiked) {
+  } else if (optimisticState.hasLiked) {
     visualState = "liked";
   }
 
   return {
-    handleSubmit,
+    fieldErrors: result.validationErrors?.fieldErrors,
+    formAction,
     isDisabled,
     isPending,
-    optimistic,
-    state,
+    optimistic: optimisticState,
     visualState,
   };
 };

@@ -2,11 +2,10 @@ import { connection } from "next/server";
 import type { SearchParams } from "nuqs/server";
 import type { CategorySlug } from "@/db/brands";
 import { searchModels } from "@/features/models/dal/search-models";
-import { DEFAULT_HAS_LIKED } from "@/features/models/likes/constants";
 import { getLikedSlugsForUser } from "@/features/models/likes/queries/like-status";
+import { withLikeStatuses } from "@/features/models/likes/with-like-status";
 import { searchParamsCache } from "@/features/models/listing-search-params";
 import { toSort } from "@/features/models/sort/brands";
-import { DEFAULT_SORT } from "@/features/models/sort/constants";
 import type { ModelWithLikeStatus } from "@/features/models/types";
 import { getUser } from "@/lib/auth/get-user";
 import type { IsAuthenticated } from "@/lib/auth/types";
@@ -28,10 +27,10 @@ export const getModels = async (
   await connection();
   const search = await searchParams;
   const { query, sort, ...pagination } = searchParamsCache.parse(search);
-  const resolvedSort = toSort(sort ?? DEFAULT_SORT);
+  const resolvedSort = toSort(sort);
 
   const [result, auth] = await Promise.all([
-    searchModels(query || undefined, pagination, resolvedSort, category),
+    searchModels(query, pagination, resolvedSort, category),
     getUser(),
   ]);
   // paginate the items
@@ -55,12 +54,10 @@ export const getModels = async (
 
   // apply the liked slugs to the items do this even
   // for non authenticated users to avoid subtle bugs
-  const itemsWithLikeStatus = paginatedResult.items.map((model) => ({
-    ...model,
-    hasLiked: likedSlugs
-      ? likedSlugs.has(model.slug)
-      : DEFAULT_HAS_LIKED.hasLiked,
-  }));
+  const itemsWithLikeStatus = withLikeStatuses(
+    paginatedResult.items,
+    likedSlugs,
+  );
 
   return {
     isAuthenticated: auth.isAuthenticated,

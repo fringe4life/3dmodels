@@ -17,6 +17,7 @@ type PaginationLimitControlProps = Prettify<
 // this is fine as this is portfolio project
 // ideally ::picker(select) would also have appearance changed
 // however postcss does not support ::picker(select) yet
+// safari with ios 27 now supports it
 const limitControlClass = css({
   _focusVisible: {
     outline: "none",

@@ -2,20 +2,15 @@
 
 import { css } from "@styled-system/css";
 import { ViewTransition } from "react";
-import type { Maybe } from "@/types";
-import type { ActionState } from "@/utils/to-action-state/types";
 
-interface FormErrorProps<T = unknown> {
-  actionState: Maybe<ActionState<T>>;
+interface FormErrorProps {
   isPending: boolean;
+  serverError?: string;
 }
 
-const FormError = <T = unknown>({
-  actionState,
-  isPending,
-}: FormErrorProps<T>) => {
+const FormError = ({ isPending, serverError }: FormErrorProps) => {
   let formErrorElement: React.ReactNode = null;
-  if (actionState?.message && actionState?.status === "ERROR" && !isPending) {
+  if (serverError && !isPending) {
     formErrorElement = (
       <div
         className={css({
@@ -28,7 +23,7 @@ const FormError = <T = unknown>({
         data-testid="form-error"
         role="alert"
       >
-        {actionState.message}
+        {serverError}
       </div>
     );
   }

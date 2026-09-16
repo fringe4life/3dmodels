@@ -2,7 +2,7 @@
 
 import { css } from "@styled-system/css";
 import { circle, hstack, square } from "@styled-system/patterns";
-import { useActionState } from "react";
+import { useStateAction } from "next-safe-action/hooks";
 import { FaSignOutAlt } from "react-icons/fa";
 import { FormError } from "@/components/form/form-error";
 import { PendingButton } from "@/components/pending-button";
@@ -14,10 +14,7 @@ type AuthButtonsProps = Children & {
 };
 
 const AuthButtons = ({ children, transitionName }: AuthButtonsProps) => {
-  const [actionState, formAction, isPending] = useActionState(
-    signOutAction,
-    null,
-  );
+  const { formAction, isPending, result } = useStateAction(signOutAction);
 
   return (
     <div className={hstack({ gap: 2 })}>
@@ -52,7 +49,7 @@ const AuthButtons = ({ children, transitionName }: AuthButtonsProps) => {
           <FaSignOutAlt aria-hidden="true" className={square({ size: 5 })} />
         </PendingButton>
       </form>
-      <FormError actionState={actionState} isPending={isPending} />
+      <FormError isPending={isPending} serverError={result.serverError} />
     </div>
   );
 };

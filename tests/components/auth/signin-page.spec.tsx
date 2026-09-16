@@ -16,30 +16,16 @@ vi.mock("@/features/auth/actions/sign-in-action", () => ({
     const email = formData.get("email")?.toString() ?? "";
     const password = formData.get("password")?.toString() ?? "";
     if (email === "test@example.com" && password === "StrongPass123!") {
-      return {
-        fieldErrors: {},
-        message: "",
-        status: "SUCCESS" as const,
-        timestamp: Date.now(),
-      };
+      return {};
     }
     return {
-      fieldErrors: {},
-      message: "Invalid email or password",
-      payload: formData,
-      status: "ERROR" as const,
-      timestamp: Date.now(),
+      serverError: "Invalid email or password",
     };
   }),
 }));
 
 vi.mock("@/features/auth/actions/sign-in-github-action", () => ({
-  signInGithubAction: vi.fn(async () => ({
-    fieldErrors: {},
-    message: "",
-    status: "SUCCESS" as const,
-    timestamp: Date.now(),
-  })),
+  signInGithubAction: vi.fn(async () => ({})),
 }));
 
 describe("SignInPage (Better Auth flow)", () => {

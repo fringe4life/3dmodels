@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noUnnecessaryConditions: this rule is bugged */
 import { css, cx } from "@styled-system/css";
 import { square } from "@styled-system/patterns";
 import { token } from "@styled-system/tokens";

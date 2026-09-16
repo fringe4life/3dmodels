@@ -12,7 +12,7 @@ afterEach(() => {
 
 /** Navbar sign-out uses `signOutAction`, not `authClient.signOut`. */
 vi.mock("@/lib/auth/sign-out-action", () => ({
-  signOutAction: vi.fn(async () => undefined),
+  signOutAction: vi.fn(async () => ({})),
 }));
 
 const renderAuthButtons = () => {
@@ -32,20 +32,12 @@ describe("AuthButtons sign out", () => {
     expect(signOutAction).toHaveBeenCalledTimes(1);
   });
 
-  it("surfaces signOutAction ERROR ActionState to the user", async () => {
+  it("surfaces signOutAction serverError to the user", async () => {
     const mockedSignOutAction = signOutAction as unknown as {
-      mockResolvedValueOnce: (value: {
-        fieldErrors: Record<string, never>;
-        message: string;
-        status: "ERROR";
-        timestamp: number;
-      }) => void;
+      mockResolvedValueOnce: (value: { serverError: string }) => void;
     };
     mockedSignOutAction.mockResolvedValueOnce({
-      fieldErrors: {},
-      message: "Sign out failed",
-      status: "ERROR",
-      timestamp: 1,
+      serverError: "Sign out failed",
     });
 
     const user = userEvent.setup();

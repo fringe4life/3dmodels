@@ -4,30 +4,32 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.26-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.32-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.16-000000)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.17-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=sqlite)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.3-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.4-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+![next-safe-action](https://img.shields.io/badge/next--safe--action-8.7.3-000000)
 ![Biome](https://img.shields.io/badge/Biome-2.5.12-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.11.0-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.11.1-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.4.0-canary.26 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
-- **Language**: TypeScript 7.0.2 with React 19.3 (`19.3.0`); `bunfig` `minimumReleaseAge` (3 days) excludes Next/SWC plus `react`, `react-dom`, `@types/react`, `scheduler`
-- **Styling**: Panda CSS 2.0.0-beta.16 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); thin `panda.config.ts` plus `theme/` `define*` blocks (`defineKeyframes`, `defineTokens`, `defineSemanticTokens`, `defineConditions`, `definePattern`, `defineUtility`, `defineGlobalStyles`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; shared theme keyframes in `theme/keyframes.ts`; scroll-driven / view-timeline animations stay local via `@styled-system/css` `keyframes()` (navbar, scroll-progress, categories mask, model-card); `optimize.removeUnusedKeyframes: false`; shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props); `@pandacss/mcp` 2.0.0-beta.16 for agent token lookup
+- **Framework**: Next.js 16.4.0-canary.32 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
+- **Language**: TypeScript 7.0.2 with React 19.3 (`19.3.0`); `bunfig` `minimumReleaseAge` (3 days) excludes Next/SWC plus Panda compiler/preset packages
+- **Styling**: Panda CSS 2.0.0-beta.17 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); thin `panda.config.ts` plus `theme/` `define*` blocks (`defineKeyframes`, `defineTokens`, `defineSemanticTokens`, `defineConditions`, `definePattern`, `defineUtility`, `defineGlobalStyles`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; shared theme keyframes in `theme/keyframes.ts`; scroll-driven / view-timeline animations stay local via `@styled-system/css` `keyframes()` (navbar, scroll-progress, categories mask, model-card); `optimize.removeUnusedKeyframes: false`; shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props); `@pandacss/mcp` 2.0.0-beta.17 for agent token lookup
 - **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`)
-- **Authentication**: Better Auth 1.7.3 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with `advanced.database.joins` (`provider: "sqlite"`); `account.issuer` dropped (`src/db/migrations/20260911114623_better_auth_1_7_3_drop_issuer/`)
+- **Authentication**: Better Auth 1.7.4 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with `advanced.database.joins` (`provider: "sqlite"`); `account.issuer` dropped (`src/db/migrations/20260911114623_better_auth_1_7_3_drop_issuer/`)
+- **Server Actions**: next-safe-action 8.7.3 (`lib/safe-action.ts` `actionClient` / `authActionClient`, flattened Valibot `validationErrors`); `formDataInput` maps `<form>` FormData onto object schemas; client `useStateAction` / `useOptimisticStateAction`; `lib/safe-action-form.ts` `lastNonSecretFormValue` for non-password `defaultValue`
 - **Search Params**: nuqs 2.10.1 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/models/listing/listing-canonical.ts`) with `clearOnDefault` for SEO metadata; model detail `from` return paths are allowlisted via `features/models/listing/listing-path.ts`; component tests wrap `withNuqsTestingAdapter` via `tests/setup/nuqs-testing.ts` (`withListingNuqsTestingAdapter`)
-- **Linting & Formatting**: Biome 2.5.12 with Ultracite 7.11.0 presets (`ultracite/biome/core`, `react`, `next`); [Fallow](https://docs.fallow.tools) 3.22.0 with `boundaries.preset: "bulletproof"` (`.fallowrc.json`); [React Doctor](https://github.com/millionco/react-doctor) on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, SHA-pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`); Panda MCP in `.cursor/mcp.json` / `AGENTS.md`
+- **Linting & Formatting**: Biome 2.5.12 with Ultracite 7.11.1 presets (`ultracite/biome/core`, `react`, `next`); [Fallow](https://docs.fallow.tools) 3.25.0 with `boundaries.preset: "bulletproof"` (`.fallowrc.json`); health `maxCyclomatic` / `maxCognitive` 12, `maxCrap` 30 (`src/db/**` override 80); `unused-dependencies`, `prop-drilling`, `thin-wrapper`, `duplicate-prop-shape` at `error`; [React Doctor](https://github.com/millionco/react-doctor) 0.9.14 on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, SHA-pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`); Panda MCP in `.cursor/mcp.json` / `AGENTS.md`
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
-- **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`); `bunfig.toml` sets `minimumReleaseAge` (3 days) with Next/SWC/React excludes
-- **Next.js runtime**: **Bun is the desired runtime**. Local `dev`, production `build`, and `start` still run **Next on Node** (`varlock run -- bun run next dev`, `bun varlock run -- next build`, `bun run next start`). `dev:inspect`, `build:debug`, `next:analyze`, and `next:upgrade` use `bun --bun`. Cache Components + `partialPrefetching` on Bun leak Next prerender abort rejects as `CLIENT_HOOK_DYNAMIC` (`usePathname` / `useSearchParams` “outside `<Suspense>`”) during `bun --bun next build`: exit 0, routes stay `◐` PPR, Node `next build` silent on the same tree. `export const instant = false` does not silence this — it only opts that segment out of Instant Navigation validation and does not disable prerender. Runtime `bun server.js` can also leak `AbortError` / `Date.now()` unhandled rejections because Bun drops AsyncLocalStorage on `unhandledRejection`. Track [oven-sh/bun#39847](https://github.com/oven-sh/bun/issues/39847), [oven-sh/bun#40223](https://github.com/oven-sh/bun/issues/40223), [vercel/next.js#97663](https://github.com/vercel/next.js/issues/97663). The older `setTimeout` / `_idleStart` warning ([vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)) is fixed in Bun 1.4.0 and is not the current blocker. Re-enable `bun --bun` for `dev` / `build` / `start` when the ALS / hanging-promise fixes land.
+- **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`); `bunfig.toml` sets `minimumReleaseAge` (3 days) with Next/SWC/Panda excludes
+- **Next.js runtime**: **Bun is the desired runtime**. Local `dev`, production `build`, `start`, and `next:analyze` still run **Next on Node** (`varlock run -- bun run next dev`, `bun varlock run -- next build`, `bun run next start`, `bun varlock run -- next experimental-analyze`). `dev:inspect`, `build:debug`, and `next:upgrade` use `bun --bun`. Cache Components + `partialPrefetching` on Bun leak Next prerender abort rejects as `CLIENT_HOOK_DYNAMIC` (`usePathname` / `useSearchParams` “outside `<Suspense>`”) during `bun --bun next build`: exit 0, routes stay `◐` PPR, Node `next build` silent on the same tree. `export const instant = false` does not silence this — it only opts that segment out of Instant Navigation validation and does not disable prerender. Runtime `bun server.js` can also leak `AbortError` / `Date.now()` unhandled rejections because Bun drops AsyncLocalStorage on `unhandledRejection`. Track [oven-sh/bun#39847](https://github.com/oven-sh/bun/issues/39847), [oven-sh/bun#40223](https://github.com/oven-sh/bun/issues/40223), [vercel/next.js#97663](https://github.com/vercel/next.js/issues/97663). The older `setTimeout` / `_idleStart` warning ([vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)) is fixed in Bun 1.4.0 and is not the current blocker. Re-enable `bun --bun` for `dev` / `build` / `start` when the ALS / hanging-promise fixes land.
 - **Build Tool**: Turbopack for dev and build; `partialPrefetching`, MCP server, cached navigations, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), and `turbopackRustReactCompiler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.18.0 with `.env.schema` (`@currentEnv=$VARLOCK_ENV`, `@encryptInjectedEnv=forEnv(production, preview)`), committed `.env.test` fixtures for Bun tests (no Bitwarden fetch), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
-- **Validation**: Varlock for environment; Valibot 1.4.2 for server action and form schemas; model slugs validated via slugify idempotency (`lib/slugify.ts` + `isModelSlug` in `db/brands.ts`)
+- **Environment**: [Varlock](https://varlock.dev/) 1.19.0 with `.env.schema` (`@currentEnv=$VARLOCK_ENV`, `@encryptInjectedEnv=forEnv(production, preview)`), committed `.env.test` fixtures for Bun tests (no Bitwarden fetch), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Validation**: Varlock for environment; Valibot 1.5.0 for next-safe-action input schemas; model slugs validated via slugify idempotency (`lib/slugify.ts` + `isModelSlug` in `db/brands.ts`)
 
 ## 🚀 Features
 
@@ -115,17 +117,15 @@ src/
 ├── instrumentation-client.ts     # Oddbird popover / CSS anchor polyfills
 ├── features/
 │   ├── auth/                     # Auth journeys (sign-in / sign-up / GitHub)
-│   │   ├── actions/              # Server actions
+│   │   ├── actions/              # NSA stateActions (Valibot + formDataInput)
 │   │   │   ├── sign-in-action.ts
 │   │   │   ├── sign-in-github-action.ts
 │   │   │   └── sign-up-action.ts  # SignUpData type co-located here
 │   │   ├── components/           # Auth page UI
 │   │   │   ├── auth-card.tsx
 │   │   │   ├── auth-footer-link.tsx
-│   │   │   ├── auth-form.tsx
+│   │   │   ├── auth-form.tsx      # Shared form (`useStateAction` + lastNonSecretFormValue)
 │   │   │   └── sign-in-button.tsx
-│   │   ├── hooks/
-│   │   │   └── use-auth-form-action.ts
 │   │   └── constants.ts          # Auth validation constants
 │   ├── categories/               # Categories feature
 │   │   ├── components/
@@ -161,7 +161,7 @@ src/
 │   │   │   └── models-view.tsx
 │   │   ├── constants.ts
 │   │   ├── dal/
-│   │   │   ├── get-models.ts     # `{ result, query, isAuthenticated }`; search + user, batched likes
+│   │   │   ├── get-models.ts     # `{ result, query, isAuthenticated }`; search + user, `withLikeStatuses`
 │   │   │   └── search-models.ts  # Unified listing/search + abortable cached awaits
 │   │   ├── listing/
 │   │   │   ├── listing-canonical.ts  # Canonical path serializer for listing SEO
@@ -195,7 +195,8 @@ src/
 │   │   │   ├── queries/
 │   │   │   │   └── like-status.ts
 │   │   │   ├── constants.ts
-│   │   │   └── types.ts
+│   │   │   ├── types.ts
+│   │   │   └── with-like-status.ts  # Map models → `hasLiked` from liked slug set
 │   │   ├── queries/
 │   │   │   ├── build-models-where.ts  # Shared SQL where builder for list/count
 │   │   │   ├── get-all-model-slugs.ts
@@ -300,16 +301,14 @@ src/
 │   ├── hero-image.ts
 │   ├── placeholder-image.ts
 │   ├── slugify.ts                # MODEL_SLUGIFY_OPTIONS + SlugifyOptions
+│   ├── safe-action.ts            # NSA clients + formDataInput (server-only)
+│   ├── safe-action-form.ts       # lastNonSecretFormValue for useStateAction (client)
 │   └── url.ts                    # Shared URL helpers (nuqs defaultOptions)
 ├── types/
 │   └── index.ts
 ├── utils/
 │   ├── cache-invalidation.ts
 │   ├── sanitise-name.ts
-│   ├── to-action-state/          # Server action result helpers
-│   │   ├── form-data-to-safe-payload.ts  # Safe FormData → client payload (#38)
-│   │   ├── to-action-state.ts
-│   │   └── types.ts
 │   ├── try-catch.ts
 │   └── with-abort.ts             # Combine cache/timeout AbortSignals; withAbort helper
 ├── global.d.ts
@@ -327,8 +326,10 @@ The project follows a feature-based architecture where related functionality is 
 - **`features/models/sort/`**: Sort URL state (`sort` nuqs param), branded types, and Drizzle `orderBy` mapping
 - **`features/models/likes/`**: Like toggle action, DAL, queries, hooks, and heart-button UI
 - **`features/categories/`**: All category-related components and data queries
-- **`features/auth/`**: Sign-in / sign-up / GitHub actions and page UI
+- **`features/auth/`**: Sign-in / sign-up / GitHub NSA stateActions and page UI
 - **`lib/auth/`**: Session kernel (`getUser`, types, `HasAuth`, sign-out)
+- **`lib/safe-action.ts`**: next-safe-action clients (`actionClient`, `authActionClient`, `formDataInput`)
+- **`lib/safe-action-form.ts`**: Client helper to echo last non-secret form values
 - **`lib/pagination/`**: Shared pagination parsers, schema, DAL, and types
 - **`components/pagination/`**: Shared pager UI + nuqs hook
 - **`components/`**: Shared components used across features (including navigation)
@@ -498,7 +499,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Like Status**: `like-status.ts` queries use `"use cache: private"` for user-specific like status (cached on device)
 - **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the page
 - **Invalidation**: `invalidateAllModels()` in `utils/cache-invalidation.ts` (`updateTag("models")`) — simple broad invalidation on like/unlike so counts and `sort=popular` stay correct; longer-term content/likes split documented in `docs/MODEL_CACHE_SPLIT.md`
-- **Optimistic Updates**: Heart button uses `useOptimistic` for immediate UI feedback with server state synchronization via form actions
+- **Optimistic Updates**: Heart button uses NSA `useOptimisticStateAction` for immediate UI feedback with server state synchronization via form actions
 
 ## 🎨 Styling & Components
 
@@ -523,7 +524,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-not-found` - Empty search state with the active query in the subheading
 - `features/models/components/models-sort-controls` - Client `fieldset` of `SortOption` radios for A-Z / Popular / Recent (`useSortQuery`)
 - `features/models/components/models-sort-controls-skeleton` - Loading skeleton for sort controls
-- `features/models/components/models-view` - Shared server shell: header outside `Suspense`, async inner awaits `getModels`; pagination uses `PaginationOffsetTransition`
+- `features/models/components/models-view` - Shared server shell: header outside `Suspense`, `ModelsViewResult` switch, async inner awaits `getModels`; pagination uses `PaginationOffsetTransition`
 - `features/models/sort/components/sort-option` - Single sort radio + label pill
 - `features/models/sort/hooks/use-sort-query` - nuqs hook for `sort` with pending state
 - `features/models/sort/order-for-sort` - Maps sort brand to Drizzle `orderBy` clauses
@@ -540,7 +541,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/likes/components/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/likes/components/heart-button-skeleton` - Loading skeleton for heart button
-- `features/models/likes/hooks/use-heart-like` - Client hook for toggle action, optimistic state, and single `visualState`
+- `features/models/likes/hooks/use-heart-like` - Client hook wrapping NSA `useOptimisticStateAction` (`toggleAction`, optimistic state, `visualState`)
 - `components/search-input/search-input` - Model search with nuqs URL state (mounted in `ModelsGridHeader`); Enter flushes current input value; `search-input-transition` for view transitions
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `features/categories/components/categories-block-transition` - View transition wrapper for category listing blocks
@@ -596,22 +597,24 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `lib/auth` - Runtime Better Auth (`server-only`; secrets, OAuth, cookies, OpenAPI)
 - `lib/auth/get-user` - User query with `React.cache()` (returns `UserAuthState` from session)
 - `lib/auth/has-auth` - Renders `children(auth)` with `UserAuthState`; `HasAuthSuspense` wraps in `Suspend`
-- `lib/auth/sign-out-action` - Sign-out server action
+- `lib/auth/sign-out-action` - Sign-out server action (`actionClient.stateAction`)
+- `lib/safe-action` - `next-safe-action` clients (`actionClient`, `authActionClient`, `formDataInput`; `server-only`)
+- `lib/safe-action-form` - `lastNonSecretFormValue` for `useStateAction` last `input` (client; skips password fields)
 - `lib/slugify` - Shared `MODEL_SLUGIFY_OPTIONS` / `SlugifyOptions` for seed + `isModelSlug`
 - `utils/with-abort` - Combine AbortSignals and race promises against abort
-- `features/auth/actions` - Sign-in, GitHub OAuth, and sign-up server actions (Valibot on email/password)
+- `features/auth/actions` - Sign-in, GitHub OAuth, and sign-up NSA stateActions (Valibot + `formDataInput`)
 - `features/auth/constants` - Validation constants (password length, email length, name length limits)
-- `features/auth/components/sign-in-button` - GitHub OAuth form (`signInGithubAction` + `useActionState`)
-- `utils/to-action-state` - Action state helpers (`to-action-state.ts`, `types.ts`, `form-data-to-safe-payload.ts` for allowlisted FormData → client)
-- `components/form/field-errors` - Reusable field error component used in auth forms
-- `components/form/form-error` - Reusable form-level error component used in auth forms
+- `features/auth/components/auth-form` - Shared sign-in/sign-up form (`useStateAction` + `lastNonSecretFormValue`)
+- `features/auth/components/sign-in-button` - GitHub OAuth form (`signInGithubAction` + `useStateAction`)
+- `components/form/field-errors` - Field errors from NSA flattened `validationErrors.fieldErrors`
+- `components/form/form-error` - Form-level `serverError` from NSA result
 
 ## 🔧 Development
 
 ### Code Quality Tools
 
 - **Biome / Ultracite**: Linting and formatting (see `biome.json` and `AGENTS.md`)
-- **Fallow**: Dead-code / health / duplication plus `boundaries.preset: "bulletproof"` (`.fallowrc.json`); `fallow audit` on Cursor `stop` hook, before commit/push, and on PRs (`.github/workflows/fallow.yml`)
+- **Fallow**: Dead-code / health / duplication plus `boundaries.preset: "bulletproof"` (`.fallowrc.json`); health `maxCyclomatic` / `maxCognitive` 12, `maxCrap` 30; `fallow audit` on Cursor `stop` hook, before commit/push, and on PRs (`.github/workflows/fallow.yml`)
 - **React Doctor**: React/Next.js diagnostics on pull requests and `main` pushes (`.github/workflows/react-doctor.yml`); pre-commit via lint-staged (`bun run type`, `bun run react-doctor:staged`); full local run with `bun run react-doctor`
 - **GitHub Actions**: Pin `uses:` to a full SHA plus same-line `# vX.Y.Z`; Dependabot weekly (`github-actions` in `.github/dependabot.yml`) bumps SHA and comment together
 - **Cursor hooks**: `.cursor/hooks.json` — fast `afterFileEdit` (Ultracite with `--skip=correctness/noUnusedImports`, `test:affected`); heavier `stop` (full fix, `fallow audit`, full test)
@@ -623,7 +626,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run dev` - Start development server (Turbopack; **Node** runtime — see Next.js runtime note)
 - `bun run dev:inspect` - Start development server with inspector (`bun --bun`; expect `CLIENT_HOOK_DYNAMIC` noise — see runtime note)
 - `bun run next:upgrade` - Upgrade Next.js to latest version (`bun --bun`)
-- `bun run next:analyze` - Analyze Next.js bundle (experimental-analyze; `bun --bun`)
+- `bun run next:analyze` - Analyze Next.js bundle (`next experimental-analyze` on **Node** via Varlock, same as `build`). Pass-through: `bun run next:analyze -- --output --baseline-name pre-nsa`. `--output` writes `.next/diagnostics/analyze` without serving; `--baseline-name` labels the snapshot so a later run can compare in the analyzer UI history. Omit `--output` to open the UI (default port 4000).
 - `bun run build` - Build for production (**Node** runtime via `bun varlock run -- next build`)
 - `bun run build:debug` - Build with debug prerender (`bun --bun`; same `CLIENT_HOOK_DYNAMIC` leak as runtime note)
 - `bun run start` - Start production server (**Node** runtime via `bun run next start`)
@@ -633,7 +636,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run test:unit` - Run unit tests
 - `bun run test:components` - Run component tests
 - `bun run test:integration` - Run integration tests
-- `bunfig.toml` — `env = false` (Varlock owns `.env*` resolution); `minimumReleaseAge` (3 days) with Next/SWC/React excludes; test preload order: `tests/setup/varlock-test-env.ts` → `varlock/auto-load` → `tests/setup/test-preload.ts` (Happy DOM + `server-only` stub); `tests/setup/next-mocks.ts` stubs Next navigation; listing nuqs tests use `withListingNuqsTestingAdapter` from `tests/setup/nuqs-testing.ts` (`nuqs/adapters/testing` + `defaultOptions`); integration DB helpers in `tests/setup/db-test.ts` use Drizzle 1.0 `{ client }` config
+- `bunfig.toml` — `env = false` (Varlock owns `.env*` resolution); `minimumReleaseAge` (3 days) with Next/SWC/Panda excludes; test preload order: `tests/setup/varlock-test-env.ts` → `varlock/auto-load` → `tests/setup/test-preload.ts` (Happy DOM + `server-only` stub); `tests/setup/next-mocks.ts` stubs Next navigation; listing nuqs tests use `withListingNuqsTestingAdapter` from `tests/setup/nuqs-testing.ts` (`nuqs/adapters/testing` + `defaultOptions`); integration DB helpers in `tests/setup/db-test.ts` use Drizzle 1.0 `{ client }` config
 - `bun run test:e2e` - Run Playwright E2E tests
 - `bun run e2e:open` - Open Playwright UI
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)
@@ -650,7 +653,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run fix` - Fix linting/formatting issues with Ultracite/Biome
 - `bun run check` - Check linting rules with Ultracite/Biome
 - `bun run doctor` - Run Ultracite doctor diagnostics
-- `bun run ultracite:upgrade` - Upgrade Ultracite configuration (`ultracite@7.11.0`)
+- `bun run ultracite:upgrade` - Upgrade Ultracite configuration (`ultracite@7.11.1`)
 - `bun run react-doctor` - Run React Doctor on the repo (`doctor.config.ts`)
 - `bun run react-doctor:staged` - Run React Doctor on staged files only (lint-staged / pre-commit)
 

@@ -4,10 +4,10 @@
     "preset": "bulletproof"
   },
   "rules": {
-    "unused-dependencies": "warn",
-    "prop-drilling": "warn",
-    "thin-wrapper": "warn",
-    "duplicate-prop-shape": "warn",
+    "unused-dependencies": "error",
+    "prop-drilling": "error",
+    "thin-wrapper": "error",
+    "duplicate-prop-shape": "error",
     "unused-dependency-overrides": "off",
     "private-type-leaks": "off"
   },
@@ -29,9 +29,9 @@
     "minLines": 15
   },
   "health": {
-    "maxCyclomatic": 25,
-    "maxCognitive": 20,
-    "maxCrap": 50,
+    "maxCyclomatic": 12,
+    "maxCognitive": 12,
+    "maxCrap": 30,
     "thresholdOverrides": [{ "files": ["src/db/**"], "maxCrap": 80 }]
   }
 }
