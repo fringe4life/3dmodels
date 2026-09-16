@@ -10,37 +10,22 @@ afterEach(() => {
   cleanup();
 });
 
-const successActionState = {
-  fieldErrors: {},
-  message: "",
-  status: "SUCCESS" as const,
-  timestamp: Date.now(),
-};
+const successResult = {};
 
 vi.mock("@/features/auth/actions/sign-in-github-action", () => ({
-  signInGithubAction: vi.fn(async () => successActionState),
+  signInGithubAction: vi.fn(async () => successResult),
 }));
 
 interface SignInGithubMock {
   mockImplementationOnce: (fn: () => never) => void;
   mockReset: () => void;
-  mockResolvedValue: (value: typeof successActionState) => void;
-  mockResolvedValueOnce: (value: {
-    fieldErrors: Record<string, never>;
-    message: string;
-    status: "ERROR";
-    timestamp: number;
-  }) => void;
+  mockResolvedValue: (value: typeof successResult) => void;
+  mockResolvedValueOnce: (value: { serverError: string }) => void;
 }
 
 const signInGithub = signInGithubAction as unknown as SignInGithubMock;
 
-const errorActionState = (message: string) => ({
-  fieldErrors: {},
-  message,
-  status: "ERROR" as const,
-  timestamp: Date.now(),
-});
+const errorResult = (serverError: string) => ({ serverError });
 
 const clickGithubSignIn = async () => {
   const user = userEvent.setup();
@@ -53,11 +38,11 @@ const clickGithubSignIn = async () => {
 describe("SignInButton GitHub OAuth errors", () => {
   afterEach(() => {
     signInGithub.mockReset();
-    signInGithub.mockResolvedValue(successActionState);
+    signInGithub.mockResolvedValue(successResult);
   });
 
-  it("surfaces an ERROR ActionState message to the user", async () => {
-    signInGithub.mockResolvedValueOnce(errorActionState("OAuth failed"));
+  it("surfaces a serverError message to the user", async () => {
+    signInGithub.mockResolvedValueOnce(errorResult("OAuth failed"));
 
     await clickGithubSignIn();
 
@@ -65,8 +50,8 @@ describe("SignInButton GitHub OAuth errors", () => {
     expect(formError.textContent).toMatch(/oauth failed/i);
   });
 
-  it("surfaces a fromErrorToActionState ERROR ActionState", async () => {
-    signInGithub.mockResolvedValueOnce(errorActionState("GitHub unreachable"));
+  it("surfaces a handleServerError message", async () => {
+    signInGithub.mockResolvedValueOnce(errorResult("GitHub unreachable"));
 
     await clickGithubSignIn();
 
@@ -74,9 +59,9 @@ describe("SignInButton GitHub OAuth errors", () => {
     expect(formError.textContent).toMatch(/github unreachable/i);
   });
 
-  it("surfaces the unknown-error fallback ActionState", async () => {
+  it("surfaces the unknown-error fallback", async () => {
     signInGithub.mockResolvedValueOnce(
-      errorActionState("An unknown error occurred"),
+      errorResult("An unknown error occurred"),
     );
 
     await clickGithubSignIn();
@@ -87,15 +72,17 @@ describe("SignInButton GitHub OAuth errors", () => {
 
   it("does not surface NEXT_REDIRECT as a form error", async () => {
     signInGithub.mockImplementationOnce(() => {
-      throw new Error("NEXT_REDIRECT");
+      throw Object.assign(new Error("NEXT_REDIRECT"), {
+        digest: "NEXT_REDIRECT;replace;/;303;",
+      });
     });
 
     const user = userEvent.setup();
     render(<SignInButton />);
 
-    await expect(
-      user.click(screen.getByRole("button", { name: /sign in with github/i })),
-    ).rejects.toThrow("NEXT_REDIRECT");
+    await user.click(
+      screen.getByRole("button", { name: /sign in with github/i }),
+    );
 
     expect(screen.queryByTestId("form-error")).toBeNull();
   });

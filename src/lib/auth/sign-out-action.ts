@@ -1,18 +1,15 @@
 "use server";
 
 import { headers } from "next/headers";
-import { RedirectType, redirect, unstable_rethrow } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
+import { returnServerError } from "next-safe-action";
 import { auth } from "@/lib/auth";
-import type { Maybe } from "@/types";
-import { fromErrorToActionState } from "@/utils/to-action-state/to-action-state";
-import type { ActionState } from "@/utils/to-action-state/types";
+import { actionClient, formActionInput } from "@/lib/safe-action";
 import { tryCatch } from "@/utils/try-catch";
 
-const signOutAction = async (
-  _: Maybe<ActionState>,
-  _formData: FormData,
-): Promise<ActionState> => {
-  try {
+const signOutAction = actionClient
+  .inputSchema(formActionInput)
+  .stateAction(async () => {
     const { data, error } = await tryCatch(
       async () =>
         await auth.api.signOut({
@@ -21,15 +18,10 @@ const signOutAction = async (
     );
 
     if (error || !data) {
-      return fromErrorToActionState(error);
+      returnServerError("Failed to sign out");
     }
 
-    throw redirect("/", RedirectType.replace);
-  } catch (error) {
-    unstable_rethrow(error);
-
-    return fromErrorToActionState(error);
-  }
-};
+    redirect("/", RedirectType.replace);
+  });
 
 export { signOutAction };

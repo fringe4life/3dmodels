@@ -37,17 +37,15 @@ const HeartButtonClient = ({
   disableTransition,
 }: HeartButtonClientProps) => {
   const {
-    handleSubmit,
+    fieldErrors,
+    formAction,
     isDisabled,
     isPending,
     optimistic,
-    state,
     visualState,
   } = useHeartLike({
     hasLiked,
-    isAuthenticated,
     likes,
-    slug,
     toggleAction,
   });
 
@@ -65,7 +63,8 @@ const HeartButtonClient = ({
   );
 
   const content = isAuthenticated ? (
-    <form data-progress={isPending} onSubmit={handleSubmit}>
+    <form action={formAction} data-progress={isPending}>
+      <input name="slug" type="hidden" value={slug} />
       <button
         aria-label="Like this model"
         className={heartControlClassName}
@@ -74,7 +73,7 @@ const HeartButtonClient = ({
       >
         {glyph}
       </button>
-      <FieldError actionState={state} name="slug" />
+      <FieldError fieldErrors={fieldErrors} name="slug" />
     </form>
   ) : (
     <span className={heartGuestRootClassName} style={heartAnchorStyle(slug)}>

@@ -13,10 +13,7 @@ afterEach(() => {
 /** Email/password form uses `signUpAction`; mock so tests don't hit real auth/DB. */
 vi.mock("@/features/auth/actions/sign-up-action", () => ({
   signUpAction: vi.fn(async () => ({
-    fieldErrors: {},
-    message: "Unable to create account",
-    status: "ERROR" as const,
-    timestamp: Date.now(),
+    serverError: "Unable to create account",
   })),
 }));
 

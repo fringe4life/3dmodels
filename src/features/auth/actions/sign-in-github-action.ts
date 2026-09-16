@@ -1,17 +1,14 @@
 "use server";
 
 import { headers } from "next/headers";
-import { redirect, unstable_rethrow } from "next/navigation";
+import { redirect } from "next/navigation";
+import { returnServerError } from "next-safe-action";
 import { auth } from "@/lib/auth";
-import type { Maybe } from "@/types";
-import { fromErrorToActionState } from "@/utils/to-action-state/to-action-state";
-import type { ActionState } from "@/utils/to-action-state/types";
+import { actionClient, formActionInput } from "@/lib/safe-action";
 
-const signInGithubAction = async (
-  _: Maybe<ActionState>,
-  _formData: FormData,
-): Promise<ActionState> => {
-  try {
+const signInGithubAction = actionClient
+  .inputSchema(formActionInput)
+  .stateAction(async () => {
     const result = await auth.api.signInSocial({
       body: {
         callbackURL: "/",
@@ -21,15 +18,10 @@ const signInGithubAction = async (
     });
 
     if (!result.url) {
-      throw new Error("Failed to start GitHub sign-in");
+      returnServerError("Failed to start GitHub sign-in");
     }
 
-    throw redirect(result.url);
-  } catch (error) {
-    unstable_rethrow(error);
-
-    return fromErrorToActionState(error);
-  }
-};
+    redirect(result.url);
+  });
 
 export { signInGithubAction };

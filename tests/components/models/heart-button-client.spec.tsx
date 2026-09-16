@@ -1,13 +1,15 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: test */
 import "../../../tests/setup/test-globals";
 import { afterEach, describe, expect, it, vi } from "bun:test";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { toggleLike } from "../../../src/features/models/likes/actions/toggle-like";
 import { HeartButtonClient } from "../../../src/features/models/likes/components/heart-button-client";
 
 vi.mock("@/features/models/likes/actions/toggle-like", () => ({
-  toggleLike: vi.fn(),
+  toggleLike: vi.fn(async (_prev: unknown, _formData: FormData) => ({
+    data: { hasLiked: true, likes: 3 },
+  })),
 }));
 
 afterEach(() => {
@@ -68,18 +70,59 @@ describe("HeartButtonClient", () => {
     expect(toggleAction).not.toHaveBeenCalled();
   });
 
+  it("keeps the optimistic like count while the action is in flight", async () => {
+    const user = userEvent.setup();
+    const deferred = Promise.withResolvers<{
+      data: { hasLiked: boolean; likes: number };
+    }>();
+    const toggleAction = vi.fn(
+      (_prev: unknown, _formData: FormData) => deferred.promise,
+    );
+
+    render(
+      <HeartButtonClient
+        {...baseProps}
+        disableTransition={true}
+        isAuthenticated={true}
+        toggleAction={toggleAction}
+      />,
+    );
+
+    const button = screen.getByRole("button", { name: /^like this model$/i });
+    expect(button.textContent).toContain("2");
+
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(button.textContent).toContain("3");
+    });
+
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(button.textContent).toContain("3");
+    expect(button.textContent).not.toMatch(/\b2\b/);
+
+    deferred.resolve({ data: { hasLiked: true, likes: 3 } });
+
+    await waitFor(() => {
+      expect(button.textContent).toContain("3");
+    });
+  });
+
   it("keeps field error outside the like button", async () => {
     const user = userEvent.setup();
-    const toggleAction = vi.fn(async () => ({
-      fieldErrors: { slug: ["Model slug is required"] },
-      message: "error",
-      status: "ERROR" as const,
-      timestamp: Date.now(),
+    const toggleAction = vi.fn(async (_prev: unknown, _formData: FormData) => ({
+      validationErrors: {
+        fieldErrors: { slug: ["Model slug is required"] },
+        formErrors: [],
+      },
     }));
 
     render(
       <HeartButtonClient
         {...baseProps}
+        disableTransition={true}
         isAuthenticated={true}
         toggleAction={toggleAction}
       />,
@@ -88,6 +131,10 @@ describe("HeartButtonClient", () => {
     await user.click(
       screen.getByRole("button", { name: /^like this model$/i }),
     );
+
+    await waitFor(() => {
+      expect(toggleAction).toHaveBeenCalled();
+    });
 
     const fieldError = await screen.findByTestId("field-error-slug");
     const likeButton = screen.getByRole("button", {

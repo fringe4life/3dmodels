@@ -1,15 +1,15 @@
 import { css, cx } from "@styled-system/css";
 import { type ReactNode, useId, ViewTransition } from "react";
-import type { Maybe } from "@/types";
-import type { ActionState } from "@/utils/to-action-state/types";
-import { FieldError } from "./field-errors";
+import { type ActionFieldErrors, FieldError } from "./field-errors";
 import { Label } from "./label";
 
-interface FormFieldProps {
-  actionState: Maybe<ActionState>;
+interface FormFieldProps<
+  TFieldErrors extends ActionFieldErrors = ActionFieldErrors,
+> {
   children: (id: string) => ReactNode;
   className?: string;
   disabled?: boolean;
+  fieldErrors?: TFieldErrors;
   label: string;
   name: string;
   transitionName?: string;
@@ -19,15 +19,15 @@ interface FormFieldProps {
  * A reusable form field component that links a label, input, and error message
  * using a unique ID. Supports View Transitions via the transitionName prop.
  */
-const FormField = ({
+const FormField = <TFieldErrors extends ActionFieldErrors = ActionFieldErrors>({
   label,
   name,
-  actionState,
+  fieldErrors,
   children,
   transitionName,
   disabled,
   className,
-}: FormFieldProps) => {
+}: FormFieldProps<TFieldErrors>) => {
   const id = useId();
 
   return (
@@ -41,7 +41,7 @@ const FormField = ({
       >
         <Label htmlFor={id}>{label}</Label>
         {children(id)}
-        <FieldError actionState={actionState} name={name} />
+        <FieldError fieldErrors={fieldErrors} name={name} />
       </fieldset>
     </ViewTransition>
   );
