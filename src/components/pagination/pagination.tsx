@@ -1,36 +1,71 @@
 "use client";
 
 import { between, hstack } from "@styled-system/patterns";
-import { ViewTransition } from "react";
-import type { PaginationMetadataObject } from "@/lib/pagination/types";
+import { useQueryStates } from "nuqs";
+import { addTransitionType, useTransition, ViewTransition } from "react";
+import { cursorPaginationParsers } from "@/lib/pagination/search-params";
+import type {
+  Direction,
+  Id,
+  PaginationMetadataObject,
+} from "@/lib/pagination/types";
+import type { Prettify } from "@/types";
 import { PaginationLimitControl } from "./pagination-limit-control";
 import { PaginationPageControl } from "./pagination-page-control";
-import { PaginationSummary } from "./pagination-summary";
-import { usePaginationQuery } from "./use-pagination-query";
 
-type PaginationProps = PaginationMetadataObject;
+type PaginationProps<T extends Id> = Prettify<
+  PaginationMetadataObject & {
+    items: T[];
+  }
+>;
 
-const Pagination = ({ metadata: { hasNextPage, count } }: PaginationProps) => {
-  const {
-    pagination: { page, limit },
-    handleNextPage,
-    handlePreviousPage,
-    handleLimitChange,
-  } = usePaginationQuery();
-  const hasPreviousPage = page > 0;
+const pagerTransitionType = (direction: Direction) =>
+  direction === "forward" ? "forwards" : "backwards";
+
+const Pagination = <T extends Id>({
+  items,
+  metadata: { hasNextPage, hasPreviousPage },
+}: PaginationProps<T>) => {
+  const [isPending, startTransition] = useTransition();
+  const [{ cursor }, setCursorState] = useQueryStates(cursorPaginationParsers);
+
+  const handlePageChange = (direction: Direction) => {
+    if (isPending) {
+      return;
+    }
+    const cursorItem = direction === "forward" ? items.at(-1) : items.at(0);
+    const nextCursor = cursorItem?.id ?? cursor;
+    if (!nextCursor) {
+      return;
+    }
+
+    startTransition(async () => {
+      addTransitionType(pagerTransitionType(direction));
+      // awaited as it triggers get-models
+      await setCursorState({
+        cursor: nextCursor,
+        direction,
+      });
+    });
+  };
+
+  const handleNextPage = () => {
+    handlePageChange("forward");
+  };
+
+  const handlePreviousPage = () => {
+    handlePageChange("backward");
+  };
 
   return (
     <ViewTransition name="pagination">
       <div className={between()}>
-        <PaginationSummary count={count} limit={limit} page={page} />
+        <PaginationLimitControl />
         <div className={hstack({ columnGap: 2 })}>
-          <PaginationLimitControl
-            limit={limit}
-            onLimitChange={handleLimitChange}
-          />
           <PaginationPageControl
             hasNextPage={hasNextPage}
             hasPreviousPage={hasPreviousPage}
+            isPending={isPending}
             onNextPage={handleNextPage}
             onPreviousPage={handlePreviousPage}
           />

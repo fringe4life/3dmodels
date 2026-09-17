@@ -4,7 +4,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.32-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.34-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.17-000000)
@@ -16,13 +16,13 @@ A modern web application for browsing and discovering 3D models, built with Next
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.4.0-canary.32 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
+- **Framework**: Next.js 16.4.0-canary.34 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
 - **Language**: TypeScript 7.0.2 with React 19.3 (`19.3.0`); `bunfig` `minimumReleaseAge` (3 days) excludes Next/SWC plus Panda compiler/preset packages
 - **Styling**: Panda CSS 2.0.0-beta.17 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); thin `panda.config.ts` plus `theme/` `define*` blocks (`defineKeyframes`, `defineTokens`, `defineSemanticTokens`, `defineConditions`, `definePattern`, `defineUtility`, `defineGlobalStyles`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; shared theme keyframes in `theme/keyframes.ts`; scroll-driven / view-timeline animations stay local via `@styled-system/css` `keyframes()` (navbar, scroll-progress, categories mask, model-card); `optimize.removeUnusedKeyframes: false`; shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props); `@pandacss/mcp` 2.0.0-beta.17 for agent token lookup
-- **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`)
+- **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`); model PK is uuidv7 `ModelId` (`uuidv7` + `src/db/create-id.ts`)
 - **Authentication**: Better Auth 1.7.4 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with `advanced.database.joins` (`provider: "sqlite"`); `account.issuer` dropped (`src/db/migrations/20260911114623_better_auth_1_7_3_drop_issuer/`)
 - **Server Actions**: next-safe-action 8.7.3 (`lib/safe-action.ts` `actionClient` / `authActionClient`, flattened Valibot `validationErrors`); `formDataInput` maps `<form>` FormData onto object schemas; client `useStateAction` / `useOptimisticStateAction`; `lib/safe-action-form.ts` `lastNonSecretFormValue` for non-password `defaultValue`
-- **Search Params**: nuqs 2.10.1 for type-safe URL state (`query`, `page`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/models/listing/listing-canonical.ts`) with `clearOnDefault` for SEO metadata; model detail `from` return paths are allowlisted via `features/models/listing/listing-path.ts`; component tests wrap `withNuqsTestingAdapter` via `tests/setup/nuqs-testing.ts` (`withListingNuqsTestingAdapter`)
+- **Search Params**: nuqs 2.10.1 for type-safe URL state (`query`, `cursor`, `direction`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/models/listing/listing-canonical.ts`) with `clearOnDefault` for SEO metadata (omits default `cursor`/`direction`/`limit`/`sort` and empty `query`; drops `direction` when `cursor` is absent); model detail `from` return paths are allowlisted via `features/models/listing/listing-path.ts`; component tests wrap `withNuqsTestingAdapter` via `tests/setup/nuqs-testing.ts` (`withListingNuqsTestingAdapter`)
 - **Linting & Formatting**: Biome 2.5.12 with Ultracite 7.11.1 presets (`ultracite/biome/core`, `react`, `next`); [Fallow](https://docs.fallow.tools) 3.25.0 with `boundaries.preset: "bulletproof"` (`.fallowrc.json`); health `maxCyclomatic` / `maxCognitive` 12, `maxCrap` 30 (`src/db/**` override 80); `unused-dependencies`, `prop-drilling`, `thin-wrapper`, `duplicate-prop-shape` at `error`; [React Doctor](https://github.com/millionco/react-doctor) 0.9.14 on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, SHA-pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`); Panda MCP in `.cursor/mcp.json` / `AGENTS.md`
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`); `bunfig.toml` sets `minimumReleaseAge` (3 days) with Next/SWC/Panda excludes
@@ -35,15 +35,16 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 - **Browse 3D Models**: View a curated collection of 3D models across various categories
 - **Category Filtering**: Filter models by category (3D Printer, Art, Education, Fashion, etc.)
-- **Sort Controls**: Sort listings by A-Z, Popular, or Recent via nuqs `sort` search param (default A-Z omitted from URL)
-- **Search across listings**: Search bar lives in `ModelsGridHeader` (index + category routes); grid title shows `Results for "{query}"` via nuqs when a query is present
+- **Sort Controls**: Sort listings by A-Z, Popular, or Recent via nuqs `sort` search param (default A-Z omitted from URL); ties break on `ModelId`
+- **Cursor pagination**: Exclusive keyset on `(sortCol, ModelId)` with URL `cursor` (uuidv7 `ModelId`) + `direction` (`forward`/`backward`) + `limit`; next/prev flags from `limit+1` (no `COUNT(*)`); old `?page=` bookmarks land on the first slice. `sort=popular` is a live feed: likes can skip/dup between slices (accepted). ADR: `docs/adr/0001-cursor-pagination.md`. Domain terms: `CONTEXT.md`. Survey: `docs/MUTABLE_SORT_KEYSET.md`
+- **Search across listings**: Search bar lives in `ModelsGridHeader` (index + category routes); grid title shows `Results for "{query}"` via nuqs when a query is present; search/sort/limit reset `cursor` rather than paging
 - **Model detail back link**: Detail pages restore the prior listing via allowlisted `from` query (`features/models/back-link/`) with runtime prefetch under Partial Prefetching
 - **Shimmer skeletons**: Shared `Skeleton` shimmer (CSS vars / `color` props) for listing and detail loading states
 - **Offline indicator**: Navbar `OfflineBanner` via Next.js experimental `useOffline` — persistent pill with a wifi-off icon and container-responsive status detail; visible on all breakpoints (`components/offline-indicator.tsx`)
 - **Mobile navigation**: Below `sm` (640px), navbar uses native `<button popovertarget>` + `popover="auto"` menu; the compact icon logo is used below `xs` (480px), with the full wordmark from `xs` upward (`src/components/navbar/`)
 - **Categories sidebar**: From `md`, sticky nav with header clearance (`insetBlockStart: 6.5rem`) and `overflowY: auto` (`maxBlockSize: calc(100dvh - 7.5rem)`); small-screen horizontal strip uses a local scroll-driven fade mask (`keyframes()` in `app/3d-models/layout.tsx`)
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Smooth Page Transitions**: View Transitions API with composable fade and slide animations for pagination (full-viewport slide on small screens, compact slide from `md`)
+- **Smooth Page Transitions**: View Transitions API; pager uses `addTransitionType` `forwards`/`backwards` on `PaginationPageSlice` (full-viewport slide on small screens, compact from `md`). Search/sort/limit are not page turns
 - **Type-Safe Database**: Full TypeScript support with Drizzle ORM
 - **Performance Optimized**: Caching for frequently accessed data; listing DAL combines cache + timeout abort signals (`utils/with-abort.ts`, `ABORT_TIMEOUT_MS`)
 - **Modern Stack**: Built with Next.js 16.4, TypeScript, and Panda CSS
@@ -54,7 +55,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.avif` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`). **Panda CSS** config is a thin `panda.config.ts` that imports `theme/` `define*` modules; generated files go to **`styled-system/`** at the repo root (`outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.avif` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`, `docs/adr/0001-cursor-pagination.md`). Listing domain language (`ModelId`, `ListingCursor`, `PageSlice`) lives in root `CONTEXT.md`. **Panda CSS** config is a thin `panda.config.ts` that imports `theme/` `define*` modules; generated files go to **`styled-system/`** at the repo root (`outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 theme/                        # Panda define* blocks (imported by panda.config.ts)
@@ -164,9 +165,9 @@ src/
 │   │   │   ├── get-models.ts     # `{ result, query, isAuthenticated }`; search + user, `withLikeStatuses`
 │   │   │   └── search-models.ts  # Unified listing/search + abortable cached awaits
 │   │   ├── listing/
-│   │   │   ├── listing-canonical.ts  # Canonical path serializer for listing SEO
+│   │   │   ├── listing-canonical.ts  # Canonical path serializer (`query`/`cursor`/`direction`/`limit`/`sort`)
 │   │   │   └── listing-path.ts   # Allowlisted listing href → Route (open-redirect safe)
-│   │   ├── listing-search-params.ts  # Composes sort + pagination + query nuqs parsers
+│   │   ├── listing-search-params.ts  # Composes sort + cursor pagination + query nuqs parsers
 │   │   ├── sort/                 # Sort sub-feature (nuqs param, order mapping, controls hook)
 │   │   │   ├── brands.ts         # Valibot branded Sort type; `isSortList` guard
 │   │   │   ├── components/
@@ -174,7 +175,7 @@ src/
 │   │   │   ├── constants.ts      # SORT_VALUES, DEFAULT_SORT, SORT_LABELS
 │   │   │   ├── hooks/
 │   │   │   │   └── use-sort-query.ts
-│   │   │   ├── order-for-sort.ts # Drizzle orderBy for alphabetic / popular / recent
+│   │   │   ├── order-for-sort.ts # Drizzle orderBy + keyset column/dir (tie-break ModelId)
 │   │   │   └── sort-search-params.ts
 │   │   ├── likes/                # Likes sub-feature (toggle, status, heart UI)
 │   │   │   ├── actions/
@@ -198,12 +199,11 @@ src/
 │   │   │   ├── types.ts
 │   │   │   └── with-like-status.ts  # Map models → `hasLiked` from liked slug set
 │   │   ├── queries/
-│   │   │   ├── build-models-where.ts  # Shared SQL where builder for list/count
+│   │   │   ├── build-models-where.ts  # Shared SQL where builder for list filter
 │   │   │   ├── get-all-model-slugs.ts
 │   │   │   ├── get-model-by-slug.ts
-│   │   │   ├── get-models-count.ts
-│   │   │   └── get-models-list.ts
-│   │   └── types.ts              # ModelWithLikeStatus, SearchPattern, Category; component props extend IsAuthenticated
+│   │   │   └── get-models-list.ts     # Keyset list (`limit+1`); no COUNT(*)
+│   │   └── types.ts              # ModelWithLikeStatus, QueryPagination (cursor ModelId), SearchPattern, Category; component props extend IsAuthenticated
 ├── constants.ts                  # EMPTY_LIST_LENGTH, ABORT_TIMEOUT_MS
 ├── components/                   # Shared/generic components
 │   ├── form/
@@ -235,15 +235,13 @@ src/
 │   │   ├── auth-buttons.tsx
 │   │   ├── auth-buttons-skeleton.tsx
 │   │   └── sign-in-nav-link.tsx
-│   ├── pagination/               # Shared pager UI + nuqs hook
-│   │   ├── pagination.tsx
+│   ├── pagination/               # Shared pager UI (`cursor` / `direction` via nuqs)
+│   │   ├── pagination.tsx        # Prev/next; `addTransitionType` forwards/backwards
 │   │   ├── pagination-button.tsx
 │   │   ├── pagination-limit-control.tsx
-│   │   ├── pagination-offset-transition.tsx
 │   │   ├── pagination-page-control.tsx
-│   │   ├── pagination-skeleton.tsx
-│   │   ├── pagination-summary.tsx
-│   │   └── use-pagination-query.ts
+│   │   ├── pagination-page-slice.tsx  # PageSlice ViewTransition wrapper
+│   │   └── pagination-skeleton.tsx
 │   ├── offline-indicator.tsx     # OfflineBanner via next/offline useOffline
 │   ├── nuqs/
 │   │   └── nuqs-adapter-boundary.tsx  # Suspense + NuqsAdapter for listing routes
@@ -267,14 +265,15 @@ src/
 │   ├── schema/
 │   │   ├── auth.ts
 │   │   ├── likes.ts
-│   │   ├── models.ts             # categories + models tables (sqlite text enum for category slug)
+│   │   ├── models.ts             # uuidv7 `id` PK + unique `slug`; keyset indexes
 │   │   ├── relations.ts
 │   │   └── index.ts
 │   ├── migrations/               # Drizzle SQL migrations (drizzle-kit generate)
 │   ├── seed-data/
 │   │   └── models.ts
-│   ├── brands.ts                 # CategorySlug / ModelSlug / User branded types; `isModelSlug`
+│   ├── brands.ts                 # CategorySlug / ModelSlug / ModelId / User; `parseModelId`
 │   ├── categories.ts             # CATEGORIES constant (source of truth for enum values)
+│   ├── create-id.ts              # uuidv7 ModelId factory
 │   ├── seed.ts
 │   ├── drop-tables.ts
 │   └── index.ts
@@ -288,14 +287,18 @@ src/
 │   │   ├── auth-types.ts
 │   │   ├── has-auth.tsx
 │   │   └── sign-out-action.ts
-│   ├── pagination/               # Pagination kit (parsers, schema, DAL, types)
-│   │   ├── constants.ts
+│   ├── pagination/               # Cursor pagination kit (parsers, schema, DAL, types)
+│   │   ├── constants.ts          # DEFAULT_CURSOR / DEFAULT_DIRECTION / LIMITS
+│   │   ├── parse-cursor.ts       # URL cursor → branded ModelId
 │   │   ├── schema.ts
-│   │   ├── search-params.ts      # query / page / limit parsers (no sort)
+│   │   ├── search-params.ts      # query / cursor / direction / limit parsers (no sort)
 │   │   ├── types.ts
 │   │   ├── dal/
 │   │   │   └── paginate-items.ts
 │   │   └── utils/
+│   │       ├── create-keyset-cursor.ts
+│   │       ├── to-effective-pagination.ts
+│   │       ├── to-pagination.ts  # Slice `limit+1`; hasNext/hasPrevious from cursor
 │   │       └── to-paginated-result.ts
 │   ├── date.ts
 │   ├── hero-image.ts
@@ -330,8 +333,9 @@ The project follows a feature-based architecture where related functionality is 
 - **`lib/auth/`**: Session kernel (`getUser`, types, `HasAuth`, sign-out)
 - **`lib/safe-action.ts`**: next-safe-action clients (`actionClient`, `authActionClient`, `formDataInput`)
 - **`lib/safe-action-form.ts`**: Client helper to echo last non-secret form values
-- **`lib/pagination/`**: Shared pagination parsers, schema, DAL, and types
-- **`components/pagination/`**: Shared pager UI + nuqs hook
+- **`lib/pagination/`**: Cursor pagination parsers (`cursor`/`direction`/`limit`), keyset helpers, DAL, and types
+- **`components/pagination/`**: Shared pager UI (`PaginationPageSlice` + `addTransitionType` forwards/backwards)
+- **`db/create-id.ts`**: uuidv7 `ModelId` factory for model PK and listing cursor
 - **`components/`**: Shared components used across features (including navigation)
 
 ### Directory Conventions
@@ -339,7 +343,8 @@ The project follows a feature-based architecture where related functionality is 
 - **`features/`**: Feature-based modules with their own components and queries
 - **`components/`**: Shared/generic components used across features
 - **`db/categories.ts`**: Source-of-truth category list; drives SQLite category slug enum values and Valibot branded slugs in `db/brands.ts`
-- **`db/seed-data/`**: Model seed data only (`models.ts`)
+- **`db/brands.ts`**: Valibot brands for `CategorySlug`, `ModelSlug`, `ModelId` (uuidv7), `User`
+- **`db/seed-data/`**: Model seed data only (`models.ts`; `id` assigned at insert)
 
 ### Performance Optimizations
 - **NuqsAdapterBoundary**: `NuqsAdapter` wraps entire 3d-models tree
@@ -349,8 +354,8 @@ The project follows a feature-based architecture where related functionality is 
 - **Type Safety**: `Maybe<T>` for nullable query results; `UserAuthState` discriminated union (`{ isAuthenticated: true, user }` | `{ isAuthenticated: false }`) from `getUser()` and `HasAuth`; shared `IsAuthenticated` interface extended by models/pagination props; component-specific props co-located next to components where not reused
 - **Query Builder**: Migrated to Drizzle ORM RQBv2 for simple relational queries (`db.query.tableName.findMany/findFirst`) with object-based `where` clauses; complex queries and mutations remain on SQL builder
 - **Error Recovery**: Error boundaries with `error.tsx` for failed queries (results, category pages, and model detail pages) with built-in `reset()` retry functionality and helpful error guidance
-- **Database Query Separation**: Database queries return raw `DatabaseQueryResult<T>`; transformation to `PaginatedResult<T>` happens in higher-level functions using `transformToPaginatedResult` utility from `lib/pagination/utils/`
-- **View Transitions**: Composable CSS animations using base fade and slide keyframes with CSS variables for slide distance, enabling smooth directional page transitions (enter-left, exit-left, enter-right, exit-right) for pagination; `--slide-distance` is responsive (`100vw`-based on small screens, compact from `md`)
+- **Database Query Separation**: Listing fetches `limit+1` rows via exclusive keyset; `toPagination` / `transformToPaginatedResult` slice the extra row and set `hasNextPage` / `hasPreviousPage` (no `COUNT(*)`)
+- **View Transitions**: Pager `addTransitionType` `forwards`/`backwards` drives `PaginationPageSlice` enter/exit (fade + slide); `--slide-distance` is responsive (`100vw`-based on small screens, compact from `md`). Search/sort/limit do not use pager types
 - **Abortable listing fetches**: `search-models` combines Next cache signal + `AbortSignal.timeout(ABORT_TIMEOUT_MS)` via `utils/with-abort.ts` so cancelled navigations drop DB awaits sooner
 - **Platform timeout**: Root layout exports `maxDuration = 45` (literal) so Vercel/Next can apply a hard execution ceiling
 
@@ -431,7 +436,8 @@ The project follows a feature-based architecture where related functionality is 
 - `slug`: Category slug text enum (unique); values defined in `src/db/categories.ts`
 
 ### Models Table
-- `slug`: Primary key (text, auto-generated from name)
+- `id`: Primary key (uuidv7 `ModelId`, listing cursor; `src/db/create-id.ts`)
+- `slug`: Unique public key (text, auto-generated from name); detail path `/3d-models/{slug}`
 - `name`: Model name (unique)
 - `description`: Model description
 - `likes`: Number of likes (counter)
@@ -439,6 +445,8 @@ The project follows a feature-based architecture where related functionality is 
 - `categorySlug`: Foreign key to categories.slug
 - `userId`: Foreign key to user.id (cascade delete)
 - `dateAdded`: Timestamp when model was added
+- Indexes: `(date_added, id)`, `(likes, id)`, `(name, id)` for keyset seeks
+- Migration `20260916193419_models_uuidv7_pk` rebuilds `models` with uuidv7 `id`, copies existing rows, keeps `likes` (slug FK)
 
 ### Likes Table
 - `id`: Primary key (auto-increment)
@@ -462,7 +470,7 @@ The project follows a feature-based architecture where related functionality is 
 - `bun run db:migrate` — Run migrations (`varlock run -- bun x drizzle-kit migrate`)
 - `bun run db:push` — Push schema (`varlock run -- bun x drizzle-kit push --force`)
 - `bun run db:studio` — Drizzle Studio (`varlock run -- bun x drizzle-kit studio`)
-- `bun run db:seed` — Seed database (requires existing users for seeded models)
+- `bun run db:seed` — Wipe and reseed models/likes (requires existing users; uuidv7 `ModelId` at insert). Auth tables stay. Not run by `db:migrate`.
 - `bun run db:drop` — Drop all tables (development reset)
 
 ### Database Relations
@@ -474,10 +482,10 @@ The application uses Drizzle ORM 1.0.0-rc.4 with `defineRelations` for type-safe
 ### Query Builder (RQBv2)
 The application uses Drizzle ORM's Relational Query Builder v2 (RQBv2) for type-safe relational queries:
 - **Read queries**: All read queries use RQBv2 syntax (`db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) with object-based `where` clauses
-- **Count / filter queries**: Listing search uses SQL builder (`and()`, `or()`, `like()` + `COLLATE NOCASE`) since SQLite has no `ilike`
+- **Listing / filter queries**: Listing search uses SQL builder (`and()`, `or()`, `like()` + `COLLATE NOCASE`) since SQLite has no `ilike`; exclusive keyset on `(sortCol, ModelId)` via `create-keyset-cursor.ts`
 - **Mutations**: Insert, update, and delete operations use the SQL builder syntax (mutations not yet available in RQBv2)
-- **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for all read queries (including complex conditions with `AND`/`OR` arrays), SQL builder for count where conditions and mutations
-- **Query organization**: Model queries are split into focused functions (`get-models-list.ts` for listing with RQBv2, `get-models-count.ts` for counting with SQL builder, `build-models-where.ts` for shared filter conditions) and composed in higher-level DAL functions (`get-models.ts`, `search-models.ts`). Both helpers support optional `searchPattern` and `category` parameters; list ordering comes from `features/models/sort/order-for-sort.ts` via the `sort` search param
+- **Hybrid approach**: The codebase uses a hybrid strategy - RQBv2 object syntax for simple reads, SQL builder for listing keyset/`where` and mutations
+- **Query organization**: Model listing is `get-models-list.ts` (`limit+1` keyset, no `COUNT(*)`) plus `build-models-where.ts` for search/category filters, composed in DAL (`get-models.ts`, `search-models.ts`). List ordering and keyset column/dir come from `features/models/sort/order-for-sort.ts` via the `sort` search param; equal likes / equal `dateAdded` order by `ModelId`
 - **Better Auth adapter**: Uses `@better-auth/drizzle-adapter/relations-v2` with `advanced.database.joins` (`lib/auth/index.ts` runtime, `lib/auth.cli.config.ts` for generate); `provider: "sqlite"`; mounted on ElysiaJS at `/api/[[...slugs]]/route.ts` with `basePath` `/api/auth`; OpenAPI via `better-auth-openapi.ts`
 
 ### Cache Components
@@ -495,9 +503,9 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
 - **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output
 - **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), max for static categories (component-level caching)
-- **Query Functions**: Unified `getModels()` function uses `searchModels()` which handles search (with optional query), category filtering, sort order, and listing. The function uses helper functions `getModelsList` and `getModelsCount` which support optional search and category parameters; sort maps through `orderForSort`
+- **Query Functions**: Unified `getModels()` uses `searchModels()` for search (optional query), category filter, sort, and cursor pagination. Helper `getModelsList` supports optional search/category; sort maps through `orderByForSort` / `sortColumnForSort`. Cursor parsed via `parsePaginationCursor` (uuidv7 `ModelId`)
 - **Like Status**: `like-status.ts` queries use `"use cache: private"` for user-specific like status (cached on device)
-- **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the page
+- **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the current PageSlice
 - **Invalidation**: `invalidateAllModels()` in `utils/cache-invalidation.ts` (`updateTag("models")`) — simple broad invalidation on like/unlike so counts and `sort=popular` stay correct; longer-term content/likes split documented in `docs/MODEL_CACHE_SPLIT.md`
 - **Optimistic Updates**: Heart button uses NSA `useOptimisticStateAction` for immediate UI feedback with server state synchronization via form actions
 
@@ -524,25 +532,26 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-not-found` - Empty search state with the active query in the subheading
 - `features/models/components/models-sort-controls` - Client `fieldset` of `SortOption` radios for A-Z / Popular / Recent (`useSortQuery`)
 - `features/models/components/models-sort-controls-skeleton` - Loading skeleton for sort controls
-- `features/models/components/models-view` - Shared server shell: header outside `Suspense`, `ModelsViewResult` switch, async inner awaits `getModels`; pagination uses `PaginationOffsetTransition`
+- `features/models/components/models-view` - Shared server shell: header outside `Suspense`, `ModelsViewResult` switch, async inner awaits `getModels`; success wraps grid + pager in `PaginationPageSlice`
 - `features/models/sort/components/sort-option` - Single sort radio + label pill
-- `features/models/sort/hooks/use-sort-query` - nuqs hook for `sort` with pending state
-- `features/models/sort/order-for-sort` - Maps sort brand to Drizzle `orderBy` clauses
-- `features/models/listing/listing-canonical` - Canonical path serializer for listing SEO (`query`, `page`, `limit`, `sort`)
+- `features/models/sort/hooks/use-sort-query` - nuqs hook for `sort` with pending state; resets `cursor`/`direction` on sort change
+- `features/models/sort/order-for-sort` - Maps sort brand to Drizzle `orderBy` plus keyset column/dir (tie-break `ModelId`)
+- `features/models/listing/listing-canonical` - Canonical path serializer for listing SEO (`query`, `cursor`, `direction`, `limit`, `sort`)
 - `features/models/listing/listing-path` - Allowlisted listing `Route` validation (`/3d-models`, category listings)
-- `components/pagination/pagination` - Reusable pagination with nuqs integration and View Transition support
+- `components/pagination/pagination` - Cursor pager via nuqs `cursor`/`direction`; `addTransitionType` `forwards`/`backwards`
 - `components/pagination/pagination-button` - Page control button (`group` for arrow micro-interactions)
 - `components/pagination/pagination-limit-control` - Per-page limit via customizable `<select>` (`appearance: base-select`, `selectedcontent`, picker transitions)
-- `components/pagination/pagination-offset-transition` - Directional View Transition wrapper; responsive `--slide-distance`
-- `components/pagination/pagination-page-control` - Prev/next page buttons with `aria-label` and `arrowRecipe` chevrons
-- `components/pagination/pagination-summary` - Result count / range summary
-- `components/pagination/use-pagination-query` - nuqs + View Transition hook for page/limit changes
+- `components/pagination/pagination-page-slice` - PageSlice ViewTransition wrapper; pager types only (not search/sort/limit)
+- `components/pagination/pagination-page-control` - Prev/next buttons with `aria-label` and `arrowRecipe` chevrons
+- `lib/pagination/parse-cursor` - URL cursor → branded `ModelId`
+- `lib/pagination/utils/create-keyset-cursor` - Exclusive `(sortCol, ModelId)` predicate
+- `lib/pagination/utils/to-pagination` - Slice `limit+1`; `hasNextPage`/`hasPreviousPage` from cursor + extra row
 - `features/models/likes/components/heart-button-client` - Client like button (`useHeartLike`, optimistic state) or guest `/signin` Link + hint popover; colors from `heartButtonRecipe({ visual, guest })`
 - `features/models/likes/components/likes-count-transition` - Wraps like count with `ViewTransition` update names for increase/decrease
 - `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/likes/components/heart-button-skeleton` - Loading skeleton for heart button
 - `features/models/likes/hooks/use-heart-like` - Client hook wrapping NSA `useOptimisticStateAction` (`toggleAction`, optimistic state, `visualState`)
-- `components/search-input/search-input` - Model search with nuqs URL state (mounted in `ModelsGridHeader`); Enter flushes current input value; `search-input-transition` for view transitions
+- `components/search-input/search-input` - Model search with nuqs URL state (mounted in `ModelsGridHeader`); Enter flushes current input value; resets `cursor`/`direction`; `search-input-transition` for view transitions
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `features/categories/components/categories-block-transition` - View transition wrapper for category listing blocks
 - `app/3d-models/layout` - Sticky categories aside: `md` overflow-y + header clearance; local `keyframes()` scroll mask on the horizontal strip

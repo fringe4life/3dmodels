@@ -12,7 +12,8 @@ async function seed() {
   try {
     console.log("🌱 Seeding database...");
 
-    // Clear existing data (DO NOT clear auth tables - user, session, account, verification are manually managed)
+    // Catalog reset only. `db:migrate` is data-preserving (uuidv7 PK copy).
+    // Auth tables (user, session, account, verification) stay.
     console.log("🗑️ Clearing existing data...");
     await db.delete(likes);
     await db.delete(models);

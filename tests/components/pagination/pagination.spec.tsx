@@ -8,17 +8,24 @@ import {
   withListingNuqsTestingAdapter,
 } from "../../setup/nuqs-testing";
 
+const firstId = "01900000-0000-7000-8000-000000000001";
+const lastId = "01900000-0000-7000-8000-000000000002";
+const items = [{ id: firstId }, { id: lastId }];
+
 afterEach(() => {
   cleanup();
 });
 
 describe("Pagination", () => {
-  it("increments page in the URL", async () => {
+  it("writes the last item id and forward direction", async () => {
     const user = userEvent.setup();
     const onUrlUpdate = vi.fn();
 
     render(
-      <Pagination metadata={{ count: 40, hasNextPage: true, page: 0 }} />,
+      <Pagination
+        items={items}
+        metadata={{ hasNextPage: true, hasPreviousPage: false }}
+      />,
       {
         wrapper: withListingNuqsTestingAdapter({
           hasMemory: true,
@@ -34,21 +41,25 @@ describe("Pagination", () => {
     });
 
     const event = getLastUrlUpdate(onUrlUpdate);
-    expect(event.searchParams.get("page")).toBe("1");
+    expect(event.searchParams.get("cursor")).toBe(lastId);
+    expect(event.searchParams.get("direction")).toBeNull();
     expect(event.options.history).toBe("replace");
   });
 
-  it("decrements page and omits the default", async () => {
+  it("writes the first item id and backward direction", async () => {
     const user = userEvent.setup();
     const onUrlUpdate = vi.fn();
 
     render(
-      <Pagination metadata={{ count: 40, hasNextPage: true, page: 1 }} />,
+      <Pagination
+        items={items}
+        metadata={{ hasNextPage: true, hasPreviousPage: true }}
+      />,
       {
         wrapper: withListingNuqsTestingAdapter({
           hasMemory: true,
           onUrlUpdate,
-          searchParams: { page: "1" },
+          searchParams: { cursor: lastId },
         }),
       },
     );
@@ -60,20 +71,24 @@ describe("Pagination", () => {
     });
 
     const event = getLastUrlUpdate(onUrlUpdate);
-    expect(event.searchParams.get("page")).toBeNull();
+    expect(event.searchParams.get("cursor")).toBe(firstId);
+    expect(event.searchParams.get("direction")).toBe("backward");
   });
 
-  it("writes limit and resets page to the default", async () => {
+  it("writes limit without resetting cursor", async () => {
     const user = userEvent.setup();
     const onUrlUpdate = vi.fn();
 
     render(
-      <Pagination metadata={{ count: 40, hasNextPage: true, page: 2 }} />,
+      <Pagination
+        items={items}
+        metadata={{ hasNextPage: true, hasPreviousPage: true }}
+      />,
       {
         wrapper: withListingNuqsTestingAdapter({
           hasMemory: true,
           onUrlUpdate,
-          searchParams: { page: "2" },
+          searchParams: { cursor: lastId },
         }),
       },
     );
@@ -89,6 +104,6 @@ describe("Pagination", () => {
 
     const event = getLastUrlUpdate(onUrlUpdate);
     expect(event.searchParams.get("limit")).toBe("20");
-    expect(event.searchParams.get("page")).toBeNull();
+    expect(event.searchParams.get("cursor")).toBe(lastId);
   });
 });

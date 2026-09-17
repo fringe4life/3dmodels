@@ -5,7 +5,7 @@ import type { Model } from "@/db/schema/models";
 import type { Prettify } from "@/types";
 import { tryCatch } from "@/utils/try-catch";
 
-type ModelDetail = Prettify<Omit<Model, "hasLiked" | "userId">>;
+type ModelDetail = Prettify<Omit<Model, "id" | "userId">>;
 
 export const getModelBySlug = cache(
   async (slug: string): Promise<ModelDetail> => {

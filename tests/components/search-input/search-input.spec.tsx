@@ -58,7 +58,7 @@ describe("SearchInput", () => {
     await typing;
   });
 
-  it("writes query, lowercases it, and resets page on Enter", async () => {
+  it("writes query, lowercases it, and resets cursor on Enter", async () => {
     const user = userEvent.setup();
     const onUrlUpdate = vi.fn();
 
@@ -66,7 +66,10 @@ describe("SearchInput", () => {
       wrapper: withListingNuqsTestingAdapter({
         hasMemory: true,
         onUrlUpdate,
-        searchParams: { page: "2" },
+        searchParams: {
+          cursor: "01900000-0000-7000-8000-000000000001",
+          direction: "backward",
+        },
       }),
     });
 
@@ -79,7 +82,8 @@ describe("SearchInput", () => {
 
     const event = getLastUrlUpdate(onUrlUpdate);
     expect(event.searchParams.get("query")).toBe("dragon");
-    expect(event.searchParams.get("page")).toBeNull();
+    expect(event.searchParams.get("cursor")).toBeNull();
+    expect(event.searchParams.get("direction")).toBeNull();
   });
 
   it("clears query from the URL when the input is emptied", async () => {

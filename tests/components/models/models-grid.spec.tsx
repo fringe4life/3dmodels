@@ -8,6 +8,7 @@ const model = {
   dateAdded: new Date("2023-03-15T14:30:00Z"),
   description: "A detailed articulated model with movable joints.",
   hasLiked: false,
+  id: "01900000-0000-7000-8000-000000000001",
   image: "/img/models/1.avif",
   likes: 24,
   name: "Alpha Model",

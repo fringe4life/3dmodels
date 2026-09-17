@@ -1,11 +1,15 @@
 import {
-  parseAsInteger,
+  createParser,
   parseAsNumberLiteral,
   parseAsString,
+  parseAsStringLiteral,
 } from "nuqs/server";
+import { parseModelId } from "@/db/brands";
 import {
+  DEFAULT_CURSOR,
+  DEFAULT_DIRECTION,
   DEFAULT_LIMIT,
-  DEFAULT_PAGE,
+  DIRECTIONS,
   LIMITS,
 } from "@/lib/pagination/constants";
 
@@ -14,15 +18,21 @@ export const queryParser = {
   query: parseAsString.withDefault(""),
 };
 
-export const pageParser = {
-  page: parseAsInteger.withDefault(DEFAULT_PAGE),
-};
-
-const limitParser = {
+export const limitParser = {
   limit: parseAsNumberLiteral(LIMITS).withDefault(DEFAULT_LIMIT),
 };
 
-export const paginationParser = {
-  ...limitParser,
-  ...pageParser,
+const parseAsListingCursor = createParser<string>({
+  parse: (value): string | null => {
+    if (value === DEFAULT_CURSOR) {
+      return DEFAULT_CURSOR;
+    }
+    return parseModelId(value) ?? null;
+  },
+  serialize: (value) => value,
+}).withDefault(DEFAULT_CURSOR);
+
+export const cursorPaginationParsers = {
+  cursor: parseAsListingCursor,
+  direction: parseAsStringLiteral(DIRECTIONS).withDefault(DEFAULT_DIRECTION),
 };

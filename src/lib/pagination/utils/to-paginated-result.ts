@@ -1,4 +1,3 @@
-import { EMPTY_LIST_LENGTH } from "@/constants";
 import type {
   PaginatedResult,
   PaginatedResultEmpty,
@@ -7,22 +6,25 @@ import type {
   PaginationType,
   RawPaginatedResult,
 } from "@/lib/pagination/types";
+import {
+  isEmptyCatalog,
+  toPagination,
+} from "@/lib/pagination/utils/to-pagination";
 
 export const transformToPaginatedResult = <T>(
-  { items, itemsCount }: RawPaginatedResult<T>,
+  { items }: RawPaginatedResult<T>,
   pagination: PaginationType,
 ): PaginatedResult<T> => {
-  const totalCount = itemsCount ?? 0;
-  const hasNextPage = (pagination.page + 1) * pagination.limit < totalCount;
+  const paged = toPagination({ ...pagination, items });
 
-  if (!items) {
+  if (!paged) {
     return {
       message: "Something went wrong. Please try again later.",
       type: "error",
     } satisfies PaginatedResultError;
   }
 
-  if (items.length === EMPTY_LIST_LENGTH) {
+  if (isEmptyCatalog(paged, pagination.cursor)) {
     return {
       message: "There are no Models",
       type: "empty",
@@ -30,12 +32,8 @@ export const transformToPaginatedResult = <T>(
   }
 
   return {
-    items,
-    metadata: {
-      count: totalCount,
-      hasNextPage,
-      page: pagination.page,
-    },
+    items: paged.items,
+    metadata: paged.metadata,
     type: "success",
   } satisfies PaginatedResultSuccess<T>;
 };

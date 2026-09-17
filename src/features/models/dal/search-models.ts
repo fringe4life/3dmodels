@@ -3,9 +3,10 @@ import { cacheSignal } from "react";
 import { ABORT_TIMEOUT_MS } from "@/constants";
 import type { CategorySlug } from "@/db/brands";
 import type { Model } from "@/db/schema/models";
-import { getModelsCount } from "@/features/models/queries/get-models-count";
 import { getModelsList } from "@/features/models/queries/get-models-list";
 import type { Sort } from "@/features/models/sort/brands";
+import type { QueryPagination } from "@/features/models/types";
+import { DEFAULT_CURSOR, DEFAULT_DIRECTION } from "@/lib/pagination/constants";
 import { paginateItems } from "@/lib/pagination/dal/paginate-items";
 import type {
   PaginationType,
@@ -14,16 +15,14 @@ import type {
 import type { Maybe } from "@/types";
 import { toCombinedAbortSignal, withAbort } from "@/utils/with-abort";
 
-// Optimized search function that doesn't fetch like status
 export const searchModels = async (
   query: Exclude<Maybe<string>, null>,
-  pagination: PaginationType,
+  pagination: QueryPagination,
   sort: Sort,
   category?: CategorySlug,
-): Promise<RawPaginatedResult<Model>> => {
+): Promise<RawPaginatedResult<Model> & { pagination: PaginationType }> => {
   "use cache: remote";
 
-  // Set cache tags for revalidation control
   cacheTag("models");
   cacheLife("hours");
   if (category) {
@@ -36,14 +35,16 @@ export const searchModels = async (
     AbortSignal.timeout(ABORT_TIMEOUT_MS),
   );
 
-  const result = await withAbort(
+  return await withAbort(
     paginateItems({
-      getItems: () =>
+      fallbackPagination: {
+        cursor: pagination.cursor ?? DEFAULT_CURSOR,
+        direction: pagination.cursor ? pagination.direction : DEFAULT_DIRECTION,
+        limit: pagination.limit,
+      },
+      getPage: () =>
         getModelsList({ category, pagination, searchPattern, sort }),
-      getItemsCount: () => getModelsCount({ category, searchPattern }),
     }),
     signal,
   );
-
-  return result satisfies RawPaginatedResult<Model>;
 };
