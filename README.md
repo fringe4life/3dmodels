@@ -4,7 +4,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.33-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.34-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.17-000000)
@@ -16,7 +16,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.4.0-canary.33 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
+- **Framework**: Next.js 16.4.0-canary.34 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
 - **Language**: TypeScript 7.0.2 with React 19.3 (`19.3.0`); `bunfig` `minimumReleaseAge` (3 days) excludes Next/SWC plus Panda compiler/preset packages
 - **Styling**: Panda CSS 2.0.0-beta.17 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); thin `panda.config.ts` plus `theme/` `define*` blocks (`defineKeyframes`, `defineTokens`, `defineSemanticTokens`, `defineConditions`, `definePattern`, `defineUtility`, `defineGlobalStyles`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; shared theme keyframes in `theme/keyframes.ts`; scroll-driven / view-timeline animations stay local via `@styled-system/css` `keyframes()` (navbar, scroll-progress, categories mask, model-card); `optimize.removeUnusedKeyframes: false`; shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props); `@pandacss/mcp` 2.0.0-beta.17 for agent token lookup
 - **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`); model PK is uuidv7 `ModelId` (`uuidv7` + `src/db/create-id.ts`)
@@ -446,7 +446,7 @@ The project follows a feature-based architecture where related functionality is 
 - `userId`: Foreign key to user.id (cascade delete)
 - `dateAdded`: Timestamp when model was added
 - Indexes: `(date_added, id)`, `(likes, id)`, `(name, id)` for keyset seeks
-- Migration `20260916193419_models_uuidv7_pk` rebuilds the table (reseed; likes drop with models)
+- Migration `20260916193419_models_uuidv7_pk` rebuilds `models` with uuidv7 `id`, copies existing rows, keeps `likes` (slug FK)
 
 ### Likes Table
 - `id`: Primary key (auto-increment)
@@ -470,7 +470,7 @@ The project follows a feature-based architecture where related functionality is 
 - `bun run db:migrate` — Run migrations (`varlock run -- bun x drizzle-kit migrate`)
 - `bun run db:push` — Push schema (`varlock run -- bun x drizzle-kit push --force`)
 - `bun run db:studio` — Drizzle Studio (`varlock run -- bun x drizzle-kit studio`)
-- `bun run db:seed` — Seed database (requires existing users; uuidv7 `ModelId` assigned at insert; PK migration reseeds models/likes, auth tables stay)
+- `bun run db:seed` — Wipe and reseed models/likes (requires existing users; uuidv7 `ModelId` at insert). Auth tables stay. Not run by `db:migrate`.
 - `bun run db:drop` — Drop all tables (development reset)
 
 ### Database Relations

@@ -13,19 +13,48 @@ CREATE TABLE `__new_models` (
 	CONSTRAINT `fk_models_user_id_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
 );
 --> statement-breakpoint
-DROP TABLE `likes`;--> statement-breakpoint
-DROP TABLE `models`;--> statement-breakpoint
-ALTER TABLE `__new_models` RENAME TO `models`;--> statement-breakpoint
-CREATE TABLE `likes` (
-	`created_at` integer NOT NULL,
-	`id` integer PRIMARY KEY AUTOINCREMENT,
-	`model_slug` text NOT NULL,
-	`user_id` text NOT NULL,
-	CONSTRAINT `fk_likes_model_slug_models_slug_fk` FOREIGN KEY (`model_slug`) REFERENCES `models`(`slug`) ON DELETE CASCADE,
-	CONSTRAINT `fk_likes_user_id_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
-	CONSTRAINT `unique_user_model` UNIQUE(`user_id`,`model_slug`)
+INSERT INTO `__new_models` (
+	`category_slug`,
+	`date_added`,
+	`description`,
+	`id`,
+	`image`,
+	`likes`,
+	`name`,
+	`slug`,
+	`user_id`
+)
+SELECT
+	`category_slug`,
+	`date_added`,
+	`description`,
+	lower(
+		substr(printf('%012x', `date_added`), 1, 8)
+		|| '-'
+		|| substr(printf('%012x', `date_added`), 9, 4)
+		|| '-'
+		|| '7'
+		|| substr(`rand_hex`, 1, 3)
+		|| '-'
+		|| substr('89ab', 1 + abs(random()) % 4, 1)
+		|| substr(`rand_hex`, 4, 3)
+		|| '-'
+		|| substr(`rand_hex`, 7, 12)
+	),
+	`image`,
+	`likes`,
+	`name`,
+	`slug`,
+	`user_id`
+FROM (
+	SELECT
+		`models`.*,
+		lower(hex(randomblob(10))) AS `rand_hex`
+	FROM `models`
 );
 --> statement-breakpoint
+DROP TABLE `models`;--> statement-breakpoint
+ALTER TABLE `__new_models` RENAME TO `models`;--> statement-breakpoint
 PRAGMA foreign_keys=ON;--> statement-breakpoint
 CREATE INDEX `models_date_added_id_idx` ON `models` (`date_added`,`id`);--> statement-breakpoint
 CREATE INDEX `models_likes_id_idx` ON `models` (`likes`,`id`);--> statement-breakpoint
