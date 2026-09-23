@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
     mcpServer: true,
     // Env types: Varlock `.env.schema` + `src/env.d.ts` (not Next typedEnv)
     optimizePackageImports: ["valibot"],
+    // Unmerged pieces beside each merged chunk, so a later page can fetch
+    // what it is missing instead of downloading the merged file again.
+    // https://github.com/fringe4life/3dmodels/issues/109
+    turbopackChunking: {
+      generateComponentChunks: true,
+    },
     turbopackFileSystemCacheForBuild: true,
     turbopackFileSystemCacheForDev: true,
     turbopackRustReactCompiler: true,
