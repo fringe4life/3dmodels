@@ -4,32 +4,32 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.34-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.4.0--canary.44-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
-![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.17-000000)
+![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.0.0--beta.18-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=sqlite)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.4-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.5-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![next-safe-action](https://img.shields.io/badge/next--safe--action-8.7.3-000000)
-![Biome](https://img.shields.io/badge/Biome-2.5.12-60A5FA?logo=biome)
-[![Ultracite](https://img.shields.io/badge/Ultracite-7.11.1-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
+![Biome](https://img.shields.io/badge/Biome-2.5.14-60A5FA?logo=biome)
+[![Ultracite](https://img.shields.io/badge/Ultracite-7.12.0-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.4.0-canary.34 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling)
+- **Framework**: Next.js 16.4.0-canary.44 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling). Home and about export `unstable_ensureStatic = "prefetch"` so Partial Prefetching treats those routes as static
 - **Language**: TypeScript 7.0.2 with React 19.3 (`19.3.0`); `bunfig` `minimumReleaseAge` (3 days) excludes Next/SWC plus Panda compiler/preset packages
-- **Styling**: Panda CSS 2.0.0-beta.17 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); thin `panda.config.ts` plus `theme/` `define*` blocks (`defineKeyframes`, `defineTokens`, `defineSemanticTokens`, `defineConditions`, `definePattern`, `defineUtility`, `defineGlobalStyles`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; shared theme keyframes in `theme/keyframes.ts`; scroll-driven / view-timeline animations stay local via `@styled-system/css` `keyframes()` (navbar, scroll-progress, categories mask, model-card); `optimize.removeUnusedKeyframes: false`; shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props); `@pandacss/mcp` 2.0.0-beta.17 for agent token lookup
+- **Styling**: Panda CSS 2.0.0-beta.18 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); thin `panda.config.ts` plus `theme/` `define*` blocks (`defineKeyframes`, `defineTokens`, `defineSemanticTokens`, `defineConditions`, `definePattern`, `defineUtility`, `defineGlobalStyles`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; shared theme keyframes in `theme/keyframes.ts`; scroll-driven / view-timeline animations stay local via `@styled-system/css` `keyframes()` (navbar, scroll-progress, categories mask, model-card); `optimize.removeUnusedKeyframes: false`; shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props); `@pandacss/mcp` 2.0.0-beta.18 for agent token lookup
 - **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`); model PK is uuidv7 `ModelId` (`uuidv7` + `src/db/create-id.ts`)
-- **Authentication**: Better Auth 1.7.4 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with `advanced.database.joins` (`provider: "sqlite"`); `account.issuer` dropped (`src/db/migrations/20260911114623_better_auth_1_7_3_drop_issuer/`)
+- **Authentication**: Better Auth 1.7.5 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with `advanced.database.joins` (`provider: "sqlite"`); `account.issuer` dropped (`src/db/migrations/20260911114623_better_auth_1_7_3_drop_issuer/`)
 - **Server Actions**: next-safe-action 8.7.3 (`lib/safe-action.ts` `actionClient` / `authActionClient`, flattened Valibot `validationErrors`); `formDataInput` maps `<form>` FormData onto object schemas; client `useStateAction` / `useOptimisticStateAction`; `lib/safe-action-form.ts` `lastNonSecretFormValue` for non-password `defaultValue`
 - **Search Params**: nuqs 2.10.1 for type-safe URL state (`query`, `cursor`, `direction`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/models/listing/listing-canonical.ts`) with `clearOnDefault` for SEO metadata (omits default `cursor`/`direction`/`limit`/`sort` and empty `query`; drops `direction` when `cursor` is absent); model detail `from` return paths are allowlisted via `features/models/listing/listing-path.ts`; component tests wrap `withNuqsTestingAdapter` via `tests/setup/nuqs-testing.ts` (`withListingNuqsTestingAdapter`)
-- **Linting & Formatting**: Biome 2.5.12 with Ultracite 7.11.1 presets (`ultracite/biome/core`, `react`, `next`); [Fallow](https://docs.fallow.tools) 3.25.0 with `boundaries.preset: "bulletproof"` (`.fallowrc.json`); health `maxCyclomatic` / `maxCognitive` 12, `maxCrap` 30 (`src/db/**` override 80); `unused-dependencies`, `prop-drilling`, `thin-wrapper`, `duplicate-prop-shape` at `error`; [React Doctor](https://github.com/millionco/react-doctor) 0.9.14 on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, SHA-pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`); Panda MCP in `.cursor/mcp.json` / `AGENTS.md`
+- **Linting & Formatting**: Biome 2.5.14 with Ultracite 7.12.0 presets (`ultracite/biome/core`, `react`, `next`); [Fallow](https://docs.fallow.tools) 3.27.0 with `boundaries.preset: "bulletproof"` (`.fallowrc.json`; `unstable_ensureStatic` on `src/app/**/{page,layout}` counted as a used export); health `maxCyclomatic` / `maxCognitive` 12, `maxCrap` 30 (`src/db/**` override 80); `unused-dependencies`, `prop-drilling`, `thin-wrapper`, `duplicate-prop-shape` at `error`; [React Doctor](https://github.com/millionco/react-doctor) 0.9.14 on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, SHA-pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`); Panda MCP in `.cursor/mcp.json` / `AGENTS.md`
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`); `bunfig.toml` sets `minimumReleaseAge` (3 days) with Next/SWC/Panda excludes
-- **Next.js runtime**: **Bun is the desired runtime**. Local `dev`, production `build`, `start`, and `next:analyze` still run **Next on Node** (`varlock run -- bun run next dev`, `bun varlock run -- next build`, `bun run next start`, `bun varlock run -- next experimental-analyze`). `dev:inspect`, `build:debug`, and `next:upgrade` use `bun --bun`. Cache Components + `partialPrefetching` on Bun leak Next prerender abort rejects as `CLIENT_HOOK_DYNAMIC` (`usePathname` / `useSearchParams` “outside `<Suspense>`”) during `bun --bun next build`: exit 0, routes stay `◐` PPR, Node `next build` silent on the same tree. `export const instant = false` does not silence this — it only opts that segment out of Instant Navigation validation and does not disable prerender. Runtime `bun server.js` can also leak `AbortError` / `Date.now()` unhandled rejections because Bun drops AsyncLocalStorage on `unhandledRejection`. Track [oven-sh/bun#39847](https://github.com/oven-sh/bun/issues/39847), [oven-sh/bun#40223](https://github.com/oven-sh/bun/issues/40223), [vercel/next.js#97663](https://github.com/vercel/next.js/issues/97663). The older `setTimeout` / `_idleStart` warning ([vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)) is fixed in Bun 1.4.0 and is not the current blocker. Re-enable `bun --bun` for `dev` / `build` / `start` when the ALS / hanging-promise fixes land.
-- **Build Tool**: Turbopack for dev and build; `partialPrefetching`, MCP server, cached navigations, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), and `turbopackRustReactCompiler` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
-- **Environment**: [Varlock](https://varlock.dev/) 1.19.0 with `.env.schema` (`@currentEnv=$VARLOCK_ENV`, `@encryptInjectedEnv=forEnv(production, preview)`), committed `.env.test` fixtures for Bun tests (no Bitwarden fetch), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
-- **Validation**: Varlock for environment; Valibot 1.5.0 for next-safe-action input schemas; model slugs validated via slugify idempotency (`lib/slugify.ts` + `isModelSlug` in `db/brands.ts`)
+- **Next.js runtime**: **Bun is the desired runtime**. Local `dev`, production `build`, `start`, and `next:analyze` still run **Next on Node** (`varlock run -- bun run next dev`, `bun varlock run -- next build`, `bun run next start`, `bun varlock run -- next analyze`). `dev:inspect`, `build:debug`, and `next:upgrade` use `bun --bun`. Cache Components + `partialPrefetching` on Bun leak Next prerender abort rejects as `CLIENT_HOOK_DYNAMIC` (`usePathname` / `useSearchParams` “outside `<Suspense>`”) during `bun --bun next build`: exit 0, routes stay `◐` PPR, Node `next build` silent on the same tree. `export const instant = false` does not silence this — it only opts that segment out of Instant Navigation validation and does not disable prerender. Runtime `bun server.js` can also leak `AbortError` / `Date.now()` unhandled rejections because Bun drops AsyncLocalStorage on `unhandledRejection`. Track [oven-sh/bun#39847](https://github.com/oven-sh/bun/issues/39847), [oven-sh/bun#40223](https://github.com/oven-sh/bun/issues/40223), [vercel/next.js#97663](https://github.com/vercel/next.js/issues/97663). The older `setTimeout` / `_idleStart` warning ([vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)) is fixed in Bun 1.4.0 and is not the current blocker. Re-enable `bun --bun` for `dev` / `build` / `start` when the ALS / hanging-promise fixes land.
+- **Build Tool**: Turbopack for dev and build; `partialPrefetching`, MCP server, cached navigations, Turbopack filesystem caches (`turbopackFileSystemCacheForDev` / `ForBuild`), `turbopackRustReactCompiler`, `turbopackMangleExportNames`, and `turbopackSharedRuntime` (`next.config.ts`); env types from Varlock (`.env.schema`, `src/env.d.ts`), not Next `typedEnv`
+- **Environment**: [Varlock](https://varlock.dev/) 1.20.0 with `.env.schema` (`@currentEnv=$VARLOCK_ENV`, `@encryptInjectedEnv=forEnv(production, preview)`), committed `.env.test` fixtures for Bun tests (no Bitwarden fetch), `@varlock/nextjs-integration` plugin in `next.config.ts`, optional Bitwarden Secrets Manager via `@varlock/bitwarden-plugin` (see `docs/VARLOCK.md`)
+- **Validation**: Varlock for environment; Valibot 1.5.0 for next-safe-action input schemas; model slugs validated via slugify idempotency (`lib/slugify.ts` + `isModelSlug` in `db/is-model-slug.ts`, `server-only`)
 
 ## 🚀 Features
 
@@ -55,7 +55,7 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including logos, hero images, and `public/img/models/*.avif` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`, `docs/adr/0001-cursor-pagination.md`). Listing domain language (`ModelId`, `ListingCursor`, `PageSlice`) lives in root `CONTEXT.md`. **Panda CSS** config is a thin `panda.config.ts` that imports `theme/` `define*` modules; generated files go to **`styled-system/`** at the repo root (`outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including SVGO-optimized logos, hero images, and `public/img/models/*.avif` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`, `docs/adr/0001-cursor-pagination.md`). Listing domain language (`ModelId`, `ListingCursor`, `PageSlice`) lives in root `CONTEXT.md`. **Panda CSS** config is a thin `panda.config.ts` that imports `theme/` `define*` modules; generated files go to **`styled-system/`** at the repo root (`outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 theme/                        # Panda define* blocks (imported by panda.config.ts)
@@ -96,7 +96,7 @@ src/
 │   │   │       └── page.tsx
 │   │   ├── layout.tsx            # Models layout: sticky categories overflow + local scroll-mask keyframes
 │   │   └── page.tsx              # Models landing page
-│   ├── about/                    # About page
+│   ├── about/                    # About page (`unstable_ensureStatic = "prefetch"`)
 │   │   └── page.tsx
 │   ├── (auth)/                   # Authentication group route
 │   │   ├── layout.tsx            # Centered auth layout
@@ -111,7 +111,7 @@ src/
 │   ├── index.css                 # Global `@layer` stack (reset → utilities)
 │   ├── icon.png                  # App icon (metadata)
 │   ├── layout.tsx                # Root layout
-│   ├── page.tsx                  # Home page
+│   ├── page.tsx                  # Home page (`unstable_ensureStatic = "prefetch"`)
 │   ├── global-error.tsx          # Root error boundary (App Router)
 │   ├── robots.ts                 # robots.txt Route Handler
 │   └── sitemap.ts                # Sitemap generation
@@ -272,6 +272,7 @@ src/
 │   ├── seed-data/
 │   │   └── models.ts
 │   ├── brands.ts                 # CategorySlug / ModelSlug / ModelId / User; `parseModelId`
+│   ├── is-model-slug.ts          # `isModelSlug` (`server-only`; keeps slugify off the client)
 │   ├── categories.ts             # CATEGORIES constant (source of truth for enum values)
 │   ├── create-id.ts              # uuidv7 ModelId factory
 │   ├── seed.ts
@@ -344,6 +345,7 @@ The project follows a feature-based architecture where related functionality is 
 - **`components/`**: Shared/generic components used across features
 - **`db/categories.ts`**: Source-of-truth category list; drives SQLite category slug enum values and Valibot branded slugs in `db/brands.ts`
 - **`db/brands.ts`**: Valibot brands for `CategorySlug`, `ModelSlug`, `ModelId` (uuidv7), `User`
+- **`db/is-model-slug.ts`**: `isModelSlug` (`server-only`) so `slugify` stays out of client bundles
 - **`db/seed-data/`**: Model seed data only (`models.ts`; `id` assigned at insert)
 
 ### Performance Optimizations
@@ -609,7 +611,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `lib/auth/sign-out-action` - Sign-out server action (`actionClient.stateAction`)
 - `lib/safe-action` - `next-safe-action` clients (`actionClient`, `authActionClient`, `formDataInput`; `server-only`)
 - `lib/safe-action-form` - `lastNonSecretFormValue` for `useStateAction` last `input` (client; skips password fields)
-- `lib/slugify` - Shared `MODEL_SLUGIFY_OPTIONS` / `SlugifyOptions` for seed + `isModelSlug`
+- `lib/slugify` - Shared `MODEL_SLUGIFY_OPTIONS` / `SlugifyOptions` for seed + `db/is-model-slug` (`server-only`)
 - `utils/with-abort` - Combine AbortSignals and race promises against abort
 - `features/auth/actions` - Sign-in, GitHub OAuth, and sign-up NSA stateActions (Valibot + `formDataInput`)
 - `features/auth/constants` - Validation constants (password length, email length, name length limits)
@@ -635,7 +637,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run dev` - Start development server (Turbopack; **Node** runtime — see Next.js runtime note)
 - `bun run dev:inspect` - Start development server with inspector (`bun --bun`; expect `CLIENT_HOOK_DYNAMIC` noise — see runtime note)
 - `bun run next:upgrade` - Upgrade Next.js to latest version (`bun --bun`)
-- `bun run next:analyze` - Analyze Next.js bundle (`next experimental-analyze` on **Node** via Varlock, same as `build`). Pass-through: `bun run next:analyze -- --output --baseline-name pre-nsa`. `--output` writes `.next/diagnostics/analyze` without serving; `--baseline-name` labels the snapshot so a later run can compare in the analyzer UI history. Omit `--output` to open the UI (default port 4000).
+- `bun run next:analyze` - Analyze Next.js bundle (`next analyze` on **Node** via Varlock, same as `build`; `next experimental-analyze` still aliases it). Pass-through: `bun run next:analyze -- --output --baseline-name pre-nsa`. `--output` writes `.next/diagnostics/analyze` without serving; `--baseline-name` labels the snapshot so a later run can compare in the analyzer UI history. Omit `--output` to open the UI (default port 4000).
 - `bun run build` - Build for production (**Node** runtime via `bun varlock run -- next build`)
 - `bun run build:debug` - Build with debug prerender (`bun --bun`; same `CLIENT_HOOK_DYNAMIC` leak as runtime note)
 - `bun run start` - Start production server (**Node** runtime via `bun run next start`)
@@ -662,7 +664,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run fix` - Fix linting/formatting issues with Ultracite/Biome
 - `bun run check` - Check linting rules with Ultracite/Biome
 - `bun run doctor` - Run Ultracite doctor diagnostics
-- `bun run ultracite:upgrade` - Upgrade Ultracite configuration (`ultracite@7.11.1`)
+- `bun run ultracite:upgrade` - Upgrade Ultracite configuration (`ultracite@7.12.0`)
 - `bun run react-doctor` - Run React Doctor on the repo (`doctor.config.ts`)
 - `bun run react-doctor:staged` - Run React Doctor on staged files only (lint-staged / pre-commit)
 

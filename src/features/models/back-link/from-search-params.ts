@@ -5,7 +5,7 @@ import {
   parseAsString,
   type SearchParams,
 } from "nuqs/server";
-import { isModelSlug } from "@/db/brands";
+import { isModelSlug } from "@/db/is-model-slug";
 import {
   DEFAULT_LISTING_HREF,
   toListingRoute,
@@ -35,7 +35,7 @@ const isModelDetailRoute = (href: string): href is Route => {
       return false;
     }
 
-    const match = MODEL_DETAIL_PATH.exec(url.pathname);
+    const match: RegExpExecArray | null = MODEL_DETAIL_PATH.exec(url.pathname);
     return Boolean(match?.[1] && isModelSlug(match[1]));
   } catch {
     return false;

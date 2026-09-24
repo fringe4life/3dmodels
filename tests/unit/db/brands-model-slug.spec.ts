@@ -1,7 +1,7 @@
 import "../../setup/test-globals";
 import { describe, expect, it } from "bun:test";
 import slugify from "slugify";
-import { isModelSlug } from "../../../src/db/brands";
+import { isModelSlug } from "../../../src/db/is-model-slug";
 import { MODEL_SLUGIFY_OPTIONS } from "../../../src/lib/slugify";
 
 describe("isModelSlug", () => {
