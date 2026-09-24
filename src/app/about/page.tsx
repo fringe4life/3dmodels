@@ -5,6 +5,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { HERO_IMAGE_SQUARE_SRC } from "@/lib/hero-image";
 
+// Fully static page. Force a static shell and prefetch under Partial Prefetching.
+export const unstable_ensureStatic = "prefetch";
+
 export const metadata: Metadata = {
   description:
     "Learn about PrintForge - the go-to platform for 3D printing enthusiasts, makers, and professional designers. Discover our mission to empower makers worldwide.",

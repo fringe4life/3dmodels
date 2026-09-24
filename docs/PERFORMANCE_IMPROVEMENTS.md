@@ -81,7 +81,7 @@ Previously each `ModelCard` heart button called `authClient.useSession()` to der
 
 Named imports from `react-icons/fa` / `react-icons/fa6` may be fine if tree-shaking is aggressive; the ruleset often recommends **narrower import paths** if analysis shows large icon chunks.
 
-**Improvement:** run `bun run next:analyze` (or `next experimental-analyze`) and switch to per-icon paths only if FA chunks show up as a meaningful cost.
+**Improvement:** run `bun run next:analyze` (or `next analyze`) and switch to per-icon paths only if FA chunks show up as a meaningful cost.
 
 ---
 

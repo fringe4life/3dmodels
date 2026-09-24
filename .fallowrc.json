@@ -15,6 +15,18 @@
     "enabled": true,
     "require": "best-effort"
   },
+  "framework": [
+    {
+      "name": "next-unstable-segment-config",
+      "enablers": ["next"],
+      "usedExports": [
+        {
+          "pattern": "src/app/**/{page,layout}.{ts,tsx}",
+          "exports": ["unstable_ensureStatic"]
+        }
+      ]
+    }
+  ],
   "ignorePatterns": ["doctor.config.ts"],
   "ignoreDependencies": [
     "next-devtools-mcp",

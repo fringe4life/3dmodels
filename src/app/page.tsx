@@ -11,6 +11,9 @@ import {
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
 
+// Fully static page. Force a static shell and prefetch under Partial Prefetching.
+export const unstable_ensureStatic = "prefetch";
+
 export const metadata: Metadata = {
   description:
     "Welcome to PrintForge - your go-to platform for discovering and sharing 3D printing models. Join our community of makers and explore thousands of STL files.",

@@ -1,4 +1,3 @@
-import slugify from "slugify";
 import {
   brand,
   type InferOutput,
@@ -8,7 +7,6 @@ import {
   safeParse,
   string,
 } from "valibot";
-import { MODEL_SLUGIFY_OPTIONS } from "@/lib/slugify";
 import { CATEGORIES, type Category } from "./categories";
 
 /** RFC 9562 UUID v7: version nibble `7`, RFC 4122 variant `8|9|a|b`. */
@@ -60,11 +58,4 @@ export function isCategorySlug(slug: string): slug is CategorySlug {
 
 export function toCategorySlug(slug: Category["slug"]): CategorySlug {
   return slug as CategorySlug;
-}
-
-/**
- * True when `slug` is non-empty and already stable under {@link MODEL_SLUGIFY_OPTIONS}.
- */
-export function isModelSlug(slug: string): slug is ModelSlug {
-  return slug.length > 0 && slugify(slug, MODEL_SLUGIFY_OPTIONS) === slug;
 }
