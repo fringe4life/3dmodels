@@ -14,6 +14,10 @@ import {
 
 export const maxDuration = 45;
 
+// Force static App Shells app-wide under Partial Prefetching. Session in
+// @navbar stays behind Suspense; pages may tighten to "prefetch" / "navigation".
+export const unstable_ensureStatic = "shell";
+
 const albertSans = Albert_Sans({
   display: "swap",
   subsets: ["latin"],

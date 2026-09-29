@@ -2,6 +2,10 @@ import { css, keyframes } from "@styled-system/css";
 import { grid, gridItem } from "@styled-system/patterns";
 import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
 
+// Static shell + Link prefetch for listing/detail. Session (hearts) fills on navigate.
+// Cannot use "navigation": searchParams + auth on these routes.
+export const unstable_ensureStatic = "prefetch";
+
 /** Horizontal category strip: edge fade follows self-scroll (see 3d-models layout) */
 const categoriesScrollMask = keyframes({
   "0%": {

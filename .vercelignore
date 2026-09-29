@@ -8,7 +8,6 @@
 .env.local
 
 update-readme.md
-git-commit-msg.md
 lint-staged.config.ts
 execute-drop.sql
 drop-tables.sql
