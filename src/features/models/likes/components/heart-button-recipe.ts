@@ -1,4 +1,4 @@
-import { css, cva } from "@styled-system/css";
+import { css, cva, positionTry } from "@styled-system/css";
 import type { CssVarProperties } from "@styled-system/types";
 import type { CSSProperties } from "react";
 import { sanitiseName } from "@/utils/sanitise-name";
@@ -93,10 +93,10 @@ const heartGuestRootClassName = css({
  * `display: block !important` overrides UA `[popover]:not(:popover-open)`.
  * No `popovertarget` — click must follow `/signin`, not toggle a menu.
  *
- * Hint placement is CSS-only: `position-area: top`, then
- * `position-try-fallbacks` flip if that overflows. `position-visibility:
- * anchors-visible` strongly hides the hint when the heart is fully off-screen
- * (no JS `hidePopover`).
+ * Hint placement is CSS-only: `position-area: top`, then named
+ * `positionTry()` fallbacks (theme bags) try bottom / inline sides if that
+ * overflows. `position-visibility: anchors-visible` strongly hides the hint
+ * when the heart is fully off-screen (no JS `hidePopover`).
  */
 const heartGuestHintTriggerClassName = css({
   "&:is(:hover, :focus-visible) + [popover]": {
@@ -122,8 +122,7 @@ const heartSignInHintClassName = css({
   position: "fixed",
   positionAnchor: "var(--model-heart-anchor)",
   positionArea: "top",
-  positionTry: "flip-block, flip-inline",
-  positionTryFallbacks: "flip-block, flip-inline",
+  positionTryFallbacks: `${positionTry("heartHintBottom")}, ${positionTry("heartHintInlineStart")}, ${positionTry("heartHintInlineEnd")}`,
   positionVisibility: "anchors-visible",
   rounded: "md",
   whiteSpace: "nowrap",
