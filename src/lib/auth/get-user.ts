@@ -1,3 +1,4 @@
+import { navigation } from "next/cache";
 import { headers } from "next/headers";
 import { connection } from "next/server";
 import { cache } from "react";
@@ -10,6 +11,9 @@ import type {
 import { tryCatch } from "@/utils/try-catch";
 
 const getUser = cache(async (): Promise<UserAuthState> => {
+  // Keep session out of App Shell and out of <Link prefetch={true}> so
+  // ensureStatic "shell" | "prefetch" routes stay statically prerenderable.
+  await navigation();
   await connection();
   const { data: session, error } = await tryCatch(
     async () =>

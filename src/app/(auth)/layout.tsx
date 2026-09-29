@@ -1,6 +1,9 @@
 import { css } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
 
+// Auth forms are static; session lives in root navbar (deferred via navigation()).
+export const unstable_ensureStatic = "prefetch";
+
 const AuthLayout = ({ children }: LayoutProps<"/">) => (
   <div
     className={grid({

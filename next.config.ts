@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   experimental: {
     cachedNavigations: true,
+    // Instant() e2e against `next start` needs this (auto-on in `next dev`).
+    // Build with EXPOSE_TESTING_API=1 for prod e2e; do not enable on public deploys.
+    exposeTestingApiInProductionBuild: process.env.EXPOSE_TESTING_API === "1",
     mcpServer: true,
     // Env types: Varlock `.env.schema` + `src/env.d.ts` (not Next typedEnv)
     optimizePackageImports: ["valibot"],

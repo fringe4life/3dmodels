@@ -46,4 +46,5 @@ Please update README.md based on the codebase. Keep sections accurate and concis
 ## Post-update
 
 - Run Biome format: `bun run format`
-- Generate commit message: see `git-commit-msg.md` and run AI to produce message under 140 chars.
+- Commit: use global `git-commit` skill (emoji type-grouped format)
+- Optional full ship: use global `prepare-pr` skill

@@ -7,6 +7,7 @@ linker = "isolated"
 minimumReleaseAge = 259200
 minimumReleaseAgeExcludes = [
     "next",
+    "@next/playwright",
     "@next/swc",
     "@next/swc-linux-x64-gnu",
     "@pandacss/cli",

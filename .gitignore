@@ -20,3 +20,9 @@ styled-system-studio
 
 # kombai
 .kombai/canvas
+
+# Playwright
+/playwright-report/
+/test-results/
+/blob-report/
+/playwright/.cache/

@@ -11,7 +11,8 @@ import {
   HERO_IMAGE_SQUARE_WIDTH,
 } from "@/lib/hero-image";
 
-// Fully static page. Force a static shell and prefetch under Partial Prefetching.
+// Marketing: static shell + Link prefetch={true}. Session deferred via
+// getUser() → navigation() so this route stays statically prerenderable.
 export const unstable_ensureStatic = "prefetch";
 
 export const metadata: Metadata = {
