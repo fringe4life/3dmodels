@@ -6,6 +6,7 @@ import { conditions } from "./theme/conditions";
 import { globalCss } from "./theme/global-styles";
 import { keyframes } from "./theme/keyframes";
 import { patterns } from "./theme/patterns";
+import { positionTry } from "./theme/position-try";
 import { semanticTokens } from "./theme/semantic-tokens";
 import { tokens } from "./theme/tokens";
 import { utilities } from "./theme/utilities";
@@ -38,6 +39,10 @@ export default defineConfig({
         xxs: "20rem", // 320px
       },
       containerNames: ["models-grid", "model-detail", "navbar"],
+      // Mixed rem + ch: intentional. Offline-indicator sizes track character
+      // measure (`ch`); card/detail sizes stay rem like the rest of the scale.
+      // `panda doctor` warns (`config_container_units_mixed`) until Panda allows
+      // mixed units without a diagnostic — leave as-is.
       containers: {
         "card-copy": "48rem",
         "card-split": "28rem",
@@ -46,8 +51,12 @@ export default defineConfig({
         "offline-indicator-small": "20ch",
       },
       keyframes,
+      positionTry,
       tokens,
     },
+    // Outside `extend` on purpose: full replace of the semantic-token scale
+    // (v2 claims only the named entry, so other theme scales stay). Do not
+    // nest under `extend` unless we intend to merge with preset semantics.
     semanticTokens,
   },
   utilities,

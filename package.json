@@ -73,11 +73,11 @@
     "@biomejs/biome": "2.5.14",
     "@happy-dom/global-registrator": "20.14.5",
     "@next/playwright": "16.4.0-canary.52",
-    "@pandacss/dev": "2.0.0-beta.20",
-    "@pandacss/mcp": "2.0.0-beta.20",
-    "@pandacss/preset-base": "2.0.0-beta.20",
-    "@pandacss/preset-panda": "2.0.0-beta.20",
-    "@pandacss/preset-typography": "2.0.0-beta.20",
+    "@pandacss/dev": "2.0.0",
+    "@pandacss/mcp": "2.0.0",
+    "@pandacss/preset-base": "2.0.0",
+    "@pandacss/preset-panda": "2.0.0",
+    "@pandacss/preset-typography": "2.0.0",
     "@playwright/test": "1.63.0",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.7",
@@ -96,6 +96,9 @@
     "typescript": "7.0.2",
     "typescript-plugin-directives": "0.0.3",
     "ultracite": "^7.12.0"
+  },
+  "engines": {
+    "node": ">=22"
   },
   "trustedDependencies": []
 }
