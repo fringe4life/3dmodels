@@ -22,9 +22,30 @@ const nextConfig: NextConfig = {
     },
     turbopackFileSystemCacheForBuild: true,
     turbopackFileSystemCacheForDev: true,
-    // Canary production defaults. Stable 16.4 pins both off, so set them
-    // explicitly before that drop.
+    // Dev/cache only. Does not change production output.
+    turbopackGc: true,
+    // Dev only: compile client import() when the browser requests the chunk.
+    turbopackLazyDynamicImports: true,
+    // 16.4 defaults mangling on for production only, and only when this flag is
+    // unset. Explicit `true` also enables namespace-facade mangling.
     turbopackMangleExportNames: true,
+    // Do not set `forceWorkerThreads`. That bypasses Next's crash guard.
+    /**
+     * Workaround: set `workerThreads` even though Next rewrites it to
+     * `childProcesses` on Node >= 24.13.1. The value should mean worker
+     * threads; today it only logs a warning.
+     *
+     * @remarks
+     * Still required on `next@16.4.0` with Node 24.21.0 (affected range
+     * `>=24.13.1`). No Next.js bug. Next follows the Node teardown abort.
+     * Drop this comment when Node ships a fix and `next` no longer warns or
+     * rewrites the strategy. Re-verify before deleting. Keep the assignment.
+     *
+     * @see https://github.com/nodejs/node/issues/65100 — open
+     * @see https://github.com/nodejs/node/pull/65967 — open, fix in flight
+     * @see https://github.com/fringe4life/3dmodels/issues/135 — tracking
+     */
+    turbopackPluginRuntimeStrategy: "workerThreads",
     turbopackRustReactCompiler: true,
     turbopackSharedRuntime: true,
     useOffline: true,

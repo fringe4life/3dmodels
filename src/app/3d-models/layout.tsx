@@ -4,7 +4,7 @@ import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
 
 // Static shell + Link prefetch for listing/detail. Session (hearts) fills on navigate.
 // Cannot use "navigation": searchParams + auth on these routes.
-export const unstable_ensureStatic = "prefetch";
+export const ensureStatic = "prefetch";
 
 /** Horizontal category strip: edge fade follows self-scroll (see 3d-models layout) */
 const categoriesScrollMask = keyframes({

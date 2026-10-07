@@ -17,12 +17,12 @@
   },
   "framework": [
     {
-      "name": "next-unstable-segment-config",
+      "name": "next-segment-config",
       "enablers": ["next"],
       "usedExports": [
         {
           "pattern": "src/app/**/{page,layout}.{ts,tsx}",
-          "exports": ["unstable_ensureStatic"]
+          "exports": ["ensureStatic"]
         }
       ]
     }
