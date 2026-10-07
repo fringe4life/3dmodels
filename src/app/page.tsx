@@ -13,7 +13,7 @@ import {
 
 // Marketing: static shell + Link prefetch={true}. Session deferred via
 // getUser() → navigation() so this route stays statically prerenderable.
-export const unstable_ensureStatic = "prefetch";
+export const ensureStatic = "prefetch";
 
 export const metadata: Metadata = {
   description:

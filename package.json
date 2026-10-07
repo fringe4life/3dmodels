@@ -58,7 +58,7 @@
     "drizzle-orm": "1.0.0-rc.4",
     "elysia": "1.4.30",
     "file-type": "22.0.1",
-    "next": "16.4.0-canary.52",
+    "next": "16.4.0",
     "next-safe-action": "8.7.3",
     "nuqs": "2.10.1",
     "react": "19.3.0",
@@ -72,7 +72,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
     "@happy-dom/global-registrator": "20.14.5",
-    "@next/playwright": "16.4.0-canary.52",
+    "@next/playwright": "16.4.0",
     "@pandacss/dev": "2.0.0",
     "@pandacss/mcp": "2.0.0",
     "@pandacss/preset-base": "2.0.0",

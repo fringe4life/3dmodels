@@ -12,7 +12,8 @@ const isListingPathname = (pathname: string): boolean => {
     return true;
   }
 
-  const categoryMatch = CATEGORY_LISTING_PATH.exec(pathname);
+  const categoryMatch: RegExpExecArray | null =
+    CATEGORY_LISTING_PATH.exec(pathname);
   return Boolean(categoryMatch?.[1] && isCategorySlug(categoryMatch[1]));
 };
 

@@ -1,5 +1,5 @@
 /**
- * Instant-navigation shells under Partial Prefetching + unstable_ensureStatic.
+ * Instant-navigation shells under Partial Prefetching + ensureStatic.
  *
  * Expects an already-running app at E2E_BASE_URL / http://localhost:3000
  * (playwright.config has no webServer — same as other e2e specs).
