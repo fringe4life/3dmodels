@@ -685,7 +685,7 @@ The project follows a consistent coding style with:
 1. Connect your repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
-4. **Runtime note**: Bun is the install runtime (`vercel.json` `bunVersion` `1.4.x`, `installCommand`: `bun install`). Leave the **build** on default Next (`next build` on Node) — do not set `buildCommand` to `bun --bun run next build` until [oven-sh/bun#39847](https://github.com/oven-sh/bun/issues/39847) / [vercel/next.js#97663](https://github.com/vercel/next.js/issues/97663) land. Cache Components still require the Node runtime. Git auto-deploys are currently off (`git.deploymentEnabled: false`).
+4. **Runtime note**: Bun is the install runtime (`vercel.ts` `bunVersion` `1.4.x`, `installCommand`: `bun install`). Leave the **build** on default Next (`next build` on Node) — do not set `buildCommand` to `bun --bun run next build` until [oven-sh/bun#39847](https://github.com/oven-sh/bun/issues/39847) / [vercel/next.js#97663](https://github.com/vercel/next.js/issues/97663) land. Cache Components still require the Node runtime. Git auto-deploys are currently off (`git.deploymentEnabled: false`).
 
 ### Environment Variables
 
