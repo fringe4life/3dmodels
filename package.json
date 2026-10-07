@@ -53,6 +53,7 @@
     "@oddbird/popover-polyfill": "0.7.3",
     "@rsc-boundary/next": "0.3.2",
     "@varlock/bitwarden-plugin": "2.0.1",
+    "@vercel/config": "0.9.0",
     "babel-plugin-react-compiler": "1.0.0",
     "better-auth": "1.7.7",
     "drizzle-orm": "1.0.0-rc.4",

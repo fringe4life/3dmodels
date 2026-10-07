@@ -35,7 +35,7 @@ const user = await getUser();
 
 **Notes:**
 - This avoids Turbopack issues in Bun and is stable with Cache Components locally.
-- `vercel.json` now sets `bunVersion: "1.x"`. Vercel manages minor/patch releases, but is still on Bun v1.3.6, which is not compatible with Cache Components; builds still fail there until their runtime is >= 1.3.7 (or the build uses Node.js instead of Bun).
+- `vercel.ts` sets `bunVersion: "1.4.x"` (same pin as the removed `vercel.json`). Cache Components need Bun >= 1.3.7. Local `next build` still runs on Node.
 
 ---
 
