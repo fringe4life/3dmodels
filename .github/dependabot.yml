@@ -31,10 +31,53 @@ updates:
         - "@next/playwright"
         - "@next/swc"
         - "@next/swc-linux-x64-gnu"
+    # Bun groups do not support `dependency-type` (only bundler, composer,
+    # mix, maven, npm, pip). Split by package-name patterns from package.json.
     groups:
       bun-dependencies:
         applies-to: version-updates
-        dependency-type: production
+        patterns:
+          - "@better-auth/*"
+          - "@elysiajs/*"
+          - "@libsql/*"
+          - "@oddbird/*"
+          - "@rsc-boundary/*"
+          - "@varlock/bitwarden-plugin"
+          - "@vercel/config"
+          - babel-plugin-react-compiler
+          - better-auth
+          - drizzle-orm
+          - elysia
+          - file-type
+          - next
+          - next-safe-action
+          - nuqs
+          - react
+          - react-dom
+          - react-icons
+          - slugify
+          - uuidv7
+          - valibot
+          - varlock
       bun-dev-dependencies:
         applies-to: version-updates
-        dependency-type: development
+        patterns:
+          - "@biomejs/*"
+          - "@happy-dom/*"
+          - "@next/playwright"
+          - "@pandacss/*"
+          - "@playwright/test"
+          - "@testing-library/*"
+          - "@types/*"
+          - "@varlock/nextjs-integration"
+          - drizzle-kit
+          - fallow
+          - happy-dom
+          - husky
+          - lint-staged
+          - next-devtools-mcp
+          - react-doctor
+          - typescript
+          - typescript-plugin-directives
+          - ultracite
+
