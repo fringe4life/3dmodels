@@ -68,7 +68,7 @@
     "drizzle-orm": "1.0.0-rc.4",
     "elysia": "1.4.30",
     "file-type": "22.0.1",
-    "next": "16.4.0",
+    "next": "16.5.0-canary.3",
     "next-safe-action": "8.7.3",
     "nuqs": "2.10.1",
     "react": "19.3.0",
@@ -80,9 +80,9 @@
     "varlock": "1.21.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.14",
+    "@biomejs/biome": "2.5.15",
     "@happy-dom/global-registrator": "20.14.5",
-    "@next/playwright": "16.4.0",
+    "@next/playwright": "16.5.0-canary.3",
     "@pandacss/dev": "2.1.1",
     "@pandacss/mcp": "2.1.1",
     "@pandacss/preset-base": "2.1.1",
@@ -102,7 +102,7 @@
     "husky": "9.1.7",
     "lint-staged": "17.6.0",
     "next-devtools-mcp": "0.4.0",
-    "react-doctor": "0.9.14",
+    "react-doctor": "0.9.17",
     "typescript": "7.0.2",
     "typescript-plugin-directives": "0.0.3",
     "ultracite": "^7.12.2"

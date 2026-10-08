@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   cacheComponents: true,
   experimental: {
+    // Explicit: no AGENTS.md feedback block, no telemetry draft loop.
+    agentFeedback: false,
+    // Learning/canary site: nag + `next upgrade --agent` follow newest line.
+    agentUpgrade: "latest",
     cachedNavigations: true,
     // Instant() e2e against `next start` needs this (auto-on in `next dev`).
     // Build with EXPOSE_TESTING_API=1 for prod e2e; do not enable on public deploys.

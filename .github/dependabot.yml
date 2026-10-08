@@ -1,14 +1,40 @@
 # GitHub Actions pin policy:
 # - Pin every `uses:` to a full commit SHA
 # - Keep a same-line version comment (`# vX.Y.Z`) so Dependabot can bump both
-# - Weekly version updates (Dependabot security alerts skip SHA-pinned actions)
+#
+# Cadence: every 3 days (cron) + cooldown 3 days, matching bunfig
+# `minimumReleaseAge = 259200`. Cooldown skip does not apply to security alerts.
+# https://github.com/fringe4life/3dmodels/issues/139
 version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      cronjob: "0 9 */3 * *"
+      interval: cron
+    cooldown:
+      default-days: 3
     groups:
       github-actions:
         patterns:
           - "*"
+
+  - package-ecosystem: bun
+    directory: /
+    schedule:
+      cronjob: "0 9 */3 * *"
+      interval: cron
+    cooldown:
+      default-days: 3
+      exclude:
+        - next
+        - "@next/playwright"
+        - "@next/swc"
+        - "@next/swc-linux-x64-gnu"
+    groups:
+      bun-dependencies:
+        applies-to: version-updates
+        dependency-type: production
+      bun-dev-dependencies:
+        applies-to: version-updates
+        dependency-type: development

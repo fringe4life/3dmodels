@@ -52,6 +52,32 @@ test.describe("instant marketing / auth shells", () => {
     });
   });
 
+  test("home is instant on client nav from about via logo", async ({
+    page,
+  }) => {
+    await page.goto("/about");
+    // Logo is a raw <Link prefetch>, not NavLink — About/Sign-in specs miss this path.
+    await page
+      .getByRole("link", { name: /go to the printforge homepage/i })
+      .hover();
+    await page.waitForLoadState("networkidle");
+
+    await instant(page, async () => {
+      await page
+        .getByRole("link", { name: /go to the printforge homepage/i })
+        .click();
+      await page.waitForURL((url) => url.pathname === "/");
+      await expect(
+        page.getByRole("heading", {
+          name: /discover what's possible with 3d printing/i,
+        }),
+      ).toBeVisible();
+      await expect(
+        page.getByText(/your go-to platform for 3d printing files/i),
+      ).toBeVisible();
+    });
+  });
+
   test("about is instant on initial page load", async ({ page, baseURL }) => {
     await instant(
       page,
