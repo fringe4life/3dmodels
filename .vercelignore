@@ -7,7 +7,6 @@
 .fallowrc.json
 .env.local
 
-update-readme.md
 lint-staged.config.ts
 execute-drop.sql
 drop-tables.sql
