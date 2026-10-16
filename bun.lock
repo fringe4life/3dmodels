@@ -19,7 +19,7 @@
         "drizzle-orm": "1.0.0-rc.5-5935859",
         "elysia": "1.4.30",
         "file-type": "22.1.1",
-        "next": "16.5.0-canary.10",
+        "next": "16.5.0-canary.15",
         "next-safe-action": "8.7.3",
         "nuqs": "2.10.2",
         "react": "19.3.0",
@@ -378,7 +378,7 @@
 
     "@next/playwright": ["@next/playwright@16.5.0-canary.10", "", { "peerDependencies": { "@playwright/test": ">=1.0.0" }, "optionalPeers": ["@playwright/test"] }, "sha512-ZvPEFijP6QhRyob2lS38FNTEwaGXYdJ+tQU8xLeSPVpgUtfaF4sQo1Hy3iIqVlOvhS7MFnKd4khjg7HYX5I6eg=="],
 
-    "@next/swc-linux-x64-gnu": ["@next/swc-linux-x64-gnu@16.5.0-canary.10", "", { "os": "linux", "cpu": "x64" }, "sha512-fHW7BlRwaBEcJ62Mdo2ixag0Mhy3pppjD95Z28HjxJjQusKmpkV+loQaJR6JLkzFkFlDO1BVl+AfYNx3qubV+Q=="],
+    "@next/swc-linux-x64-gnu": ["@next/swc-linux-x64-gnu@16.5.0-canary.15", "", { "os": "linux", "cpu": "x64" }, "sha512-1XEp8V5G97M969AZ5wi5hmoSNNgHZ53kf/9YpvlbyEdx6f7Gza3kCmtuyGj2eOkU8mgOSdv4Kfa/HekJiiggRw=="],
 
     "@noble/ciphers": ["@noble/ciphers@2.3.0", "", {}, "sha512-Clu/xdfgVTf9o7ngLOURaxePwR0j8sjclKEtVij10/jGulwFsPWCvvRgG/XjUVf8Nei+jLG6uwyXzUTGY1DQrw=="],
 
@@ -1174,7 +1174,7 @@
 
     "negotiator": ["negotiator@1.1.0", "", { "dependencies": { "content-type": "^2.1.0" } }, "sha512-NMPBRMJgiQHjbd8phG3Vebdx4kZ1H121rbl5IkMqeOsahptB9BKo/d7oJ3zTXqTgagn2bWlNSXkh0QUGM31RYg=="],
 
-    "next": ["next@16.5.0-canary.10", "", { "dependencies": { "@next/env": "16.5.0-canary.10", "@swc/helpers": "0.5.23", "baseline-browser-mapping": "^2.9.19", "caniuse-lite": "^1.0.30001579", "postcss": "8.5.23", "styled-jsx": "5.1.6" }, "optionalDependencies": { "@next/swc-darwin-arm64": "16.5.0-canary.10", "@next/swc-darwin-x64": "16.5.0-canary.10", "@next/swc-linux-arm64-gnu": "16.5.0-canary.10", "@next/swc-linux-arm64-musl": "16.5.0-canary.10", "@next/swc-linux-x64-gnu": "16.5.0-canary.10", "@next/swc-linux-x64-musl": "16.5.0-canary.10", "@next/swc-win32-arm64-msvc": "16.5.0-canary.10", "@next/swc-win32-x64-msvc": "16.5.0-canary.10", "sharp": "^0.35.4" }, "peerDependencies": { "@opentelemetry/api": "^1.1.0", "@playwright/test": "^1.51.1", "babel-plugin-react-compiler": "*", "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "sass": "^1.3.0" }, "optionalPeers": ["@opentelemetry/api", "@playwright/test", "babel-plugin-react-compiler", "sass"], "bin": { "next": "dist/bin/next" } }, "sha512-RpeaOhXn7gf5TahIAeJRB+RwxjkBOeWF7KgYm6l5ozvcvuW8cEWJEa/Bwj7k5U3d0XBSywC040TL9VklcfjPQQ=="],
+    "next": ["next@16.5.0-canary.15", "", { "dependencies": { "@next/env": "16.5.0-canary.15", "@swc/helpers": "0.5.23", "baseline-browser-mapping": "^2.9.19", "caniuse-lite": "^1.0.30001579", "postcss": "8.5.23", "styled-jsx": "5.1.6" }, "optionalDependencies": { "@next/swc-darwin-arm64": "16.5.0-canary.15", "@next/swc-darwin-x64": "16.5.0-canary.15", "@next/swc-linux-arm64-gnu": "16.5.0-canary.15", "@next/swc-linux-arm64-musl": "16.5.0-canary.15", "@next/swc-linux-x64-gnu": "16.5.0-canary.15", "@next/swc-linux-x64-musl": "16.5.0-canary.15", "@next/swc-win32-arm64-msvc": "16.5.0-canary.15", "@next/swc-win32-x64-msvc": "16.5.0-canary.15", "sharp": "^0.35.4" }, "peerDependencies": { "@opentelemetry/api": "^1.1.0", "@playwright/test": "^1.51.1", "babel-plugin-react-compiler": "*", "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "sass": "^1.3.0" }, "optionalPeers": ["@opentelemetry/api", "@playwright/test", "babel-plugin-react-compiler", "sass"], "bin": { "next": "./dist/bin/next" } }, "sha512-7dLNpr6Q1Z5w2mQqCCFyAHLrSxKWd4+WIEhB0wwuW/+pwfParM5icXeNhdI4qpvZQl7sizqwqQBjup07x0UKTQ=="],
 
     "next-devtools-mcp": ["next-devtools-mcp@0.4.0", "", { "dependencies": { "@modelcontextprotocol/sdk": "1.25.2", "find-process": "2.0.0", "pid-port": "2.0.0", "undici": "^7.18.2", "zod": "3.25.76" }, "bin": { "next-devtools-mcp": "dist/index.js" } }, "sha512-PTIoi+TihyztSTPkl+YIesL81wU3pRDo6QCg1wgjvLGfBlXv3yamvQyoI8j/I2t7gqDStXoa7jtn/YUdvcBQuw=="],
 
