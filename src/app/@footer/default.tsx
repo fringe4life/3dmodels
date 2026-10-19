@@ -15,6 +15,7 @@ const footerClassName = css({
   borderBlockStartColor: "border.subtle",
   borderBlockStartWidth: "1px",
   color: "text.secondary",
+  minInlineSize: 0,
 });
 
 const footerInnerClassName = cx(
@@ -22,8 +23,9 @@ const footerInnerClassName = cx(
   grid({
     alignItems: "center",
     columnGap: 5,
-    gridTemplateColumns: "1fr auto 1fr",
+    gridTemplateColumns: "minmax(0, 1fr) auto minmax(0, 1fr)",
     minBlockSize: "5.5rem",
+    minInlineSize: 0,
     mobileDown: {
       flexWrap: "wrap",
       gap: 3,

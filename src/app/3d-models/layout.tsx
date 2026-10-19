@@ -34,10 +34,12 @@ const ModelsLayout = ({
       className={grid({
         columnGap: { md: 20 },
         gridTemplateColumns: {
-          md: "token(sizes.categoryWidthTablet) 1fr",
+          // minmax(0, …) lets the content column shrink below intrinsic card width.
+          md: "token(sizes.categoryWidthTablet) minmax(0, 1fr)",
         },
         gridTemplateRows: { base: "min-content 1fr", md: "1fr" },
         minBlockSize: "full",
+        minInlineSize: 0,
       })}
     >
       <aside
@@ -46,7 +48,9 @@ const ModelsLayout = ({
           borderBlockEndWidth: { base: 2, md: 0 },
           borderColor: "gray.200",
           colStart: { md: 1 },
-          maxInlineSize: { base: "100dvw", md: "categoryWidthTablet" },
+          // Parent already has site gutters — 100dvw was overflowing by ~2× paddingInline.
+          maxInlineSize: { base: "100%", md: "categoryWidthTablet" },
+          minInlineSize: 0,
           position: "relative",
         })}
       >
@@ -65,6 +69,7 @@ const ModelsLayout = ({
               animationTimeline: "scroll(self inline)",
               animationTimingFunction: "glide",
             },
+            maxInlineSize: "100%",
             md: {
               insetBlockStart: "6.5rem",
               maxBlockSize: "calc(100dvh - 7.5rem)",
@@ -72,6 +77,7 @@ const ModelsLayout = ({
               overflowY: "auto",
               position: "sticky",
             },
+            minInlineSize: 0,
             overflowX: "auto",
             position: "sticky",
             scrollbar: "hidden",
@@ -83,6 +89,7 @@ const ModelsLayout = ({
       <section
         className={gridItem({
           alignSelf: "start",
+          minInlineSize: 0,
           paddingBlock: 4,
         })}
       >
