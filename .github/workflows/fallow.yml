@@ -36,7 +36,7 @@ jobs:
       - name: Install and generate styled-system
         run: |
           bun install --frozen-lockfile --ignore-scripts
-          bun x panda@2.2.0 build
+          bun ./node_modules/@pandacss/dev/bin.js build
 
       - uses: fallow-rs/fallow@fccff887da0d83db1711379e0a3696dfc2460fdd # v3.33.1
         id: fallow
