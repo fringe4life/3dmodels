@@ -8,6 +8,9 @@ import {
   addTransitionType,
   type ChangeEventHandler,
   type KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -30,6 +33,17 @@ const SearchInput = () => {
     ...cursorPaginationParsers,
     ...queryParser,
   });
+  // Local draft so Enter can flush before the debounced URL write lands.
+  const [draftQuery, setDraftQuery] = useState(query || "");
+  const draftQueryRef = useRef(draftQuery);
+
+  useEffect(() => {
+    draftQueryRef.current = draftQuery;
+  }, [draftQuery]);
+
+  useEffect(() => {
+    setDraftQuery(query || "");
+  }, [query]);
 
   const changeSearch = (
     search: string,
@@ -53,6 +67,7 @@ const SearchInput = () => {
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
     const search = e.currentTarget.value.trim().toLowerCase() || "";
+    setDraftQuery(e.currentTarget.value);
     const isEmpty = search === "";
     let debounceTime: LimitUrlUpdates = debounce(SEARCH_DEBOUNCE_DELAY);
     let transitionType: TransitionType = "search-debounce";
@@ -65,7 +80,7 @@ const SearchInput = () => {
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
-      const search = e.currentTarget.value.trim().toLowerCase() || "";
+      const search = draftQueryRef.current.trim().toLowerCase() || "";
       changeSearch(search, "search-submit", defaultRateLimit);
     }
   };
@@ -98,7 +113,7 @@ const SearchInput = () => {
         onKeyDown={handleKeyDown}
         placeholder="E.g. dragon"
         type="text"
-        value={query || ""}
+        value={draftQuery}
       />
       <Activity mode={isPending ? "visible" : "hidden"}>
         <SearchInputTransition>

@@ -34,7 +34,10 @@ export default defineConfig({
   theme: {
     extend: {
       breakpoints: {
-        // Keep units consistent with Panda's default rem breakpoints.
+        // Keep custom responsive aliases aligned with Panda's rem breakpoints.
+        mobile: "35rem", // 560px
+        narrow: "22.5rem", // 360px
+        tablet: "62.5rem", // 1000px
         xs: "30rem", // 480px
         xxs: "20rem", // 320px
       },

@@ -62,7 +62,7 @@ theme/                        # Panda define* blocks (imported by panda.config.t
 ├── conditions.ts             # defineConditions (scroll/linear/hover support, data-*)
 ├── global-styles.ts          # defineGlobalStyles (fonts, scrollbar)
 ├── keyframes.ts              # Shared fade/slide/shimmer theme animations
-├── patterns.ts               # between, hoverShadow
+├── patterns.ts               # between, hoverShadow, siteContainer
 ├── semantic-tokens.ts
 ├── tokens.ts                 # colors, easings, sizes, shadows
 └── utilities.ts              # cornerShape
@@ -514,7 +514,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 ## 🎨 Styling & Components
 
 ### Design System
-- **Tokens & utilities**: Panda CSS 2 `theme/` `define*` modules assembled by `panda.config.ts` (`@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); orange accent and shared patterns (`between`, `hoverShadow`) live in `theme/`; `treeshakeDesignSystem` enabled; local `keyframes()` from `@styled-system/css` for scroll/view-timeline animations not meant for the global theme
+- **Tokens & utilities**: Panda CSS 2 `theme/` `define*` modules assembled by `panda.config.ts` (`@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); orange accent and shared patterns (`between`, `hoverShadow`, `siteContainer`) live in `theme/`; `siteContainer` is the app chrome shell (`8xl` + gutters) for navbar/main/footer — content columns use documented roles (prose `4xl`, article `6xl`, form `md`); `treeshakeDesignSystem` enabled; local `keyframes()` from `@styled-system/css` for scroll/view-timeline animations not meant for the global theme
 - **Typography**: Albert Sans + Montserrat Alternates via `next/font` in root layout; heading font applied in Panda `globalCss`
 - **Layout & spacing**: Panda `css()` / layout patterns (e.g., `grid` for model grids in `src/features/models/components/models-grid.styles.ts`)
 - **View transitions**: Colocated with components via React `ViewTransition` + Panda view-transition helpers (global VT CSS removed from `index.css`)

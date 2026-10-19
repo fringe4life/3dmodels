@@ -43,7 +43,7 @@ const ModelsLayout = ({
       <aside
         className={gridItem({
           backgroundColor: "white",
-          borderBottomWidth: { base: 2, md: 0 },
+          borderBlockEndWidth: { base: 2, md: 0 },
           borderColor: "gray.200",
           colStart: { md: 1 },
           maxInlineSize: { base: "100dvw", md: "categoryWidthTablet" },
@@ -83,7 +83,7 @@ const ModelsLayout = ({
       <section
         className={gridItem({
           alignSelf: "start",
-          padding: 4,
+          paddingBlock: 4,
         })}
       >
         {children}

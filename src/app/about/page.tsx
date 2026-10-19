@@ -27,7 +27,6 @@ const AboutPage = () => (
         marginInline: "auto",
         maxInlineSize: "4xl",
         paddingBlock: 8,
-        paddingInline: 4,
       })}
     >
       <h1
@@ -94,73 +93,65 @@ const AboutPage = () => (
     <hr className={css({ borderColor: "gray.200" })} />
 
     <section className={css({ paddingBlock: 12 })}>
-      <div
-        className={css({
-          marginInline: "auto",
-          maxInlineSize: "7xl",
-          paddingInline: { base: 2, sm: 6 },
-        })}
-      >
-        <h2 className={visuallyHidden()}>Key Features</h2>
-        <div className={grid({ columns: { md: 3 } })}>
-          <article
+      <h2 className={visuallyHidden()}>Key Features</h2>
+      <div className={grid({ columns: { md: 3 } })}>
+        <article
+          className={css({
+            backgroundColor: "white",
+            padding: 6,
+          })}
+        >
+          <h3
             className={css({
-              backgroundColor: "white",
-              padding: 6,
+              fontSize: "xl",
+              fontWeight: "semibold",
+              marginBlockEnd: 3,
             })}
           >
-            <h3
-              className={css({
-                fontSize: "xl",
-                fontWeight: "semibold",
-                marginBlockEnd: 3,
-              })}
-            >
-              100K+ Models
-            </h3>
-            <p className={css({ color: "gray.600" })}>
-              Access our vast library of community-created 3D models, from
-              practical tools to artistic creations.
-            </p>
-          </article>
-          <article
+            100K+ Models
+          </h3>
+          <p className={css({ color: "gray.600" })}>
+            Access our vast library of community-created 3D models, from
+            practical tools to artistic creations.
+          </p>
+        </article>
+        <article
+          className={css({
+            backgroundColor: "white",
+            borderColor: "gray.400",
+            borderInlineWidth: { md: "1px" },
+            padding: 6,
+          })}
+        >
+          <h3
             className={css({
-              backgroundColor: "white",
-              borderColor: "gray.400",
-              borderInlineWidth: { md: "1px" },
-              padding: 6,
+              fontSize: "xl",
+              fontWeight: "semibold",
+              marginBlockEnd: 3,
             })}
           >
-            <h3
-              className={css({
-                fontSize: "xl",
-                fontWeight: "semibold",
-                marginBlockEnd: 3,
-              })}
-            >
-              Active Community
-            </h3>
-            <p className={css({ color: "gray.600" })}>
-              Join thousands of makers who share tips, provide feedback, and
-              collaborate on projects.
-            </p>
-          </article>
-          <article className={css({ backgroundColor: "white", padding: 6 })}>
-            <h3
-              className={css({
-                fontSize: "xl",
-                fontWeight: "semibold",
-                marginBlockEnd: 3,
-              })}
-            >
-              Free to Use
-            </h3>
-            <p className={css({ color: "gray.600" })}>
-              Most models are free to download, with optional premium features
-              for power users.
-            </p>
-          </article>
-        </div>
+            Active Community
+          </h3>
+          <p className={css({ color: "gray.600" })}>
+            Join thousands of makers who share tips, provide feedback, and
+            collaborate on projects.
+          </p>
+        </article>
+        <article className={css({ backgroundColor: "white", padding: 6 })}>
+          <h3
+            className={css({
+              fontSize: "xl",
+              fontWeight: "semibold",
+              marginBlockEnd: 3,
+            })}
+          >
+            Free to Use
+          </h3>
+          <p className={css({ color: "gray.600" })}>
+            Most models are free to download, with optional premium features for
+            power users.
+          </p>
+        </article>
       </div>
     </section>
 
@@ -169,9 +160,8 @@ const AboutPage = () => (
     <section
       className={css({
         marginInline: "auto",
-        maxInlineSize: "3xl",
+        maxInlineSize: "4xl",
         paddingBlock: 8,
-        paddingInline: 4,
       })}
     >
       <div

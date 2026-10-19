@@ -41,9 +41,33 @@ const hoverShadow = definePattern({
   },
 });
 
+/**
+ * App chrome shell (`8xl` + gutters). Content columns use intentional caps
+ * inside this shell — do not invent ad-hoc page widths:
+ * - shell / wide: `siteContainer` (`8xl`) — navbar, main, footer, home hero
+ * - prose: `4xl` — about / long reading
+ * - article: `6xl` — model detail
+ * - form: `md` — auth layouts
+ * Local UI caps (popovers, media, CTAs) stay component-scoped.
+ */
+const siteContainer = definePattern({
+  description:
+    "centers site content with a shared maximum width and responsive inline gutters",
+  transform({ properties }) {
+    return {
+      inlineSize: "full",
+      marginInline: "auto",
+      maxInlineSize: "8xl",
+      paddingInline: { base: 4, lg: 8, md: 6 },
+      ...properties,
+    };
+  },
+});
+
 export const patterns = {
   extend: {
     between,
     hoverShadow,
+    siteContainer,
   },
 };
