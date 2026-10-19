@@ -55,9 +55,11 @@ const siteContainer = definePattern({
     "centers site content with a shared maximum width and responsive inline gutters",
   transform({ properties }) {
     return {
+      // Allow shrink inside CSS grid/flex so gutters do not force page overflow.
       inlineSize: "full",
       marginInline: "auto",
       maxInlineSize: "8xl",
+      minInlineSize: 0,
       paddingInline: { base: 4, lg: 8, md: 6 },
       ...properties,
     };

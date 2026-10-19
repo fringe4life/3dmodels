@@ -90,11 +90,13 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
       <div
         className={grid({
           blockSize: "full",
+          gridTemplateColumns: "minmax(0, 1fr)",
           gridTemplateRows: "minmax(0, 1fr) auto",
           minBlockSize: {
             _supportsScroll: "calc(100dvh - 4.8125rem)",
             base: "calc(100dvh - 4.6875rem)",
           },
+          minInlineSize: 0,
           rowGap: { md: 10 },
         })}
       >

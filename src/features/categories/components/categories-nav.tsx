@@ -32,8 +32,11 @@ const CategoriesNav = ({ categories }: CategoriesNavProps) => {
         Component={NavLinkListItem}
         className={grid({
           gap: 4,
+          // Wide chip row scrolls inside the nav (layout overflowX: auto), not the page.
           gridAutoColumns: "max",
           gridAutoFlow: { base: "column", md: "row" },
+          inlineSize: "max-content",
+          maxInlineSize: { md: "100%" },
           paddingBlock: { base: 2, md: 0 },
           paddingInline: { base: 4, md: 0 },
         })}
