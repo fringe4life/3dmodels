@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./index.css";
 import { RscBoundaryProvider } from "@rsc-boundary/next";
-import { grid, gridItem } from "@styled-system/patterns";
+import { grid, siteContainer } from "@styled-system/patterns";
 import { Albert_Sans, Montserrat } from "next/font/google";
 import { ENV } from "varlock/env";
 import { ScrollProgress } from "@/components/scroll-progress";
@@ -90,7 +90,7 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
       <div
         className={grid({
           blockSize: "full",
-          gridTemplateRows: "1fr 5.35rem",
+          gridTemplateRows: "minmax(0, 1fr) auto",
           minBlockSize: {
             _supportsScroll: "calc(100dvh - 4.8125rem)",
             base: "calc(100dvh - 4.6875rem)",
@@ -98,7 +98,7 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
           rowGap: { md: 10 },
         })}
       >
-        <main className={gridItem({ blockSize: "full" })}>
+        <main className={siteContainer({ blockSize: "full" })}>
           <RscBoundaryProvider>{children}</RscBoundaryProvider>
         </main>
         {footer}

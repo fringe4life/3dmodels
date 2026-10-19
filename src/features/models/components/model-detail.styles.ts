@@ -3,12 +3,14 @@ import { cq } from "@styled-system/patterns";
 
 /**
  * `theme.containers.detail-split` (26rem) is the `model-detail` content box.
- * Frame adds `paddingInline: 4` (2rem); listing layout section adds another 2rem.
- * Viewport at split ≈ 26rem + 4rem = 30rem. Frame caps at `6xl` (72rem).
+ * Frame adds `paddingInline: 4` (1rem/side). Outer gutters come from root
+ * `siteContainer` (`paddingInline` 4 / 6 / 8 → 1rem / 1.5rem / 2rem per side).
+ * Viewport at split ≈ 26rem + frame 2rem + shell base 2rem = 30rem.
+ * Frame caps at `6xl` (72rem); at lg shell gutters add 4rem total → 76rem.
  */
 const DETAIL_SPLIT_VIEWPORT = "30rem";
-const DETAIL_FRAME_MAX_VIEWPORT = "74rem"; // 6xl (72rem) + section pad (2rem)
-const DETAIL_STACKED_INLINE_PAD = "4rem"; // section + frame
+const DETAIL_FRAME_MAX_VIEWPORT = "76rem"; // 6xl (72rem) + siteContainer lg gutters (4rem)
+const DETAIL_STACKED_INLINE_PAD = "4rem"; // siteContainer base (2rem) + frame (2rem)
 /** Split media ≈ 0.94fr of surface; stay slightly conservative vs undersizing. */
 const DETAIL_SPLIT_MEDIA_HINT = "calc(50vw - 2rem)";
 const DETAIL_SPLIT_MEDIA_MAX = "34rem";

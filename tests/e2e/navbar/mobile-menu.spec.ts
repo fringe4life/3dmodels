@@ -12,7 +12,10 @@ test.describe("mobile navigation menu", () => {
     const popover = page.locator("#mobile-navigation");
     await expect(popover).toBeVisible();
 
-    await page.getByRole("link", { name: /about/i }).click();
+    await page
+      .locator("#mobile-navigation")
+      .getByRole("link", { name: /about/i })
+      .click();
     await expect(page).toHaveURL(/\/about/);
     await expect(popover).toBeHidden();
   });
@@ -25,7 +28,11 @@ test.describe("desktop navigation", () => {
     page,
   }) => {
     await page.goto("/");
-    await expect(page.getByRole("link", { name: /^about$/i })).toBeVisible();
+    await expect(
+      page
+        .getByRole("navigation", { name: "Primary navigation" })
+        .getByRole("link", { name: /^about$/i }),
+    ).toBeVisible();
     await expect(
       page.getByRole("button", { name: /navigation menu/i }),
     ).toBeHidden();

@@ -21,12 +21,15 @@ test.describe("instant marketing / auth shells", () => {
 
   test("about is instant on client nav from home", async ({ page }) => {
     await page.goto("/");
+    const primaryNavigation = page.getByRole("navigation", {
+      name: "Primary navigation",
+    });
     // Warm Link prefetch={true} for /about before locking navigations.
-    await page.getByRole("link", { name: /^about$/i }).hover();
+    await primaryNavigation.getByRole("link", { name: /^about$/i }).hover();
     await page.waitForLoadState("networkidle");
 
     await instant(page, async () => {
-      await page.getByRole("link", { name: /^about$/i }).click();
+      await primaryNavigation.getByRole("link", { name: /^about$/i }).click();
       await page.waitForURL((url) => url.pathname === "/about");
       await expect(
         page.getByRole("heading", { name: /about printforge/i }),
@@ -39,11 +42,14 @@ test.describe("instant marketing / auth shells", () => {
 
   test("sign in is instant on client nav from home", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /sign in/i }).hover();
+    const primaryNavigation = page.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+    await primaryNavigation.getByRole("link", { name: /sign in/i }).hover();
     await page.waitForLoadState("networkidle");
 
     await instant(page, async () => {
-      await page.getByRole("link", { name: /sign in/i }).click();
+      await primaryNavigation.getByRole("link", { name: /sign in/i }).click();
       await page.waitForURL((url) => url.pathname === "/signin");
       await expect(
         page.getByRole("heading", { name: /sign in to your account/i }),
@@ -58,12 +64,14 @@ test.describe("instant marketing / auth shells", () => {
     await page.goto("/about");
     // Logo is a raw <Link prefetch>, not NavLink — About/Sign-in specs miss this path.
     await page
+      .locator("header")
       .getByRole("link", { name: /go to the printforge homepage/i })
       .hover();
     await page.waitForLoadState("networkidle");
 
     await instant(page, async () => {
       await page
+        .locator("header")
         .getByRole("link", { name: /go to the printforge homepage/i })
         .click();
       await page.waitForURL((url) => url.pathname === "/");

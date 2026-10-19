@@ -47,14 +47,14 @@ const offlineLabelClassName = cx(
   visuallyHidden(),
   css({
     "@navbar/offline-indicator-small": {
+      blockSize: "auto",
       clip: "auto",
-      height: "auto",
+      inlineSize: "auto",
       margin: 0,
       overflow: "visible",
       padding: 0,
       position: "static",
       whiteSpace: "normal",
-      width: "auto",
     },
     fontWeight: "semibold",
   }),

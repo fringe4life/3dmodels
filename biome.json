@@ -42,5 +42,12 @@
       "!**/src/env.d.ts",
       "!fallow-viz.html"
     ]
+  },
+  "linter": {
+    "rules": {
+      "correctness": {
+        "noUndeclaredDependencies": "off"
+      }
+    }
   }
 }

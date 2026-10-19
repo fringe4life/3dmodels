@@ -8,6 +8,7 @@ import {
   addTransitionType,
   type ChangeEventHandler,
   type KeyboardEventHandler,
+  useState,
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -30,6 +31,15 @@ const SearchInput = () => {
     ...cursorPaginationParsers,
     ...queryParser,
   });
+  // Local draft so Enter can flush before the debounced URL write lands.
+  const urlQuery = query || "";
+  const [draftQuery, setDraftQuery] = useState(urlQuery);
+  const [prevUrlQuery, setPrevUrlQuery] = useState(urlQuery);
+
+  if (urlQuery !== prevUrlQuery) {
+    setPrevUrlQuery(urlQuery);
+    setDraftQuery(urlQuery);
+  }
 
   const changeSearch = (
     search: string,
@@ -52,7 +62,9 @@ const SearchInput = () => {
   };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const search = e.currentTarget.value.trim().toLowerCase() || "";
+    const rawValue = e.currentTarget.value;
+    const search = rawValue.trim().toLowerCase() || "";
+    setDraftQuery(rawValue);
     const isEmpty = search === "";
     let debounceTime: LimitUrlUpdates = debounce(SEARCH_DEBOUNCE_DELAY);
     let transitionType: TransitionType = "search-debounce";
@@ -98,7 +110,7 @@ const SearchInput = () => {
         onKeyDown={handleKeyDown}
         placeholder="E.g. dragon"
         type="text"
-        value={query || ""}
+        value={draftQuery}
       />
       <Activity mode={isPending ? "visible" : "hidden"}>
         <SearchInputTransition>

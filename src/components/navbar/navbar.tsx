@@ -1,5 +1,11 @@
 import { css, cx, keyframes } from "@styled-system/css";
-import { between, cq, hstack, stack } from "@styled-system/patterns";
+import {
+  between,
+  cq,
+  hstack,
+  siteContainer,
+  stack,
+} from "@styled-system/patterns";
 import { ViewTransition } from "react";
 import { OfflineBanner } from "@/components/offline-indicator";
 import { MOBILE_NAVIGATION_ID } from "./constants";
@@ -32,13 +38,12 @@ const navbarShellClassName = cx(
     },
     backdropBlur: "sm",
     backgroundColor: "white/65",
-    borderBottomColor: "gray.400/20",
-    borderBottomStyle: "solid",
-    borderBottomWidth: 2,
+    borderBlockEndColor: "gray.400/20",
+    borderBlockEndStyle: "solid",
+    borderBlockEndWidth: 2,
     insetBlockStart: 0,
     insetInline: 0,
     paddingBlock: 4,
-    paddingInline: { base: 4, sm: 6 },
     position: "sticky",
     transitionDuration: "normal",
     transitionProperty: "translate,border-radius",
@@ -70,6 +75,7 @@ const Navbar = () => (
         className={cx(
           between(),
           cq({ name: "navbar" }),
+          siteContainer(),
           css({ position: "relative" }),
         )}
       >
