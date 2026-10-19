@@ -1,11 +1,22 @@
 import { css, cx } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
 import type { Metadata } from "next";
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 import { arrowRecipe } from "@/components/arrow-recipe";
-import { HERO_IMAGE_SQUARE_SRC } from "@/lib/hero-image";
+import {
+  HERO_IMAGE_DESKTOP_HEIGHT,
+  HERO_IMAGE_DESKTOP_SIZES,
+  HERO_IMAGE_DESKTOP_SRC,
+  HERO_IMAGE_DESKTOP_WIDTH,
+  HERO_IMAGE_MOBILE_MEDIA,
+  HERO_IMAGE_MOBILE_SIZES,
+  HERO_IMAGE_MOBILE_SRC,
+  HERO_IMAGE_TABLET_MEDIA,
+  HERO_IMAGE_TABLET_SIZES,
+  HERO_IMAGE_TABLET_SRC,
+} from "@/lib/hero-image";
 
 // Marketing: static shell + Link prefetch={true}. Session deferred via
 // getUser() → navigation() so this route stays statically prerenderable.
@@ -352,6 +363,38 @@ const aboutTeaserLinkClassName = cx(
   }),
 );
 
+const HERO_IMAGE_ALT =
+  "A collage of 3D-printed architecture, gears, figures, and lattice structures.";
+
+const heroImageCommon = {
+  alt: HERO_IMAGE_ALT,
+  className: heroImageClassName,
+  fill: true,
+} as const;
+
+const {
+  props: { srcSet: heroMobileSrcSet, sizes: heroMobileSizes },
+} = getImageProps({
+  ...heroImageCommon,
+  sizes: HERO_IMAGE_MOBILE_SIZES,
+  src: HERO_IMAGE_MOBILE_SRC,
+});
+
+const {
+  props: { srcSet: heroTabletSrcSet, sizes: heroTabletSizes },
+} = getImageProps({
+  ...heroImageCommon,
+  sizes: HERO_IMAGE_TABLET_SIZES,
+  src: HERO_IMAGE_TABLET_SRC,
+});
+
+const { props: heroDesktopProps } = getImageProps({
+  ...heroImageCommon,
+  preload: true,
+  sizes: HERO_IMAGE_DESKTOP_SIZES,
+  src: HERO_IMAGE_DESKTOP_SRC,
+});
+
 const Home = () => (
   <div className={pageSpacingClassName}>
     <section aria-labelledby="home-title" className={heroClassName}>
@@ -365,14 +408,24 @@ const Home = () => (
       </div>
       <div className={heroStageClassName}>
         <figure className={heroFigureClassName}>
-          <Image
-            alt="A collage of 3D-printed architecture, gears, figures, and lattice structures."
-            className={heroImageClassName}
-            fill
-            preload
-            sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 48px), (max-width: 1344px) calc(100vw - 64px), 1280px"
-            src={HERO_IMAGE_SQUARE_SRC}
-          />
+          <picture>
+            <source
+              media={HERO_IMAGE_MOBILE_MEDIA}
+              sizes={heroMobileSizes}
+              srcSet={heroMobileSrcSet}
+            />
+            <source
+              media={HERO_IMAGE_TABLET_MEDIA}
+              sizes={heroTabletSizes}
+              srcSet={heroTabletSrcSet}
+            />
+            <img
+              {...heroDesktopProps}
+              alt={HERO_IMAGE_ALT}
+              height={HERO_IMAGE_DESKTOP_HEIGHT}
+              width={HERO_IMAGE_DESKTOP_WIDTH}
+            />
+          </picture>
         </figure>
         <div className={heroCopyClassName}>
           <p className={descriptionClassName}>
