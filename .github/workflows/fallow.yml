@@ -27,6 +27,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Panda's `@styled-system/*` output is gitignored; generate it so
+      # fallow can resolve path-alias imports during the changed-file audit.
+      - uses: oven-sh/setup-bun@3d267786b128fe76c2f16a390aa2448b815359f3 # v2.1.2
+        with:
+          bun-version: "1.4.3"
+
+      - name: Install and generate styled-system
+        run: bun install --frozen-lockfile && bun x panda build
+
       - uses: fallow-rs/fallow@fccff887da0d83db1711379e0a3696dfc2460fdd # v3.33.1
         id: fallow
         with:
