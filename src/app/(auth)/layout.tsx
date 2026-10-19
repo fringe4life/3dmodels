@@ -7,8 +7,8 @@ export const ensureStatic = "prefetch";
 const AuthLayout = ({ children }: LayoutProps<"/">) => (
   <div
     className={grid({
+      // Inline gutters come from root `siteContainer`; keep only the form `md` cap.
       minBlockSize: "full",
-      paddingInline: 4,
       placeContent: "center",
     })}
   >
