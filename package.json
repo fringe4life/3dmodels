@@ -82,7 +82,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@happy-dom/global-registrator": "21.0.3",
-    "@next/playwright": "16.5.0-canary.17",
+    "@next/playwright": "16.5.0-canary.21",
     "@pandacss/dev": "2.2.0",
     "@pandacss/mcp": "2.2.0",
     "@pandacss/preset-base": "2.2.0",
@@ -97,7 +97,7 @@
     "@types/react-dom": "19.3.0",
     "@varlock/nextjs-integration": "1.2.5",
     "drizzle-kit": "1.0.0-rc.5-5935859",
-    "fallow": "3.33.1",
+    "fallow": "3.34.1",
     "happy-dom": "21.0.3",
     "husky": "9.1.7",
     "lint-staged": "17.6.0",
