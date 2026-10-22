@@ -54,7 +54,7 @@
     "undici": "7.29.1"
   },
   "dependencies": {
-    "@better-auth/drizzle-adapter": "1.7.10",
+    "@better-auth/drizzle-adapter": "1.7.11",
     "@elysiajs/cors": "1.4.2",
     "@elysiajs/openapi": "1.4.16",
     "@libsql/client": "0.18.0",
@@ -64,11 +64,11 @@
     "@varlock/bitwarden-plugin": "2.0.2",
     "@vercel/config": "0.12.0",
     "babel-plugin-react-compiler": "1.0.0",
-    "better-auth": "1.7.10",
+    "better-auth": "1.7.11",
     "drizzle-orm": "1.0.0-rc.5-5935859",
     "elysia": "1.4.30",
     "file-type": "22.2.0",
-    "next": "16.5.0-canary.17",
+    "next": "16.5.0-canary.21",
     "next-safe-action": "8.7.3",
     "nuqs": "2.10.2",
     "react": "19.3.1",
