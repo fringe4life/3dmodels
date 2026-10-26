@@ -1,23 +1,14 @@
 import { css, cx } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
 import type { Metadata } from "next";
-import { getImageProps } from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { arrowRecipe } from "@/components/arrow-recipe";
 import {
-  HERO_IMAGE_DESKTOP_HEIGHT,
-  HERO_IMAGE_DESKTOP_SIZES,
-  HERO_IMAGE_DESKTOP_SRC,
-  HERO_IMAGE_DESKTOP_WIDTH,
-  HERO_IMAGE_MOBILE_MEDIA,
-  HERO_IMAGE_MOBILE_SIZES,
-  HERO_IMAGE_MOBILE_SRC,
-  HERO_IMAGE_TABLET_MEDIA,
-  HERO_IMAGE_TABLET_SIZES,
-  HERO_IMAGE_TABLET_SRC,
-} from "@/lib/hero-image";
+  MarketingHeroImage,
+  MarketingHeroImagePreload,
+} from "@/components/marketing/marketing-hero-image";
 import {
   MARKETING_HERO_IMAGE_TRANSITION,
   MARKETING_HERO_TITLE_TRANSITION,
@@ -366,42 +357,15 @@ const aboutTeaserLinkClassName = cx(
 const HERO_IMAGE_ALT =
   "A collage of 3D-printed architecture, gears, figures, and lattice structures.";
 
-const heroImageCommon = {
-  alt: HERO_IMAGE_ALT,
-  className: heroImageClassName,
-  fill: true,
-} as const;
-
-const {
-  props: { srcSet: heroMobileSrcSet, sizes: heroMobileSizes },
-} = getImageProps({
-  ...heroImageCommon,
-  sizes: HERO_IMAGE_MOBILE_SIZES,
-  src: HERO_IMAGE_MOBILE_SRC,
-});
-
-const {
-  props: { srcSet: heroTabletSrcSet, sizes: heroTabletSizes },
-} = getImageProps({
-  ...heroImageCommon,
-  sizes: HERO_IMAGE_TABLET_SIZES,
-  src: HERO_IMAGE_TABLET_SRC,
-});
-
-const { props: heroDesktopProps } = getImageProps({
-  ...heroImageCommon,
-  preload: true,
-  sizes: HERO_IMAGE_DESKTOP_SIZES,
-  src: HERO_IMAGE_DESKTOP_SRC,
-});
-
 const Home = () => (
   <div className={pageSpacingClassName}>
+    <MarketingHeroImagePreload />
     <section aria-labelledby="home-title" className={heroClassName}>
       <div className={headingGroupClassName}>
         <p className={eyebrowClassName}>
           Your go-to platform for 3D printing files
         </p>
+        {/* Shared with `/about` — name must stay unique on the document. */}
         <ViewTransition name={MARKETING_HERO_TITLE_TRANSITION}>
           <h1 className={headingClassName} id="home-title">
             Discover what's possible with 3D Printing
@@ -409,27 +373,13 @@ const Home = () => (
         </ViewTransition>
       </div>
       <div className={heroStageClassName}>
+        {/* Shared with `/about` — keep in sync with `marketing-view-transitions.ts`. */}
         <ViewTransition name={MARKETING_HERO_IMAGE_TRANSITION}>
-          <figure className={heroFigureClassName}>
-            <picture>
-              <source
-                media={HERO_IMAGE_MOBILE_MEDIA}
-                sizes={heroMobileSizes}
-                srcSet={heroMobileSrcSet}
-              />
-              <source
-                media={HERO_IMAGE_TABLET_MEDIA}
-                sizes={heroTabletSizes}
-                srcSet={heroTabletSrcSet}
-              />
-              <img
-                {...heroDesktopProps}
-                alt={HERO_IMAGE_ALT}
-                height={HERO_IMAGE_DESKTOP_HEIGHT}
-                width={HERO_IMAGE_DESKTOP_WIDTH}
-              />
-            </picture>
-          </figure>
+          <MarketingHeroImage
+            alt={HERO_IMAGE_ALT}
+            figureClassName={heroFigureClassName}
+            imageClassName={heroImageClassName}
+          />
         </ViewTransition>
         <div className={heroCopyClassName}>
           <p className={descriptionClassName}>

@@ -1,22 +1,13 @@
 import { visuallyHidden } from "@styled-system/patterns";
 import type { Metadata } from "next";
-import { getImageProps } from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { arrowRecipe } from "@/components/arrow-recipe";
 import {
-  HERO_IMAGE_DESKTOP_HEIGHT,
-  HERO_IMAGE_DESKTOP_SIZES,
-  HERO_IMAGE_DESKTOP_SRC,
-  HERO_IMAGE_DESKTOP_WIDTH,
-  HERO_IMAGE_MOBILE_MEDIA,
-  HERO_IMAGE_MOBILE_SIZES,
-  HERO_IMAGE_MOBILE_SRC,
-  HERO_IMAGE_TABLET_MEDIA,
-  HERO_IMAGE_TABLET_SIZES,
-  HERO_IMAGE_TABLET_SRC,
-} from "@/lib/hero-image";
+  MarketingHeroImage,
+  MarketingHeroImagePreload,
+} from "@/components/marketing/marketing-hero-image";
 import {
   MARKETING_HERO_IMAGE_TRANSITION,
   MARKETING_HERO_TITLE_TRANSITION,
@@ -74,41 +65,14 @@ const VISION_MAKERS =
 const ABOUT_IMAGE_ALT =
   "A collage of 3D-printed architecture, gears, figures, and lattice structures.";
 
-const heroImageCommon = {
-  alt: ABOUT_IMAGE_ALT,
-  className: bandImageClassName,
-  fill: true,
-} as const;
-
-const {
-  props: { sizes: bandMobileSizes, srcSet: bandMobileSrcSet },
-} = getImageProps({
-  ...heroImageCommon,
-  sizes: HERO_IMAGE_MOBILE_SIZES,
-  src: HERO_IMAGE_MOBILE_SRC,
-});
-
-const {
-  props: { sizes: bandTabletSizes, srcSet: bandTabletSrcSet },
-} = getImageProps({
-  ...heroImageCommon,
-  sizes: HERO_IMAGE_TABLET_SIZES,
-  src: HERO_IMAGE_TABLET_SRC,
-});
-
-const { props: bandDesktopProps } = getImageProps({
-  ...heroImageCommon,
-  preload: true,
-  sizes: HERO_IMAGE_DESKTOP_SIZES,
-  src: HERO_IMAGE_DESKTOP_SRC,
-});
-
 const AboutPage = () => (
   <div className={pageClassName}>
+    <MarketingHeroImagePreload />
     <section aria-labelledby="about-title" className={heroSectionClassName}>
       <div className={heroLayoutClassName}>
         <div className={headingGroupClassName}>
           <p className={eyebrowClassName}>About PrintForge</p>
+          {/* Shared with `/` — name must stay unique on the document. */}
           <ViewTransition name={MARKETING_HERO_TITLE_TRANSITION}>
             <h1 className={headingClassName} id="about-title">
               <span>Empowering</span> <span>Makers</span> <span>Worldwide</span>
@@ -119,27 +83,13 @@ const AboutPage = () => (
           <p>{FOUNDING_STORY}</p>
           <p>{MISSION}</p>
         </div>
+        {/* Shared with `/` — keep in sync with `marketing-view-transitions.ts`. */}
         <ViewTransition name={MARKETING_HERO_IMAGE_TRANSITION}>
-          <figure className={bandFigureClassName}>
-            <picture>
-              <source
-                media={HERO_IMAGE_MOBILE_MEDIA}
-                sizes={bandMobileSizes}
-                srcSet={bandMobileSrcSet}
-              />
-              <source
-                media={HERO_IMAGE_TABLET_MEDIA}
-                sizes={bandTabletSizes}
-                srcSet={bandTabletSrcSet}
-              />
-              <img
-                {...bandDesktopProps}
-                alt={ABOUT_IMAGE_ALT}
-                height={HERO_IMAGE_DESKTOP_HEIGHT}
-                width={HERO_IMAGE_DESKTOP_WIDTH}
-              />
-            </picture>
-          </figure>
+          <MarketingHeroImage
+            alt={ABOUT_IMAGE_ALT}
+            figureClassName={bandFigureClassName}
+            imageClassName={bandImageClassName}
+          />
         </ViewTransition>
       </div>
     </section>
