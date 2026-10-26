@@ -34,7 +34,7 @@ describe("HeartButtonClient", () => {
         toggleAction={toggleLike}
       />,
     );
-    const btn = screen.getByRole("button", { name: /^like this model$/i });
+    const btn = screen.getByRole("button", { name: /^like this model$/iu });
     expect(btn).toBeDefined();
     expect(screen.queryByText("Sign in to like this model")).toBeNull();
     expect(document.querySelector("[popover]")).toBeNull();
@@ -53,12 +53,12 @@ describe("HeartButtonClient", () => {
     );
 
     const signInLink = screen.getByRole("link", {
-      name: /^sign in to like this model$/i,
+      name: /^sign in to like this model$/iu,
     });
     expect(signInLink.getAttribute("href")).toBe("/signin");
     expect(signInLink.hasAttribute("disabled")).toBe(false);
     expect(
-      screen.queryByRole("button", { name: /^sign in to like this model$/i }),
+      screen.queryByRole("button", { name: /^sign in to like this model$/iu }),
     ).toBeNull();
 
     const hint = document.querySelector("[popover='hint']");
@@ -88,7 +88,7 @@ describe("HeartButtonClient", () => {
       />,
     );
 
-    const button = screen.getByRole("button", { name: /^like this model$/i });
+    const button = screen.getByRole("button", { name: /^like this model$/iu });
     expect(button.textContent).toContain("2");
 
     await user.click(button);
@@ -101,7 +101,7 @@ describe("HeartButtonClient", () => {
     await Promise.resolve();
 
     expect(button.textContent).toContain("3");
-    expect(button.textContent).not.toMatch(/\b2\b/);
+    expect(button.textContent).not.toMatch(/\b2\b/u);
 
     deferred.resolve({ data: { hasLiked: true, likes: 3 } });
 
@@ -129,7 +129,7 @@ describe("HeartButtonClient", () => {
     );
 
     await user.click(
-      screen.getByRole("button", { name: /^like this model$/i }),
+      screen.getByRole("button", { name: /^like this model$/iu }),
     );
 
     await waitFor(() => {
@@ -138,7 +138,7 @@ describe("HeartButtonClient", () => {
 
     const fieldError = await screen.findByTestId("field-error-slug");
     const likeButton = screen.getByRole("button", {
-      name: /^like this model$/i,
+      name: /^like this model$/iu,
     });
     expect(likeButton.contains(fieldError)).toBe(false);
     expect(fieldError.closest("form")).not.toBeNull();

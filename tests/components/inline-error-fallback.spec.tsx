@@ -18,7 +18,7 @@ describe("InlineErrorFallback", () => {
 
     expect(screen.getByText("Failed to load User")).toBeTruthy();
 
-    await user.click(screen.getByRole("button", { name: /try again/i }));
+    await user.click(screen.getByRole("button", { name: /try again/iu }));
     expect(retry).toHaveBeenCalledTimes(1);
   });
 });

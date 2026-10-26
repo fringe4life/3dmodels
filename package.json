@@ -39,19 +39,21 @@
     "ultracite:upgrade": "ultracite upgrade --pm bun"
   },
   "overrides": {
-    "@modelcontextprotocol/sdk": "1.31.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
     "@next/env": "npm:@varlock/nextjs-integration",
     "@vercel/routing-utils": {
       "path-to-regexp": "6.3.0"
     },
+    "body-parser": "2.4.0",
     "brace-expansion": "5.0.12",
-    "fast-uri": "3.1.8",
-    "hono": "4.13.7",
-    "ip-address": "10.7.1",
+    "fast-uri": "3.1.9",
+    "hono": "4.13.14",
+    "ip-address": "10.7.5",
     "proxy-addr": "2.0.8",
     "sharp": "0.35.5",
     "source-map-js": "1.2.2",
-    "undici": "7.29.1"
+    "undici": "7.30.1",
+    "zod": "4.6.7"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "1.7.12",
@@ -80,7 +82,7 @@
     "varlock": "1.23.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.2",
+    "@biomejs/biome": "2.6.3",
     "@happy-dom/global-registrator": "21.0.4",
     "@next/playwright": "16.5.0-canary.27",
     "@pandacss/dev": "2.4.0",
@@ -105,10 +107,10 @@
     "react-doctor": "0.9.18",
     "typescript": "7.0.2",
     "typescript-plugin-directives": "0.0.3",
-    "ultracite": "^8.0.1"
+    "ultracite": "^8.1.0"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "trustedDependencies": []
 }

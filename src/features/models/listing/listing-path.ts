@@ -5,7 +5,7 @@ export const DEFAULT_LISTING_HREF = "/3d-models" as const satisfies Route;
 
 const LISTING_URL_BASE = "http://local.invalid";
 
-const CATEGORY_LISTING_PATH = /^\/3d-models\/categories\/([^/]+)$/;
+const CATEGORY_LISTING_PATH = /^\/3d-models\/categories\/(?<slug>[^/]+)$/u;
 
 const isListingPathname = (pathname: string): boolean => {
   if (pathname === DEFAULT_LISTING_HREF) {
@@ -14,7 +14,8 @@ const isListingPathname = (pathname: string): boolean => {
 
   const categoryMatch: RegExpExecArray | null =
     CATEGORY_LISTING_PATH.exec(pathname);
-  return Boolean(categoryMatch?.[1] && isCategorySlug(categoryMatch[1]));
+  const slug = categoryMatch?.groups?.slug;
+  return Boolean(slug && isCategorySlug(slug));
 };
 
 /**

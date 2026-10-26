@@ -17,7 +17,7 @@ describe("PendingButton pending accessible name", () => {
   it("keeps the children name, marks busy, and hides the spinner while pending", () => {
     render(<PendingButton isPending>Sign in</PendingButton>);
 
-    const button = getPendingButton(/sign in/i);
+    const button = getPendingButton(/sign in/iu);
     expect(button.getAttribute("aria-busy")).toBe("true");
 
     const spinner = getSpinner(button);
@@ -28,7 +28,7 @@ describe("PendingButton pending accessible name", () => {
   it("exposes the children name and hides the spinner when idle", () => {
     render(<PendingButton isPending={false}>Sign in</PendingButton>);
 
-    const button = getPendingButton(/^sign in$/i);
+    const button = getPendingButton(/^sign in$/iu);
     expect(button.getAttribute("aria-busy")).not.toBe("true");
 
     const spinner = getSpinner(button);

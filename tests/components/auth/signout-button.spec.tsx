@@ -28,7 +28,7 @@ describe("AuthButtons sign out", () => {
     const user = userEvent.setup();
     renderAuthButtons();
 
-    await user.click(screen.getByRole("button", { name: /sign out/i }));
+    await user.click(screen.getByRole("button", { name: /sign out/iu }));
     expect(signOutAction).toHaveBeenCalledTimes(1);
   });
 
@@ -43,22 +43,22 @@ describe("AuthButtons sign out", () => {
     const user = userEvent.setup();
     renderAuthButtons();
 
-    await user.click(screen.getByRole("button", { name: /sign out/i }));
+    await user.click(screen.getByRole("button", { name: /sign out/iu }));
 
     const formError = await screen.findByTestId("form-error");
-    expect(formError.textContent).toMatch(/sign out failed/i);
+    expect(formError.textContent).toMatch(/sign out failed/iu);
   });
 
   it("keeps the control named Sign out", () => {
     renderAuthButtons();
 
-    expect(screen.getByRole("button", { name: /sign out/i })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /sign out/iu })).toBeTruthy();
   });
 
   it("uses a form submit control", () => {
     renderAuthButtons();
 
-    const button = screen.getByRole("button", { name: /sign out/i });
+    const button = screen.getByRole("button", { name: /sign out/iu });
     expect(button.getAttribute("type")).toBe("submit");
   });
 });

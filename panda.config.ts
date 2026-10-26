@@ -41,7 +41,14 @@ export default defineConfig({
         xs: "30rem", // 480px
         xxs: "20rem", // 320px
       },
-      containerNames: ["models-grid", "model-detail", "navbar"],
+      containerNames: [
+        "models-grid",
+        "model-detail",
+        "navbar",
+        "about-story",
+        "about-layers",
+        "about-vision",
+      ],
       // Mixed rem + ch: intentional. Offline-indicator sizes track character
       // measure (`ch`); card/detail sizes stay rem like the rest of the scale.
       // `panda doctor` warns (`config_container_units_mixed`) until Panda allows
@@ -50,8 +57,14 @@ export default defineConfig({
         "card-copy": "48rem",
         "card-split": "28rem",
         "detail-split": "26rem",
+        // About page: sections respond to their own width, not the viewport.
+        // Thresholds are *split* points (`@container` is min-inline-size),
+        // matching the `card-split` convention above.
+        "layers-split": "52rem",
         "offline-indicator-full": "50ch",
         "offline-indicator-small": "20ch",
+        "story-split": "48rem",
+        "vision-split": "45rem",
       },
       keyframes,
       positionTry,

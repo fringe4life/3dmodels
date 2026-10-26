@@ -31,7 +31,7 @@ const clickGithubSignIn = async () => {
   const user = userEvent.setup();
   render(<SignInButton />);
   await user.click(
-    screen.getByRole("button", { name: /sign in with github/i }),
+    screen.getByRole("button", { name: /sign in with github/iu }),
   );
 };
 
@@ -47,7 +47,7 @@ describe("SignInButton GitHub OAuth errors", () => {
     await clickGithubSignIn();
 
     const formError = await screen.findByTestId("form-error");
-    expect(formError.textContent).toMatch(/oauth failed/i);
+    expect(formError.textContent).toMatch(/oauth failed/iu);
   });
 
   it("surfaces a handleServerError message", async () => {
@@ -56,7 +56,7 @@ describe("SignInButton GitHub OAuth errors", () => {
     await clickGithubSignIn();
 
     const formError = await screen.findByTestId("form-error");
-    expect(formError.textContent).toMatch(/github unreachable/i);
+    expect(formError.textContent).toMatch(/github unreachable/iu);
   });
 
   it("surfaces the unknown-error fallback", async () => {
@@ -67,7 +67,7 @@ describe("SignInButton GitHub OAuth errors", () => {
     await clickGithubSignIn();
 
     const formError = await screen.findByTestId("form-error");
-    expect(formError.textContent).toMatch(/an unknown error occurred/i);
+    expect(formError.textContent).toMatch(/an unknown error occurred/iu);
   });
 
   it("does not surface NEXT_REDIRECT as a form error", async () => {
@@ -81,7 +81,7 @@ describe("SignInButton GitHub OAuth errors", () => {
     render(<SignInButton />);
 
     await user.click(
-      screen.getByRole("button", { name: /sign in with github/i }),
+      screen.getByRole("button", { name: /sign in with github/iu }),
     );
 
     expect(screen.queryByTestId("form-error")).toBeNull();

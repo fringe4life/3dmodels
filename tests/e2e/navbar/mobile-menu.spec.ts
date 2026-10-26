@@ -6,7 +6,7 @@ test.describe("mobile navigation menu", () => {
 
   test("closes after tapping a navigation link", async ({ page }) => {
     await page.goto("/");
-    const menuButton = page.getByRole("button", { name: /navigation menu/i });
+    const menuButton = page.getByRole("button", { name: /navigation menu/iu });
     await menuButton.click();
 
     const popover = page.locator("#mobile-navigation");
@@ -14,9 +14,9 @@ test.describe("mobile navigation menu", () => {
 
     await page
       .locator("#mobile-navigation")
-      .getByRole("link", { name: /about/i })
+      .getByRole("link", { name: /about/iu })
       .click();
-    await expect(page).toHaveURL(/\/about/);
+    await expect(page).toHaveURL(/\/about/u);
     await expect(popover).toBeHidden();
   });
 });
@@ -31,10 +31,10 @@ test.describe("desktop navigation", () => {
     await expect(
       page
         .getByRole("navigation", { name: "Primary navigation" })
-        .getByRole("link", { name: /^about$/i }),
+        .getByRole("link", { name: /^about$/iu }),
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: /navigation menu/i }),
+      page.getByRole("button", { name: /navigation menu/iu }),
     ).toBeHidden();
   });
 });

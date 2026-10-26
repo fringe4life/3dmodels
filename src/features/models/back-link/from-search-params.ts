@@ -22,7 +22,7 @@ const serializeModelDetailSearchParams = createSerializer(
   fromSearchParamsParsers,
 );
 
-const MODEL_DETAIL_PATH = /^\/3d-models\/([^/]+)$/;
+const MODEL_DETAIL_PATH = /^\/3d-models\/(?<slug>[^/]+)$/u;
 
 /**
  * Runtime check for `/3d-models/{slug}` with optional query.
@@ -36,7 +36,8 @@ const isModelDetailRoute = (href: string): href is Route => {
     }
 
     const match: RegExpExecArray | null = MODEL_DETAIL_PATH.exec(url.pathname);
-    return Boolean(match?.[1] && isModelSlug(match[1]));
+    const slug = match?.groups?.slug;
+    return Boolean(slug && isModelSlug(slug));
   } catch {
     return false;
   }
