@@ -1,22 +1,18 @@
 import { css, cx } from "@styled-system/css";
 import { grid } from "@styled-system/patterns";
 import type { Metadata } from "next";
-import { getImageProps } from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { arrowRecipe } from "@/components/arrow-recipe";
 import {
-  HERO_IMAGE_DESKTOP_HEIGHT,
-  HERO_IMAGE_DESKTOP_SIZES,
-  HERO_IMAGE_DESKTOP_SRC,
-  HERO_IMAGE_DESKTOP_WIDTH,
-  HERO_IMAGE_MOBILE_MEDIA,
-  HERO_IMAGE_MOBILE_SIZES,
-  HERO_IMAGE_MOBILE_SRC,
-  HERO_IMAGE_TABLET_MEDIA,
-  HERO_IMAGE_TABLET_SIZES,
-  HERO_IMAGE_TABLET_SRC,
-} from "@/lib/hero-image";
+  MarketingHeroImage,
+  MarketingHeroImagePreload,
+} from "@/components/marketing/marketing-hero-image";
+import {
+  MARKETING_HERO_IMAGE_TRANSITION,
+  MARKETING_HERO_TITLE_TRANSITION,
+} from "@/lib/marketing-view-transitions";
 
 // Marketing: static shell + Link prefetch={true}. Session deferred via
 // getUser() → navigation() so this route stays statically prerenderable.
@@ -163,17 +159,12 @@ const heroImageClassName = css({
   maskSize: "100% 100%",
   mobileDown: {
     maskImage: "url(/masks/mobile.svg)",
-    WebkitMaskImage: "url(/masks/mobile.svg)",
   },
   objectFit: "cover",
   position: "absolute",
   tabletDown: {
     maskImage: "url(/masks/tablet.svg)",
-    WebkitMaskImage: "url(/masks/tablet.svg)",
   },
-  WebkitMaskImage: "url(/masks/desktop.svg)",
-  WebkitMaskRepeat: "no-repeat",
-  WebkitMaskSize: "100% 100%",
 });
 
 const heroCopyClassName = css({
@@ -366,67 +357,30 @@ const aboutTeaserLinkClassName = cx(
 const HERO_IMAGE_ALT =
   "A collage of 3D-printed architecture, gears, figures, and lattice structures.";
 
-const heroImageCommon = {
-  alt: HERO_IMAGE_ALT,
-  className: heroImageClassName,
-  fill: true,
-} as const;
-
-const {
-  props: { srcSet: heroMobileSrcSet, sizes: heroMobileSizes },
-} = getImageProps({
-  ...heroImageCommon,
-  sizes: HERO_IMAGE_MOBILE_SIZES,
-  src: HERO_IMAGE_MOBILE_SRC,
-});
-
-const {
-  props: { srcSet: heroTabletSrcSet, sizes: heroTabletSizes },
-} = getImageProps({
-  ...heroImageCommon,
-  sizes: HERO_IMAGE_TABLET_SIZES,
-  src: HERO_IMAGE_TABLET_SRC,
-});
-
-const { props: heroDesktopProps } = getImageProps({
-  ...heroImageCommon,
-  preload: true,
-  sizes: HERO_IMAGE_DESKTOP_SIZES,
-  src: HERO_IMAGE_DESKTOP_SRC,
-});
-
 const Home = () => (
   <div className={pageSpacingClassName}>
+    <MarketingHeroImagePreload />
     <section aria-labelledby="home-title" className={heroClassName}>
       <div className={headingGroupClassName}>
         <p className={eyebrowClassName}>
           Your go-to platform for 3D printing files
         </p>
-        <h1 className={headingClassName} id="home-title">
-          Discover what's possible with 3D Printing
-        </h1>
+        {/* Shared with `/about` — name must stay unique on the document. */}
+        <ViewTransition name={MARKETING_HERO_TITLE_TRANSITION}>
+          <h1 className={headingClassName} id="home-title">
+            Discover what's possible with 3D Printing
+          </h1>
+        </ViewTransition>
       </div>
       <div className={heroStageClassName}>
-        <figure className={heroFigureClassName}>
-          <picture>
-            <source
-              media={HERO_IMAGE_MOBILE_MEDIA}
-              sizes={heroMobileSizes}
-              srcSet={heroMobileSrcSet}
-            />
-            <source
-              media={HERO_IMAGE_TABLET_MEDIA}
-              sizes={heroTabletSizes}
-              srcSet={heroTabletSrcSet}
-            />
-            <img
-              {...heroDesktopProps}
-              alt={HERO_IMAGE_ALT}
-              height={HERO_IMAGE_DESKTOP_HEIGHT}
-              width={HERO_IMAGE_DESKTOP_WIDTH}
-            />
-          </picture>
-        </figure>
+        {/* Shared with `/about` — keep in sync with `marketing-view-transitions.ts`. */}
+        <ViewTransition name={MARKETING_HERO_IMAGE_TRANSITION}>
+          <MarketingHeroImage
+            alt={HERO_IMAGE_ALT}
+            figureClassName={heroFigureClassName}
+            imageClassName={heroImageClassName}
+          />
+        </ViewTransition>
         <div className={heroCopyClassName}>
           <p className={descriptionClassName}>
             Join our community of creators and explore a vast library of

@@ -8,8 +8,8 @@ name: Fallow
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches: [main]
+    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches: [ main ]
 
 permissions:
   contents: read

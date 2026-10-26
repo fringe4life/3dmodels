@@ -25,17 +25,17 @@ test.describe("instant marketing / auth shells", () => {
       name: "Primary navigation",
     });
     // Warm Link prefetch={true} for /about before locking navigations.
-    await primaryNavigation.getByRole("link", { name: /^about$/i }).hover();
+    await primaryNavigation.getByRole("link", { name: /^about$/iu }).hover();
     await page.waitForLoadState("networkidle");
 
     await instant(page, async () => {
-      await primaryNavigation.getByRole("link", { name: /^about$/i }).click();
+      await primaryNavigation.getByRole("link", { name: /^about$/iu }).click();
       await page.waitForURL((url) => url.pathname === "/about");
       await expect(
-        page.getByRole("heading", { name: /about printforge/i }),
+        page.getByRole("heading", { name: /about printforge/iu }),
       ).toBeVisible();
       await expect(
-        page.getByRole("heading", { name: /empowering makers worldwide/i }),
+        page.getByRole("heading", { name: /empowering makers worldwide/iu }),
       ).toBeVisible();
     });
   });
@@ -45,16 +45,16 @@ test.describe("instant marketing / auth shells", () => {
     const primaryNavigation = page.getByRole("navigation", {
       name: "Primary navigation",
     });
-    await primaryNavigation.getByRole("link", { name: /sign in/i }).hover();
+    await primaryNavigation.getByRole("link", { name: /sign in/iu }).hover();
     await page.waitForLoadState("networkidle");
 
     await instant(page, async () => {
-      await primaryNavigation.getByRole("link", { name: /sign in/i }).click();
+      await primaryNavigation.getByRole("link", { name: /sign in/iu }).click();
       await page.waitForURL((url) => url.pathname === "/signin");
       await expect(
-        page.getByRole("heading", { name: /sign in to your account/i }),
+        page.getByRole("heading", { name: /sign in to your account/iu }),
       ).toBeVisible();
-      await expect(page.getByLabel(/email address/i)).toBeVisible();
+      await expect(page.getByLabel(/email address/iu)).toBeVisible();
     });
   });
 
@@ -65,23 +65,23 @@ test.describe("instant marketing / auth shells", () => {
     // Logo is a raw <Link prefetch>, not NavLink — About/Sign-in specs miss this path.
     await page
       .locator("header")
-      .getByRole("link", { name: /go to the printforge homepage/i })
+      .getByRole("link", { name: /go to the printforge homepage/iu })
       .hover();
     await page.waitForLoadState("networkidle");
 
     await instant(page, async () => {
       await page
         .locator("header")
-        .getByRole("link", { name: /go to the printforge homepage/i })
+        .getByRole("link", { name: /go to the printforge homepage/iu })
         .click();
       await page.waitForURL((url) => url.pathname === "/");
       await expect(
         page.getByRole("heading", {
-          name: /discover what's possible with 3d printing/i,
+          name: /discover what's possible with 3d printing/iu,
         }),
       ).toBeVisible();
       await expect(
-        page.getByText(/your go-to platform for 3d printing files/i),
+        page.getByText(/your go-to platform for 3d printing files/iu),
       ).toBeVisible();
     });
   });
@@ -92,10 +92,10 @@ test.describe("instant marketing / auth shells", () => {
       async () => {
         await page.goto("/about");
         await expect(
-          page.getByRole("heading", { name: /about printforge/i }),
+          page.getByRole("heading", { name: /about printforge/iu }),
         ).toBeVisible();
         await expect(
-          page.getByRole("heading", { name: /empowering makers worldwide/i }),
+          page.getByRole("heading", { name: /empowering makers worldwide/iu }),
         ).toBeVisible();
       },
       { baseURL: baseURL ?? undefined },

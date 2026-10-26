@@ -9,23 +9,23 @@ test("sign-in shows form error for bad credentials then succeeds after correctio
 }) => {
   await page.goto("/(auth)/signin");
 
-  const emailInput = page.getByLabel(/email/i);
-  const passwordInput = page.getByLabel(/password/i);
+  const emailInput = page.getByLabel(/email/iu);
+  const passwordInput = page.getByLabel(/password/iu);
 
   await emailInput.fill("nope@example.com");
   await passwordInput.fill("WrongPass123!");
-  await page.getByRole("button", { name: /sign in/i }).click();
+  await page.getByRole("button", { name: /sign in/iu }).click();
 
   const formError = page.getByTestId("form-error");
   await expect(formError).toBeVisible();
-  await expect(formError).toContainText(/invalid/i);
+  await expect(formError).toContainText(/invalid/iu);
 
   await emailInput.fill("");
   await passwordInput.fill("");
   await emailInput.fill(VALID_EMAIL);
   await passwordInput.fill(VALID_PASSWORD);
-  await page.getByRole("button", { name: /sign in/i }).click();
+  await page.getByRole("button", { name: /sign in/iu }).click();
 
   await expect(formError).toBeHidden();
-  await expect(page).toHaveURL(/\/3d-models/);
+  await expect(page).toHaveURL(/\/3d-models/u);
 });

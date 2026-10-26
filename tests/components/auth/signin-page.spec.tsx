@@ -33,13 +33,13 @@ describe("SignInPage (Better Auth flow)", () => {
     const user = userEvent.setup();
     render(<SignInPage />);
 
-    await user.type(screen.getByLabelText(/email/i), "test@example.com");
-    await user.type(screen.getByLabelText(/password/i), "StrongPass123!");
-    await user.click(screen.getByRole("button", { name: /^sign in$/i }));
+    await user.type(screen.getByLabelText(/email/iu), "test@example.com");
+    await user.type(screen.getByLabelText(/password/iu), "StrongPass123!");
+    await user.click(screen.getByRole("button", { name: /^sign in$/iu }));
 
     await waitFor(() => {
       const submit = screen.getByRole("button", {
-        name: /^sign in$/i,
+        name: /^sign in$/iu,
       }) as HTMLButtonElement;
       expect(submit.disabled).toBe(false);
     });
@@ -52,12 +52,12 @@ describe("SignInPage (Better Auth flow)", () => {
     const user = userEvent.setup();
     render(<SignInPage />);
 
-    await user.type(screen.getByLabelText(/email/i), "nope@example.com");
-    await user.type(screen.getByLabelText(/password/i), "WrongPass123!");
-    await user.click(screen.getByRole("button", { name: /^sign in$/i }));
+    await user.type(screen.getByLabelText(/email/iu), "nope@example.com");
+    await user.type(screen.getByLabelText(/password/iu), "WrongPass123!");
+    await user.click(screen.getByRole("button", { name: /^sign in$/iu }));
 
     const formError = await screen.findByTestId("form-error");
-    expect(formError.textContent).toMatch(/invalid email or password/i);
+    expect(formError.textContent).toMatch(/invalid email or password/iu);
     expect(screen.queryByTestId("field-error-email")).toBeNull();
     expect(screen.queryByTestId("field-error-password")).toBeNull();
   });
@@ -66,22 +66,22 @@ describe("SignInPage (Better Auth flow)", () => {
     const user = userEvent.setup();
     render(<SignInPage />);
 
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
+    const emailInput = screen.getByLabelText(/email/iu);
+    const passwordInput = screen.getByLabelText(/password/iu);
 
     await user.type(emailInput, "nope@example.com");
     await user.type(passwordInput, "WrongPass123!");
-    await user.click(screen.getByRole("button", { name: /^sign in$/i }));
+    await user.click(screen.getByRole("button", { name: /^sign in$/iu }));
 
     expect((await screen.findByTestId("form-error")).textContent).toMatch(
-      /invalid email or password/i,
+      /invalid email or password/iu,
     );
 
     await user.clear(emailInput);
     await user.clear(passwordInput);
     await user.type(emailInput, "test@example.com");
     await user.type(passwordInput, "StrongPass123!");
-    await user.click(screen.getByRole("button", { name: /^sign in$/i }));
+    await user.click(screen.getByRole("button", { name: /^sign in$/iu }));
 
     await waitFor(() => {
       expect(screen.queryByTestId("form-error")).toBeNull();

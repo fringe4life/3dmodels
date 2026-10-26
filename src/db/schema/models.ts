@@ -41,6 +41,21 @@ export const models = sqliteTable(
     index("models_date_added_id_idx").on(table.dateAdded, table.id),
     index("models_likes_id_idx").on(table.likes, table.id),
     index("models_name_id_idx").on(table.name, table.id),
+    index("models_category_date_added_id_idx").on(
+      table.categorySlug,
+      table.dateAdded,
+      table.id,
+    ),
+    index("models_category_likes_id_idx").on(
+      table.categorySlug,
+      table.likes,
+      table.id,
+    ),
+    index("models_category_name_id_idx").on(
+      table.categorySlug,
+      table.name,
+      table.id,
+    ),
   ],
 );
 

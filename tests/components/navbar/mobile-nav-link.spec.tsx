@@ -16,7 +16,9 @@ describe("MobileNavLink", () => {
       </div>,
     );
 
-    const popover = document.getElementById(TEST_POPOVER_ID) as HTMLElement & {
+    const popover = document.querySelector(
+      `#${TEST_POPOVER_ID}`,
+    ) as HTMLElement & {
       hidePopover: () => void;
     };
     popover.hidePopover = hidePopover;

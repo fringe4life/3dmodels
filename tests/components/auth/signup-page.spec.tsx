@@ -21,12 +21,12 @@ describe("SignUpPage", () => {
   it("renders name, email, and password fields without GitHub OAuth", () => {
     render(<SignUpPage />);
 
-    expect(screen.getByLabelText(/^name$/i)).toBeTruthy();
-    expect(screen.getByLabelText(/email/i)).toBeTruthy();
-    expect(screen.getByLabelText(/password/i)).toBeTruthy();
-    expect(screen.getByRole("button", { name: /^sign up$/i })).toBeTruthy();
+    expect(screen.getByLabelText(/^name$/iu)).toBeTruthy();
+    expect(screen.getByLabelText(/email/iu)).toBeTruthy();
+    expect(screen.getByLabelText(/password/iu)).toBeTruthy();
+    expect(screen.getByRole("button", { name: /^sign up$/iu })).toBeTruthy();
     expect(
-      screen.queryByRole("button", { name: /sign in with github/i }),
+      screen.queryByRole("button", { name: /sign in with github/iu }),
     ).toBeNull();
   });
 
@@ -34,12 +34,12 @@ describe("SignUpPage", () => {
     const user = userEvent.setup();
     render(<SignUpPage />);
 
-    await user.type(screen.getByLabelText(/^name$/i), "Ada Lovelace");
-    await user.type(screen.getByLabelText(/email/i), "ada@example.com");
-    await user.type(screen.getByLabelText(/password/i), "StrongPass123!");
-    await user.click(screen.getByRole("button", { name: /^sign up$/i }));
+    await user.type(screen.getByLabelText(/^name$/iu), "Ada Lovelace");
+    await user.type(screen.getByLabelText(/email/iu), "ada@example.com");
+    await user.type(screen.getByLabelText(/password/iu), "StrongPass123!");
+    await user.click(screen.getByRole("button", { name: /^sign up$/iu }));
 
     const formError = await screen.findByTestId("form-error");
-    expect(formError.textContent).toMatch(/unable to create account/i);
+    expect(formError.textContent).toMatch(/unable to create account/iu);
   });
 });

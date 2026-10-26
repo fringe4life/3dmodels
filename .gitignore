@@ -20,6 +20,8 @@ styled-system-studio
 
 # kombai
 .kombai/canvas
+.kombai/tmp
+.kombai-review
 
 # Playwright
 /playwright-report/

@@ -9,7 +9,24 @@ minimumReleaseAgeExcludes = [
     "next",
     "@next/playwright",
     "@next/swc",
-    "@next/swc-linux-x64-gnu"
+    "@next/swc-linux-x64-gnu",
+    "ultracite",
+    "@biomejs/biome",
+    "@biomejs/cli-darwin-arm64",
+    "@biomejs/cli-darwin-x64",
+    "@biomejs/cli-linux-arm64",
+    "@biomejs/cli-linux-arm64-musl",
+    "@biomejs/cli-linux-x64",
+    "@biomejs/cli-linux-x64-musl",
+    "@biomejs/cli-win32-arm64",
+    "@biomejs/cli-win32-x64",
+    "@modelcontextprotocol/sdk",
+    "body-parser",
+    "fast-uri",
+    "hono",
+    "ip-address",
+    "undici",
+    "zod",
 ]
 
 [test]
