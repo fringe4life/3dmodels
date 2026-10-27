@@ -10,7 +10,10 @@ import {
   MarketingHeroImagePreload,
 } from "@/components/marketing/marketing-hero-image";
 import {
+  MARKETING_HERO_CTA_TRANSITION,
+  MARKETING_HERO_EYEBROW_TRANSITION,
   MARKETING_HERO_IMAGE_TRANSITION,
+  MARKETING_HERO_LEDE_TRANSITION,
   MARKETING_HERO_TITLE_TRANSITION,
 } from "@/lib/marketing-view-transitions";
 
@@ -362,9 +365,11 @@ const Home = () => (
     <MarketingHeroImagePreload />
     <section aria-labelledby="home-title" className={heroClassName}>
       <div className={headingGroupClassName}>
-        <p className={eyebrowClassName}>
-          Your go-to platform for 3D printing files
-        </p>
+        <ViewTransition name={MARKETING_HERO_EYEBROW_TRANSITION}>
+          <p className={eyebrowClassName}>
+            Your go-to platform for 3D printing files
+          </p>
+        </ViewTransition>
         {/* Shared with `/about` — name must stay unique on the document. */}
         <ViewTransition name={MARKETING_HERO_TITLE_TRANSITION}>
           <h1 className={headingClassName} id="home-title">
@@ -382,21 +387,25 @@ const Home = () => (
           />
         </ViewTransition>
         <div className={heroCopyClassName}>
-          <p className={descriptionClassName}>
-            Join our community of creators and explore a vast library of
-            user-submitted models.
-          </p>
-          <Link className={ctaClassName} href="/3d-models" prefetch>
-            <span>Browse Models</span>
-            <FaArrowRight
-              aria-hidden="true"
-              className={arrowRecipe({
-                direction: "right",
-                distance: "default",
-                size: "md",
-              })}
-            />
-          </Link>
+          <ViewTransition name={MARKETING_HERO_LEDE_TRANSITION}>
+            <p className={descriptionClassName}>
+              Join our community of creators and explore a vast library of
+              user-submitted models.
+            </p>
+          </ViewTransition>
+          <ViewTransition name={MARKETING_HERO_CTA_TRANSITION}>
+            <Link className={ctaClassName} href="/3d-models" prefetch>
+              <span>Browse Models</span>
+              <FaArrowRight
+                aria-hidden="true"
+                className={arrowRecipe({
+                  direction: "right",
+                  distance: "default",
+                  size: "md",
+                })}
+              />
+            </Link>
+          </ViewTransition>
         </div>
       </div>
     </section>

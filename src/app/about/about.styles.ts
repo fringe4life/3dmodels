@@ -1,14 +1,8 @@
 import { css, cx } from "@styled-system/css";
-import { cq, grid, gridItem } from "@styled-system/patterns";
+import { bleed, cq, grid, gridItem } from "@styled-system/patterns";
 
-/**
- * Tinted bands stay flush with `siteContainer`'s gutters. Negative margins
- * mirror its `paddingInline` (4 / 6 / 8) so a band can span the shell without
- * introducing a second max-width system.
- */
-const BLEED_INLINE = { base: -4, lg: -8, md: -6 } as const;
-
-const GUTTER_INLINE = { base: 4, lg: 8, md: 6 } as const;
+/** Matches root `siteContainer` `paddingInline` — use with `bleed({ inline })`. */
+const SITE_CONTAINER_GUTTER = { base: 4, lg: 8, md: 6 } as const;
 
 export const pageClassName = css({
   paddingBlockEnd: { base: 7, md: 0 },
@@ -53,9 +47,9 @@ export const eyebrowClassName = css({
 export const headingClassName = css({
   "@about-story/story-split": {
     "& > span": { display: "block" },
-    fontSize: "clamp(2.625rem, 4.22vw, 3.375rem)",
+    fontSize: "clamp(2.75rem, 4.8vw, 3.875rem)",
     letterSpacing: "-0.055em",
-    lineHeight: 1.04,
+    lineHeight: 1.03,
   },
   "& > span": { display: "inline" },
   fontFamily: "var(--font-montserrat)",
@@ -73,7 +67,7 @@ export const storyClassName = cx(
       justifySelf: "end",
       marginBlockStart: 0,
       maxInlineSize: "28.25rem",
-      paddingBlockStart: "78px",
+      paddingBlockStart: "clamp(2rem, 3.2vw, 3rem)",
       zIndex: "auto",
     },
     gridArea: "story",
@@ -96,7 +90,7 @@ export const storyClassName = cx(
     "& > p": {
       color: "text.secondary",
       fontSize: "md",
-      lineHeight: 1.68,
+      lineHeight: 1.6,
       margin: 0,
     },
     "& > p + p": { marginBlockStart: 4 },
@@ -108,7 +102,10 @@ export const bandFigureClassName = gridItem({
   gridArea: "band",
   inlineSize: "full",
   margin: 0,
-  marginBlockStart: "70px",
+  marginBlockStart: {
+    "@about-story/story-split": "clamp(2rem, 3.5vw, 2.75rem)",
+    base: 5,
+  },
   minInlineSize: 0,
   mobileDown: {
     aspectRatio: "354 / 274",
@@ -119,8 +116,8 @@ export const bandFigureClassName = gridItem({
 });
 
 /**
- * Masked collage — same breakpoint masks as the home hero (`maskImage` only;
- * unprefixed properties are enough for supported browsers; see home / layout).
+ * Desktop + mobile masks for about (`cog.svg` on small screens). Skip the home
+ * tablet jigsaw — no copy sits in those cutouts here (#183).
  */
 export const bandImageClassName = css({
   blockSize: "full",
@@ -132,20 +129,17 @@ export const bandImageClassName = css({
   maskRepeat: "no-repeat",
   maskSize: "100% 100%",
   mobileDown: {
-    maskImage: "url(/masks/mobile.svg)",
+    maskImage: "url(/masks/cog.svg)",
   },
   objectFit: "cover",
   objectPosition: "center",
   position: "absolute",
-  tabletDown: {
-    maskImage: "url(/masks/tablet.svg)",
-  },
 });
 
 export const pillarsSectionClassName = cx(
   cq({ minInlineSize: 0, name: "about-layers" }),
   css({
-    marginBlockStart: { base: 8, md: "76px" },
+    marginBlockStart: { base: 8, md: "3.5rem" },
   }),
 );
 
@@ -274,11 +268,11 @@ export const pillarThirdRowClassName = grid({
 
 export const visionSectionClassName = cx(
   cq({ minInlineSize: 0, name: "about-vision" }),
+  bleed({ inline: SITE_CONTAINER_GUTTER }),
   css({
     backgroundColor: "bg.subtle",
-    marginBlockStart: { base: 8, md: "88px" },
-    marginInline: BLEED_INLINE,
-    paddingInline: GUTTER_INLINE,
+    marginBlockStart: { base: 8, md: "4.5rem" },
+    paddingInline: SITE_CONTAINER_GUTTER,
   }),
 );
 
