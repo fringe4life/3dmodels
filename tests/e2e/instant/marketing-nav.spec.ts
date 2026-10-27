@@ -35,7 +35,9 @@ test.describe("instant marketing / auth shells", () => {
         page.getByRole("heading", { name: /about printforge/iu }),
       ).toBeVisible();
       await expect(
-        page.getByRole("heading", { name: /empowering makers worldwide/iu }),
+        page.getByRole("heading", {
+          name: /empowering makers to create and share/iu,
+        }),
       ).toBeVisible();
     });
   });
@@ -95,7 +97,9 @@ test.describe("instant marketing / auth shells", () => {
           page.getByRole("heading", { name: /about printforge/iu }),
         ).toBeVisible();
         await expect(
-          page.getByRole("heading", { name: /empowering makers worldwide/iu }),
+          page.getByRole("heading", {
+            name: /empowering makers to create and share/iu,
+          }),
         ).toBeVisible();
       },
       { baseURL: baseURL ?? undefined },

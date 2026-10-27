@@ -9,7 +9,10 @@ import {
   MarketingHeroImagePreload,
 } from "@/components/marketing/marketing-hero-image";
 import {
+  MARKETING_HERO_CTA_TRANSITION,
+  MARKETING_HERO_EYEBROW_TRANSITION,
   MARKETING_HERO_IMAGE_TRANSITION,
+  MARKETING_HERO_LEDE_TRANSITION,
   MARKETING_HERO_TITLE_TRANSITION,
 } from "@/lib/marketing-view-transitions";
 import {
@@ -45,7 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     description:
       "Founded in 2023, PrintForge has quickly become the go-to platform for 3D printing enthusiasts to share and discover amazing STL files.",
-    title: "About PrintForge - Empowering Makers Worldwide",
+    title: "About PrintForge - Empowering makers to create and share",
   },
   title: "About",
 };
@@ -71,16 +74,21 @@ const AboutPage = () => (
     <section aria-labelledby="about-title" className={heroSectionClassName}>
       <div className={heroLayoutClassName}>
         <div className={headingGroupClassName}>
-          <p className={eyebrowClassName}>About PrintForge</p>
+          <ViewTransition name={MARKETING_HERO_EYEBROW_TRANSITION}>
+            <p className={eyebrowClassName}>About PrintForge</p>
+          </ViewTransition>
           {/* Shared with `/` — name must stay unique on the document. */}
           <ViewTransition name={MARKETING_HERO_TITLE_TRANSITION}>
             <h1 className={headingClassName} id="about-title">
-              <span>Empowering</span> <span>Makers</span> <span>Worldwide</span>
+              <span>Empowering makers</span> <span>to create</span>{" "}
+              <span>and share</span>
             </h1>
           </ViewTransition>
         </div>
         <div className={storyClassName}>
-          <p>{FOUNDING_STORY}</p>
+          <ViewTransition name={MARKETING_HERO_LEDE_TRANSITION}>
+            <p>{FOUNDING_STORY}</p>
+          </ViewTransition>
           <p>{MISSION}</p>
         </div>
         {/* Shared with `/` — keep in sync with `marketing-view-transitions.ts`. */}
@@ -142,13 +150,15 @@ const AboutPage = () => (
         <div className={visionBodyClassName}>
           <p>{VISION_PLATFORM}</p>
           <p>{VISION_MAKERS}</p>
-          <Link className={ctaClassName} href="/3d-models" prefetch>
-            <span>Browse Models</span>
-            <FaArrowRight
-              aria-hidden="true"
-              className={arrowRecipe({ direction: "right", size: "md" })}
-            />
-          </Link>
+          <ViewTransition name={MARKETING_HERO_CTA_TRANSITION}>
+            <Link className={ctaClassName} href="/3d-models" prefetch>
+              <span>Browse Models</span>
+              <FaArrowRight
+                aria-hidden="true"
+                className={arrowRecipe({ direction: "right", size: "md" })}
+              />
+            </Link>
+          </ViewTransition>
         </div>
       </div>
     </section>
