@@ -33,7 +33,7 @@
       "devDependencies": {
         "@biomejs/biome": "2.6.3",
         "@happy-dom/global-registrator": "21.0.4",
-        "@next/playwright": "16.5.0-canary.27",
+        "@next/playwright": "16.5.0-canary.29",
         "@pandacss/dev": "2.4.0",
         "@pandacss/mcp": "2.4.0",
         "@pandacss/preset-base": "2.4.0",
@@ -322,7 +322,7 @@
 
     "@next/env": ["@varlock/nextjs-integration@1.2.5", "", { "peerDependencies": { "next": ">=14", "varlock": "^1.23.0" } }, "sha512-inKGoTR7SQgZnHl8+LfO7yEwmWuY5FYFpHdBiurmrHLsWCJF80X5gx4C+tc+V3Ve1NUAVWYraBCx31lGhRnnfg=="],
 
-    "@next/playwright": ["@next/playwright@16.5.0-canary.27", "", { "peerDependencies": { "@playwright/test": ">=1.0.0" }, "optionalPeers": ["@playwright/test"] }, "sha512-9Z6xC/fJ+aFuE6/UcXq4afudzgXjhMB1PGvYR0DWVPSExHo+HGSKTun90v94NpUKuv4XVVVy8DpnypTCFtuwyQ=="],
+    "@next/playwright": ["@next/playwright@16.5.0-canary.29", "", { "peerDependencies": { "@playwright/test": ">=1.0.0" }, "optionalPeers": ["@playwright/test"] }, "sha512-OeWetxeODOREa9vRIMmYwiMsEKdEAY5aNZzFv2X1gN9tkBIA5E3OlK9iVZqNaLDUqLsbuNCDIAIdAgUG9MrnJg=="],
 
     "@next/swc-linux-x64-gnu": ["@next/swc-linux-x64-gnu@16.5.0-canary.27", "", { "os": "linux", "cpu": "x64" }, "sha512-YxU2Z7uTI76FsYpX/Fs07fovGgD6m980oCWL4QHFD5CLx0ZVmviz91AuIsnHescjfYUXN5iyOHikzDmdiwmRqw=="],
 
