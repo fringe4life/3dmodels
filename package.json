@@ -84,7 +84,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.6.3",
     "@happy-dom/global-registrator": "21.0.4",
-    "@next/playwright": "16.5.0-canary.27",
+    "@next/playwright": "16.5.0-canary.29",
     "@pandacss/dev": "2.4.0",
     "@pandacss/mcp": "2.4.0",
     "@pandacss/preset-base": "2.4.0",
