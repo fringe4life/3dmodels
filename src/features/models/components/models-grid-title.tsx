@@ -1,7 +1,7 @@
 "use client";
 
 import { css } from "@styled-system/css";
-import { useCallback, useId, useState } from "react";
+import { useId, useState } from "react";
 import { SeedFromSearchParam } from "@/components/scripts/seed-from-search-param";
 import { useSyncSearchParamValue } from "@/hooks/use-sync-search-param";
 
@@ -11,16 +11,11 @@ interface ModelsGridTitleProps {
 
 const ModelsGridTitle = ({ fallbackTitle }: ModelsGridTitleProps) => {
   const titleId = useId();
-  const [title, setTitle] = useState(fallbackTitle);
+  const [query, setQuery] = useState<string | null>(null);
 
-  const syncQuery = useCallback(
-    (value: string | null) => {
-      setTitle(value ? `Results for "${value}"` : fallbackTitle);
-    },
-    [fallbackTitle],
-  );
+  useSyncSearchParamValue("query", setQuery);
 
-  useSyncSearchParamValue("query", syncQuery);
+  const title = query ? `Results for "${query}"` : fallbackTitle;
 
   return (
     <>

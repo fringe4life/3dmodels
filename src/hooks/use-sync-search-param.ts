@@ -2,29 +2,64 @@
 
 import { type RefObject, useLayoutEffect, useState } from "react";
 
+const locationSearchListeners = new Set<() => void>();
+
+let nativePushState: History["pushState"] | null = null;
+let nativeReplaceState: History["replaceState"] | null = null;
+
+const notifyLocationSearchListeners = () => {
+  for (const listener of locationSearchListeners) {
+    listener();
+  }
+};
+
+const ensureHistoryPatched = () => {
+  if (nativePushState !== null) {
+    return;
+  }
+  nativePushState = window.history.pushState.bind(window.history);
+  nativeReplaceState = window.history.replaceState.bind(window.history);
+
+  window.history.pushState = (...args: Parameters<History["pushState"]>) => {
+    const result = nativePushState?.(...args);
+    notifyLocationSearchListeners();
+    return result;
+  };
+  window.history.replaceState = (
+    ...args: Parameters<History["replaceState"]>
+  ) => {
+    const result = nativeReplaceState?.(...args);
+    notifyLocationSearchListeners();
+    return result;
+  };
+  window.addEventListener("popstate", notifyLocationSearchListeners);
+};
+
+const teardownHistoryPatchIfIdle = () => {
+  if (locationSearchListeners.size > 0 || nativePushState === null) {
+    return;
+  }
+  window.removeEventListener("popstate", notifyLocationSearchListeners);
+  if (nativePushState) {
+    window.history.pushState = nativePushState;
+  }
+  if (nativeReplaceState) {
+    window.history.replaceState = nativeReplaceState;
+  }
+  nativePushState = null;
+  nativeReplaceState = null;
+};
+
 /**
  * Subscribe to URL search changes without `useSearchParams` (static-shell safe).
- * Covers back/forward (`popstate`) and App Router `pushState` / `replaceState`.
+ * Shared history wrappers — safe with multiple subscribers / non-LIFO cleanup.
  */
 const subscribeToLocationSearch = (onChange: () => void): (() => void) => {
-  window.addEventListener("popstate", onChange);
-
-  const { pushState, replaceState } = window.history;
-  const wrap =
-    (original: typeof pushState) =>
-    (...args: Parameters<typeof pushState>) => {
-      const result = original.apply(window.history, args);
-      onChange();
-      return result;
-    };
-
-  window.history.pushState = wrap(pushState);
-  window.history.replaceState = wrap(replaceState);
-
+  ensureHistoryPatched();
+  locationSearchListeners.add(onChange);
   return () => {
-    window.removeEventListener("popstate", onChange);
-    window.history.pushState = pushState;
-    window.history.replaceState = replaceState;
+    locationSearchListeners.delete(onChange);
+    teardownHistoryPatchIfIdle();
   };
 };
 
