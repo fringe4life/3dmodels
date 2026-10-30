@@ -45,9 +45,18 @@ const SearchInput = () => {
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastWrittenHrefRef = useRef<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  useSyncInputToSearchParam(inputRef, "query");
+  useSyncInputToSearchParam(inputRef, "query", {
+    lastWrittenHrefRef,
+    onForeignNavigation: () => {
+      if (debounceTimerRef.current !== null) {
+        clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = null;
+      }
+    },
+  });
 
   useEffect(
     () => () => {
@@ -63,6 +72,7 @@ const SearchInput = () => {
       query: search,
       ...resetPager,
     });
+    lastWrittenHrefRef.current = href;
     startTransition(() => {
       addTransitionType(transitionType);
       router.replace(href, { scroll: false });

@@ -7,7 +7,8 @@ import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs"
 async function getSitemapEntries(): Promise<MetadataRoute.Sitemap> {
   "use cache";
   cacheTag("sitemap");
-  cacheLife("max");
+  // Catalog can change on seed/admin writes; pair with `invalidateSitemap`.
+  cacheLife("days");
 
   const [modelSlugs, categoryRows] = await Promise.all([
     getAllModelSlugs(),

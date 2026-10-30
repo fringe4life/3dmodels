@@ -11,3 +11,8 @@ import { updateTag } from "next/cache";
 export function invalidateAllModels(): void {
   updateTag("models");
 }
+
+/** Expire the cached `/sitemap.xml` entry after catalog mutations. */
+export function invalidateSitemap(): void {
+  updateTag("sitemap");
+}
