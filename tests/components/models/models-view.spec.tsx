@@ -2,7 +2,6 @@ import "../../../tests/setup/test-globals";
 import { afterEach, describe, expect, it, spyOn } from "bun:test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ModelsViewResult } from "../../../src/features/models/components/models-view";
-import { withListingNuqsTestingAdapter } from "../../setup/nuqs-testing";
 
 const model = {
   categorySlug: "toys-games" as const,
@@ -15,6 +14,13 @@ const model = {
   name: "Alpha Model",
   slug: "alpha",
   userId: "user-1",
+};
+
+const emptyPagination = {
+  currentLimit: 10 as const,
+  limitOptions: [],
+  nextHref: null,
+  previousHref: null,
 };
 
 afterEach(() => {
@@ -31,6 +37,7 @@ describe("ModelsViewResult", () => {
       render(
         <ModelsViewResult
           isAuthenticated={false}
+          pagination={emptyPagination}
           query=""
           result={{
             message: "Something went wrong. Please try again later.",
@@ -48,6 +55,7 @@ describe("ModelsViewResult", () => {
     render(
       <ModelsViewResult
         isAuthenticated={false}
+        pagination={emptyPagination}
         query="dragon"
         result={{ message: "There are no Models", type: "empty" }}
         returnTo="/3d-models"
@@ -71,6 +79,7 @@ describe("ModelsViewResult", () => {
     render(
       <ModelsViewResult
         isAuthenticated={false}
+        pagination={emptyPagination}
         query=""
         result={{ message: "There are no Models", type: "empty" }}
         returnTo="/3d-models"
@@ -90,6 +99,17 @@ describe("ModelsViewResult", () => {
     render(
       <ModelsViewResult
         isAuthenticated={false}
+        pagination={{
+          currentLimit: 10,
+          limitOptions: [
+            { href: "/3d-models?limit=5", value: 5 },
+            { href: "/3d-models", value: 10 },
+            { href: "/3d-models?limit=20", value: 20 },
+            { href: "/3d-models?limit=50", value: 50 },
+          ],
+          nextHref: null,
+          previousHref: null,
+        }}
         query=""
         result={{
           items: [model],
@@ -98,12 +118,11 @@ describe("ModelsViewResult", () => {
         }}
         returnTo="/3d-models"
       />,
-      { wrapper: withListingNuqsTestingAdapter() },
     );
 
     expect(screen.getByText("Alpha Model")).toBeDefined();
     expect(
-      screen.getByRole("combobox", { name: "Pagination limit control" }),
+      screen.getByRole("navigation", { name: "Pagination limit control" }),
     ).toBeDefined();
   });
 });

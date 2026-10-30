@@ -1,25 +1,26 @@
 import { css, cx } from "@styled-system/css";
-import { visuallyHidden } from "@styled-system/patterns";
-import type { ChangeEventHandler } from "react";
+import type { Route } from "next";
+import Link from "next/link";
 import { buttonRecipe } from "@/components/button-recipe";
 import type { SortList } from "@/features/models/sort/constants";
 
 interface SortOptionProps {
-  checked: boolean;
+  href: Route;
   label: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  selected: boolean;
   value: SortList;
 }
 
-const SortOption = ({ checked, label, onChange, value }: SortOptionProps) => (
-  <label
+const SortOption = ({ href, label, selected, value }: SortOptionProps) => (
+  <Link
+    aria-current={selected ? "true" : undefined}
     className={cx(
       buttonRecipe({
         size: "pill",
-        variant: checked ? "primary" : "brandOutline",
+        variant: selected ? "primary" : "brandOutline",
       }),
       css({
-        _focusWithin: {
+        _focusVisible: {
           outline: "none",
           ring: 2,
           ringColor: "brand.ring",
@@ -27,17 +28,13 @@ const SortOption = ({ checked, label, onChange, value }: SortOptionProps) => (
         },
       }),
     )}
+    data-sort={value}
+    href={href}
+    replace
+    scroll={false}
   >
-    <input
-      checked={checked}
-      className={visuallyHidden()}
-      name="sort"
-      onChange={onChange}
-      type="radio"
-      value={value}
-    />
     {label}
-  </label>
+  </Link>
 );
 
 export { SortOption };

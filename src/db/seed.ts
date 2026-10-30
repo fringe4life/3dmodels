@@ -90,6 +90,17 @@ async function seed() {
     });
     console.log("✅ Updated likes counts for all models");
 
+    // Best-effort: no-op outside a Next request/cache runtime (local CLI seed).
+    try {
+      const { invalidateAllModels, invalidateSitemap } = await import(
+        "@/utils/cache-invalidation"
+      );
+      invalidateAllModels();
+      invalidateSitemap();
+    } catch {
+      console.log("ℹ️ Skipped Next cache tag invalidation (no cache runtime)");
+    }
+
     return { categoriesResult, modelsResult };
   } catch (error) {
     console.error("❌ Error seeding database:", error);

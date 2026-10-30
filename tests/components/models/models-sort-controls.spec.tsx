@@ -1,55 +1,44 @@
 import "../../../tests/setup/test-globals";
-import { afterEach, describe, expect, it, vi } from "bun:test";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
+import { cleanup, render, screen } from "@testing-library/react";
 import { ModelsSortControls } from "../../../src/features/models/components/models-sort-controls";
-import {
-  getLastUrlUpdate,
-  withListingNuqsTestingAdapter,
-} from "../../setup/nuqs-testing";
 
 afterEach(() => {
   cleanup();
+  window.history.replaceState({}, "", "/3d-models");
+});
+
+beforeEach(() => {
+  window.history.replaceState({}, "", "/3d-models");
 });
 
 describe("ModelsSortControls", () => {
-  it("marks the URL sort as checked", () => {
-    render(<ModelsSortControls />, {
-      wrapper: withListingNuqsTestingAdapter({
-        searchParams: { sort: "recent" },
-      }),
-    });
+  it("marks the URL sort as current", () => {
+    window.history.replaceState({}, "", "/3d-models?sort=recent");
+    render(<ModelsSortControls />);
 
-    const recent = screen.getByRole("radio", { name: "Recent" });
-    expect(recent).toHaveProperty("checked", true);
+    expect(
+      screen.getByRole("link", { name: "Recent" }).getAttribute("aria-current"),
+    ).toBe("true");
   });
 
-  it("writes sort and clears default cursor on change", async () => {
-    const user = userEvent.setup();
-    const onUrlUpdate = vi.fn();
+  it("merges active query into sort Link hrefs and resets pager", () => {
+    window.history.replaceState(
+      {},
+      "",
+      "/3d-models?query=dragon&cursor=01900000-0000-7000-8000-000000000001&direction=backward&sort=alphabetic",
+    );
 
-    render(<ModelsSortControls />, {
-      wrapper: withListingNuqsTestingAdapter({
-        hasMemory: true,
-        onUrlUpdate,
-        searchParams: {
-          cursor: "01900000-0000-7000-8000-000000000001",
-          direction: "backward",
-          sort: "alphabetic",
-        },
-      }),
-    });
+    render(<ModelsSortControls />);
 
-    await user.click(screen.getByRole("radio", { name: "Popular" }));
-
-    await waitFor(() => {
-      expect(onUrlUpdate.mock.calls.length).toBeGreaterThan(0);
-    });
-
-    const event = getLastUrlUpdate(onUrlUpdate);
-    expect(event.searchParams.get("sort")).toBe("popular");
-    expect(event.searchParams.get("cursor")).toBeNull();
-    expect(event.searchParams.get("direction")).toBeNull();
-    expect(event.options.history).toBe("replace");
+    const href = screen
+      .getByRole("link", { name: "Popular" })
+      .getAttribute("href");
+    expect(href).toBeTruthy();
+    const params = new URL(String(href), "http://local.invalid").searchParams;
+    expect(params.get("sort")).toBe("popular");
+    expect(params.get("query")).toBe("dragon");
+    expect(params.get("cursor")).toBeNull();
+    expect(params.get("direction")).toBeNull();
   });
 });

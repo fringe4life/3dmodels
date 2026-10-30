@@ -1,24 +1,24 @@
 import "../../setup/test-globals";
-import { afterEach, describe, expect, it, vi } from "bun:test";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SearchInput } from "../../../src/components/search-input/search-input";
-import {
-  getLastUrlUpdate,
-  withListingNuqsTestingAdapter,
-} from "../../setup/nuqs-testing";
+import { navigationReplace } from "../../setup/next-mocks";
 
 afterEach(() => {
   cleanup();
+  navigationReplace.mockClear();
+  window.history.replaceState({}, "", "/3d-models");
+});
+
+beforeEach(() => {
+  window.history.replaceState({}, "", "/3d-models");
 });
 
 describe("SearchInput", () => {
   it("hydrates the input from the query search param", () => {
-    render(<SearchInput />, {
-      wrapper: withListingNuqsTestingAdapter({
-        searchParams: { query: "dragon" },
-      }),
-    });
+    window.history.replaceState({}, "", "/3d-models?query=dragon");
+    render(<SearchInput />);
 
     expect(
       screen.getByRole("textbox", { name: "Search models" }),
@@ -26,9 +26,7 @@ describe("SearchInput", () => {
   });
 
   it("is not busy when idle and marks the spinner decorative", () => {
-    const { container } = render(<SearchInput />, {
-      wrapper: withListingNuqsTestingAdapter(),
-    });
+    const { container } = render(<SearchInput />);
 
     const input = screen.getByRole("textbox", { name: "Search models" });
     expect(input.getAttribute("aria-busy")).not.toBe("true");
@@ -40,9 +38,7 @@ describe("SearchInput", () => {
 
   it("marks the input busy while a search transition is pending", async () => {
     const user = userEvent.setup();
-    const { container } = render(<SearchInput />, {
-      wrapper: withListingNuqsTestingAdapter({ hasMemory: true }),
-    });
+    const { container } = render(<SearchInput />);
 
     const input = screen.getByRole("textbox", { name: "Search models" });
     const typing = user.type(input, "x");
@@ -60,51 +56,43 @@ describe("SearchInput", () => {
 
   it("writes query, lowercases it, and resets cursor on Enter", async () => {
     const user = userEvent.setup();
-    const onUrlUpdate = vi.fn();
+    window.history.replaceState(
+      {},
+      "",
+      "/3d-models?cursor=01900000-0000-7000-8000-000000000001&direction=backward",
+    );
 
-    render(<SearchInput />, {
-      wrapper: withListingNuqsTestingAdapter({
-        hasMemory: true,
-        onUrlUpdate,
-        searchParams: {
-          cursor: "01900000-0000-7000-8000-000000000001",
-          direction: "backward",
-        },
-      }),
-    });
+    render(<SearchInput />);
 
     const input = screen.getByRole("textbox", { name: "Search models" });
     await user.type(input, "Dragon{Enter}");
 
     await waitFor(() => {
-      expect(onUrlUpdate.mock.calls.length).toBeGreaterThan(0);
+      expect(navigationReplace.mock.calls.length).toBeGreaterThan(0);
     });
 
-    const event = getLastUrlUpdate(onUrlUpdate);
-    expect(event.searchParams.get("query")).toBe("dragon");
-    expect(event.searchParams.get("cursor")).toBeNull();
-    expect(event.searchParams.get("direction")).toBeNull();
+    const href = String(navigationReplace.mock.calls.at(-1)?.[0] ?? "");
+    const params = new URL(href, "http://local.invalid").searchParams;
+    expect(params.get("query")).toBe("dragon");
+    expect(params.get("cursor")).toBeNull();
+    expect(params.get("direction")).toBeNull();
+    expect(navigationReplace.mock.calls.at(-1)?.[1]).toEqual({ scroll: false });
   });
 
   it("clears query from the URL when the input is emptied", async () => {
     const user = userEvent.setup();
-    const onUrlUpdate = vi.fn();
+    window.history.replaceState({}, "", "/3d-models?query=dragon");
 
-    render(<SearchInput />, {
-      wrapper: withListingNuqsTestingAdapter({
-        hasMemory: true,
-        onUrlUpdate,
-        searchParams: { query: "dragon" },
-      }),
-    });
+    render(<SearchInput />);
 
     await user.clear(screen.getByRole("textbox", { name: "Search models" }));
 
     await waitFor(() => {
-      expect(onUrlUpdate.mock.calls.length).toBeGreaterThan(0);
+      expect(navigationReplace.mock.calls.length).toBeGreaterThan(0);
     });
 
-    const event = getLastUrlUpdate(onUrlUpdate);
-    expect(event.searchParams.get("query")).toBeNull();
+    const href = String(navigationReplace.mock.calls.at(-1)?.[0] ?? "");
+    const params = new URL(href, "http://local.invalid").searchParams;
+    expect(params.get("query")).toBeNull();
   });
 });

@@ -1,45 +1,58 @@
 "use client";
 
 import { visuallyHidden, wrap } from "@styled-system/patterns";
-import type { ChangeEventHandler } from "react";
+import { usePathname } from "next/navigation";
+import { useCallback, useState } from "react";
+import { SeedSortLinks } from "@/components/scripts/seed-sort-links";
+import { listingHref } from "@/features/models/listing/listing-serialize";
 import { isSortList, toSort } from "@/features/models/sort/brands";
 import { SortOption } from "@/features/models/sort/components/sort-option";
-import { SORT_LABELS, SORT_VALUES } from "@/features/models/sort/constants";
-import { useSortQuery } from "@/features/models/sort/hooks/use-sort-query";
+import {
+  DEFAULT_SORT,
+  SORT_LABELS,
+  SORT_VALUES,
+  type SortList,
+} from "@/features/models/sort/constants";
+import {
+  useLocationSearch,
+  useSyncSearchParamValue,
+} from "@/hooks/use-sync-search-param";
+import { resetPager } from "@/lib/listing-url";
 
 const ModelsSortControls = () => {
-  const { handleSortChange, isPending, sort } = useSortQuery();
+  const pathname = usePathname();
+  const search = useLocationSearch();
+  const [sort, setSort] = useState<SortList>(DEFAULT_SORT);
 
-  const handleRadioChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.currentTarget;
-    if (isSortList(value)) {
-      handleSortChange(toSort(value));
-    }
-  };
+  const syncSort = useCallback((value: string | null) => {
+    setSort(value && isSortList(value) ? toSort(value) : DEFAULT_SORT);
+  }, []);
+
+  useSyncSearchParamValue("sort", syncSort);
+
+  const base = `${pathname}${search}`;
 
   return (
     <fieldset
-      aria-busy={isPending}
       className={wrap({
         border: "none",
         gap: 2,
         margin: 0,
         minInlineSize: 0,
-        opacity: { _disabled: "0.5" },
         padding: 0,
       })}
-      disabled={isPending}
     >
       <legend className={visuallyHidden()}>Sort models</legend>
       {SORT_VALUES.map((value) => (
         <SortOption
-          checked={toSort(value) === sort}
+          href={listingHref(base, { sort: value, ...resetPager })}
           key={value}
           label={SORT_LABELS[value]}
-          onChange={handleRadioChange}
+          selected={toSort(value) === sort}
           value={value}
         />
       ))}
+      <SeedSortLinks />
     </fieldset>
   );
 };

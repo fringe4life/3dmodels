@@ -1,12 +1,7 @@
-"use client";
-
 import { css } from "@styled-system/css";
-import { useQueryStates } from "nuqs";
-import { type ChangeEvent, useId, useTransition } from "react";
-import { parse } from "valibot";
-import { LIMITS } from "@/lib/pagination/constants";
-import { limitItemSchema } from "@/lib/pagination/schema";
-import { limitParser } from "@/lib/pagination/search-params";
+import type { Route } from "next";
+import Link from "next/link";
+import type { LIMITS } from "@/lib/pagination/constants";
 
 const limitControlClass = css({
   _focusVisible: {
@@ -15,49 +10,7 @@ const limitControlClass = css({
     ringColor: "brand.ring",
     ringOffset: 2,
   },
-  "& option": {
-    backgroundColor: "bg.surface",
-    color: "text.primary",
-    paddingBlock: 1,
-    paddingInline: 2,
-  },
-  "& option::checkmark": {
-    color: "brand",
-    content: "✓",
-    fontWeight: "bold",
-  },
-  "& option:checked": {
-    backgroundColor: "brand.subtle",
-  },
-  "&::picker-icon": {
-    color: "brand",
-    transitionDuration: "normal",
-    transitionProperty: "color,rotate",
-    transitionTimingFunction: "ease-in-out",
-  },
-  "&::picker(select)": {
-    appearance: "base-select",
-    backgroundColor: "bg.surface",
-    borderColor: "border",
-    borderWidth: 1,
-    opacity: 0,
-    padding: 1,
-    rounded: "md",
-    scale: "0.98",
-    transformOrigin: "top",
-    transitionBehavior: "allow-discrete",
-    transitionDuration: "normal",
-    transitionProperty: "opacity,scale",
-    transitionTimingFunction: "outDramatic",
-  },
-  "&:is(:open,[open])::picker-icon": {
-    rotate: "180deg",
-  },
-  "&:open::picker(select)": {
-    opacity: 1,
-    scale: "1",
-  },
-  appearance: "base-select",
+  alignItems: "center",
   backgroundColor: "bg.surface",
   borderColor: {
     _focusVisible: "brand",
@@ -66,66 +19,56 @@ const limitControlClass = css({
   },
   borderWidth: 1,
   color: "text.primary",
+  display: "inline-flex",
   fontSize: "sm",
   fontVariantNumeric: "tabular-nums",
-  inlineSize: 14,
+  gap: 1,
   paddingBlock: 1,
   paddingInline: 2,
   rounded: "md",
-  transitionDuration: "normal",
-  transitionProperty: "colors,box-shadow",
-  transitionTimingFunction: "ease-in-out",
 });
 
-const PaginationLimitControl = () => {
-  const id = useId();
-  const [, startTransition] = useTransition();
-  const [{ limit }, setLimitState] = useQueryStates(limitParser);
+const limitOptionClass = css({
+  _currentPage: {
+    backgroundColor: "brand.subtle",
+    fontWeight: "semibold",
+  },
+  color: "text.primary",
+  paddingBlock: 1,
+  paddingInline: 2,
+  rounded: "sm",
+  textDecoration: "none",
+});
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const nextLimit = parse(limitItemSchema, Number(event.target.value));
-    if (nextLimit === limit) {
-      return;
-    }
+interface LimitOption {
+  href: Route;
+  value: (typeof LIMITS)[number];
+}
 
-    startTransition(async () => {
-      await setLimitState({ limit: nextLimit });
-    });
-  };
+interface PaginationLimitControlProps {
+  currentLimit: (typeof LIMITS)[number];
+  options: LimitOption[];
+}
 
-  return (
-    <select
-      aria-label="Pagination limit control"
-      className={limitControlClass}
-      id={id}
-      onChange={handleChange}
-      value={limit}
-    >
-      <button suppressHydrationWarning type="button">
-        <selectedcontent
-          // biome-ignore assist/source/useSortedKeys: starting style needs to be last usually
-          className={css({
-            transitionDuration: "normal",
-            transitionProperty: "translate,opacity",
-            transitionTimingFunction: "inDramatic",
-            transitionBehavior: "allow-discrete",
-            _starting: {
-              opacity: 0,
-              translate: "0 100%",
-            },
-          })}
-          suppressHydrationWarning
-        >
-          {limit}
-        </selectedcontent>
-      </button>
-      {LIMITS.map((value) => (
-        <option key={value} value={value}>
-          {value}
-        </option>
-      ))}
-    </select>
-  );
-};
+const PaginationLimitControl = ({
+  currentLimit,
+  options,
+}: PaginationLimitControlProps) => (
+  <nav aria-label="Pagination limit control" className={limitControlClass}>
+    {options.map(({ href, value }) => (
+      <Link
+        aria-current={value === currentLimit ? "page" : undefined}
+        className={limitOptionClass}
+        href={href}
+        key={value}
+        replace
+        scroll={false}
+      >
+        {value}
+      </Link>
+    ))}
+  </nav>
+);
 
+export type { LimitOption, PaginationLimitControlProps };
 export { PaginationLimitControl };

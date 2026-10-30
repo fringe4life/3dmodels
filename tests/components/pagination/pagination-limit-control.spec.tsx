@@ -1,62 +1,31 @@
 import "../../setup/test-globals";
-import { afterEach, describe, expect, it, vi } from "bun:test";
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { afterEach, describe, expect, it } from "bun:test";
+import { cleanup, render, screen } from "@testing-library/react";
 import { PaginationLimitControl } from "../../../src/components/pagination/pagination-limit-control";
-import {
-  getLastUrlUpdate,
-  withListingNuqsTestingAdapter,
-} from "../../setup/nuqs-testing";
 
 afterEach(() => {
   cleanup();
 });
 
-const getLimitSelect = () =>
-  screen.getByRole("combobox", { name: "Pagination limit control" });
-
 describe("PaginationLimitControl", () => {
-  it("writes a valid limit to the URL", async () => {
-    const onUrlUpdate = vi.fn();
+  it("renders limit links and marks the current limit", () => {
+    render(
+      <PaginationLimitControl
+        currentLimit={10}
+        options={[
+          { href: "/3d-models?limit=5", value: 5 },
+          { href: "/3d-models", value: 10 },
+          { href: "/3d-models?limit=20", value: 20 },
+          { href: "/3d-models?limit=50", value: 50 },
+        ]}
+      />,
+    );
 
-    render(<PaginationLimitControl />, {
-      wrapper: withListingNuqsTestingAdapter({
-        hasMemory: true,
-        onUrlUpdate,
-      }),
-    });
-
-    fireEvent.change(getLimitSelect(), { target: { value: "20" } });
-
-    await waitFor(() => {
-      expect(onUrlUpdate.mock.calls.length).toBeGreaterThan(0);
-    });
-
-    expect(getLastUrlUpdate(onUrlUpdate).searchParams.get("limit")).toBe("20");
-  });
-
-  it("falls back to DEFAULT_LIMIT for an invalid value", async () => {
-    const onUrlUpdate = vi.fn();
-
-    render(<PaginationLimitControl />, {
-      wrapper: withListingNuqsTestingAdapter({
-        hasMemory: true,
-        onUrlUpdate,
-        searchParams: { limit: "5" },
-      }),
-    });
-
-    fireEvent.change(getLimitSelect(), { target: { value: "7" } });
-
-    await waitFor(() => {
-      expect(onUrlUpdate.mock.calls.length).toBeGreaterThan(0);
-    });
-
-    expect(getLastUrlUpdate(onUrlUpdate).searchParams.get("limit")).toBeNull();
+    expect(screen.getByRole("link", { name: "20" }).getAttribute("href")).toBe(
+      "/3d-models?limit=20",
+    );
+    expect(
+      screen.getByRole("link", { name: "10" }).getAttribute("aria-current"),
+    ).toBe("page");
   });
 });
