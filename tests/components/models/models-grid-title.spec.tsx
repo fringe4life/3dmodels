@@ -1,18 +1,20 @@
 import "../../../tests/setup/test-globals";
-import { afterEach, describe, expect, it } from "bun:test";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ModelsGridTitle } from "../../../src/features/models/components/models-grid-title";
-import { withListingNuqsTestingAdapter } from "../../setup/nuqs-testing";
 
 afterEach(() => {
   cleanup();
+  window.history.replaceState({}, "", "/3d-models");
+});
+
+beforeEach(() => {
+  window.history.replaceState({}, "", "/3d-models");
 });
 
 describe("ModelsGridTitle", () => {
   it("shows the fallback title when query is empty", () => {
-    render(<ModelsGridTitle fallbackTitle="3D Models" />, {
-      wrapper: withListingNuqsTestingAdapter(),
-    });
+    render(<ModelsGridTitle fallbackTitle="3D Models" />);
 
     expect(
       screen.getByRole("heading", { level: 1, name: "3D Models" }),
@@ -20,11 +22,8 @@ describe("ModelsGridTitle", () => {
   });
 
   it("shows results for the query search param", () => {
-    render(<ModelsGridTitle fallbackTitle="3D Models" />, {
-      wrapper: withListingNuqsTestingAdapter({
-        searchParams: { query: "dragon" },
-      }),
-    });
+    window.history.replaceState({}, "", "/3d-models?query=dragon");
+    render(<ModelsGridTitle fallbackTitle="3D Models" />);
 
     expect(
       screen.getByRole("heading", {

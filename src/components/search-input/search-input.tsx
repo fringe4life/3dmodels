@@ -2,85 +2,110 @@
 
 import { css } from "@styled-system/css";
 import { square } from "@styled-system/patterns";
-import { debounce, defaultRateLimit, useQueryStates } from "nuqs";
+import { usePathname, useRouter } from "next/navigation";
+import { createSerializer } from "nuqs";
 import {
   Activity,
   addTransitionType,
   type ChangeEventHandler,
   type KeyboardEventHandler,
-  useState,
+  useEffect,
+  useId,
+  useRef,
   useTransition,
 } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { DEFAULT_CURSOR, DEFAULT_DIRECTION } from "@/lib/pagination/constants";
+import { SeedFromSearchParam } from "@/components/scripts/seed-from-search-param";
+import { useSyncInputToSearchParam } from "@/hooks/use-sync-search-param";
+import { processListingUrlSearchParams, resetPager } from "@/lib/listing-url";
 import {
   cursorPaginationParsers,
   queryParser,
 } from "@/lib/pagination/search-params";
 import { SearchInputTransition } from "./search-input-transition";
 
-const SEARCH_DEBOUNCE_DELAY = 250;
+const SEARCH_DEBOUNCE_DELAY_MS = 250;
 
 type TransitionType = "search-clear" | "search-debounce" | "search-submit";
 
-type LimitUrlUpdates = typeof defaultRateLimit;
-
-const SearchInput = () => {
-  const [isPending, startTransition] = useTransition();
-  const [{ query }, setSearchState] = useQueryStates({
+/** Client write path: merge onto location.search so sort/limit survive (shared with listingHref cleanup). */
+const serializeSearchWrite = createSerializer(
+  {
     ...cursorPaginationParsers,
     ...queryParser,
-  });
-  // Local draft so Enter can flush before the debounced URL write lands.
-  const urlQuery = query || "";
-  const [draftQuery, setDraftQuery] = useState(urlQuery);
-  const [prevUrlQuery, setPrevUrlQuery] = useState(urlQuery);
+  },
+  {
+    processUrlSearchParams: processListingUrlSearchParams,
+  },
+);
 
-  if (urlQuery !== prevUrlQuery) {
-    setPrevUrlQuery(urlQuery);
-    setDraftQuery(urlQuery);
-  }
+const SearchInput = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const inputId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  const changeSearch = (
+  useSyncInputToSearchParam(inputRef, "query");
+
+  useEffect(
+    () => () => {
+      if (debounceTimerRef.current !== null) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    },
+    [],
+  );
+
+  const replaceSearch = (search: string, transitionType: TransitionType) => {
+    const href = serializeSearchWrite(`${pathname}${window.location.search}`, {
+      query: search,
+      ...resetPager,
+    });
+    startTransition(() => {
+      addTransitionType(transitionType);
+      router.replace(href, { scroll: false });
+    });
+  };
+
+  const scheduleSearch = (
     search: string,
     transitionType: TransitionType,
-    debounceTime: LimitUrlUpdates,
+    debounceMs: number,
   ) => {
-    startTransition(async () => {
-      addTransitionType(transitionType);
-      await setSearchState(
-        {
-          cursor: DEFAULT_CURSOR,
-          direction: DEFAULT_DIRECTION,
-          query: search,
-        },
-        {
-          limitUrlUpdates: debounceTime,
-        },
-      );
-    });
+    if (debounceTimerRef.current !== null) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
+    if (debounceMs <= 0) {
+      replaceSearch(search, transitionType);
+      return;
+    }
+    debounceTimerRef.current = setTimeout(() => {
+      debounceTimerRef.current = null;
+      replaceSearch(search, transitionType);
+    }, debounceMs);
   };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
     const rawValue = e.currentTarget.value;
     const search = rawValue.trim().toLowerCase() || "";
-    setDraftQuery(rawValue);
-    const isEmpty = search === "";
-    let debounceTime: LimitUrlUpdates = debounce(SEARCH_DEBOUNCE_DELAY);
-    let transitionType: TransitionType = "search-debounce";
-    if (isEmpty) {
-      transitionType = "search-clear";
-      debounceTime = defaultRateLimit;
+    if (search === "") {
+      scheduleSearch(search, "search-clear", 0);
+      return;
     }
-    changeSearch(search, transitionType, debounceTime);
+    scheduleSearch(search, "search-debounce", SEARCH_DEBOUNCE_DELAY_MS);
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === "Enter") {
-      const search = e.currentTarget.value.trim().toLowerCase() || "";
-      changeSearch(search, "search-submit", defaultRateLimit);
+    if (e.key !== "Enter") {
+      return;
     }
+    const search = e.currentTarget.value.trim().toLowerCase() || "";
+    scheduleSearch(search, "search-submit", 0);
   };
+
   return (
     <>
       <input
@@ -105,13 +130,16 @@ const SearchInput = () => {
           transitionDuration: "normal",
           transitionProperty: "colors",
         })}
+        id={inputId}
         name="search"
         onChange={handleSearch}
         onKeyDown={handleKeyDown}
         placeholder="E.g. dragon"
+        ref={inputRef}
+        suppressHydrationWarning
         type="text"
-        value={draftQuery}
       />
+      <SeedFromSearchParam param="query" targetId={inputId} />
       <Activity mode={isPending ? "visible" : "hidden"}>
         <SearchInputTransition>
           <AiOutlineLoading3Quarters

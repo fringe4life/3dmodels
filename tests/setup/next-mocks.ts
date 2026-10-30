@@ -20,27 +20,32 @@ const isNextControlFlowError = (error: unknown): boolean => {
   return false;
 };
 
-vi.mock("next/navigation", () => {
-  const push = vi.fn();
-  const replace = vi.fn();
-  const back = vi.fn();
-  const forward = vi.fn();
-  const prefetch = vi.fn();
-  return {
-    RedirectType,
-    redirect: vi.fn(() => {
-      throw new Error("NEXT_REDIRECT");
-    }),
-    unstable_rethrow: vi.fn((error: unknown) => {
-      if (isNextControlFlowError(error)) {
-        throw error;
-      }
-    }),
-    usePathname: () => "/test-path",
-    useRouter: () => ({ back, forward, prefetch, push, replace }),
-    useSearchParams: () => new URLSearchParams(""),
-  };
-});
+const navigationPush = vi.fn();
+const navigationReplace = vi.fn();
+const navigationBack = vi.fn();
+const navigationForward = vi.fn();
+const navigationPrefetch = vi.fn();
+
+vi.mock("next/navigation", () => ({
+  RedirectType,
+  redirect: vi.fn(() => {
+    throw new Error("NEXT_REDIRECT");
+  }),
+  unstable_rethrow: vi.fn((error: unknown) => {
+    if (isNextControlFlowError(error)) {
+      throw error;
+    }
+  }),
+  usePathname: () => "/3d-models",
+  useRouter: () => ({
+    back: navigationBack,
+    forward: navigationForward,
+    prefetch: navigationPrefetch,
+    push: navigationPush,
+    replace: navigationReplace,
+  }),
+  useSearchParams: () => new URLSearchParams(""),
+}));
 
 vi.mock("next/headers", () => ({ headers: () => new Map() }));
 
@@ -51,3 +56,5 @@ vi.mock("next/cookies", () => ({
     set: vi.fn(),
   }),
 }));
+
+export { navigationReplace };

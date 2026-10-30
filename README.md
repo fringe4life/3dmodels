@@ -4,26 +4,26 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 🛠️ Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js-16.5.0--canary.3-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16.5.0--canary.34-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.3-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript)
 ![Panda CSS](https://img.shields.io/badge/Panda_CSS-2.1.1-000000)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle-1.0.0--rc.4-FFE66D?logo=sqlite)
-[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.7-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-1.7.14-000000?logo=better-auth&logoColor=white)](https://better-auth.com/)
 ![next-safe-action](https://img.shields.io/badge/next--safe--action-8.7.3-000000)
 ![Biome](https://img.shields.io/badge/Biome-2.5.15-60A5FA?logo=biome)
 [![Ultracite](https://img.shields.io/badge/Ultracite-7.12.2-000000?logo=biome&logoColor=60A5FA)](https://github.com/ultracite/ultracite)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-- **Framework**: Next.js 16.5.0-canary.3 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling). Root layout uses `ensureStatic = "shell"`; home, about, auth, and `3d-models` layouts use `"prefetch"` (session gated with `navigation()` in `getUser`)
-- **Language**: TypeScript 7.0.2 with React 19.3 (`19.3.0`); `bunfig` `minimumReleaseAge` (3 days) excludes `next`, `@next/playwright`, and `@next/swc` (Panda 2.1.1 is old enough to pass the age gate, so those excludes are gone)
+- **Framework**: Next.js 16.5.0-canary.34 with App Router, Cache Components, React Compiler, typed routes (`typedRoutes`), experimental `useOffline`, and root `maxDuration = 45` (platform hard kill ceiling). Root layout uses `ensureStatic = "shell"`; home, about, auth, and `3d-models` layouts use `"prefetch"` (session gated with `navigation()` in `getUser`)
+- **Language**: TypeScript 7.0.2 with React 19.3 (`19.3.0`); `bunfig` `minimumReleaseAge` (3 days) excludes `next`, `@next/playwright`, and `@next/swc` (Panda 2.1.1 is old enough to pass the age gate, so those excludes are gone); `engines.node` is `26.x` (Vercel Node 26 LTS)
 - **Styling**: Panda CSS 2.1.1 (`@pandacss/dev`, `@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); thin `panda.config.ts` plus `theme/` `define*` blocks (`defineKeyframes`, `defineTokens`, `defineSemanticTokens`, `defineConditions`, `definePattern`, `defineUtility`, `defineGlobalStyles`, `definePositionTry`); generated `styled-system/` from `panda build` (gitignored; run via `bun install` / `prepare`); imports use the `@styled-system/*` path alias (`tsconfig.json`); `@layer` stack in `src/app/index.css`; shared theme keyframes in `theme/keyframes.ts`; scroll-driven / view-timeline animations stay local via `@styled-system/css` `keyframes()` (navbar, scroll-progress, categories mask, model-card); `optimize.removeUnusedKeyframes: false`; shared `Skeleton` uses shimmer CSS vars (`color` / `highlightColor` props); `@pandacss/mcp` 2.1.1 for agent token lookup
 - **Database**: Turso (libSQL / SQLite) with Drizzle ORM 1.0.0-rc.4 (`dialect: "turso"`, `@libsql/client`); model PK is uuidv7 `ModelId` (`uuidv7` + `src/db/create-id.ts`)
-- **Authentication**: Better Auth 1.7.7 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with `advanced.database.joins` (`provider: "sqlite"`); `account.issuer` dropped (`src/db/migrations/20260911114623_better_auth_1_7_3_drop_issuer/`)
+- **Authentication**: Better Auth 1.7.14 with email/password and GitHub OAuth, cookie caching enabled, ElysiaJS API backend; Drizzle adapter uses `relations-v2` with `advanced.database.joins` (`provider: "sqlite"`); `account.issuer` dropped (`src/db/migrations/20260911114623_better_auth_1_7_3_drop_issuer/`)
 - **Server Actions**: next-safe-action 8.7.3 (`lib/safe-action.ts` `actionClient` / `authActionClient`, flattened Valibot `validationErrors`); `formDataInput` maps `<form>` FormData onto object schemas; client `useStateAction` / `useOptimisticStateAction`; `lib/safe-action-form.ts` `lastNonSecretFormValue` for non-password `defaultValue`
-- **Search Params**: nuqs 2.10.1 for type-safe URL state (`query`, `cursor`, `direction`, `limit`, `sort`); `NuqsAdapterBoundary` wraps the `3d-models` layout so search works on index and category routes; listing canonical URLs use `nuqs/server` loaders/serializers (`features/models/listing/listing-canonical.ts`) with `clearOnDefault` for SEO metadata (omits default `cursor`/`direction`/`limit`/`sort` and empty `query`; drops `direction` when `cursor` is absent); model detail `from` return paths are allowlisted via `features/models/listing/listing-path.ts`; component tests wrap `withNuqsTestingAdapter` via `tests/setup/nuqs-testing.ts` (`withListingNuqsTestingAdapter`)
-- **Linting & Formatting**: Biome 2.5.15 with Ultracite 7.12.2 presets (`ultracite/biome/core`, `react`, `next`); [Fallow](https://docs.fallow.tools) 3.31.0 with `boundaries.preset: "bulletproof"` (`.fallowrc.json`; `ensureStatic` on `src/app/**/{page,layout}` counted as a used export); health `maxCyclomatic` / `maxCognitive` 12, `maxCrap` 30 (`src/db/**` override 80); `unused-dependencies`, `prop-drilling`, `thin-wrapper`, `duplicate-prop-shape` at `error`; [React Doctor](https://github.com/millionco/react-doctor) 0.9.17 on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, SHA-pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`); Panda MCP in `.cursor/mcp.json` / `AGENTS.md`
+- **Search Params**: nuqs 2.10.2 on the **server** for listing parsers (`createLoader` / `createSerializer`); listing chrome (search, sort, limit, pager) does **not** call `useQueryStates` so it can sit in the cacheComponents static shell — search is write-only (`SeedFromSearchParam` + `router.replace`), sort/limit/pager use `<Link href={listingHref…}>`; shared serializers in `features/models/listing/listing-serialize.ts` / `listing-canonical.ts` with `clearOnDefault` (omits default pager/sort/limit and empty `query`; drops `direction` when `cursor` is absent); model detail `from` return paths are allowlisted via `features/models/listing/listing-path.ts`
+- **Linting & Formatting**: Biome 2.5.15 with Ultracite 7.12.2 presets (`ultracite/biome/core`, `react`, `next`); [Fallow](https://docs.fallow.tools) 3.36.0 with `boundaries.preset: "bulletproof"` (`.fallowrc.json`; `ensureStatic` on `src/app/**/{page,layout}` counted as a used export); health `maxCyclomatic` / `maxCognitive` 12, `maxCrap` 30 (`src/db/**` override 80); `unused-dependencies`, `prop-drilling`, `thin-wrapper`, `duplicate-prop-shape` at `error`; [React Doctor](https://github.com/millionco/react-doctor) 0.9.17 on PRs and pushes to `main` (`.github/workflows/react-doctor.yml`, SHA-pinned actions, `doctor.config.ts`) and on staged TS/TSX via Husky + lint-staged (`type`, `react-doctor:staged`); Cursor agent hooks in `.cursor/hooks.json` (`afterFileEdit`: Ultracite fix skipping unused-import removal + `test:affected`; `stop`: full fix, `fallow audit`, full `test`); Panda MCP in `.cursor/mcp.json` / `AGENTS.md`
 - **Type Checking**: TypeScript 7 via `tsc` (`bun run type` / `typegen`); Next build uses project-local `tsc` (`experimental.useTypeScriptCli` in `next.config.ts`) because TS 7 has no JS compiler API
 - **Package Manager**: Bun (install, tests, Drizzle scripts, `prepare`); `bunfig.toml` sets `minimumReleaseAge` (3 days) with excludes for `next`, `@next/playwright`, and `@next/swc` only
 - **Next.js runtime**: **Bun is the desired runtime**. Local `dev`, production `build`, `start`, and `next:analyze` still run **Next on Node** (`varlock run -- bun run next dev`, `bun varlock run -- next build`, `bun run next start`, `bun varlock run -- next analyze`). `dev:inspect`, `build:debug`, and `next:upgrade` use `bun --bun`. Cache Components + `partialPrefetching` on Bun leak Next prerender abort rejects as `CLIENT_HOOK_DYNAMIC` (`usePathname` / `useSearchParams` “outside `<Suspense>`”) during `bun --bun next build`: exit 0, routes stay `◐` PPR, Node `next build` silent on the same tree. `export const instant = false` does not silence this — it only opts that segment out of Instant Navigation validation and does not disable prerender. Runtime `bun server.js` can also leak `AbortError` / `Date.now()` unhandled rejections because Bun drops AsyncLocalStorage on `unhandledRejection`. Track [oven-sh/bun#39847](https://github.com/oven-sh/bun/issues/39847), [oven-sh/bun#40223](https://github.com/oven-sh/bun/issues/40223), [vercel/next.js#97663](https://github.com/vercel/next.js/issues/97663). The older `setTimeout` / `_idleStart` warning ([vercel/next.js#87630](https://github.com/vercel/next.js/issues/87630), [oven-sh/bun#26508](https://github.com/oven-sh/bun/issues/26508)) is fixed in Bun 1.4.0 and is not the current blocker. Re-enable `bun --bun` for `dev` / `build` / `start` when the ALS / hanging-promise fixes land.
@@ -35,9 +35,10 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 - **Browse 3D Models**: View a curated collection of 3D models across various categories
 - **Category Filtering**: Filter models by category (3D Printer, Art, Education, Fashion, etc.)
-- **Sort Controls**: Sort listings by A-Z, Popular, or Recent via nuqs `sort` search param (default A-Z omitted from URL); ties break on `ModelId`
+- **Sort Controls**: Sort listings by A-Z, Popular, or Recent via Link-driven `sort` search param (default A-Z omitted from URL); ties break on `ModelId`
 - **Cursor pagination**: Exclusive keyset on `(sortCol, ModelId)` with URL `cursor` (uuidv7 `ModelId`) + `direction` (`forward`/`backward`) + `limit`; next/prev flags from `limit+1` (no `COUNT(*)`); old `?page=` bookmarks land on the first slice. `sort=popular` is a live feed: likes can skip/dup between slices (accepted). ADR: `docs/adr/0001-cursor-pagination.md`. Domain terms: `CONTEXT.md`. Survey: `docs/MUTABLE_SORT_KEYSET.md`
-- **Search across listings**: Search bar lives in `ModelsGridHeader` (index + category routes); grid title shows `Results for "{query}"` via nuqs when a query is present; search/sort/limit reset `cursor` rather than paging
+- **Search across listings**: Search bar lives in the static listing shell (`ModelsGridHeader`); seeded from `?query=` before hydrate; results stream under Suspense; grid title shows `Results for "{query}"` when a query is present; search/sort/limit reset `cursor` rather than paging
+- **Sitemap**: `app/sitemap.ts` uses `"use cache"` + `cacheLife("max")` / `cacheTag("sitemap")` so the XML is a long-lived cached entry rather than fully dynamic per request
 - **Model detail back link**: Detail pages restore the prior listing via allowlisted `from` query (`features/models/back-link/`) with runtime prefetch under Partial Prefetching
 - **Shimmer skeletons**: Shared `Skeleton` shimmer (CSS vars / `color` props) for listing and detail loading states
 - **Offline indicator**: Navbar `OfflineBanner` via Next.js experimental `useOffline` — persistent pill with a wifi-off icon and container-responsive status detail; visible on all breakpoints (`components/offline-indicator.tsx`)
@@ -166,15 +167,15 @@ src/
 │   │   │   └── search-models.ts  # Unified listing/search + abortable cached awaits
 │   │   ├── listing/
 │   │   │   ├── listing-canonical.ts  # Canonical path serializer (`query`/`cursor`/`direction`/`limit`/`sort`)
-│   │   │   └── listing-path.ts   # Allowlisted listing href → Route (open-redirect safe)
-│   │   ├── listing-search-params.ts  # Composes sort + cursor pagination + query nuqs parsers
-│   │   ├── sort/                 # Sort sub-feature (nuqs param, order mapping, controls hook)
+│   │   │   ├── listing-pagination-hrefs.ts  # Prev/next Link href builders
+│   │   │   ├── listing-path.ts   # Allowlisted listing href → Route (open-redirect safe)
+│   │   │   └── listing-serialize.ts  # Shared `listingHref` serializer for shell Links / search writes
+│   │   ├── listing-search-params.ts  # Composes sort + cursor pagination + search nuqs parsers
+│   │   ├── sort/                 # Sort sub-feature (param, order mapping, Link radios)
 │   │   │   ├── brands.ts         # Valibot branded Sort type; `isSortList` guard
 │   │   │   ├── components/
-│   │   │   │   └── sort-option.tsx  # Radio + label pill for one sort value
+│   │   │   │   └── sort-option.tsx  # Link + label pill for one sort value
 │   │   │   ├── constants.ts      # SORT_VALUES, DEFAULT_SORT, SORT_LABELS
-│   │   │   ├── hooks/
-│   │   │   │   └── use-sort-query.ts
 │   │   │   ├── order-for-sort.ts # Drizzle orderBy + keyset column/dir (tie-break ModelId)
 │   │   │   └── sort-search-params.ts
 │   │   ├── likes/                # Likes sub-feature (toggle, status, heart UI)
@@ -235,7 +236,7 @@ src/
 │   │   ├── auth-buttons.tsx
 │   │   ├── auth-buttons-skeleton.tsx
 │   │   └── sign-in-nav-link.tsx
-│   ├── pagination/               # Shared pager UI (`cursor` / `direction` via nuqs)
+│   ├── pagination/               # Shared pager UI (`cursor` / `direction` via Links)
 │   │   ├── pagination.tsx        # Prev/next; `addTransitionType` forwards/backwards
 │   │   ├── pagination-button.tsx
 │   │   ├── pagination-limit-control.tsx
@@ -243,8 +244,8 @@ src/
 │   │   ├── pagination-page-slice.tsx  # PageSlice ViewTransition wrapper
 │   │   └── pagination-skeleton.tsx
 │   ├── offline-indicator.tsx     # OfflineBanner via next/offline useOffline
-│   ├── nuqs/
-│   │   └── nuqs-adapter-boundary.tsx  # Suspense + NuqsAdapter for listing routes
+│   ├── scripts/
+│   │   └── seed-from-search-param.tsx  # Inline seed script for static-shell search input
 │   ├── button-recipe.ts          # Panda CVA recipe for Button variants
 │   ├── button.tsx
 │   ├── generic-component.tsx
@@ -349,7 +350,7 @@ The project follows a feature-based architecture where related functionality is 
 - **`db/seed-data/`**: Model seed data only (`models.ts`; `id` assigned at insert)
 
 ### Performance Optimizations
-- **NuqsAdapterBoundary**: `NuqsAdapter` wraps entire 3d-models tree
+- **Listing static shell**: Search/sort/limit/pager chrome avoids client `useSearchParams` reads so cacheComponents can prerender them; results stay behind Suspense
 - **Font Loading**: Variable fonts are used as 3+ font weights are used
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
@@ -366,7 +367,7 @@ The project follows a feature-based architecture where related functionality is 
 ### Prerequisites
 
 - [Bun](https://bun.sh/) for package management, tests, and database scripts
-- A current **Node.js** LTS (used by `dev` / `next build` / `next start` until `bun --bun` is re-enabled for those scripts; see Next.js runtime note)
+- **Node.js 26.x** LTS (`engines.node`; used by `dev` / `next build` / `next start` until `bun --bun` is re-enabled for those scripts; see Next.js runtime note)
 - Turso database (`TURSO_DATABASE_URL` + `TURSO_DATABASE_AUTH`)
 - Optional: [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/) machine account token if you use `bitwarden()` resolvers in `.env.schema` (see `docs/VARLOCK.md`)
 
@@ -530,21 +531,22 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/back-link/from-search-params` - `modelDetailHref` / `resolveBackHref` with slugify-stable slug checks
 - `features/models/components/models-grid` - Grid layout for model cards (embeds `from` on detail links)
 - `features/models/components/models-grid-header` - Listing header: search input, query-aware title, sort controls
-- `features/models/components/models-grid-title` - Client title via nuqs (`Results for "{query}"` or fallback category / default title)
+- `features/models/components/models-grid-title` - Title from listing values (`Results for "{query}"` or fallback category / default title)
 - `features/models/components/models-not-found` - Empty search state with the active query in the subheading
-- `features/models/components/models-sort-controls` - Client `fieldset` of `SortOption` radios for A-Z / Popular / Recent (`useSortQuery`)
+- `features/models/components/models-sort-controls` - Server `fieldset` of Link-based `SortOption` pills for A-Z / Popular / Recent
 - `features/models/components/models-sort-controls-skeleton` - Loading skeleton for sort controls
 - `features/models/components/models-view` - Shared server shell: header outside `Suspense`, `ModelsViewResult` switch, async inner awaits `getModels`; success wraps grid + pager in `PaginationPageSlice`
-- `features/models/sort/components/sort-option` - Single sort radio + label pill
-- `features/models/sort/hooks/use-sort-query` - nuqs hook for `sort` with pending state; resets `cursor`/`direction` on sort change
+- `features/models/sort/components/sort-option` - Single sort Link + label pill
 - `features/models/sort/order-for-sort` - Maps sort brand to Drizzle `orderBy` plus keyset column/dir (tie-break `ModelId`)
 - `features/models/listing/listing-canonical` - Canonical path serializer for listing SEO (`query`, `cursor`, `direction`, `limit`, `sort`)
+- `features/models/listing/listing-serialize` - Shared `listingHref` for shell Links and search `router.replace`
+- `features/models/listing/listing-pagination-hrefs` - Prev/next listing href builders from current values
 - `features/models/listing/listing-path` - Allowlisted listing `Route` validation (`/3d-models`, category listings)
-- `components/pagination/pagination` - Cursor pager via nuqs `cursor`/`direction`; `addTransitionType` `forwards`/`backwards`
+- `components/pagination/pagination` - Cursor pager via Link hrefs; `addTransitionType` `forwards`/`backwards`
 - `components/pagination/pagination-button` - Page control button (`group` for arrow micro-interactions)
-- `components/pagination/pagination-limit-control` - Per-page limit via customizable `<select>` (`appearance: base-select`, `selectedcontent`, picker transitions)
+- `components/pagination/pagination-limit-control` - Per-page limit via Link options (`appearance: base-select`, `selectedcontent`, picker transitions)
 - `components/pagination/pagination-page-slice` - PageSlice ViewTransition wrapper; pager types only (not search/sort/limit)
-- `components/pagination/pagination-page-control` - Prev/next buttons with `aria-label` and `arrowRecipe` chevrons
+- `components/pagination/pagination-page-control` - Prev/next Links with `aria-label` and `arrowRecipe` chevrons
 - `lib/pagination/parse-cursor` - URL cursor → branded `ModelId`
 - `lib/pagination/utils/create-keyset-cursor` - Exclusive `(sortCol, ModelId)` predicate
 - `lib/pagination/utils/to-pagination` - Slice `limit+1`; `hasNextPage`/`hasPreviousPage` from cursor + extra row
@@ -553,7 +555,8 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/likes/components/heart-button-server` - Server component for detail pages (resolves like status server-side)
 - `features/models/likes/components/heart-button-skeleton` - Loading skeleton for heart button
 - `features/models/likes/hooks/use-heart-like` - Client hook wrapping NSA `useOptimisticStateAction` (`toggleAction`, optimistic state, `visualState`)
-- `components/search-input/search-input` - Model search with nuqs URL state (mounted in `ModelsGridHeader`); Enter flushes current input value; resets `cursor`/`direction`; `search-input-transition` for view transitions
+- `components/search-input/search-input` - Write-only model search (mounted in `ModelsGridHeader`); seed script + `router.replace`; Enter flushes current input value; resets `cursor`/`direction`; `search-input-transition` for view transitions
+- `components/scripts/seed-from-search-param` - Tiny inline script + `useSyncSearchParam` for static-shell inputs
 - `features/categories/components/categories-nav` - Category filtering sidebar (server component)
 - `features/categories/components/categories-block-transition` - View transition wrapper for category listing blocks
 - `app/3d-models/layout` - Sticky categories aside: `md` overflow-y + header clearance; local `keyframes()` scroll mask on the horizontal strip
@@ -574,7 +577,6 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `components/nav-link/nav-link` - `NavLink` with `Suspense` fallback, active state (`includes` or `endsWith`), border position (`bottom` or `left`); **`prefetch={false}` by default** to reduce network noise (opt-in per link, e.g. model back link)
 - `components/nav-link/nav-link-skeleton` - Width-matched skeleton for `NavLink` Suspense fallback
 - `components/nav-link/nav-link-list-item` - `li` + `NavLink` wrapper
-- `components/nuqs/nuqs-adapter-boundary` - `Suspense` + `NuqsAdapter` for the `3d-models` layout
 - `components/top-link` - Top-of-page control used in layouts
 - `components/navbar/auth-buttons` - Sign-out control wrapping avatar (authenticated navbar slot)
 - `components/navbar/auth-buttons-skeleton` - Navbar auth slot loading state
@@ -647,7 +649,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `bun run test:unit` - Run unit tests
 - `bun run test:components` - Run component tests
 - `bun run test:integration` - Run integration tests
-- `bunfig.toml` — `env = false` (Varlock owns `.env*` resolution); `minimumReleaseAge` (3 days) with excludes for `next`, `@next/playwright`, and `@next/swc` only; test preload order: `tests/setup/varlock-test-env.ts` → `varlock/auto-load` → `tests/setup/test-preload.ts` (Happy DOM + `server-only` stub); `tests/setup/next-mocks.ts` stubs Next navigation; listing nuqs tests use `withListingNuqsTestingAdapter` from `tests/setup/nuqs-testing.ts` (`nuqs/adapters/testing` + `defaultOptions`); integration DB helpers in `tests/setup/db-test.ts` use Drizzle 1.0 `{ client }` config
+- `bunfig.toml` — `env = false` (Varlock owns `.env*` resolution); `minimumReleaseAge` (3 days) with excludes for `next`, `@next/playwright`, and `@next/swc` only; test preload order: `tests/setup/varlock-test-env.ts` → `varlock/auto-load` → `tests/setup/test-preload.ts` (Happy DOM + `server-only` stub); `tests/setup/next-mocks.ts` stubs Next navigation (`navigationReplace` for search writes); integration DB helpers in `tests/setup/db-test.ts` use Drizzle 1.0 `{ client }` config
 - `bun run test:e2e` - Run Playwright E2E tests
 - `bun run e2e:open` - Open Playwright UI
 - `bun run e2e:codegen` - Playwright codegen (localhost:3000)

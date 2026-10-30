@@ -10,6 +10,11 @@ import { ModelsGridSkeleton } from "@/features/models/components/models-grid-ske
 import { DEFAULT_TITLE } from "@/features/models/constants";
 import { getModels } from "@/features/models/dal/get-models";
 import { canonicalPathForListing } from "@/features/models/listing/listing-canonical";
+import {
+  type ListingPaginationHrefs,
+  listingPaginationHrefs,
+} from "@/features/models/listing/listing-pagination-hrefs";
+import { searchParamsCache } from "@/features/models/listing-search-params";
 import type { ModelWithLikeStatus } from "@/features/models/types";
 import type { IsAuthenticated } from "@/lib/auth/types";
 import type { PaginatedResult } from "@/lib/pagination/types";
@@ -27,6 +32,7 @@ type ModelsViewProps = Prettify<
 
 type ModelsViewResultProps = Prettify<
   IsAuthenticated & {
+    pagination: ListingPaginationHrefs;
     query: string;
     result: PaginatedResult<ModelWithLikeStatus>;
     returnTo: Route;
@@ -35,6 +41,7 @@ type ModelsViewResultProps = Prettify<
 
 const ModelsViewResult = ({
   isAuthenticated,
+  pagination,
   query,
   result,
   returnTo,
@@ -74,7 +81,14 @@ const ModelsViewResult = ({
               models={result.items}
               returnTo={returnTo}
             />
-            <Pagination items={result.items} metadata={result.metadata} />
+            <Pagination
+              currentLimit={pagination.currentLimit}
+              hasNextPage={result.metadata.hasNextPage}
+              hasPreviousPage={result.metadata.hasPreviousPage}
+              limitOptions={pagination.limitOptions}
+              nextHref={pagination.nextHref}
+              previousHref={pagination.previousHref}
+            />
           </div>
         </PaginationPageSlice>
       );
@@ -93,9 +107,27 @@ const ModelsViewInner = async ({ searchParams, category }: ModelsViewProps) => {
     canonicalPathForListing(listingPathname, searchParams),
   ]);
 
+  const values = searchParamsCache.all();
+  const pagination =
+    result.type === "success"
+      ? listingPaginationHrefs({
+          base: returnTo,
+          hasNextPage: result.metadata.hasNextPage,
+          hasPreviousPage: result.metadata.hasPreviousPage,
+          items: result.items,
+          values,
+        })
+      : {
+          currentLimit: values.limit,
+          limitOptions: [],
+          nextHref: null,
+          previousHref: null,
+        };
+
   return (
     <ModelsViewResult
       isAuthenticated={isAuthenticated}
+      pagination={pagination}
       query={query}
       result={result}
       returnTo={returnTo}

@@ -1,34 +1,20 @@
 /**
  * Canonical URLs for listing routes (`/3d-models`, category listings).
  *
- * Uses nuqs `createLoader` + `createSerializer`. `clearOnDefault` is true by
- * default in nuqs v2+, so serialized URLs omit default `cursor`/`direction`/`limit`/`sort`
- * and empty `query`, matching client parsers.
+ * Uses nuqs `createLoader` + shared `listingHref` serializer.
+ * `clearOnDefault` is true by default in nuqs v2+, so serialized URLs omit
+ * default `cursor`/`direction`/`limit`/`sort` and empty `query`.
  *
  * @see https://nuqs.dev/docs/options#clear-on-default
  * @see https://nuqs.dev/docs/seo
  * @see node_modules/next/dist/docs/.../generate-metadata.md — `alternates.canonical`
  */
 import type { Route } from "next";
-import { createLoader, createSerializer, type SearchParams } from "nuqs/server";
-import { toListingRoute } from "@/features/models/listing/listing-path";
+import { createLoader, type SearchParams } from "nuqs/server";
+import { listingHref } from "@/features/models/listing/listing-serialize";
 import { searchParamsParsers } from "@/features/models/listing-search-params";
 
 const loadListingCanonicalSearchParams = createLoader(searchParamsParsers);
-
-const serializeListingCanonicalSearchParams = createSerializer(
-  searchParamsParsers,
-  {
-    // clearOnDefault is true by default in nuqs v2+
-    processUrlSearchParams: (search) => {
-      if (!search.has("cursor")) {
-        search.delete("direction");
-      }
-      search.sort();
-      return search;
-    },
-  },
-);
 
 /**
  * Path + query string for `rel="canonical"`, aligned with nuqs defaults
@@ -40,7 +26,5 @@ export const canonicalPathForListing = async (
   searchParams: Promise<SearchParams>,
 ): Promise<Route> => {
   const values = await loadListingCanonicalSearchParams(searchParams);
-  return toListingRoute(
-    serializeListingCanonicalSearchParams(pathname, values),
-  );
+  return listingHref(pathname, values);
 };

@@ -1,7 +1,5 @@
 import { css, keyframes } from "@styled-system/css";
 import { grid, gridItem } from "@styled-system/patterns";
-import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
-
 // Static shell + Link prefetch for listing/detail. Session (hearts) fills on navigate.
 // Cannot use "navigation": searchParams + auth on these routes.
 export const ensureStatic = "prefetch";
@@ -29,75 +27,72 @@ const ModelsLayout = ({
   categories,
   results,
 }: LayoutProps<"/3d-models">) => (
-  <NuqsAdapterBoundary>
-    <div
-      className={grid({
-        columnGap: { md: 20 },
-        gridTemplateColumns: {
-          // minmax(0, …) lets the content column shrink below intrinsic card width.
-          md: "token(sizes.categoryWidthTablet) minmax(0, 1fr)",
-        },
-        gridTemplateRows: { base: "min-content 1fr", md: "1fr" },
-        minBlockSize: "full",
+  <div
+    className={grid({
+      columnGap: { md: 20 },
+      gridTemplateColumns: {
+        // minmax(0, …) lets the content column shrink below intrinsic card width.
+        md: "token(sizes.categoryWidthTablet) minmax(0, 1fr)",
+      },
+      gridTemplateRows: { base: "min-content 1fr", md: "1fr" },
+      minBlockSize: "full",
+      minInlineSize: 0,
+    })}
+  >
+    <aside
+      className={gridItem({
+        backgroundColor: "white",
+        borderBlockEndWidth: { base: 2, md: 0 },
+        borderColor: "gray.200",
+        colStart: { md: 1 },
+        // Parent already has site gutters — 100dvw was overflowing by ~2× paddingInline.
+        maxInlineSize: { base: "100%", md: "categoryWidthTablet" },
         minInlineSize: 0,
+        position: "relative",
       })}
     >
-      <aside
-        className={gridItem({
-          backgroundColor: "white",
-          borderBlockEndWidth: { base: 2, md: 0 },
-          borderColor: "gray.200",
-          colStart: { md: 1 },
-          // Parent already has site gutters — 100dvw was overflowing by ~2× paddingInline.
-          maxInlineSize: { base: "100%", md: "categoryWidthTablet" },
-          minInlineSize: 0,
-          position: "relative",
-        })}
-      >
-        <nav
-          className={css({
-            _notSupportsScroll: {
-              maskImage:
-                "linear-gradient(to right, black 95%, transparent 100%)",
-              md: { maskImage: "none" },
-            },
-            _supportsScroll: {
-              animationDuration: "auto",
-              animationFillMode: "both",
-              animationName: categoriesScrollMask,
-              animationRange: "0% 100%",
-              animationTimeline: "scroll(self inline)",
-              animationTimingFunction: "glide",
-            },
-            maxInlineSize: "100%",
-            md: {
-              insetBlockStart: "6.5rem",
-              maxBlockSize: "calc(100dvh - 7.5rem)",
-              overflowX: "hidden",
-              overflowY: "auto",
-              position: "sticky",
-            },
-            minInlineSize: 0,
-            overflowX: "auto",
+      <nav
+        className={css({
+          _notSupportsScroll: {
+            maskImage: "linear-gradient(to right, black 95%, transparent 100%)",
+            md: { maskImage: "none" },
+          },
+          _supportsScroll: {
+            animationDuration: "auto",
+            animationFillMode: "both",
+            animationName: categoriesScrollMask,
+            animationRange: "0% 100%",
+            animationTimeline: "scroll(self inline)",
+            animationTimingFunction: "glide",
+          },
+          maxInlineSize: "100%",
+          md: {
+            insetBlockStart: "6.5rem",
+            maxBlockSize: "calc(100dvh - 7.5rem)",
+            overflowX: "hidden",
+            overflowY: "auto",
             position: "sticky",
-            scrollbar: "hidden",
-          })}
-        >
-          {categories}
-        </nav>
-      </aside>
-      <section
-        className={gridItem({
-          alignSelf: "start",
+          },
           minInlineSize: 0,
-          paddingBlock: 4,
+          overflowX: "auto",
+          position: "sticky",
+          scrollbar: "hidden",
         })}
       >
-        {children}
-        {results}
-      </section>
-    </div>
-  </NuqsAdapterBoundary>
+        {categories}
+      </nav>
+    </aside>
+    <section
+      className={gridItem({
+        alignSelf: "start",
+        minInlineSize: 0,
+        paddingBlock: 4,
+      })}
+    >
+      {children}
+      {results}
+    </section>
+  </div>
 );
 
 export default ModelsLayout;

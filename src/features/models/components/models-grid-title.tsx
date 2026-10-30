@@ -1,26 +1,41 @@
 "use client";
 
 import { css } from "@styled-system/css";
-import { useQueryStates } from "nuqs";
-import { queryParser } from "@/lib/pagination/search-params";
+import { useCallback, useId, useState } from "react";
+import { SeedFromSearchParam } from "@/components/scripts/seed-from-search-param";
+import { useSyncSearchParamValue } from "@/hooks/use-sync-search-param";
 
 interface ModelsGridTitleProps {
   fallbackTitle: string;
 }
 
 const ModelsGridTitle = ({ fallbackTitle }: ModelsGridTitleProps) => {
-  const [{ query }] = useQueryStates(queryParser);
-  const title = query ? `Results for "${query}"` : fallbackTitle;
+  const titleId = useId();
+  const [title, setTitle] = useState(fallbackTitle);
+
+  const syncQuery = useCallback(
+    (value: string | null) => {
+      setTitle(value ? `Results for "${value}"` : fallbackTitle);
+    },
+    [fallbackTitle],
+  );
+
+  useSyncSearchParamValue("query", syncQuery);
 
   return (
-    <h1
-      className={css({
-        fontSize: { base: "xl", lg: "3xl" },
-        fontWeight: "bold",
-      })}
-    >
-      {title}
-    </h1>
+    <>
+      <h1
+        className={css({
+          fontSize: { base: "xl", lg: "3xl" },
+          fontWeight: "bold",
+        })}
+        id={titleId}
+        suppressHydrationWarning
+      >
+        {title}
+      </h1>
+      <SeedFromSearchParam mode="text" param="query" targetId={titleId} />
+    </>
   );
 };
 

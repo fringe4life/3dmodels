@@ -1,6 +1,5 @@
 import type { Metadata, Route } from "next";
 import { notFound } from "next/navigation";
-import { NuqsAdapterBoundary } from "@/components/nuqs/nuqs-adapter-boundary";
 import { isCategorySlug } from "@/db/brands";
 import { CategoriesBlockTransition } from "@/features/categories/components/categories-block-transition";
 import { CATEGORY_NOT_FOUND } from "@/features/categories/constants";
@@ -58,15 +57,13 @@ const CategoryPage = async ({
   }
 
   return (
-    <NuqsAdapterBoundary>
-      <CategoriesBlockTransition categoryName={categoryName}>
-        <ModelsView
-          category={categoryName}
-          categoryDisplayName={category.displayName}
-          searchParams={searchParams}
-        />
-      </CategoriesBlockTransition>
-    </NuqsAdapterBoundary>
+    <CategoriesBlockTransition categoryName={categoryName}>
+      <ModelsView
+        category={categoryName}
+        categoryDisplayName={category.displayName}
+        searchParams={searchParams}
+      />
+    </CategoriesBlockTransition>
   );
 };
 

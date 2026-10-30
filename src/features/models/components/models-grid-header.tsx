@@ -1,12 +1,8 @@
 import { css } from "@styled-system/css";
 import { grid, gridItem } from "@styled-system/patterns";
 import { SearchInput } from "@/components/search-input/search-input";
-import { SearchInputSkeleton } from "@/components/search-input/search-input-skeleton";
-import { Suspend } from "@/components/suspend";
 import { ModelsGridTitle } from "./models-grid-title";
-import { ModelsGridTitleSkeleton } from "./models-grid-title-skeleton";
 import { ModelsSortControls } from "./models-sort-controls";
-import { ModelsSortControlsSkeleton } from "./models-sort-controls-skeleton";
 
 interface ModelsGridHeaderProps {
   fallbackTitle: string;
@@ -28,9 +24,7 @@ const ModelsGridHeader = ({ fallbackTitle }: ModelsGridHeaderProps) => (
         position: "relative",
       })}
     >
-      <Suspend fallback={<SearchInputSkeleton />} name="models-search-input">
-        <SearchInput />
-      </Suspend>
+      <SearchInput />
     </div>
     <div
       className={css({
@@ -42,15 +36,8 @@ const ModelsGridHeader = ({ fallbackTitle }: ModelsGridHeaderProps) => (
         marginBlockEnd: 8,
       })}
     >
-      <Suspend fallback={<ModelsGridTitleSkeleton />} name="models-grid-title">
-        <ModelsGridTitle fallbackTitle={fallbackTitle} />
-      </Suspend>
-      <Suspend
-        fallback={<ModelsSortControlsSkeleton />}
-        name="models-sort-controls"
-      >
-        <ModelsSortControls />
-      </Suspend>
+      <ModelsGridTitle fallbackTitle={fallbackTitle} />
+      <ModelsSortControls />
     </div>
   </div>
 );

@@ -1,9 +1,14 @@
 import type { MetadataRoute } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import { ENV } from "varlock/env";
 import { getAllCategorySlugs } from "@/features/categories/queries/get-all-category-slugs";
 import { getAllModelSlugs } from "@/features/models/queries/get-all-model-slugs";
 
-const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
+async function getSitemapEntries(): Promise<MetadataRoute.Sitemap> {
+  "use cache";
+  cacheTag("sitemap");
+  cacheLife("max");
+
   const [modelSlugs, categoryRows] = await Promise.all([
     getAllModelSlugs(),
     getAllCategorySlugs(),
@@ -49,6 +54,8 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   );
 
   return [...staticEntries, ...modelEntries, ...categoryEntries];
-};
+}
+
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => getSitemapEntries();
 
 export default sitemap;
