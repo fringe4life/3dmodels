@@ -13,15 +13,13 @@ interface CategoryWithCount {
 }
 
 /**
- * Every category with how many models it holds, for the home page band and the
- * catalogue nav.
+ * Every category with how many models it holds, for the home page band.
  *
- * Cached for good: this is a demo catalogue whose category list and model set
- * are fixed at seed time, so the counts cannot drift between deploys.
- * `"use cache: remote"` keeps it in the shared cache; remote entries are keyed by
- * build id, so a reseed plus a deploy is what refreshes them — no
- * `revalidateTag` call is needed for that. Both tags are attached so a future
- * mutation path can invalidate labels and counts together.
+ * `"use cache: remote"` + `cacheLife("max")` keeps the payload in the shared cache.
+ * Tagged `categories` and `models`: a like's `updateTag("models")` (and any future
+ * category mutation on `categories`) expires the entry, so counts stay honest when
+ * the catalogue moves. A reseed plus deploy also refreshes remote entries because
+ * they are keyed by build id.
  */
 export const getCategoriesWithCounts = async (): Promise<
   CategoryWithCount[]

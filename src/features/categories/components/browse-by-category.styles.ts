@@ -105,14 +105,12 @@ export const gatePlateDelay = (index: number, plateCount: number) =>
  * the caption track all carry `data-gate-run`, so one descendant selector
  * (specificity 0,2,0) stops every one of them no matter which condition emitted
  * their animation — a plain media block could only tie with the atomic class and
- * would depend on stylesheet order. The control and its checkbox go with it:
- * offering "Pause" over a row that never runs is a dead button.
+ * would depend on stylesheet order. Pause control and checkbox are absent unless
+ * `_finePointerMotion` matches, so reduce never sees a dead Pause button.
  */
 export const sectionClassName = css({
   "@media (prefers-reduced-motion: reduce)": {
     "& [data-gate-run]": { animationName: "none" },
-    "& [data-pause-control]": { display: "none" },
-    "& #pause-categories": { display: "none" },
   },
   "& [data-pause='play']": { display: "none" },
   "&:has(#pause-categories:checked) [data-gate-run]": {
@@ -149,12 +147,13 @@ export const controlsClassName = css({
   display: "flex",
 });
 
+/**
+ * Pause exists only where the belt runs (`finePointerMotion`). Base is `none`,
+ * so hover-capable coarse pointers and reduced motion never get a dead control.
+ */
 export const pauseControlClassName = css({
+  _finePointerMotion: { display: "inline-flex" },
   _hover: { backgroundColor: "bg.muted" },
-  // Nothing to pause without a pointer that can hover the row, so the control
-  // only exists where the belt actually runs. Reduced motion hides it in
-  // `sectionClassName`, which also takes the checkbox out of the tab order.
-  _notSupportsHover: { display: "none" },
   alignItems: "center",
   backgroundColor: "bg.subtle",
   blockSize: 8,
@@ -163,7 +162,7 @@ export const pauseControlClassName = css({
   borderWidth: 1,
   columnGap: 2,
   cursor: "pointer",
-  display: "inline-flex",
+  display: "none",
   fontFamily: "mono",
   fontSize: "11px",
   fontVariantNumeric: "tabular-nums",
@@ -171,7 +170,42 @@ export const pauseControlClassName = css({
   userSelect: "none",
 });
 
+/**
+ * Checkbox stays out of the tab order unless the belt can run. Under
+ * `finePointerMotion` it is visually hidden but still the `:has()` state bit.
+ */
+export const pauseInputClassName = css({
+  _finePointerMotion: {
+    borderWidth: 0,
+    clip: "rect(0, 0, 0, 0)",
+    display: "block",
+    height: "1px",
+    margin: "-1px",
+    overflow: "hidden",
+    padding: 0,
+    position: "absolute",
+    whiteSpace: "nowrap",
+    width: "1px",
+  },
+  display: "none",
+});
+
 export const bandClassName = css({
+  // Keyboard into a real plate: drop the aperture clip, park the belt as a
+  // static flex row, and hide the loop copies so focus is never clipped off-screen.
+  _finePointerMotion: {
+    "&:focus-within [data-category-belt]": {
+      animationName: "none",
+      insetInlineStart: "auto",
+      position: "relative",
+      translate: "none",
+    },
+    "&:focus-within [data-category-duplicate]": { display: "none" },
+    "&:focus-within [data-category-window]": {
+      overflowX: "auto",
+      scrollSnapType: "x mandatory",
+    },
+  },
   // Pointing at the row or tabbing into it stops the belt on the plate you are
   // looking at — no state, no script.
   "&:focus-within [data-gate-run], &:hover [data-gate-run]": {
@@ -340,14 +374,16 @@ export const plateClassName = css({
     outline: "3px solid token(colors.brand.ring)",
     outlineOffset: 1,
   },
-  // Touch: the emphasis follows the user's own scroll rather than time. Reduced
-  // motion stops this too, through `sectionClassName`.
-  _supportsScroll: {
-    animationDuration: "auto",
-    animationFillMode: "both",
-    animationName: gateFocus,
-    animationRange: "cover 30% cover 70%",
-    animationTimeline: "view(inline)",
+  // Rail only (touch / reduced motion): scroll-timeline emphasis. Kept off the
+  // fine-pointer path so `view(inline)` cannot fight the clock-driven gate.
+  _scrollerRail: {
+    _supportsScroll: {
+      animationDuration: "auto",
+      animationFillMode: "both",
+      animationName: gateFocus,
+      animationRange: "cover 30% cover 70%",
+      animationTimeline: "view(inline)",
+    },
   },
   alignItems: "center",
   backgroundColor: "bg.subtle",

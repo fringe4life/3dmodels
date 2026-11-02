@@ -516,9 +516,9 @@ The application uses Next.js Cache Components for optimal performance:
 
 The application uses Next.js Cache Components with granular cache tags for efficient invalidation:
 - **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
-- **Most liked (home)**: Shared ranking under `models` + `models-popular` with `cacheLife("weeks")`; per-visitor hearts stay request-local via `withLikeStatuses`
-- **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output; home Browse by category counts reuse `categories` + `models`
-- **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), weeks for Most liked ranking, max for static categories (component-level caching)
+- **Most liked (home)**: Shared ranking under `models` + `models-popular` with `cacheLife("weeks")`; per-visitor hearts stay request-local via `withLikeStatuses`. Likes call `updateTag("models")`, so the ranked entry expires on every toggle (weeks is an upper bound; `models-popular` remains a narrow-only handle)
+- **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output; home Browse by category counts use `categories` + `models` and therefore also expire on like toggles
+- **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), weeks for Most liked ranking (bounded by `models` invalidation), max for categories (also bounded when tagged with `models`)
 - **Query Functions**: Unified `getModels()` uses `searchModels()` for search (optional query), category filter, sort, and cursor pagination. Helper `getModelsList` supports optional search/category; sort maps through `orderByForSort` / `sortColumnForSort`. Cursor parsed via `parsePaginationCursor` (uuidv7 `ModelId`)
 - **Like Status**: `like-status.ts` queries use `"use cache: private"` for user-specific like status (cached on device)
 - **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the current PageSlice

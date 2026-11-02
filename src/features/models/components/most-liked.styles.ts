@@ -51,16 +51,19 @@ export const cardContainerClassName = cx(
   css({
     minInlineSize: 0,
     mobileDown: {
-      _supportsScroll: {
-        "--slide-distance": "1.25rem",
-        animationDuration: "auto",
-        animationFillMode: "both",
-        animationName: "fade-in, slide-in",
-        animationRange: "entry 0% cover 35%",
-        animationTimeline: "view(inline)",
-        animationTimingFunction: "glide",
+      // Motion is opt-in: nest under `_motionSafe` so reduce never sees a competing
+      // `animation-name: none` atomic that can lose on stylesheet order (#211).
+      _motionSafe: {
+        _supportsScroll: {
+          "--slide-distance": "1.25rem",
+          animationDuration: "auto",
+          animationFillMode: "both",
+          animationName: "fade-in, slide-in",
+          animationRange: "entry 0% cover 35%",
+          animationTimeline: "view(inline)",
+          animationTimingFunction: "glide",
+        },
       },
-      "@media (prefers-reduced-motion: reduce)": { animationName: "none" },
       scrollSnapAlign: "start",
     },
   }),

@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./panda/*": "./dist/panda/*",
     "./css": {
       "types": "./styled-system/css/index.d.ts",
       "default": "./styled-system/css/index.js"
