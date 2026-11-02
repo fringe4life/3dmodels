@@ -17,7 +17,7 @@ export const maxDuration = 45;
 // @navbar stays behind Suspense; pages may tighten to "prefetch" / "navigation".
 export const ensureStatic = "shell";
 
-// No webfonts: font families are Panda tokens (`theme/fonts.ts`), applied in
+// No webfonts: font families are Panda tokens (`theme/tokens.ts`), applied in
 // `theme/global-styles.ts`. First paint already uses the final face.
 
 export const metadata: Metadata = {
