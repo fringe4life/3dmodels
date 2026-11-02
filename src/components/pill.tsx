@@ -13,6 +13,9 @@ const Pill = ({ children, className = "" }: React.ComponentProps<"span">) => (
         paddingBlock: 1,
         paddingInline: 3,
         rounded: "full",
+        // Category names are short; keep them on one line instead of breaking
+        // mid-label in narrow cards.
+        whiteSpace: "nowrap",
       }),
       className,
     )}

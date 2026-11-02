@@ -30,7 +30,6 @@ import {
   pillarsLayoutClassName,
   pillarsSectionClassName,
   pillarThirdClassName,
-  pillarThirdRowClassName,
   storyClassName,
   visionBodyClassName,
   visionHeadingClassName,
@@ -77,11 +76,12 @@ const AboutPage = () => (
           <ViewTransition name={MARKETING_HERO_EYEBROW_TRANSITION}>
             <p className={eyebrowClassName}>About PrintForge</p>
           </ViewTransition>
+          {/* Two lines, not three: the second line fills the title column
+              instead of leaving the measure half-empty. */}
           {/* Shared with `/` — name must stay unique on the document. */}
           <ViewTransition name={MARKETING_HERO_TITLE_TRANSITION}>
             <h1 className={headingClassName} id="about-title">
-              <span>Empowering makers</span> <span>to create</span>{" "}
-              <span>and share</span>
+              <span>Empowering makers</span> <span>to create and share</span>
             </h1>
           </ViewTransition>
         </div>
@@ -128,13 +128,11 @@ const AboutPage = () => (
         </div>
         <div className={pillarThirdClassName}>
           <span aria-hidden="true" />
-          <div className={pillarThirdRowClassName}>
-            <h3>Free to Use</h3>
-            <p>
-              Most models are free to download, with optional premium features
-              for power users.
-            </p>
-          </div>
+          <h3>Free to Use</h3>
+          <p>
+            Most models are free to download, with optional premium features for
+            power users.
+          </p>
         </div>
       </div>
     </section>
@@ -150,16 +148,16 @@ const AboutPage = () => (
         <div className={visionBodyClassName}>
           <p>{VISION_PLATFORM}</p>
           <p>{VISION_MAKERS}</p>
-          <ViewTransition name={MARKETING_HERO_CTA_TRANSITION}>
-            <Link className={ctaClassName} href="/3d-models" prefetch>
-              <span>Browse Models</span>
-              <FaArrowRight
-                aria-hidden="true"
-                className={arrowRecipe({ direction: "right", size: "md" })}
-              />
-            </Link>
-          </ViewTransition>
         </div>
+        <ViewTransition name={MARKETING_HERO_CTA_TRANSITION}>
+          <Link className={ctaClassName} href="/3d-models" prefetch>
+            <span>Browse Models</span>
+            <FaArrowRight
+              aria-hidden="true"
+              className={arrowRecipe({ direction: "right", size: "md" })}
+            />
+          </Link>
+        </ViewTransition>
       </div>
     </section>
   </div>

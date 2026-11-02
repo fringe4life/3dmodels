@@ -9,6 +9,10 @@ import {
   MarketingHeroImage,
   MarketingHeroImagePreload,
 } from "@/components/marketing/marketing-hero-image";
+import { sectionHeadingClassName } from "@/components/section-heading";
+import { SectionLink } from "@/components/section-link";
+import { BrowseByCategory } from "@/features/categories/components/browse-by-category";
+import { MostLiked } from "@/features/models/components/most-liked";
 import {
   MARKETING_HERO_CTA_TRANSITION,
   MARKETING_HERO_EYEBROW_TRANSITION,
@@ -86,10 +90,12 @@ const eyebrowClassName = css({
 });
 
 const headingClassName = css({
-  fontFamily: "var(--font-montserrat)",
+  fontFamily: "display",
   fontSize: "clamp(3rem, 5.3vw, 4.25rem)",
   fontWeight: "bold",
-  letterSpacing: "-0.06em",
+  // System display faces carry their own optical tightening; Montserrat's
+  // -0.06em pull-in would crush them.
+  letterSpacing: "-0.032em",
   lineHeight: "1.02",
   margin: 0,
   maxInlineSize: "50rem",
@@ -98,7 +104,7 @@ const headingClassName = css({
     fontSize: "clamp(2.1875rem, 10vw, 2.5rem)",
     gridArea: "stage",
     inlineSize: "full",
-    letterSpacing: "-0.065em",
+    letterSpacing: "-0.032em",
     maxInlineSize: "none",
     textWrap: "pretty",
     zIndex: 1,
@@ -312,16 +318,6 @@ const aboutTeaserClassName = grid({
   },
 });
 
-const aboutTeaserHeadingClassName = css({
-  fontFamily: "var(--font-montserrat)",
-  fontSize: "2xl",
-  fontWeight: "semibold",
-  gridArea: "heading",
-  lineHeight: "1.2",
-  margin: 0,
-  maxInlineSize: "72",
-});
-
 const aboutTeaserCopyClassName = css({
   color: "text.secondary",
   fontSize: "md",
@@ -330,32 +326,6 @@ const aboutTeaserCopyClassName = css({
   margin: 0,
   maxInlineSize: "3xl",
 });
-
-const aboutTeaserLinkClassName = cx(
-  "group",
-  css({
-    _focusVisible: {
-      outline: "3px solid token(colors.brand.ring)",
-      outlineOffset: 1,
-    },
-    _hover: {
-      color: "brand",
-    },
-    alignItems: "center",
-    color: "text.primary",
-    display: "inline-flex",
-    fontSize: "sm",
-    fontWeight: "semibold",
-    gap: 2,
-    gridArea: "link",
-    inlineSize: "fit-content",
-    minBlockSize: 11,
-    textDecoration: "underline",
-    textDecorationColor: "brand",
-    textUnderlineOffset: "4px",
-    whiteSpace: "nowrap",
-  }),
-);
 
 const HERO_IMAGE_ALT =
   "A collage of 3D-printed architecture, gears, figures, and lattice structures.";
@@ -409,28 +379,28 @@ const Home = () => (
         </div>
       </div>
     </section>
+    <MostLiked />
+    <BrowseByCategory />
     <section
       aria-labelledby="about-teaser-title"
       className={aboutTeaserClassName}
     >
-      <h2 className={aboutTeaserHeadingClassName} id="about-teaser-title">
+      <h2
+        className={cx(
+          sectionHeadingClassName,
+          css({ gridArea: "heading", maxInlineSize: "72" }),
+        )}
+        id="about-teaser-title"
+      >
         A place for ideas to take shape.
       </h2>
       <p className={aboutTeaserCopyClassName}>
         Founded in 2023, PrintForge is a home for people who design, share, and
         discover 3D-printable models—from practical tools to artistic creations.
       </p>
-      <Link className={aboutTeaserLinkClassName} href="/about" prefetch>
-        <span>Read the PrintForge story</span>
-        <FaArrowRight
-          aria-hidden="true"
-          className={arrowRecipe({
-            direction: "right",
-            distance: "compact",
-            size: "sm",
-          })}
-        />
-      </Link>
+      <SectionLink className={css({ gridArea: "link" })} href="/about">
+        Read the PrintForge story
+      </SectionLink>
     </section>
   </div>
 );

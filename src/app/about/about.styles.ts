@@ -15,12 +15,19 @@ export const heroSectionClassName = cq({
   name: "about-story",
 });
 
-/** Stacked opening until `@about-story/story-split`. */
+/**
+ * Stacked opening until `@about-story/story-split`.
+ *
+ * At the split the heading takes the home-page display scale and the story
+ * rail is sized to the measure it actually needs, so neither column carries
+ * slack between the headline's last glyph and the prose's first.
+ */
 export const heroLayoutClassName = grid({
   "@about-story/story-split": {
-    columnGap: 16,
+    alignItems: "start",
+    columnGap: 12,
     gridTemplateAreas: '"heading story" "band band"',
-    gridTemplateColumns: "minmax(0, 1.02fr) minmax(0, 0.98fr)",
+    gridTemplateColumns: "minmax(0, 1.45fr) minmax(18rem, 1fr)",
   },
   columnGap: 0,
   gridTemplateAreas: '"heading" "band" "story"',
@@ -47,27 +54,36 @@ export const eyebrowClassName = css({
 export const headingClassName = css({
   "@about-story/story-split": {
     "& > span": { display: "block" },
-    fontSize: "clamp(2.75rem, 4.8vw, 3.875rem)",
-    letterSpacing: "-0.055em",
-    lineHeight: 1.03,
+    // Home-page display scale (68px at 1440): both marketing heroes should
+    // read at one weight. Tracking matches the system display faces' own
+    // optical tightening, not Montserrat's -0.06em.
+    fontSize: "clamp(3rem, 5.3vw, 4.25rem)",
+    letterSpacing: "-0.032em",
+    lineHeight: 1.02,
   },
   "& > span": { display: "inline" },
-  fontFamily: "var(--font-montserrat)",
-  fontSize: "clamp(2.0625rem, 9.2vw, 2.3125rem)",
+  fontFamily: "display",
+  // Stacked hero (below the 48rem split): hold the home page's tablet presence
+  // rather than shrinking to the phone scale as soon as the rail gives way.
+  fontSize: "clamp(2.5rem, 6.4vw, 3.375rem)",
   fontWeight: "bold",
-  letterSpacing: "-0.06em",
-  lineHeight: 1.03,
+  letterSpacing: "-0.032em",
+  lineHeight: 1.02,
   margin: 0,
+  mobileDown: { fontSize: "clamp(2.0625rem, 9.2vw, 2.3125rem)" },
   textWrap: "balance",
 });
 
 export const storyClassName = cx(
   gridItem({
     "@about-story/story-split": {
-      justifySelf: "end",
+      // Fills its rail instead of a narrower measure floating inside it.
+      justifySelf: "stretch",
       marginBlockStart: 0,
-      maxInlineSize: "28.25rem",
-      paddingBlockStart: "clamp(2rem, 3.2vw, 3rem)",
+      maxInlineSize: "none",
+      // Eyebrow (15px × 1.4 = 21px) + its 18px gap, so the founding paragraph
+      // starts on the headline's first line rather than under the eyebrow.
+      paddingBlockStart: "2.4375rem",
       zIndex: "auto",
     },
     gridArea: "story",
@@ -84,7 +100,7 @@ export const storyClassName = cx(
   }),
   css({
     "@about-story/story-split": {
-      "& > p": { fontSize: "lg" },
+      "& > p": { fontSize: "lg", lineHeight: 1.55 },
       "& > p + p": { marginBlockStart: 5 },
     },
     "& > p": {
@@ -98,14 +114,11 @@ export const storyClassName = cx(
 );
 
 export const bandFigureClassName = gridItem({
-  blockSize: "clamp(11.25rem, 23.8vw, 17.875rem)",
+  blockSize: "clamp(10rem, 21vw, 15.5rem)",
   gridArea: "band",
   inlineSize: "full",
   margin: 0,
-  marginBlockStart: {
-    "@about-story/story-split": "clamp(2rem, 3.5vw, 2.75rem)",
-    base: 5,
-  },
+  marginBlockStart: 5,
   minInlineSize: 0,
   mobileDown: {
     aspectRatio: "354 / 274",
@@ -139,15 +152,20 @@ export const bandImageClassName = css({
 export const pillarsSectionClassName = cx(
   cq({ minInlineSize: 0, name: "about-layers" }),
   css({
-    marginBlockStart: { base: 8, md: "3.5rem" },
+    marginBlockStart: { base: 8, md: "3.25rem" },
   }),
 );
 
+/**
+ * Three offerings on one row, each stepped down and scaled down from the last:
+ * a shallow diagonal that still occupies the full width. Two staggered rows
+ * left quadrant-sized holes between them.
+ */
 export const pillarsLayoutClassName = grid({
   "@about-layers/layers-split": {
     columnGap: 7,
     gridTemplateColumns: "repeat(12, minmax(0, 1fr))",
-    rowGap: "46px",
+    rowGap: 0,
   },
   columnGap: 0,
   gridTemplateColumns: "minmax(0, 1fr)",
@@ -166,37 +184,36 @@ const pillarTick = {
 const pillarTitle = {
   fontSize: "1.3125rem",
   fontWeight: "semibold",
-  letterSpacing: "-0.028em",
+  letterSpacing: "-0.014em",
   lineHeight: 1.18,
   margin: 0,
 } as const;
 
 const pillarCopy = {
   color: "text.secondary",
-  fontSize: "sm",
+  fontSize: "md",
   lineHeight: 1.62,
   margin: 0,
   marginBlockStart: 2,
 } as const;
 
-/** Editorial layers field — three fixed pillars, placement via container query. */
+/** Field step + type step descend together — the stagger without the staircase. */
 export const pillarFirstClassName = cx(
   gridItem({ minInlineSize: 0 }),
   css({
     "@about-layers/layers-split": {
-      "& > span": { inlineSize: "108px", marginBlockEnd: 5 },
+      "& > span": { inlineSize: "96px", marginBlockEnd: 4 },
       "& h3": {
-        fontSize: "2.375rem",
-        letterSpacing: "-0.038em",
-        lineHeight: 1.08,
+        fontSize: "2.25rem",
+        letterSpacing: "-0.02em",
+        lineHeight: 1.06,
       },
       "& p": {
         fontSize: "md",
-        lineHeight: 1.65,
-        marginBlockStart: "18px",
-        maxInlineSize: "53ch",
+        lineHeight: 1.62,
+        marginBlockStart: 3,
       },
-      gridColumn: "1 / 7",
+      gridColumn: "1 / 5",
       gridRow: "1",
     },
     "& > span": pillarTick,
@@ -209,21 +226,20 @@ export const pillarSecondClassName = cx(
   gridItem({ minInlineSize: 0 }),
   css({
     "@about-layers/layers-split": {
-      "& > span": { inlineSize: "74px", marginBlockEnd: 5 },
+      "& > span": { inlineSize: "64px", marginBlockEnd: 4 },
       "& h3": {
-        fontSize: "2.125rem",
-        letterSpacing: "-0.038em",
-        lineHeight: 1.08,
+        fontSize: "2.0625rem",
+        letterSpacing: "-0.02em",
+        lineHeight: 1.06,
       },
       "& p": {
         fontSize: "md",
-        lineHeight: 1.65,
-        marginBlockStart: "15px",
-        maxInlineSize: "46ch",
+        lineHeight: 1.62,
+        marginBlockStart: 3,
       },
-      gridColumn: "8 / 13",
+      gridColumn: "5 / 9",
       gridRow: "1",
-      marginBlockStart: 16,
+      marginBlockStart: 10,
     },
     "& > span": pillarTick,
     "& h3": pillarTitle,
@@ -235,20 +251,20 @@ export const pillarThirdClassName = cx(
   gridItem({ minInlineSize: 0 }),
   css({
     "@about-layers/layers-split": {
-      "& > span": { inlineSize: "46px", marginBlockEnd: 5 },
+      "& > span": { inlineSize: "40px", marginBlockEnd: 4 },
       "& h3": {
         fontSize: "1.875rem",
-        letterSpacing: "-0.038em",
-        lineHeight: 1.08,
+        letterSpacing: "-0.02em",
+        lineHeight: 1.06,
       },
       "& p": {
         fontSize: "md",
-        lineHeight: 1.65,
-        marginBlockStart: 0,
-        maxInlineSize: "50ch",
+        lineHeight: 1.62,
+        marginBlockStart: 3,
       },
-      gridColumn: "3 / 13",
-      gridRow: "2",
+      gridColumn: "9 / 13",
+      gridRow: "1",
+      marginBlockStart: 20,
     },
     "& > span": pillarTick,
     "& h3": pillarTitle,
@@ -256,55 +272,59 @@ export const pillarThirdClassName = cx(
   }),
 );
 
-export const pillarThirdRowClassName = grid({
-  "@about-layers/layers-split": {
-    columnGap: 14,
-    gridTemplateColumns: "17rem minmax(0, 1fr)",
-  },
-  alignItems: "start",
-  columnGap: 0,
-  gridTemplateColumns: "minmax(0, 1fr)",
-});
-
 export const visionSectionClassName = cx(
   cq({ minInlineSize: 0, name: "about-vision" }),
   bleed({ inline: SITE_CONTAINER_GUTTER }),
   css({
     backgroundColor: "bg.subtle",
-    marginBlockStart: { base: 8, md: "4.5rem" },
+    marginBlockStart: { base: 8, md: "3.75rem" },
     paddingInline: SITE_CONTAINER_GUTTER,
   }),
 );
 
+/**
+ * Grid areas, not a rail wrapper: `Our Vision` opens the left rail and
+ * `Browse Models` closes it, so the rail is anchored at both ends instead of
+ * holding one short heading. Below the split the areas stack heading → prose →
+ * action, so the button never splits the heading from the text it introduces.
+ */
 export const visionLayoutClassName = grid({
   "@about-vision/vision-split": {
-    columnGap: 16,
-    gridTemplateColumns: "18.125rem minmax(0, 1fr)",
-    paddingBlock: "76px",
+    columnGap: 10,
+    gridTemplateAreas: '"head body" "cta body"',
+    gridTemplateColumns: "13.5rem minmax(0, 1fr)",
+    gridTemplateRows: "auto minmax(0, 1fr)",
+    paddingBlock: "3.5rem",
     rowGap: 0,
   },
+  gridTemplateAreas: '"head" "body" "cta"',
   gridTemplateColumns: "minmax(0, 1fr)",
   minInlineSize: 0,
-  paddingBlock: "30px",
-  rowGap: 4,
+  paddingBlock: "1.875rem",
+  rowGap: 5,
 });
 
 export const visionHeadingClassName = css({
   "@about-vision/vision-split": {
     fontSize: "clamp(2rem, 2.9vw, 2.375rem)",
   },
+  alignSelf: "start",
   fontSize: "1.5625rem",
   fontWeight: "bold",
-  letterSpacing: "-0.035em",
+  gridArea: "head",
+  letterSpacing: "-0.018em",
   lineHeight: 1.1,
   margin: 0,
 });
 
+/**
+ * The two vision paragraphs read as a paired spread at desktop widths: two
+ * honest measures instead of one 60ch block with a third of the band empty.
+ */
 export const visionBodyClassName = css({
   "@about-vision/vision-split": {
-    "& > p": { fontSize: "lg", lineHeight: 1.8 },
-    "& > p + p": { marginBlockStart: 5 },
-    paddingBlockStart: 1.5,
+    "& > p": { fontSize: "lg", lineHeight: 1.75, margin: 0 },
+    "& > p + p": { marginBlockStart: 0 },
   },
   "& > p": {
     color: "text.secondary",
@@ -313,9 +333,14 @@ export const visionBodyClassName = css({
     margin: 0,
   },
   "& > p + p": { marginBlockStart: 4 },
-  maxInlineSize: "60ch",
+  gridArea: "body",
+  maxInlineSize: "none",
   minInlineSize: 0,
-  paddingBlockStart: 0,
+  tablet: {
+    columnGap: 10,
+    display: "grid",
+    gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+  },
 });
 
 export const ctaClassName = cx(
@@ -336,10 +361,12 @@ export const ctaClassName = cx(
       translate: "0 -1px",
     },
     "@about-vision/vision-split": {
+      alignSelf: "end",
       gap: 3,
-      marginBlockStart: "30px",
+      justifySelf: "start",
+      marginBlockStart: 0,
       minBlockSize: "52px",
-      paddingInline: 6,
+      paddingInline: 5,
     },
     "& > svg": { color: "brand" },
     alignItems: "center",
@@ -351,9 +378,9 @@ export const ctaClassName = cx(
     fontSize: "sm",
     fontWeight: "bold",
     gap: 2.5,
+    gridArea: "cta",
     inlineSize: "fit-content",
     justifyContent: "center",
-    marginBlockStart: "22px",
     minBlockSize: "47px",
     paddingBlock: 0,
     paddingInline: "17px",

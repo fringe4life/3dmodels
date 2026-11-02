@@ -14,7 +14,7 @@ const GlobalError = ({ retry }: ErrorInfo) => (
       className={css({
         backgroundColor: "white",
         color: "neutral.900",
-        fontFamily: "var(--font-albert-sans)",
+        fontFamily: "sans",
         minBlockSize: "100dvh",
       })}
     >

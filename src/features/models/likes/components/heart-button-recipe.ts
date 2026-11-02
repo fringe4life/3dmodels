@@ -129,8 +129,18 @@ const heartSignInHintClassName = css({
   zIndex: "50",
 });
 
+/**
+ * Count bucket: mono keeps digit advances identical, so the optimistic count
+ * never nudges the heart when it crosses 9 → 10.
+ */
+const heartCountClassName = css({
+  fontFamily: "mono",
+  fontVariantNumeric: "tabular-nums",
+});
+
 export {
   heartAnchorStyle,
+  heartCountClassName,
   heartGuestHintTriggerClassName,
   heartGuestRootClassName,
   heartSignInHintClassName,

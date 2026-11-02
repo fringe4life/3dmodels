@@ -2,10 +2,12 @@ import { cacheLife, cacheTag } from "next/cache";
 import { cacheSignal } from "react";
 import { ABORT_TIMEOUT_MS } from "@/constants";
 import type { CategorySlug } from "@/db/brands";
-import type { Model } from "@/db/schema/models";
 import { getModelsList } from "@/features/models/queries/get-models-list";
 import type { Sort } from "@/features/models/sort/brands";
-import type { QueryPagination } from "@/features/models/types";
+import type {
+  ModelWithCategory,
+  QueryPagination,
+} from "@/features/models/types";
 import { DEFAULT_CURSOR, DEFAULT_DIRECTION } from "@/lib/pagination/constants";
 import { paginateItems } from "@/lib/pagination/dal/paginate-items";
 import type {
@@ -20,7 +22,9 @@ export const searchModels = async (
   pagination: QueryPagination,
   sort: Sort,
   category?: CategorySlug,
-): Promise<RawPaginatedResult<Model> & { pagination: PaginationType }> => {
+): Promise<
+  RawPaginatedResult<ModelWithCategory> & { pagination: PaginationType }
+> => {
   "use cache: remote";
 
   cacheTag("models");

@@ -16,7 +16,7 @@ tsconfig.tsbuildinfo
 styled-system
 styled-system-studio
 .fallow/cache.bin
-
+/dist/panda
 
 # kombai
 .kombai/canvas

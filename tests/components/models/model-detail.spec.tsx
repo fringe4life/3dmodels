@@ -8,7 +8,7 @@ const description =
   "A detailed articulated model with movable joints, flexible wings, and a deliberately long description that must remain fully available in detail mode.";
 
 const model = {
-  categorySlug: "toys-games" as const,
+  categoryDisplayName: "Toys & Games",
   dateAdded: new Date("2023-03-15T14:30:00Z"),
   description,
   image: "/img/models/1.avif",
@@ -38,7 +38,7 @@ describe("ModelDetail", () => {
     expect(
       screen.getByRole("img", { name: description }).getAttribute("sizes"),
     ).toBe(MODEL_DETAIL_IMAGE_SIZES);
-    expect(screen.getByText("toys-games")).toBeDefined();
+    expect(screen.getByText("Toys & Games")).toBeDefined();
     expect(screen.getByText(description)).toBeDefined();
     expect(screen.getByText("Back to models")).toBeDefined();
     expect(screen.getByText("Like control")).toBeDefined();

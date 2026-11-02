@@ -56,16 +56,16 @@ A modern web application for browsing and discovering 3D models, built with Next
 
 ## 📁 Project Structure
 
-Static assets are served from `public/` at the **repository root** (not under `src/`), including SVGO-optimized logos, hero images, and `public/img/models/*.avif` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `REACT_STINKY.md`, `docs/adr/0001-cursor-pagination.md`). Listing domain language (`ModelId`, `ListingCursor`, `PageSlice`) lives in root `CONTEXT.md`. **Panda CSS** config is a thin `panda.config.ts` that imports `theme/` `define*` modules; generated files go to **`styled-system/`** at the repo root (`outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
+Static assets are served from `public/` at the **repository root** (not under `src/`), including SVGO-optimized logos, hero images, and `public/img/models/*.avif` thumbnails referenced by seed data. Supplemental docs live in `docs/` (for example `AUTH_SETUP.md`, `VARLOCK.md`, `MODEL_CACHE_SPLIT.md`, `PSEUDO_CLASS_TRANSITIONS.md`, `PERFORMANCE_IMPROVEMENTS.md`, `docs/adr/0001-cursor-pagination.md`, `docs/adr/0002-system-font-stacks.md`). Listing domain language (`ModelId`, `ListingCursor`, `PageSlice`) lives in root `CONTEXT.md`. **Panda CSS** config is a thin `panda.config.ts` that imports `theme/` `define*` modules; generated files go to **`styled-system/`** at the repo root (`outdir`); that folder is gitignored—run `bun install` (or `bunx panda build`) so imports like `@styled-system/css` resolve. Root tooling includes `doctor.config.ts` and `.github/workflows/react-doctor.yml` for PR diagnostics.
 
 ```
 theme/                        # Panda define* blocks (imported by panda.config.ts)
-├── conditions.ts             # defineConditions (scroll/linear/hover support, data-*)
-├── global-styles.ts          # defineGlobalStyles (fonts, scrollbar)
+├── conditions.ts             # defineConditions (finePointerMotion, scroll-state, scroll/linear/hover, data-*)
+├── global-styles.ts          # defineGlobalStyles (system font stacks, scrollbar)
 ├── keyframes.ts              # Shared fade/slide/shimmer theme animations
 ├── patterns.ts               # between, hoverShadow, siteContainer
 ├── semantic-tokens.ts
-├── tokens.ts                 # colors, easings, sizes, shadows
+├── tokens.ts                 # colors, easings, fonts, sizes, shadows
 └── utilities.ts              # cornerShape
 src/
 ├── app/                          # Next.js App Router
@@ -112,7 +112,7 @@ src/
 │   ├── index.css                 # Global `@layer` stack (reset → utilities)
 │   ├── icon.png                  # App icon (metadata)
 │   ├── layout.tsx                # Root layout
-│   ├── page.tsx                  # Home page (`ensureStatic = "prefetch"`)
+│   ├── page.tsx                  # Home: hero → Most liked → Browse by category → About teaser
 │   ├── global-error.tsx          # Root error boundary (App Router)
 │   ├── robots.ts                 # robots.txt Route Handler
 │   └── sitemap.ts                # Sitemap generation
@@ -131,6 +131,8 @@ src/
 │   │   └── constants.ts          # Auth validation constants
 │   ├── categories/               # Categories feature
 │   │   ├── components/
+│   │   │   ├── browse-by-category.tsx        # Home aperture / reduced-motion rail
+│   │   │   ├── browse-by-category.styles.ts
 │   │   │   ├── categories-block-transition.tsx
 │   │   │   └── categories-nav.tsx
 │   │   ├── constants.ts          # ALL_CATEGORIES, CATEGORY_LIST_ITEMS, not-found metadata
@@ -138,6 +140,7 @@ src/
 │   │   └── queries/
 │   │       ├── get-all-categories.ts
 │   │       ├── get-all-category-slugs.ts
+│   │       ├── get-categories-with-counts.ts # Home row counts (`cacheTag("categories","models")`)
 │   │       └── get-category-by-slug.ts
 │   ├── models/                   # Models feature
 │   │   ├── back-link/            # Detail → listing return path (`from` query)
@@ -160,10 +163,16 @@ src/
 │   │   │   ├── models-not-found.tsx
 │   │   │   ├── models-sort-controls.tsx
 │   │   │   ├── models-sort-controls-skeleton.tsx
-│   │   │   └── models-view.tsx
+│   │   │   ├── models-view.tsx
+│   │   │   ├── most-liked.tsx          # Home Most liked section shell + Suspense
+│   │   │   ├── most-liked-card.tsx
+│   │   │   ├── most-liked-list.tsx
+│   │   │   ├── most-liked-skeleton.tsx
+│   │   │   └── most-liked.styles.ts
 │   │   ├── constants.ts
 │   │   ├── dal/
 │   │   │   ├── get-models.ts     # `{ result, query, isAuthenticated }`; search + user, `withLikeStatuses`
+│   │   │   ├── get-most-liked.ts # Ranked home row (shared cache + per-request likes)
 │   │   │   └── search-models.ts  # Unified listing/search + abortable cached awaits
 │   │   ├── listing/
 │   │   │   ├── listing-canonical.ts  # Canonical path serializer (`query`/`cursor`/`direction`/`limit`/`sort`)
@@ -202,11 +211,14 @@ src/
 │   │   ├── queries/
 │   │   │   ├── build-models-where.ts  # Shared SQL where builder for list filter
 │   │   │   ├── get-all-model-slugs.ts
-│   │   │   ├── get-model-by-slug.ts
-│   │   │   └── get-models-list.ts     # Keyset list (`limit+1`); no COUNT(*)
-│   │   └── types.ts              # ModelWithLikeStatus, QueryPagination (cursor ModelId), SearchPattern, Category; component props extend IsAuthenticated
+│   │   │   ├── get-model-by-slug.ts   # Detail + joined `categoryDisplayName`
+│   │   │   ├── get-models-list.ts     # Keyset list (`limit+1`) + `categoryDisplayName` join
+│   │   │   └── get-most-liked-models.ts # Home ranked row (`cacheLife("weeks")`, `models-popular`)
+│   │   └── types.ts              # ModelWithCategory, ModelWithLikeStatus, QueryPagination, SearchPattern, Category
 ├── constants.ts                  # EMPTY_LIST_LENGTH, ABORT_TIMEOUT_MS
 ├── components/                   # Shared/generic components
+│   ├── section-heading.ts        # Shared home-section heading class (`2xl` display)
+│   ├── section-link.tsx          # Shared underlined section CTA
 │   ├── form/
 │   │   ├── field-errors.tsx
 │   │   ├── form-error.tsx
@@ -351,7 +363,7 @@ The project follows a feature-based architecture where related functionality is 
 
 ### Performance Optimizations
 - **Listing static shell**: Search/sort/limit/pager chrome avoids client `useSearchParams` reads so cacheComponents can prerender them; results stay behind Suspense
-- **Font Loading**: Variable fonts are used as 3+ font weights are used
+- **Font Loading**: No webfonts. Four system stacks (`fonts.sans` / `display` / `mono` / `serif`) in `theme/tokens.ts`; the previous Albert Sans + Montserrat pair preloaded 66 KB of latin woff2 and a swap window. See [ADR 0002](docs/adr/0002-system-font-stacks.md)
 - **Error Handling**: Centralized `tryCatch` utility for consistent error handling across database queries
 - **Cache Components**: Uses `"use cache"`, `"use cache: remote"`, and `"use cache: private"` directives for persistent caching; React `cache()` is used only for functions called multiple times in the same render pass (e.g., `getModelBySlug` and `getCategoryBySlug` called in both `generateMetadata` and page components)
 - **Type Safety**: `Maybe<T>` for nullable query results; `UserAuthState` discriminated union (`{ isAuthenticated: true, user }` | `{ isAuthenticated: false }`) from `getUser()` and `HasAuth`; shared `IsAuthenticated` interface extended by models/pagination props; component-specific props co-located next to components where not reused
@@ -504,8 +516,9 @@ The application uses Next.js Cache Components for optimal performance:
 
 The application uses Next.js Cache Components with granular cache tags for efficient invalidation:
 - **Models**: Cached with `models`, `model-{slug}`, and `models-category-{slug}` tags
-- **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output
-- **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), max for static categories (component-level caching)
+- **Most liked (home)**: Shared ranking under `models` + `models-popular` with `cacheLife("weeks")`; per-visitor hearts stay request-local via `withLikeStatuses`. Likes call `updateTag("models")`, so the ranked entry expires on every toggle (weeks is an upper bound; `models-popular` remains a narrow-only handle)
+- **Categories**: Cached at component level with `categories` tag and `cacheLife("max")` for pre-rendered HTML output; home Browse by category counts use `categories` + `models` and therefore also expire on like toggles
+- **Cache Life**: Hours profile for most queries (5 min stale, 1 hour revalidate, 1 day expire), weeks for Most liked ranking (bounded by `models` invalidation), max for categories (also bounded when tagged with `models`)
 - **Query Functions**: Unified `getModels()` uses `searchModels()` for search (optional query), category filter, sort, and cursor pagination. Helper `getModelsList` supports optional search/category; sort maps through `orderByForSort` / `sortColumnForSort`. Cursor parsed via `parsePaginationCursor` (uuidv7 `ModelId`)
 - **Like Status**: `like-status.ts` queries use `"use cache: private"` for user-specific like status (cached on device)
 - **Model Lists**: `get-models.ts` adds `hasLiked` per model after a single batched like query for the current PageSlice
@@ -516,7 +529,7 @@ The application uses Next.js Cache Components with granular cache tags for effic
 
 ### Design System
 - **Tokens & utilities**: Panda CSS 2 `theme/` `define*` modules assembled by `panda.config.ts` (`@pandacss/preset-base`, `@pandacss/preset-panda`, `@pandacss/preset-typography`); orange accent and shared patterns (`between`, `hoverShadow`, `siteContainer`) live in `theme/`; `siteContainer` is the app chrome shell (`8xl` + gutters) for navbar/main/footer — content columns use documented roles (prose `4xl`, article `6xl`, form `md`); `treeshakeDesignSystem` enabled; local `keyframes()` from `@styled-system/css` for scroll/view-timeline animations not meant for the global theme
-- **Typography**: Albert Sans + Montserrat Alternates via `next/font` in root layout; heading font applied in Panda `globalCss`
+- **Typography**: Four role buckets as Panda `fonts` tokens — `sans` for prose, `display` for headings, `mono` for counts and tabular figures, `serif` for dates; applied in `globalCss` (`html`, `h1–h6`, `code/pre`) and per component. No `next/font`, no `@font-face`: resolution is per OS. Display tracking is calibrated for system faces (`-0.03em`–`-0.032em`, not Montserrat's `-0.06em`)
 - **Layout & spacing**: Panda `css()` / layout patterns (e.g., `grid` for model grids in `src/features/models/components/models-grid.styles.ts`)
 - **View transitions**: Colocated with components via React `ViewTransition` + Panda view-transition helpers (global VT CSS removed from `index.css`)
 - **Responsive**: Mobile-first breakpoints via Panda conditions and component styles
@@ -536,6 +549,10 @@ The application uses Next.js Cache Components with granular cache tags for effic
 - `features/models/components/models-sort-controls` - Server `fieldset` of Link-based `SortOption` pills for A-Z / Popular / Recent
 - `features/models/components/models-sort-controls-skeleton` - Loading skeleton for sort controls
 - `features/models/components/models-view` - Shared server shell: header outside `Suspense`, `ModelsViewResult` switch, async inner awaits `getModels`; success wraps grid + pager in `PaginationPageSlice`
+- `features/models/components/most-liked` - Home Most liked section: static heading/link shell, Suspense list behind matching skeleton
+- `features/models/components/most-liked-card` - Container-query card (`most-liked`) for the ranked home row
+- `features/categories/components/browse-by-category` - Home category aperture; reduced-motion / coarse pointer become a scroll-state rail with edge fades
+- `components/section-heading` / `components/section-link` - Shared home section tier (heading size + underlined CTA)
 - `features/models/sort/components/sort-option` - Single sort Link + label pill
 - `features/models/sort/order-for-sort` - Maps sort brand to Drizzle `orderBy` plus keyset column/dir (tie-break `ModelId`)
 - `features/models/listing/listing-canonical` - Canonical path serializer for listing SEO (`query`, `cursor`, `direction`, `limit`, `sort`)

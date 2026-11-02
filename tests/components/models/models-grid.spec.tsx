@@ -4,6 +4,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { ModelsGrid } from "../../../src/features/models/components/models-grid";
 
 const model = {
+  categoryDisplayName: "Toys & Games",
   categorySlug: "toys-games" as const,
   dateAdded: new Date("2023-03-15T14:30:00Z"),
   description: "A detailed articulated model with movable joints.",

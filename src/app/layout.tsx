@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./index.css";
 import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { grid, siteContainer } from "@styled-system/patterns";
-import { Albert_Sans, Montserrat } from "next/font/google";
 import { ENV } from "varlock/env";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { TopLink } from "@/components/top-link";
@@ -18,17 +17,8 @@ export const maxDuration = 45;
 // @navbar stays behind Suspense; pages may tighten to "prefetch" / "navigation".
 export const ensureStatic = "shell";
 
-const albertSans = Albert_Sans({
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-albert-sans",
-});
-
-const montserrat = Montserrat({
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-});
+// No webfonts: font families are Panda tokens (`theme/tokens.ts`), applied in
+// `theme/global-styles.ts`. First paint already uses the final face.
 
 export const metadata: Metadata = {
   authors: [{ name: "PrintForge Team" }],
@@ -79,11 +69,7 @@ export const viewport: Viewport = {
 };
 
 const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
-  <html
-    className={`${albertSans.variable} ${montserrat.variable}`}
-    data-scroll-behavior="smooth"
-    lang="en"
-  >
+  <html data-scroll-behavior="smooth" lang="en">
     <body id="top">
       <ScrollProgress />
       {navbar}
