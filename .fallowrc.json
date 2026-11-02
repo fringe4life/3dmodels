@@ -28,7 +28,13 @@
     }
   ],
   "ignorePatterns": ["doctor.config.ts"],
-  "ignoreDependencies": ["next-devtools-mcp", "@pandacss/mcp"],
+  "ignoreDependencies": [
+    "next-devtools-mcp",
+    "@pandacss/mcp",
+    "@styled-system/css",
+    "@styled-system/patterns",
+    "@styled-system/recipes"
+  ],
   "duplicates": {
     "enabled": true,
     "minOccurrences": 3,
