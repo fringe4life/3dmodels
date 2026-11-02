@@ -4,7 +4,15 @@ import type { HasLiked } from "@/features/models/likes/types";
 import type { DirectionState, Limit } from "@/lib/pagination/types";
 import type { Prettify } from "@/types";
 
-export type ModelWithLikeStatus = Prettify<Model & HasLiked>;
+/**
+ * Model row plus the joined `categories.display_name`. Both the listing and the
+ * ranked row join it, so no surface maps a slug to a label by hand.
+ */
+export type ModelWithCategory = Prettify<
+  Model & { categoryDisplayName: string }
+>;
+
+export type ModelWithLikeStatus = Prettify<ModelWithCategory & HasLiked>;
 
 export type QueryPagination = Prettify<
   Limit &

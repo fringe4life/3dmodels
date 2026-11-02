@@ -1,5 +1,24 @@
 import { defineTokens } from "@pandacss/dev";
 
+/**
+ * Zero-webfont font stacks — see `docs/adr/0002-system-font-stacks.md`.
+ *
+ * Buckets:
+ * - `sans`    prose, UI chrome, form controls     — platform UI face
+ * - `display` headings                            — geometric where the OS has one
+ * - `mono`    counts, quantities, tabular figures — platform mono face
+ * - `serif`   dates, provenance, editorial meta   — platform serif face
+ *
+ * Nothing here is downloaded. Each name is either preinstalled or a CSS generic
+ * that resolves to the platform default, so first paint is the final paint: no
+ * `@font-face`, no swap window, no layout shift.
+ *
+ * `system-ui` leads `sans` because current engines resolve it to the platform UI
+ * face (SF Pro on Apple, Segoe UI Variable on Windows 11, Roboto on Android). The
+ * named families behind it cover engines that do not implement `system-ui`, and
+ * the platforms where the alias resolves to a worse face than the listed one.
+ * Emoji families trail each stack so emoji in copy never fall back to tofu.
+ */
 export const tokens = defineTokens({
   blurs: {
     "2xs": { value: "2px" },
@@ -28,6 +47,24 @@ export const tokens = defineTokens({
     soft: {
       value:
         "linear(0, 0.402 7.4%, 0.711 15.3%, 0.929 23.7%, 1.008 28.2%, 1.067 33%, 1.099 36.9%, 1.12 41%, 1.13 45.4%, 1.13 50.1%, 1.111 58.5%, 1.019 83.2%, 1.004 91.3%, 1)",
+    },
+  },
+  fonts: {
+    display: {
+      value:
+        '"Avenir Next", "Segoe UI Variable Display", "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"',
+    },
+    mono: {
+      value:
+        'ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Noto Sans Mono", Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace',
+    },
+    sans: {
+      value:
+        'system-ui, -apple-system, "Segoe UI Variable Text", "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"',
+    },
+    serif: {
+      value:
+        'ui-serif, "New York", Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, "Noto Serif", "Liberation Serif", "DejaVu Serif", "Times New Roman", serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"',
     },
   },
   shadows: {

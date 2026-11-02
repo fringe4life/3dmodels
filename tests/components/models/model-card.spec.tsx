@@ -5,6 +5,7 @@ import { ModelCard } from "../../../src/features/models/components/model-card";
 import { MODEL_CARD_IMAGE_SIZES } from "../../../src/features/models/components/model-card.styles";
 
 const model = {
+  categoryDisplayName: "Toys & Games",
   categorySlug: "toys-games" as const,
   dateAdded: new Date("2023-03-15T14:30:00Z"),
   description:
@@ -44,7 +45,7 @@ describe("ModelCard", () => {
         .getByRole("img", { name: "Articulated Dragon" })
         .getAttribute("sizes"),
     ).toBe(MODEL_CARD_IMAGE_SIZES);
-    expect(screen.getByText("toys-games")).toBeDefined();
+    expect(screen.getByText("Toys & Games")).toBeDefined();
     expect(
       screen
         .getByRole("link", { name: "Sign in to like this model" })

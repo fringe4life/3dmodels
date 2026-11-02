@@ -109,6 +109,15 @@ const modelDetailDescription = css({
   maxInlineSize: "none",
 });
 
+/**
+ * Date bucket (`serif`, tabular figures). The face change separates provenance
+ * from the interactive footer controls without adding another weight.
+ */
+const modelDetailDate = css({
+  fontFamily: "serif",
+  fontVariantNumeric: "tabular-nums",
+});
+
 const modelDetailFooter = css({
   alignItems: "center",
   borderBlockStartWidth: 1,
@@ -128,6 +137,7 @@ export {
   modelDetailCategory,
   modelDetailContainer,
   modelDetailContent,
+  modelDetailDate,
   modelDetailDescription,
   modelDetailFooter,
   modelDetailFrame,

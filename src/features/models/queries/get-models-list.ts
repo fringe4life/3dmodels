@@ -1,8 +1,9 @@
 /** biome-ignore-all lint/suspicious/noUnnecessaryConditions: false positive — biome cannot resolve Valibot branded Sort through switch cases (tsc validates) */
-import { and, eq, type SQL } from "drizzle-orm";
+import { and, eq, getTableColumns, type SQL } from "drizzle-orm";
 import { db } from "@/db";
-import { type Model, models } from "@/db/schema/models";
+import { categories, type Model, models } from "@/db/schema/models";
 import type { Sort } from "@/features/models/sort/brands";
+import type { ModelWithCategory } from "@/features/models/types";
 import type { PaginationType } from "@/lib/pagination/types";
 import { createKeysetCursorPredicate } from "@/lib/pagination/utils/create-keyset-cursor";
 import { toEffectivePagination } from "@/lib/pagination/utils/to-effective-pagination";
@@ -24,7 +25,7 @@ type GetModelsListParams = Prettify<
 >;
 
 interface ModelsListPage {
-  items: List<Model>;
+  items: List<ModelWithCategory>;
   pagination: PaginationType;
 }
 
@@ -88,9 +89,15 @@ const getModelsList = async ({
 
   const whereClause = keyset ? and(filter, keyset) : filter;
 
+  // `categories` is joined so cards show the stored display name; the FK is on
+  // `models.category_slug`, so the inner join cannot drop a row.
   const items = await db
-    .select()
+    .select({
+      ...getTableColumns(models),
+      categoryDisplayName: categories.displayName,
+    })
     .from(models)
+    .innerJoin(categories, eq(models.categorySlug, categories.slug))
     .where(whereClause)
     .orderBy(...orderByForSort(sort, pagination.direction))
     .limit(take);

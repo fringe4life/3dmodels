@@ -20,6 +20,7 @@ const limitControlClass = css({
   borderWidth: 1,
   color: "text.primary",
   display: "inline-flex",
+  fontFamily: "mono",
   fontSize: "sm",
   fontVariantNumeric: "tabular-nums",
   gap: 1,

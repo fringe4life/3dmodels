@@ -2,7 +2,7 @@
 
 import { visuallyHidden, wrap } from "@styled-system/patterns";
 import { usePathname } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { SeedSortLinks } from "@/components/scripts/seed-sort-links";
 import { listingHref } from "@/features/models/listing/listing-serialize";
 import { isSortList, toSort } from "@/features/models/sort/brands";
@@ -24,9 +24,9 @@ const ModelsSortControls = () => {
   const search = useLocationSearch();
   const [sort, setSort] = useState<SortList>(DEFAULT_SORT);
 
-  const syncSort = useCallback((value: string | null) => {
+  const syncSort = (value: string | null) => {
     setSort(value && isSortList(value) ? toSort(value) : DEFAULT_SORT);
-  }, []);
+  };
 
   useSyncSearchParamValue("sort", syncSort);
 

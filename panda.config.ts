@@ -31,6 +31,8 @@ export default defineConfig({
   patterns,
   preflight: true,
   presets: [presetBase, pandaPreset, typographyPreset()],
+  // Font families are `theme.extend.tokens.fonts` (`theme/tokens.ts`). The app
+  // ships no webfonts, so first paint already uses the final face.
   theme: {
     extend: {
       breakpoints: {
@@ -48,6 +50,9 @@ export default defineConfig({
         "about-story",
         "about-layers",
         "about-vision",
+        // Home page "Most liked" cards: each card is its own container so the
+        // split/stacked switch follows the card width, not the list width.
+        "most-liked",
       ],
       // Mixed rem + ch: intentional. Offline-indicator sizes track character
       // measure (`ch`); card/detail sizes stay rem like the rest of the scale.

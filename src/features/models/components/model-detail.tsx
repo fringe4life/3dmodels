@@ -13,6 +13,7 @@ import {
   modelDetailCategory,
   modelDetailContainer,
   modelDetailContent,
+  modelDetailDate,
   modelDetailDescription,
   modelDetailFooter,
   modelDetailFrame,
@@ -34,7 +35,7 @@ const ModelDetail = ({
   slug,
   name,
   image,
-  categorySlug,
+  categoryDisplayName,
   description,
   dateAdded,
   children,
@@ -62,12 +63,15 @@ const ModelDetail = ({
           <ViewTransition name={`model-title-${transitionSlug}`}>
             <h1 className={modelDetailTitle}>{name}</h1>
           </ViewTransition>
-          <Pill className={modelDetailCategory}>{categorySlug}</Pill>
+          <Pill className={modelDetailCategory}>{categoryDisplayName}</Pill>
           <div className={modelDetailDescription}>
             <p>{description}</p>
           </div>
           <footer className={modelDetailFooter}>
-            <time dateTime={dateAdded.toISOString()}>
+            <time
+              className={modelDetailDate}
+              dateTime={dateAdded.toISOString()}
+            >
               Added on {dateAdded.toLocaleDateString()}
             </time>
             {children}

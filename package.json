@@ -3,6 +3,44 @@
   "version": "0.9.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./panda/*": "./dist/panda/*",
+    "./css": {
+      "types": "./styled-system/css/index.d.ts",
+      "default": "./styled-system/css/index.js"
+    },
+    "./css/*": {
+      "types": "./styled-system/css/*.d.ts",
+      "default": "./styled-system/css/*.js"
+    },
+    "./recipes": {
+      "types": "./styled-system/recipes/index.d.ts",
+      "default": "./styled-system/recipes/index.js"
+    },
+    "./recipes/*": {
+      "types": "./styled-system/recipes/*.d.ts",
+      "default": "./styled-system/recipes/*.js"
+    },
+    "./patterns": {
+      "types": "./styled-system/patterns/index.d.ts",
+      "default": "./styled-system/patterns/index.js"
+    },
+    "./patterns/*": {
+      "types": "./styled-system/patterns/*.d.ts",
+      "default": "./styled-system/patterns/*.js"
+    },
+    "./tokens": {
+      "types": "./styled-system/tokens/index.d.ts",
+      "default": "./styled-system/tokens/index.js"
+    },
+    "./helpers": {
+      "types": "./styled-system/helpers.d.ts",
+      "default": "./styled-system/helpers.js"
+    },
+    "./types": {
+      "types": "./styled-system/types/index.d.ts"
+    }
+  },
   "scripts": {
     "auth:generate": "varlock run -- bun x auth@1.7.4 generate --config ./src/lib/auth.cli.config.ts --output ./src/db/schema/auth.ts --yes",
     "build": "bun varlock run -- next build",

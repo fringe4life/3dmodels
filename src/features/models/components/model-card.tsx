@@ -57,7 +57,15 @@ const modelCardExit = viewTransition({
 const ModelCard = ({
   href,
   isAuthenticated,
-  model: { slug, name, description, image, categorySlug, likes, hasLiked },
+  model: {
+    categoryDisplayName,
+    description,
+    hasLiked,
+    image,
+    likes,
+    name,
+    slug,
+  },
   priority,
 }: ModelCardProps) => {
   const transitionSlug = sanitiseName(slug);
@@ -90,7 +98,7 @@ const ModelCard = ({
           <p className={modelCardDescription}>{description}</p>
           <div className={modelCardMeta}>
             <div className={modelCardCategory}>
-              <Pill>{categorySlug}</Pill>
+              <Pill>{categoryDisplayName}</Pill>
             </div>
             <div className={modelCardLikeRow}>
               <HeartButtonClient
