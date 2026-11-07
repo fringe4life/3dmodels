@@ -84,12 +84,12 @@
   "devDependencies": {
     "@biomejs/biome": "2.6.4",
     "@happy-dom/global-registrator": "21.0.4",
-    "@next/playwright": "16.5.0-canary.40",
-    "@pandacss/dev": "2.4.0",
-    "@pandacss/mcp": "2.4.0",
-    "@pandacss/preset-base": "2.4.0",
-    "@pandacss/preset-panda": "2.4.0",
-    "@pandacss/preset-typography": "2.4.0",
+    "@next/playwright": "16.5.0-canary.43",
+    "@pandacss/dev": "2.5.0",
+    "@pandacss/mcp": "2.5.0",
+    "@pandacss/preset-base": "2.5.0",
+    "@pandacss/preset-panda": "2.5.0",
+    "@pandacss/preset-typography": "2.5.0",
     "@playwright/test": "1.64.1",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.8",
@@ -99,15 +99,15 @@
     "@types/react-dom": "19.3.0",
     "@varlock/nextjs-integration": "2.0.0",
     "drizzle-kit": "1.0.0-rc.5",
-    "fallow": "3.38.1",
+    "fallow": "3.39.0",
     "happy-dom": "21.0.4",
     "husky": "9.1.7",
     "lint-staged": "17.6.0",
     "next-devtools-mcp": "0.4.0",
-    "react-doctor": "0.9.21",
+    "react-doctor": "0.9.22",
     "typescript": "7.0.2",
     "typescript-plugin-directives": "0.0.3",
-    "ultracite": "^8.1.0"
+    "ultracite": "^8.1.1"
   },
   "engines": {
     "node": "26.x"
