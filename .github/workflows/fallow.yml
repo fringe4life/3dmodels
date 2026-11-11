@@ -1,8 +1,8 @@
 # Fallow PR quality gate.
 #
 # Changed-file audit with new-only: fail only on findings this PR introduces.
-# Inline review comments (not sticky summary; not Code Scanning SARIF).
-# CLI version comes from package.json (`fallow`); action ref is the wrapper pin.
+# Annotations only (no PR review-comments) → contents:read is enough.
+# Readable tags + actions.lock pin commits (incl. nested). See README.md.
 # Docs: https://docs.fallow.tools/integrations/ci
 name: Fallow
 
@@ -11,9 +11,7 @@ on:
     types: [ opened, synchronize, reopened, ready_for_review ]
     branches: [ main ]
 
-permissions:
-  contents: read
-  pull-requests: write
+permissions: {}
 
 concurrency:
   group: fallow-${{ github.event.pull_request.number || github.ref }}
@@ -22,29 +20,34 @@ concurrency:
 jobs:
   audit:
     runs-on: ubuntu-latest
+    cache-mode: read
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       # Panda's `@styled-system/*` output is gitignored; generate it so
       # fallow can resolve path-alias imports during the changed-file audit.
-      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - uses: oven-sh/setup-bun@v2.2.0
         with:
-          bun-version: "1.4.3"
+          bun-version: "1.4.4"
 
       - name: Install and generate styled-system
         run: |
           bun install --frozen-lockfile --ignore-scripts
           bun ./node_modules/@pandacss/dev/bin.js build
 
-      - uses: fallow-rs/fallow@34269241152fa2e7e6a9de1aba698dcae93035b3 # v3.41.0
+      - uses: fallow-rs/fallow@v3.41.0
         id: fallow
         with:
           command: audit
           gate: new-only
           fail-on-issues: true
-          review-comments: true
+          review-comments: false
+          annotations: true
           branded-token: false
 
       - name: Warn if PR scoping degraded
