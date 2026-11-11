@@ -15,6 +15,7 @@ export default defineConfig({
   conditions,
   exclude: [],
   globalCss,
+  hash: true,
   include: [
     "./src/components/**/*.{ts,tsx,js,jsx}",
     "./src/app/**/*.{ts,tsx,js,jsx}",
@@ -22,7 +23,8 @@ export default defineConfig({
   ],
   minify: true,
   optimize: {
-    removeUnusedKeyframes: false,
+    removeUnusedKeyframes: true,
+    removeUnusedStyles: true,
     removeUnusedTokens: true,
     smartCompoundVariants: true,
     treeshakeDesignSystem: true,

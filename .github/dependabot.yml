@@ -1,10 +1,13 @@
 # GitHub Actions pin policy:
-# - Pin every `uses:` to a full commit SHA
-# - Keep a same-line version comment (`# vX.Y.Z`) so Dependabot can bump both
+# - Prefer readable tags in workflow YAML (`uses: owner/action@vX.Y.Z`)
+# - Pin commits (incl. nested) via `.github/workflows/actions.lock`
+#   regenerated with `gh actions-lock` in the same PR as workflow edits
+# - Fallback without a lockfile: full commit SHA + `# vX.Y.Z` comment
 #
 # Cadence: every 3 days (cron) + cooldown 3 days, matching bunfig
 # `minimumReleaseAge = 259200`. Cooldown skip does not apply to security alerts.
 # https://github.com/fringe4life/3dmodels/issues/139
+# Lockfile / Require-lockfile Settings: #225 / #226
 version: 2
 updates:
   - package-ecosystem: github-actions

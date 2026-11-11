@@ -18,6 +18,9 @@ styled-system-studio
 .fallow/cache.bin
 /dist/panda
 
+# Local agent / bench scratch (e.g. panda hash experiments)
+.tmp/
+
 # kombai
 .kombai/canvas
 .kombai/tmp

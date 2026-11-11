@@ -1,0 +1,48 @@
+# Bun lockfile hygiene + vulnerability gate.
+#
+# - `bun dedupe --check`: fail if lockfile has removable duplicate versions
+# - `bun audit --prod --audit-level=moderate`: fail on moderate / high /
+#   critical in the runtime graph only (dependencies / optional / peer).
+#   DevDependencies (ultracite, react-doctor, …) are omitted — they do not
+#   ship. Bun uses "moderate", not "medium".
+#
+# Bun is already used in CI (see fallow.yml). This job reuses the same
+# setup-bun pin pattern. Advisory DB is live — needs network.
+# Readable tags + actions.lock pin commits (incl. nested). See README.md.
+name: Bun deps
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+permissions: {}
+
+concurrency:
+  group: bun-deps-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deps:
+    runs-on: ubuntu-latest
+    cache-mode: read
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@v2.2.0
+        with:
+          # Keep in step with local Bun / @types/bun; fallow.yml may lag.
+          bun-version: "1.4.4"
+
+      # Lockfile-only: no need for node_modules or prepare/panda.
+      - name: Dedupe check
+        run: bun dedupe --check
+
+      - name: Audit prod graph (moderate+)
+        run: bun audit --prod --audit-level=moderate

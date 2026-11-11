@@ -3,7 +3,16 @@ import type { ReactDoctorConfig } from "react-doctor/api";
 export default {
   deadCode: false,
   ignore: {
-    files: ["styled-system/**", "docs/**"],
+    // Generated / local-only trees (also gitignored). Without this, leftover
+    // Playwright HTML-report bundles are scanned as app JS and trip
+    // insecure-crypto-risk on vendor Math.random / hash helpers.
+    files: [
+      "styled-system/**",
+      "docs/**",
+      "playwright-report/**",
+      "test-results/**",
+      "blob-report/**",
+    ],
     overrides: [
       {
         files: ["src/app/3d-models/@results/**"],
