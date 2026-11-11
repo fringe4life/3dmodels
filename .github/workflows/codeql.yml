@@ -28,8 +28,9 @@ jobs:
     #   - https://gh.io/using-larger-runners (GitHub.com only)
     # Consider using larger runners or machines with greater resources for possible analysis time improvements.
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
-    # PRs: read (no poison). Push/schedule: write (warm cache for later hits).
-    cache-mode: ${{ github.event_name == 'pull_request' && 'read' || 'write' }}
+    # Static enum only (expressions fail the run). write OK: pull_request
+    # cache is merge-ref scoped; push/schedule warm default-branch cache.
+    cache-mode: write
     permissions:
       # required for all workflows
       security-events: write

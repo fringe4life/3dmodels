@@ -27,8 +27,9 @@ concurrency:
 jobs:
   deps:
     runs-on: ubuntu-latest
-    # PRs: read (no poison). Push: write (warm cache for later hits).
-    cache-mode: ${{ github.event_name == 'pull_request' && 'read' || 'write' }}
+    # Static enum only (expressions fail the run). write OK: pull_request
+    # cache is merge-ref scoped; push warms default-branch cache.
+    cache-mode: write
     permissions:
       contents: read
     steps:
