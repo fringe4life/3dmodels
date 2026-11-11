@@ -52,7 +52,7 @@ Settings rows are **not** proven by this file — confirm in the linked UI.
 - Runner: `ubuntu-24.04-firewall` (technical preview; ~15–20% slower; log mode can still break some TLS clients)
 - **Phase 1:** `mode: log` only — traffic is recorded, not denied. Candidate Phase 2 hosts are commented in the YAML (Bun/npm, GitHub APIs, React Doctor telemetry)
 - **Phase 2:** set `mode: enforce` and copy confirmed hosts into `allow` from `firewall-decisions-*` artifacts (job summary + run artifact)
-- **Who can widen policy:** any PR can edit the YAML; [CODEOWNERS](../CODEOWNERS) requires `@fringe4life` review. No org-level egress ceiling in the preview
+- **Who can widen policy:** [CODEOWNERS](../CODEOWNERS) owns itself and `egress-firewall.yaml` (`@fringe4life`). That only **enforces** when the ruleset/branch protection option **Require a pull request before merging → Require review from Code Owners** is on (see checklist). No org-level egress ceiling in the preview
 - Preview logs: job summary + run artifact — when a needed host is blocked under enforce, add it under `allow` with a comment naming the job/tool
 - Ref: [Actions native egress firewall](https://github.com/github-early-access/actions-native-egress-firewall)
 
@@ -87,6 +87,17 @@ Agents cannot click these. Confirm in the UI (repo and, if you want org defaults
 1. Open [Settings → Actions → Policies](https://github.com/fringe4life/3dmodels/settings/actions/policies)
 2. Create/enable **Require lockfile** for all workflows (after `actions.lock` is on `main`)
 3. Confirm the policy shows **Active** before assuming unlocked workflows are blocked
+
+### Repo — Rulesets / branch protection (CODEOWNERS enforce)
+
+Active ruleset: [Require code owners (egress + CODEOWNERS)](https://github.com/fringe4life/3dmodels/rules/27070976) on `main` (`require_code_owner_review: true`; repo Admin can bypass). Without a ruleset like this, CODEOWNERS is advisory only.
+
+To recreate or audit:
+
+1. Open [Settings → Rules → Rulesets](https://github.com/fringe4life/3dmodels/settings/rules)
+2. Target `main`
+3. **Require a pull request before merging** + **Require review from Code Owners**
+4. Confirm edits to `.github/egress-firewall.yaml` / `.github/CODEOWNERS` request `@fringe4life`
 
 ### Org (optional; needs org admin)
 
