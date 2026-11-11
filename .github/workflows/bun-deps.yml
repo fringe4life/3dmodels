@@ -26,7 +26,7 @@ concurrency:
 
 jobs:
   deps:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-firewall
     # Static enum only (expressions fail the run). write OK: pull_request
     # cache is merge-ref scoped; push warms default-branch cache.
     cache-mode: write
