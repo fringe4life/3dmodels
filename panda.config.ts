@@ -24,7 +24,6 @@ export default defineConfig({
   minify: true,
   optimize: {
     removeUnusedKeyframes: true,
-    removeUnusedStyles: true,
     removeUnusedTokens: true,
     smartCompoundVariants: true,
     treeshakeDesignSystem: true,
