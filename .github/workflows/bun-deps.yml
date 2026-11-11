@@ -27,7 +27,8 @@ concurrency:
 jobs:
   deps:
     runs-on: ubuntu-latest
-    cache-mode: read
+    # PRs: read (no poison). Push: write (warm cache for later hits).
+    cache-mode: ${{ github.event_name == 'pull_request' && 'read' || 'write' }}
     permissions:
       contents: read
     steps:
