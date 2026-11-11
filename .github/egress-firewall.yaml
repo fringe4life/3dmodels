@@ -1,0 +1,39 @@
+# Native Actions egress firewall (technical preview).
+# Docs: https://github.com/github-early-access/actions-native-egress-firewall
+#
+# Phase 1 (this file): mode: log — record outbound DNS/HTTP(S); do not deny.
+# Install/build jobs remain network-open until a follow-up sets mode: enforce
+# with an allowlist built from CI summaries/artifacts (issue #226).
+#
+# Phase 2 candidate hosts (derived from van-life allowlist + this repo's
+# workflows — Bun, npm, React Doctor, Fallow, CodeQL, zizmor; no Varlock /
+# Bitwarden / Cloudflare). Do not enable until firewall-decisions-* artifacts
+# confirm. Defaults already cover github.com, codeload.github.com,
+# *actions.githubusercontent.com, *blob.core.windows.net.
+#
+#   # Package registries / language tooling (Bun deps, Fallow install)
+#   - registry.npmjs.org
+#
+#   # GitHub APIs / assets beyond defaults (zizmor online audits, releases)
+#   - api.github.com
+#   - release-assets.githubusercontent.com
+#   - pkg.github.com
+#   - uploads.github.com
+#
+#   # React Doctor telemetry (observed under enforce on van-life).
+#   # Workaround: one repo-wide policy — native egress has no per-job file yet.
+#   # @see https://github.com/github-early-access/actions-native-egress-firewall/issues/31
+#   - www.react.doctor
+#   - api.axiom.co
+#   - firewall-api.socket.dev
+#   - "*.ingest.us.sentry.io"
+#
+# This file is repo-editable. .github/CODEOWNERS requires @fringe4life review
+# on changes. Technical preview has no org/enterprise egress ceiling yet —
+# review + branch protection is the repo-side control (PR refs can still run
+# with a widened policy until merge; tracked separately).
+#
+# Jobs need permissions.contents: read so the runner can load this file.
+# Path is fixed: .github/egress-firewall.yaml (not under workflows/).
+mode: log
+allow: []
