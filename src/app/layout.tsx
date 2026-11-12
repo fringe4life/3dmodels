@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./index.css";
-import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { grid, siteContainer } from "@styled-system/patterns";
 import { ENV } from "varlock/env";
 import { ScrollProgress } from "@/components/scroll-progress";
@@ -86,9 +85,7 @@ const RootLayout = ({ children, navbar, footer }: LayoutProps<"/">) => (
           rowGap: { md: 10 },
         })}
       >
-        <main className={siteContainer({ blockSize: "full" })}>
-          <RscBoundaryProvider>{children}</RscBoundaryProvider>
-        </main>
+        <main className={siteContainer({ blockSize: "full" })}>{children}</main>
         {footer}
       </div>
       <TopLink />
