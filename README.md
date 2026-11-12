@@ -379,6 +379,7 @@ The project follows a feature-based architecture where related functionality is 
 ### Prerequisites
 
 - [Bun](https://bun.sh/) **≥ 1.4.0** (`engines.bun`) for package management, Next `dev` / `build`, tests, and database scripts
+- Node.js for `bun run start` and `bun run next:analyze` (those scripts still run Next on Node; do not set `engines.node` alone or Vercel drops Bun 1.4.x)
 - Turso database (`TURSO_DATABASE_URL` + `TURSO_DATABASE_AUTH`)
 - Optional: [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/) machine account token if you use `bitwarden()` resolvers in `.env.schema` (see `docs/VARLOCK.md`)
 
