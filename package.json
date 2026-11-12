@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "auth:generate": "varlock run -- bun x auth@1.7.4 generate --config ./src/lib/auth.cli.config.ts --output ./src/db/schema/auth.ts --yes",
-    "build": "bun varlock run -- next build",
+    "build": "bun --bun next build",
     "build:debug": "bun --bun run next build --debug-prerender",
     "check": "ultracite check",
     "db:drop": "varlock run -- bun --conditions=react-server src/db/drop-tables.ts",
@@ -17,7 +17,7 @@
     "deps:audit": "bun audit --prod --audit-level=moderate",
     "deps:check": "bun run deps:dedupe-check && bun run deps:audit",
     "deps:dedupe-check": "bun dedupe --check",
-    "dev": "varlock run -- bun run next dev",
+    "dev": "bun --bun next dev",
     "dev:inspect": "bun --bun run next dev --inspect",
     "doctor": "ultracite doctor",
     "e2e:codegen": "NODE_ENV=test playwright codegen http://localhost:3000",
@@ -65,7 +65,6 @@
     "@libsql/client": "0.18.0",
     "@oddbird/css-anchor-positioning": "0.10.2",
     "@oddbird/popover-polyfill": "0.7.3",
-    "@rsc-boundary/next": "0.3.2",
     "@varlock/bitwarden-plugin": "2.0.2",
     "@vercel/config": "0.14.1",
     "babel-plugin-react-compiler": "1.0.0",
@@ -113,7 +112,7 @@
     "ultracite": "^8.1.1"
   },
   "engines": {
-    "node": "26.x"
+    "bun": ">=1.4.0"
   },
   "trustedDependencies": []
 }

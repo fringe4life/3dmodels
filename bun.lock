@@ -11,7 +11,6 @@
         "@libsql/client": "0.18.0",
         "@oddbird/css-anchor-positioning": "0.10.2",
         "@oddbird/popover-polyfill": "0.7.3",
-        "@rsc-boundary/next": "0.3.2",
         "@varlock/bitwarden-plugin": "2.0.2",
         "@vercel/config": "0.14.1",
         "babel-plugin-react-compiler": "1.0.0",
@@ -575,10 +574,6 @@
     "@rolldown/binding-win32-x64-msvc": ["@rolldown/binding-win32-x64-msvc@1.2.7", "", { "os": "win32", "cpu": "x64" }, "sha512-W/jg5qoRSqjsEv0+dZi4e687mcHqmVuU0P4fK6qS/xjetW2Gmc1W8j//z5nAeNcC8Ttm0hV46IjcYeuVwYhuiw=="],
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.1", "", {}, "sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw=="],
-
-    "@rsc-boundary/core": ["@rsc-boundary/core@0.3.2", "", { "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" } }, "sha512-YqBuc8LErGjSxZIM9VvHc7KYjeA60e7WIoRT1OPgEBL/jbOpPhTEl1RBqDmY0tF2o5f8QJxj4J55Z1vz1+HbWA=="],
-
-    "@rsc-boundary/next": ["@rsc-boundary/next@0.3.2", "", { "dependencies": { "@rsc-boundary/core": "0.3.2" }, "peerDependencies": { "next": "^16.0.0", "react": "^19.0.0", "react-dom": "^19.0.0" }, "optionalPeers": ["next"] }, "sha512-3xGMvk8d2LtRb+aKalwPiccMlX0PlVMtCRG96Jm/9PB+jm768+b04sf2mzgQ9cx31EHZCQX+0nh+vDZIVcLhjA=="],
 
     "@sec-ant/readable-stream": ["@sec-ant/readable-stream@0.4.1", "", {}, "sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg=="],
 
