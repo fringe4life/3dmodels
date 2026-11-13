@@ -40,7 +40,7 @@ jobs:
           bun install --frozen-lockfile --ignore-scripts
           bun ./node_modules/@pandacss/dev/bin.js build
 
-      - uses: fallow-rs/fallow@v3.41.0
+      - uses: fallow-rs/fallow@v3.42.0
         id: fallow
         with:
           command: audit
