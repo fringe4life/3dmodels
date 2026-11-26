@@ -59,7 +59,7 @@
     "zod": "4.6.7"
   },
   "dependencies": {
-    "@better-auth/drizzle-adapter": "1.7.26",
+    "@better-auth/drizzle-adapter": "1.7.27",
     "@elysiajs/cors": "1.4.3",
     "@elysiajs/openapi": "1.4.17",
     "@libsql/client": "0.18.0",
@@ -68,11 +68,11 @@
     "@varlock/bitwarden-plugin": "2.0.3",
     "@vercel/config": "0.15.0",
     "babel-plugin-react-compiler": "1.0.0",
-    "better-auth": "1.7.26",
-    "drizzle-orm": "1.0.0-rc.5",
+    "better-auth": "1.7.27",
+    "drizzle-orm": "1.0.0-rc.6",
     "elysia": "1.4.32",
     "file-type": "22.3.0",
-    "next": "16.5.0-canary.60",
+    "next": "16.5.0-canary.65",
     "next-safe-action": "8.7.3",
     "nuqs": "2.10.3",
     "react": "19.3.1",
