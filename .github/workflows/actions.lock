@@ -8,13 +8,13 @@ workflows:
         - 'oven-sh/setup-bun@v2.2.0'
     '.github/workflows/codeql.yml':
         - 'actions/checkout@v7.0.1'
-        - 'github/codeql-action@v4.39.3'
+        - 'github/codeql-action@v4.39.4'
     '.github/workflows/dependency-review.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/dependency-review-action@v5.0.1'
     '.github/workflows/fallow.yml':
         - 'actions/checkout@v7.0.1'
-        - 'fallow-rs/fallow@v3.43.2'
+        - 'fallow-rs/fallow@v3.46.0'
         - 'oven-sh/setup-bun@v2.2.0'
     '.github/workflows/react-doctor.yml':
         - 'actions/checkout@v7.0.1'
@@ -48,17 +48,17 @@ dependencies:
         commit: 'sha1-a0853c24544627f65ddf259abe73b1d18a591444'
         owner_id: 44036562
         repo_id: 189476904
-    'fallow-rs/fallow@v3.43.2':
-        ref: 'v3.43.2'
-        commit: 'sha1-b6a3e048dc882bdf11c8269c73167223b9e32774'
+    'fallow-rs/fallow@v3.46.0':
+        ref: 'v3.46.0'
+        commit: 'sha1-965f068ca91c11d6ab2a631101bcd3709569c422'
         owner_id: 269229952
         repo_id: 1184090452
         uses:
             - 'actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9'
-            - 'github/codeql-action@1fc58d04a4d4374f921bdac573c3811c240f9c26'
-    'github/codeql-action@1fc58d04a4d4374f921bdac573c3811c240f9c26':
-        ref: 'v4.39.2'
-        commit: 'sha1-1fc58d04a4d4374f921bdac573c3811c240f9c26'
+            - 'github/codeql-action@33d7b85da1a04171e211befe2c739303b9a4c066'
+    'github/codeql-action@33d7b85da1a04171e211befe2c739303b9a4c066':
+        ref: 'v4.39.3'
+        commit: 'sha1-33d7b85da1a04171e211befe2c739303b9a4c066'
         owner_id: 9919
         repo_id: 259445878
     'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370':
@@ -66,9 +66,9 @@ dependencies:
         commit: 'sha1-9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
         owner_id: 9919
         repo_id: 259445878
-    'github/codeql-action@v4.39.3':
-        ref: 'v4.39.3'
-        commit: 'sha1-33d7b85da1a04171e211befe2c739303b9a4c066'
+    'github/codeql-action@v4.39.4':
+        ref: 'v4.39.4'
+        commit: 'sha1-1bd86f2fdb4b86187fa4059f16f31a3202acc9ea'
         owner_id: 9919
         repo_id: 259445878
     'millionco/react-doctor@v2.4.0':
