@@ -8,20 +8,20 @@ workflows:
         - 'oven-sh/setup-bun@v2.2.0'
     '.github/workflows/codeql.yml':
         - 'actions/checkout@v7.0.1'
-        - 'github/codeql-action@v4.39.4'
+        - 'github/codeql-action@v4.39.5'
     '.github/workflows/dependency-review.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/dependency-review-action@v5.0.1'
     '.github/workflows/fallow.yml':
         - 'actions/checkout@v7.0.1'
-        - 'fallow-rs/fallow@v3.46.0'
+        - 'fallow-rs/fallow@v3.48.0'
         - 'oven-sh/setup-bun@v2.2.0'
     '.github/workflows/react-doctor.yml':
         - 'actions/checkout@v7.0.1'
         - 'millionco/react-doctor@v2.4.0'
     '.github/workflows/zizmor.yml':
         - 'actions/checkout@v7.0.1'
-        - 'zizmorcore/zizmor-action@v0.8.1'
+        - 'zizmorcore/zizmor-action@v0.9.2'
 dependencies:
     'actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9':
         ref: 'v6.1.0'
@@ -48,9 +48,9 @@ dependencies:
         commit: 'sha1-a0853c24544627f65ddf259abe73b1d18a591444'
         owner_id: 44036562
         repo_id: 189476904
-    'fallow-rs/fallow@v3.46.0':
-        ref: 'v3.46.0'
-        commit: 'sha1-965f068ca91c11d6ab2a631101bcd3709569c422'
+    'fallow-rs/fallow@v3.48.0':
+        ref: 'v3.48.0'
+        commit: 'sha1-003cc8af2be876b8b8d48cfe2b6b44a36ec95402'
         owner_id: 269229952
         repo_id: 1184090452
         uses:
@@ -61,14 +61,9 @@ dependencies:
         commit: 'sha1-33d7b85da1a04171e211befe2c739303b9a4c066'
         owner_id: 9919
         repo_id: 259445878
-    'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370':
-        ref: 'v4.39.1'
-        commit: 'sha1-9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
-        owner_id: 9919
-        repo_id: 259445878
-    'github/codeql-action@v4.39.4':
-        ref: 'v4.39.4'
-        commit: 'sha1-1bd86f2fdb4b86187fa4059f16f31a3202acc9ea'
+    'github/codeql-action@v4.39.5':
+        ref: 'v4.39.5'
+        commit: 'sha1-915412ff23e8b7659517e607487dbeae018f2934'
         owner_id: 9919
         repo_id: 259445878
     'millionco/react-doctor@v2.4.0':
@@ -85,10 +80,10 @@ dependencies:
         commit: 'sha1-0c5077e51419868618aeaa5fe8019c62421857d6'
         owner_id: 108928776
         repo_id: 512644635
-    'zizmorcore/zizmor-action@v0.8.1':
-        ref: 'v0.8.1'
-        commit: 'sha1-45d7276c9ca790aabd705e31ca99c6185c3e76dd'
+    'zizmorcore/zizmor-action@v0.9.2':
+        ref: 'v0.9.2'
+        commit: 'sha1-1b4550e929643b8b26a62303c6bd64814271a4f1'
         owner_id: 210636713
         repo_id: 985558803
         uses:
-            - 'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
+            - 'github/codeql-action@33d7b85da1a04171e211befe2c739303b9a4c066'
